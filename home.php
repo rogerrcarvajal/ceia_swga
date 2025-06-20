@@ -41,10 +41,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-position: top;
             font-family: 'Arial', sans-serif;
         }
+        
+        .content img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
     </style>    
 </head>
 <body>
     <div class="login-box">
+        <div class="content">
+            <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
+        </div>
         <h2>Acceso al Sistema Web de Gestión Académica</h2>
         <form method="POST">
             <input type="text" name="usuario" placeholder="Usuario" required><br>
