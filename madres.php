@@ -90,7 +90,7 @@ $madres = $conn->query("SELECT * FROM madres ORDER BY id DESC")->fetchAll(PDO::F
             <?php endforeach; ?>
         </ul>
         <br>
-        <a href="estudiantes.php" class="boton-link">Volver a Estudiantes</a>
+        <a href="agregar_estudiante.php" class="boton-link">Volver a Estudiantes</a>
     </div>
 </body>
 </html>

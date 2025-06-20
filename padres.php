@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: index.php");
+    header("Location: home.php");
     exit();
 }
 require_once "conn/conexion.php";
@@ -90,7 +90,7 @@ $padres = $conn->query("SELECT * FROM padres ORDER BY id DESC")->fetchAll(PDO::F
             <?php endforeach; ?>
         </ul>
         <br>
-        <a href="estudiantes.php" class="boton-link">Volver a Estudiantes</a>
+        <a href="agregar_estudiante.php" class="boton-link">Volver a Estudiantes</a>
     </div>
 </body>
 </html>
