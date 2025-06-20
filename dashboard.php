@@ -121,7 +121,10 @@ if (!isset($_SESSION['usuario'])) {
             <div class="dropdown">
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
-                    <a href="estudiantes.php">Estudiantes</a>
+                    <a href="agregar_estudiante.php">Agregar</a>
+                    <a href="consultar_estudiante.php">Consultar</a>
+                    <a href="modificar_estudiante.php">Modificar</a>
+                    <a href="eliminar_estudiante.php">Eliminar</a>
                 </div>
             </div>
             <a href="latepass.php">⏱️ Late-Pass</a>

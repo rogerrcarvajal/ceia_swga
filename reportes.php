@@ -33,7 +33,7 @@ if (!isset($_SESSION['usuario'])) {
         <div class="content">
             <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
         </div>
-        <h2>Reportes del Sistema CEIA</h2>
+        <h2>Reportes del Sistema</h2>
         <ul>
             <li><a href="reportes/planilla_estudiante.php" target="_blank">📝 Planilla de Inscripción (por estudiante)</a></li>
             <li><a href="reportes/listado_estudiantes.php" target="_blank">📋 Listado de Estudiantes</a></li>
