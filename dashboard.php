@@ -21,25 +21,25 @@ if (!isset($_SESSION['usuario'])) {
             background-position: center;
             font-family: 'Arial', sans-serif;
         }
-
+        
         .navbar {
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.6);
             overflow: hidden;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
+            padding: 60px 20px;
         }
 
         .navbar a {
             color: white;
             text-decoration: none;
-            padding: 14px 20px;
+            padding: 12px 20px;
             display: block;
         }
 
         .navbar a:hover {
-            background-color: rgba(0, 0, 0, 0.2);
+            background-color: rgba(0, 0, 0, 0.3);
         }
 
         .navbar .dropdown {
@@ -51,12 +51,12 @@ if (!isset($_SESSION['usuario'])) {
             display: none;
             position: absolute;
             background-color: rgba(0, 0, 0, 0.9);
-            min-width: 160px;
+            min-width: 200px;
             z-index: 1;
         }
 
         .dropdown-content a {
-            padding: 12px 16px;
+            padding: 8px 15px;
         }
 
         .dropdown:hover .dropdown-content {
@@ -65,7 +65,7 @@ if (!isset($_SESSION['usuario'])) {
 
         .content {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 40px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
@@ -89,13 +89,20 @@ if (!isset($_SESSION['usuario'])) {
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
                     <a href="ingresar_estudiante.php">Ingresar</a>
-                    // <a href="consultar_estudiante.php">Consultar</a>
-                    // <a href="modificar_estudiante.php">Modificar</a>
-                    // <a href="eliminar_estudiante.php">Eliminar</a>
+                    <a href="consultar_estudiante.php">Consultar</a>
+                    <a href="modificar_estudiante.php">Modificar</a>
+                    <a href="eliminar_estudiante.php">Eliminar</a>
                 </div>
             </div>
             <a href="latepass.php">⏱️ Late-Pass</a>
-            <a href="reportes.php">📊 Reportes</a>
+            <div class="dropdown">
+                <a href="#">📊 Reportes</a>
+                <div class="dropdown-content">
+                    <a href="reportes/listado_estudiantes.php">Listado de Estudiantes</a>
+                    <a href="reportes/listado_profesores.php">Listado de Profesores</a>
+                    <a href="reportes/planilla_estudiante.php">Planilla de Estudiantes</a>
+                </div>
+            </div>
             <a href="mantenimiento.php">📊 Mantenimiento</a>
         </div>
         <div>
@@ -104,7 +111,7 @@ if (!isset($_SESSION['usuario'])) {
     </div>
 
     <div class="content">
-        <h1>Bienvenido al Sistema Web de Gestión Académica</h1>
+        <h1>Bienvenidos <br>Sistema Web de Gestión Académica</h1></br>
         <p>Selecciona una opción en el menú para comenzar.</p>
     </div>
 </body>
