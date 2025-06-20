@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CEIA - Sistema Web de Gestión Académica</title>
+    <title>CEIA - Sistema de Gestión</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -23,30 +23,46 @@ if (!isset($_SESSION['usuario'])) {
         }
 
         .navbar {
-            background-color: rgba(0, 87, 160, 0.95);
+            background-color: rgba(0, 0, 0, 0.4);
+            overflow: hidden;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }   
+            padding: 10px 20px;
+        }
 
         .navbar a {
             color: white;
             text-decoration: none;
             padding: 14px 20px;
-            font-weight: bold;
-            transition: background-color 0.3s;
+            display: block;
         }
 
         .navbar a:hover {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.2);
         }
 
-        .dropdown-content a:hover {
-            background-color: rgba(0, 0, 0, 0.3);
+        .navbar .dropdown {
+            position: relative;
+            display: inline-block;
         }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.9);
+            min-width: 160px;
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            padding: 12px 16px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
         .content {
             text-align: center;
             margin-top: 100px;
@@ -72,11 +88,15 @@ if (!isset($_SESSION['usuario'])) {
             <div class="dropdown">
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
-                    <a href="estudiantes.php">Estudiantes</a>
+                    <a href="estudiantes_ingresar.php">Ingresar</a>
+                    // <a href="estudiantes_consultar.php">Consultar</a>
+                    // <a href="estudiantes_modificar.php">Modificar</a>
+                    // <a href="estudiantes_eliminar.php">Eliminar</a>
                 </div>
             </div>
             <a href="latepass.php">⏱️ Late-Pass</a>
             <a href="reportes.php">📊 Reportes</a>
+            <a href="mantenimiento.php">📊 Mantenimiento</a>
         </div>
         <div>
             <a href="logout.php" class="logout">Salir</a>
@@ -84,7 +104,7 @@ if (!isset($_SESSION['usuario'])) {
     </div>
 
     <div class="content">
-        <h1>Bienvenido al Sistema Web de Gestión Académica - CEIA</h1>
+        <h1>Bienvenido al Sistema de Gestión Académica - CEIA</h1>
         <p>Selecciona una opción en el menú para comenzar.</p>
     </div>
 </body>
