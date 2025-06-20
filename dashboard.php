@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CEIA - Sistema de Gestión</title>
+    <title>Sistema Web de Gestión Académica</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -104,7 +104,7 @@ if (!isset($_SESSION['usuario'])) {
     </div>
 
     <div class="content">
-        <h1>Bienvenido al Sistema de Gestión Académica - CEIA</h1>
+        <h1>Bienvenido al Sistema Web de Gestión Académica</h1>
         <p>Selecciona una opción en el menú para comenzar.</p>
     </div>
 </body>
