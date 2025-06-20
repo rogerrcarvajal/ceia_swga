@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <div class="login-box">
-        <h2>Acceso al Sistema Web de Gestión Académica - CEIA</h2>
+        <h2>Acceso al Sistema Web de Gestión Académica</h2>
         <form method="POST">
             <input type="text" name="usuario" placeholder="Usuario" required><br>
             <input type="password" name="clave" placeholder="Contraseña" required><br>
