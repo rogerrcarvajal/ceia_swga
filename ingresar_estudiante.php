@@ -85,9 +85,12 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY id DESC")->fetch
             <br><br>
             <button type="submit" name="agregar">Agregar Estudiante</button>
         </form>
+        
+        <br>
+        <div>
+            <a href="dashboard.php" class="boton-link">Regresar</a>
+        </div>
 
-        <hr>
-        <h3>Estudiantes Registrados</h3>
         <ul>
             <?php foreach ($estudiantes as $e): ?>
                 <li>

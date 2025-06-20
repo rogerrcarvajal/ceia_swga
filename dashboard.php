@@ -88,10 +88,10 @@ if (!isset($_SESSION['usuario'])) {
             <div class="dropdown">
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
-                    <a href="estudiantes_ingresar.php">Ingresar</a>
-                    // <a href="estudiantes_consultar.php">Consultar</a>
-                    // <a href="estudiantes_modificar.php">Modificar</a>
-                    // <a href="estudiantes_eliminar.php">Eliminar</a>
+                    <a href="ingresar_estudiante.php">Ingresar</a>
+                    // <a href="consultar_estudiante.php">Consultar</a>
+                    // <a href="modificar_estudiante.php">Modificar</a>
+                    // <a href="eliminar_estudiante.php">Eliminar</a>
                 </div>
             </div>
             <a href="latepass.php">⏱️ Late-Pass</a>
