@@ -65,7 +65,7 @@ if (!isset($_SESSION['usuario'])) {
 
         .content {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 0px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
@@ -112,6 +112,7 @@ if (!isset($_SESSION['usuario'])) {
 
     <div class="content">
         <h1>Bienvenidos <br>Sistema Web de Gestión Académica</h1></br>
+        <h2>Centro Educativo Internacional Anzoátegui</h2>
         <p>Selecciona una opción en el menú para comenzar.</p>
     </div>
 </body>

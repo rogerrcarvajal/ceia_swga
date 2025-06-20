@@ -32,6 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Login - CEIA</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('img/fondo.jpg');
+            background-size: cover;
+            background-position: top;
+            font-family: 'Arial', sans-serif;
+        }
+    </style>    
 </head>
 <body>
     <div class="login-box">
