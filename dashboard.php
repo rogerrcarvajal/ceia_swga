@@ -23,7 +23,7 @@ if (!isset($_SESSION['usuario'])) {
         }
 
         .navbar {
-            background-color: rgba(0, 87, 160, 0.95);
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -52,7 +52,7 @@ if (!isset($_SESSION['usuario'])) {
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: rgba(0, 87, 160, 0.95);
+            background-color: rgba(0, 0, 0, 0.9);
             min-width: 160px;
             z-index: 1;
         }
@@ -121,14 +121,19 @@ if (!isset($_SESSION['usuario'])) {
             <div class="dropdown">
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
-                    <a href="agregar_estudiante.php">Agregar</a>
-                    <a href="consultar_estudiante.php">Consultar</a>
-                    <a href="modificar_estudiante.php">Modificar</a>
-                    <a href="eliminar_estudiante.php">Eliminar</a>
+                    <a href="registro_completo.php">Planilla de Inscripción</a>
                 </div>
             </div>
-            <a href="latepass.php">⏱️ Late-Pass</a>
+            <div class="dropdown">
+                <a href="#">📝 Late-Pass</a>
+                <div class="dropdown-content">
+                    <a href="agregar_estudiante.php">Estudiantes</a>
+                    <a href="consultar_estudiante.php">Progesores</a>
+                    <a href="modificar_estudiante.php">vehículos</a>
+                </div>
+            </div>
             <a href="reportes.php">📊 Reportes</a>
+            <a href="mantenimiento.php">📊 Mantenimiento</a>
         </div>
         <div>
             <a href="logout.php" class="logout">Salir</a>

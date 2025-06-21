@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['registrar'])) {
     $qrFile = "qrcodes/latepass_{$estudiante_id}_" . time() . ".png";
     QRcode::png($qrData, $qrFile, 'L', 4, 2);
 
-    $mensaje = "✅ Late-Pass generado correctamente.";
+    $mensaje = "✅ QR generado correctamente.";
 }
 
 $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo")->fetchAll(PDO::FETCH_ASSOC);

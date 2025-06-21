@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: index.php");
+    header("Location: home.php");
     exit();
 }
 require_once "conn/conexion.php";
@@ -124,11 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .formulario-contenedor {
-            background-color: rgba(245, 245, 245, 0.95);
+            background-color: rgba(0, 0, 0, 0.7);
             margin: 30px auto;
             padding: 30px;
             border-radius: 10px;
-            max-width: 95%;
+            max-width: 85%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
@@ -136,6 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .form-seccion {
             width: 30%;
+            color: white;
             min-width: 300px;
             margin-bottom: 20px;
         }
@@ -172,9 +173,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 20px;
             color: green;
         }
+
+        .content {
+            text-align: center;
+            margin-top: 100px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .content img {
+            width: 200px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
+    <div class="content">
+        <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
+        <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
+    </div>
     <div class="formulario-contenedor">
         <?php if ($mensaje) echo "<div class='mensaje'>$mensaje</div>"; ?>
 
@@ -240,11 +257,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="telefono_emergencia1" placeholder="Teléfono 1" required>
                 <input type="text" name="telefono_emergencia2" placeholder="Teléfono 2">
                 <textarea name="observaciones" placeholder="Observaciones"></textarea>
-
                 <label><input type="checkbox" name="dislexia"> Dislexia</label>
                 <label><input type="checkbox" name="atencion"> Déficit de Atención</label>
                 <label><input type="checkbox" name="otros"> Otros</label>
-
                 <textarea name="info_adicional" placeholder="Información adicional"></textarea>
                 <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
                 <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
@@ -255,7 +270,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
 
                 <br><br>
+           
                 <button type="submit">Registrar</button>
+                               
             </div>
         </form>
     </div>
