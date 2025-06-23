@@ -3,21 +3,35 @@
     <div class="navbar-menu" id="menuToggle">&#9776;</div>
     <div class="navbar-links" id="navLinks">
         <a href="dashboard.php">🏠 Home</a>
-        <div class="dropdown">
-            <a href="#">📝 Inscripción</a>
-            <div class="dropdown-content">
-                <a href="registro_completo.php">Registro Completo</a>
+            <div class="dropdown">
+                <a href="#">📝 Inscripción</a>
+                <div class="dropdown-content">
+                    <a href="planilla_inscripcion.php">Planilla de Inscripción</a>
+                </div>
             </div>
-        </div>
-        <a href="latepass.php">⏱️ Late-Pass</a>
-        <a href="reportes.php">📊 Reportes</a>
+            <div class="dropdown">
+                <a href="#">📝 Late-Pass</a>
+                <div class="dropdown-content">
+                    <a href="latepass_estudiantes.php">Estudiantes</a>
+                    <a href="latepass_profesores.php">Profesores</a>
+                    <a href="latepass_vehiculos.php">Vehículos Autorizados</a>
+                </div>
+            </div>
+            <a href="reportes.php">📊 Reportes</a>
+            <div class="dropdown">
+                <a href="#">📝 Mantenimiento</a>
+                <div class="dropdown-content">
+                    <a href="usuarios.php">Usuarios del Sistema</a>
+                    <a href="profesores.php">Profesores</a>
+                </div>
+            </div>
         <a href="logout.php" class="logout">Salir</a>
     </div>
 </div>
 
 <style>
     .navbar {
-        background-color: rgba(0, 87, 160, 0.95);
+        background-color: rgba(0, 0, 0, 0.7);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -59,7 +73,7 @@
     .dropdown-content {
         display: none;
         position: absolute;
-        background-color: rgba(0, 87, 160, 0.95);
+        background-color: rgba(0, 0, 0, 0.9);
         min-width: 160px;
         z-index: 1;
     }

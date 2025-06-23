@@ -41,18 +41,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-position: top;
             font-family: 'Arial', sans-serif;
         }
-        
-        .content img {
-            width: 180px;
-            margin-bottom: 20px;
+
+        .formulario-contenedor {
+            background-color: rgba(0, 0, 0, 0.7);
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 30%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
-    </style>    
+
+        .content {
+            text-align: center;
+            margin-top: 10px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .content img {
+            width: 150px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 <body>
-    <div class="login-box">
+    <br></br>
+    <div class="formulario-contenedor">
         <div class="content">
-            <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
-        </div>
+            <img src="img/logo_ceia.png" alt="Logo CEIA">
         <h2>Acceso al Sistema Web de Gestión Académica</h2>
         <form method="POST">
             <input type="text" name="usuario" placeholder="Usuario" required><br>

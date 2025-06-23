@@ -185,11 +185,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 200px;
             margin-bottom: 20px;
         }
+
+        .dashboard {
+            background-color: red;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
+    <?php include 'navbar.php'; ?>
     <div class="content">
-        <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
+        <img src="img/logo_ceia.png" alt="Logo CEIA">
         <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
     </div>
     <div class="formulario-contenedor">
@@ -275,6 +283,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                
             </div>
         </form>
+    <div>
+        <br>
+        <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
+    </div>
     </div>
 </body>
 </html>

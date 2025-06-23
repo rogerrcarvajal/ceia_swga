@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: index.php");
+    header("Location: home.php");
     exit();
 }
 ?>
@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CEIA - Sistema de Gestión</title>
+    <title>CEIA - Sistema de Gestión Académica</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -20,15 +20,6 @@ if (!isset($_SESSION['usuario'])) {
             background-size: cover;
             background-position: top;
             font-family: 'Arial', sans-serif;
-        }
-
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
         .navbar a {
@@ -115,31 +106,7 @@ if (!isset($_SESSION['usuario'])) {
     </style>
 </head>
 <body>
-    <div class="navbar">
-        <div>
-            <a href="dashboard.php">🏠 Home</a>
-            <div class="dropdown">
-                <a href="#">📝 Inscripción</a>
-                <div class="dropdown-content">
-                    <a href="registro_completo.php">Planilla de Inscripción</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <a href="#">📝 Late-Pass</a>
-                <div class="dropdown-content">
-                    <a href="agregar_estudiante.php">Estudiantes</a>
-                    <a href="consultar_estudiante.php">Progesores</a>
-                    <a href="modificar_estudiante.php">vehículos</a>
-                </div>
-            </div>
-            <a href="reportes.php">📊 Reportes</a>
-            <a href="mantenimiento.php">📊 Mantenimiento</a>
-        </div>
-        <div>
-            <a href="logout.php" class="logout">Salir</a>
-        </div>
-    </div>
-
+    <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
         <h1>Bienvenidos <br>Sistema Web de Gestión Académica</h1></br>

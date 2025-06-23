@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: index.php");
+    header("Location: home.php");
     exit();
 }
 require_once "conn/conexion.php";
@@ -45,9 +45,46 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
     <meta charset="UTF-8">
     <title>Registro de Profesores</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url('img/fondo.jpg');
+            background-size: cover;
+            background-position: top;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .formulario-contenedor {
+            background-color: rgba(0, 0, 0, 0.7);
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 30%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .content {
+            text-align: center;
+            margin-top: 10px;
+            color: white;
+            text-shadow: 1px 1px 2px black;
+        }
+
+        .content img {
+            width: 150px;
+            margin-bottom: 0px;
+        }
+    </style>    
 </head>
 <body>
-    <div class="login-box">
+    <?php include 'navbar.php'; ?>
+    <br></br>
+    <div class="formulario-contenedor">
+        <div class="content">
+            <img src="img/logo_ceia.png" alt="Logo CEIA">
         <h2>Registro de Profesores</h2>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
         <form method="POST">
