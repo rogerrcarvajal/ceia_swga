@@ -6,7 +6,8 @@
             <div class="dropdown">
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
-                    <a href="planilla_inscripcion.php">Planilla de Inscripción</a>
+                    <a href="planilla_inscripcion.php">Nueno Ingreso</a>
+                    <a href="administrar_planilla_inscripcion.php">Adminnistrar expedientes</a>
                 </div>
             </div>
             <div class="dropdown">
@@ -21,6 +22,7 @@
             <div class="dropdown">
                 <a href="#">📝 Mantenimiento</a>
                 <div class="dropdown-content">
+                    <a href="periodos_escolares.php">Períodos Escolares</a>
                     <a href="usuarios.php">Usuarios del Sistema</a>
                     <a href="profesores.php">Profesores</a>
                 </div>
