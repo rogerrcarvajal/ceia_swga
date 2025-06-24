@@ -39,11 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('madre_email').value = data.madre_email;
         });
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(form);
-
         document.getElementById('actualizar_padres_madres').addEventListener('click', () => {
             const formData = new FormData();
 
@@ -68,6 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert(data);
             });
         });
+
+        form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
         
         fetch('actualizar_estudiante.php', {
             method: 'POST',
