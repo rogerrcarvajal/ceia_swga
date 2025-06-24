@@ -6,7 +6,7 @@
             <div class="dropdown">
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
-                    <a href="planilla_inscripcion.php">Nueno Ingreso</a>
+                    <a href="planilla_inscripcion.php">Nuevo Ingreso</a>
                     <a href="administrar_planilla_inscripcion.php">Adminnistrar expedientes</a>
                 </div>
             </div>
@@ -15,7 +15,6 @@
                 <div class="dropdown-content">
                     <a href="latepass_estudiantes.php">Estudiantes</a>
                     <a href="latepass_profesores.php">Profesores</a>
-                    <a href="latepass_vehiculos.php">Vehículos Autorizados</a>
                 </div>
             </div>
             <a href="reportes.php">📊 Reportes</a>
@@ -25,6 +24,7 @@
                     <a href="periodos_escolares.php">Períodos Escolares</a>
                     <a href="usuarios.php">Usuarios del Sistema</a>
                     <a href="profesores.php">Profesores</a>
+                    <a href="registro_vehiculos.php">Vehículos Autorizados</a>
                 </div>
             </div>
         <a href="logout.php" class="logout">Salir</a>

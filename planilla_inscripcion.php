@@ -13,44 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $conn->beginTransaction();
 
-        // Registrar padre
-        $sql_padre = "INSERT INTO padres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idiomas, profesion, empresa, telefono_trabajo, celular, email)
-                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula, :nacionalidad, :idiomas, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
-        $stmt_padre = $conn->prepare($sql_padre);
-        $stmt_padre->execute([
-            ':nombre' => $_POST['padre_nombre'],
-            ':apellido' => $_POST['padre_apellido'],
-            ':fecha_nacimiento' => $_POST['padre_fecha_nacimiento'],
-            ':cedula' => $_POST['padre_cedula'],
-            ':nacionalidad' => $_POST['padre_nacionalidad'],
-            ':idiomas' => $_POST['padre_idiomas'],
-            ':profesion' => $_POST['padre_profesion'],
-            ':empresa' => $_POST['padre_empresa'],
-            ':telefono_trabajo' => $_POST['padre_telefono_trabajo'],
-            ':celular' => $_POST['padre_celular'],
-            ':email' => $_POST['padre_email']
-        ]);
-        $padre_id = $conn->lastInsertId();
-
-        // Registrar madre
-        $sql_madre = "INSERT INTO madres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idiomas, profesion, empresa, telefono_trabajo, celular, email)
-                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula, :nacionalidad, :idiomas, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
-        $stmt_madre = $conn->prepare($sql_madre);
-        $stmt_madre->execute([
-            ':nombre' => $_POST['madre_nombre'],
-            ':apellido' => $_POST['madre_apellido'],
-            ':fecha_nacimiento' => $_POST['madre_fecha_nacimiento'],
-            ':cedula' => $_POST['madre_cedula'],
-            ':nacionalidad' => $_POST['madre_nacionalidad'],
-            ':idiomas' => $_POST['madre_idiomas'],
-            ':profesion' => $_POST['madre_profesion'],
-            ':empresa' => $_POST['madre_empresa'],
-            ':telefono_trabajo' => $_POST['madre_telefono_trabajo'],
-            ':celular' => $_POST['madre_celular'],
-            ':email' => $_POST['madre_email']
-        ]);
-        $madre_id = $conn->lastInsertId();
-
         // Registrar estudiante
         $sql_est = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, padre_id, madre_id)
                     VALUES (:nombre, :fecha_nac, :lugar_nac, :nacionalidad, :idioma, :direccion, :tel_casa, :tel_movil, :tel_emergencia, :grado, :fecha_insc, :recomendado, :padre_id, :madre_id)";
@@ -98,8 +60,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':autorizo_emergencia' => isset($_POST['autorizo_emergencia'])
         ]);
 
+        // Registrar padre
+        $sql_padre = "INSERT INTO padres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idiomas, profesion, empresa, telefono_trabajo, celular, email)
+                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula, :nacionalidad, :idiomas, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
+        $stmt_padre = $conn->prepare($sql_padre);
+        $stmt_padre->execute([
+            ':nombre' => $_POST['padre_nombre'],
+            ':apellido' => $_POST['padre_apellido'],
+            ':fecha_nacimiento' => $_POST['padre_fecha_nacimiento'],
+            ':cedula' => $_POST['padre_cedula'],
+            ':nacionalidad' => $_POST['padre_nacionalidad'],
+            ':idiomas' => $_POST['padre_idiomas'],
+            ':profesion' => $_POST['padre_profesion'],
+            ':empresa' => $_POST['padre_empresa'],
+            ':telefono_trabajo' => $_POST['padre_telefono_trabajo'],
+            ':celular' => $_POST['padre_celular'],
+            ':email' => $_POST['padre_email']
+        ]);
+        $padre_id = $conn->lastInsertId();
+
+        // Registrar madre
+        $sql_madre = "INSERT INTO madres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idiomas, profesion, empresa, telefono_trabajo, celular, email)
+                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula, :nacionalidad, :idiomas, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
+        $stmt_madre = $conn->prepare($sql_madre);
+        $stmt_madre->execute([
+            ':nombre' => $_POST['madre_nombre'],
+            ':apellido' => $_POST['madre_apellido'],
+            ':fecha_nacimiento' => $_POST['madre_fecha_nacimiento'],
+            ':cedula' => $_POST['madre_cedula'],
+            ':nacionalidad' => $_POST['madre_nacionalidad'],
+            ':idiomas' => $_POST['madre_idiomas'],
+            ':profesion' => $_POST['madre_profesion'],
+            ':empresa' => $_POST['madre_empresa'],
+            ':telefono_trabajo' => $_POST['madre_telefono_trabajo'],
+            ':celular' => $_POST['madre_celular'],
+            ':email' => $_POST['madre_email']
+        ]);
+        $madre_id = $conn->lastInsertId();
+
         $conn->commit();
-        $mensaje = "✅ Registro completado correctamente.";
+        $mensaje = "✅ Registro completo realizado con éxito para el estudiante en el período: <strong>" . htmlspecialchars($periodo['nombre_periodo']) . "</strong>";
+
     } catch (Exception $e) {
         $conn->rollBack();
         $mensaje = "❌ Error en el registro: " . $e->getMessage();
@@ -111,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro Completo - CEIA</title>
+    <title>Planilla de Inscripción</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -201,7 +202,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
     </div>
     <div class="formulario-contenedor">
-        <?php if ($mensaje) echo "<div class='mensaje'>$mensaje</div>"; ?>
+        <?php if ($mensaje): ?>
+            <p class="<?= strpos($mensaje, '✅') !== false ? 'alerta' : 'alerta-error' ?>"><?= $mensaje ?></p>
+        <?php endif; ?>
 
         <form method="POST" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-around;">
 

@@ -27,7 +27,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Control de Vehículos Autorizados</title>
+    <title>Registro de Vehículos Autorizados</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -69,7 +69,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
     <div class="formulario-contenedor">
         <div class="content">
             <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h2>Control de Vehículos Autorizados</h2>
+        <h2>Registro de Vehículos Autorizados</h2>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
 
         <form method="POST">
