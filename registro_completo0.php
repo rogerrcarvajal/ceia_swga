@@ -8,13 +8,6 @@ require_once "conn/conexion.php";
 
 $mensaje = "";
 
-// Obtener período escolar activo
-$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-
-if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
-}
-
 // Procesar formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
@@ -58,12 +51,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]);
         $madre_id = $conn->lastInsertId();
 
-        // $activo = isset($_POST['activo']) && $_POST['activo'] === 'on';
-
         // Registrar estudiante
-        $sql_est = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, padre_id, madre_id, activo, periodo_id)
-                    VALUES (:nombre, :fecha_nac, :lugar_nac, :nacionalidad, :idioma, :direccion, :tel_casa, :tel_movil, :tel_emergencia, :grado, :fecha_insc, :recomendado, :padre_id, :madre_id, :activo, :periodo_id)";
-        $stmt->bindParam(':activo', $activo, PDO::PARAM_BOOL);
+        $sql_est = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, padre_id, madre_id)
+                    VALUES (:nombre, :fecha_nac, :lugar_nac, :nacionalidad, :idioma, :direccion, :tel_casa, :tel_movil, :tel_emergencia, :grado, :fecha_insc, :recomendado, :padre_id, :madre_id)";
         $stmt_est = $conn->prepare($sql_est);
         $stmt_est->execute([
             ':nombre' => $_POST['nombre_estudiante'],
@@ -72,16 +62,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':nacionalidad' => $_POST['nacionalidad_estudiante'],
             ':idioma' => $_POST['idioma_estudiante'],
             ':direccion' => $_POST['direccion_estudiante'],
-            ':tel_casa' => $_POST['tel_casa_estudiante'] ?: null,
-            ':tel_movil' => $_POST['tel_movil_estudiante'] ?: null,
-            ':tel_emergencia' => $_POST['tel_emergencia_estudiante'] ?: null,
+            ':tel_casa' => $_POST['tel_casa_estudiante'],
+            ':tel_movil' => $_POST['tel_movil_estudiante'],
+            ':tel_emergencia' => $_POST['tel_emergencia_estudiante'],
             ':grado' => $_POST['grado_estudiante'],
             ':fecha_insc' => $_POST['fecha_inscripcion_estudiante'],
             ':recomendado' => $_POST['recomendado_estudiante'],
             ':padre_id' => $padre_id,
-            ':madre_id' => $madre_id,
-            // ':activo' => $activo,
-            ':periodo_id' => $periodo['id']
+            ':madre_id' => $madre_id
         ]);
         $estudiante_id = $conn->lastInsertId();
 
@@ -123,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Planilla de Inscripción</title>
+    <title>Registro Completo - CEIA</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -136,11 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(245, 245, 245, 0.95);
             margin: 30px auto;
             padding: 30px;
             border-radius: 10px;
-            max-width: 85%;
+            max-width: 95%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
@@ -148,7 +136,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .form-seccion {
             width: 30%;
-            color: white;
             min-width: 300px;
             margin-bottom: 20px;
         }
@@ -185,37 +172,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 20px;
             color: green;
         }
-
-        .content {
-            text-align: center;
-            margin-top: 100px;
-            color: white;
-            text-shadow: 1px 1px 2px black;
-        }
-
-        .content img {
-            width: 200px;
-            margin-bottom: 20px;
-        }
-
-        .dashboard {
-            background-color: red;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-    <div class="content">
-        <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
-    </div>
     <div class="formulario-contenedor">
-        <?php if ($mensaje): ?>
-            <p class="<?= strpos($mensaje, '✅') !== false ? 'alerta' : 'alerta-error' ?>"><?= $mensaje ?></p>
-        <?php endif; ?>
+        <?php if ($mensaje) echo "<div class='mensaje'>$mensaje</div>"; ?>
 
         <form method="POST" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-around;">
 
@@ -270,7 +231,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <!-- Ficha Médica -->
-            <div class="form-seccion" style="width: 30%;">
+            <div class="form-seccion" style="width: 95%;">
                 <h3>Ficha Médica</h3>
                 <input type="text" name="completado_por" placeholder="Completado por" required>
                 <input type="date" name="fecha_salud" required>
@@ -294,15 +255,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
 
                 <br><br>
-           
                 <button type="submit">Registrar</button>
-                               
             </div>
         </form>
-    <div>
-        <br>
-        <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
-    </div>
     </div>
 </body>
 </html>
