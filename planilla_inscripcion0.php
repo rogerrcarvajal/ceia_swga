@@ -212,6 +212,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <img src="img/logo_ceia.png" alt="Logo CEIA">
         <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
     </div>
+    
     <div class="formulario-contenedor">
         <?php if ($mensaje): ?>
             <p class="<?= strpos($mensaje, '✅') !== false ? 'alerta' : 'alerta-error' ?>"><?= $mensaje ?></p>
