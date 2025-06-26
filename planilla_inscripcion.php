@@ -93,32 +93,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $madre_id = $conn->lastInsertId();
 
         // Insertar FICHA MÉDICA
-        $stmt_ficha = $conn->prepare("INSERT INTO salud_estudiantil (estudiante_id, edad, completado_por, fecha, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen_oido_vista, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
-                      VALUES (:estudiante_id, :edad, :completado_por, :fecha, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen_oido_vista, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)");
-        $stmt_ficha->bindParam(':estudiante_id', $estudiante_id);
-        $stmt_ficha->bindParam(':edad', $_POST['edad_estudiante']);
-        $stmt_ficha->bindParam(':completado_por', $_POST['completado_por']);
-        $stmt_ficha->bindParam(':fecha', $_POST['fecha_salud']);
-        $stmt_ficha->bindParam(':contacto_emergencia', $_POST['contacto_emergencia']);
-        $stmt_ficha->bindParam(':relacion_emergencia', $_POST['relacion_emergencia']);
-        $stmt_ficha->bindParam(':telefono1', $_POST['telefono1']);
-        $stmt_ficha->bindParam(':telefono2', $_POST['telefono1']);
-        $stmt_ficha->bindParam(':observaciones', $_POST['observaciones']);
-        $dislexia = isset($_POST['dislexia']) ? 1 : 0;
-        $atencion = isset($_POST['atencion']) ? 1 : 0;
-        $otros = isset($_POST['otros']) ? 1 : 0;
-        $stmt_ficha->bindParam(':info_adicional', $_POST['info_adicional']);
-        $stmt_ficha->bindParam(':problemas_oido_vista', $_POST['problemas_oido_vista']);
-        $stmt_ficha->bindParam(':fecha_examen_oido_vista', $_POST['fecha_examen']);
-        $autorizo_medicamentos = isset($_POST['autorizo_medicamentos']) ? 1 : 0;
-        $stmt_ficha->bindParam(':medicamentos_actuales', $_POST['medicamentos_actuales']);
-        $autorizo_emergencia = isset($_POST['autorizo_emergencia']) ? 1 : 0;
-        $stmt_ficha->bindParam(':dislexia', $dislexia, PDO::PARAM_BOOL);
-        $stmt_ficha->bindParam(':atencion', $atencion, PDO::PARAM_BOOL);
-        $stmt_ficha->bindParam(':otros', $otros, PDO::PARAM_BOOL);
-        $stmt_ficha->bindParam(':autorizo_medicamentos', $autorizo_medicamentos, PDO::PARAM_BOOL);
-        $stmt_ficha->bindParam(':autorizo_emergencia', $autorizo_emergencia, PDO::PARAM_BOOL);
-        $stmt_ficha->execute();
+            $stmt_ficha = $conn->prepare("INSERT INTO salud_estudiantil (estudiante_id, edad, completado_por, fecha, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen_oido_vista, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
+                        VALUES (:estudiante_id, :edad, :completado_por, :fecha, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen_oido_vista, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)");
+            $stmt_ficha->bindParam(':estudiante_id', $estudiante_id);
+            $stmt_ficha->bindParam(':edad', $_POST['edad_estudiante']);
+            $stmt_ficha->bindParam(':completado_por', $_POST['completado_por']);
+            $stmt_ficha->bindParam(':fecha', $_POST['fecha_salud']);
+            $stmt_ficha->bindParam(':contacto_emergencia', $_POST['contacto_emergencia']);
+            $stmt_ficha->bindParam(':relacion_emergencia', $_POST['relacion_emergencia']);
+            $stmt_ficha->bindParam(':telefono1', $_POST['telefono1']);
+            $stmt_ficha->bindParam(':telefono2', $_POST['telefono1']);
+            $stmt_ficha->bindParam(':observaciones', $_POST['observaciones']);
+            $dislexia = isset($_POST['dislexia']) ? 1 : 0;
+            $atencion = isset($_POST['atencion']) ? 1 : 0;
+            $otros = isset($_POST['otros']) ? 1 : 0;
+            $stmt_ficha->bindParam(':info_adicional', $_POST['info_adicional']);
+            $stmt_ficha->bindParam(':problemas_oido_vista', $_POST['problemas_oido_vista']);
+            $stmt_ficha->bindParam(':fecha_examen_oido_vista', $_POST['fecha_examen']);
+            $autorizo_medicamentos = isset($_POST['autorizo_medicamentos']) ? 1 : 0;
+            $stmt_ficha->bindParam(':medicamentos_actuales', $_POST['medicamentos_actuales']);
+            $autorizo_emergencia = isset($_POST['autorizo_emergencia']) ? 1 : 0;
+            $stmt_ficha->bindParam(':dislexia', $dislexia, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':atencion', $atencion, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':otros', $otros, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':autorizo_medicamentos', $autorizo_medicamentos, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':autorizo_emergencia', $autorizo_emergencia, PDO::PARAM_BOOL);
+            $stmt_ficha->execute();
 
         $conn->commit();
         $mensaje = "✅ Registro completado correctamente.";
@@ -232,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
+        <h1><br>Planilla de Inscripción</h1></br>
     </div>
 
     <div class="formulario-contenedor">

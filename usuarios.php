@@ -41,48 +41,82 @@ $usuarios = $conn->query("SELECT * FROM usuarios ORDER BY id")->fetchAll(PDO::FE
     <title>Gestión de Usuarios</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body {
+         body {
             margin: 0;
             padding: 0;
             background-image: url('img/fondo.jpg');
             background-size: cover;
-            background-position: top;
+            background-position: center;
             font-family: 'Arial', sans-serif;
         }
-
+        
         .formulario-contenedor {
             background-color: rgba(0, 0, 0, 0.7);
-            margin: 30px auto;
+            margin: 0px auto;
             padding: 30px;
             border-radius: 10px;
-            max-width: 30%;
+            max-width: 65%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
         }
 
+        .formulario {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 25px;
+            margin: 30px auto;
+            width: 30%;
+            border-radius: 8px;
+        }
+
+        .form-seccion {
+            width: 30%;
+            color: white;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #0057A0;
+            padding-bottom: 5px;
+        }
+
         .content {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 100px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
 
         .content img {
-            width: 150px;
-            margin-bottom: 0px;
+            width: 180px;
+            margin-bottom: 20px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            font-size: 16px;
         }
     </style>    
 </head>
 <body>
     <?php include 'navbar.php'; ?>
+    <div class="content">
+        <img src="img/logo_ceia.png" alt="Logo CEIA">
+        <h1><br>Registro de Usuarios del Sistema</h1></br>
+    </div>
+    
     <br></br>
     <div class="formulario-contenedor">
-        <div class="content">
-            <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h2>Registro de Usuarios del Sistema</h2>
+        <div class="form-seccion">
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
         <form method="POST">
+            <h3>Crear Usuario</h3>
             <input type="text" name="username" placeholder="Nombre de usuario" required>
             <input type="password" name="clave" placeholder="Contraseña" required>
             <select name="rol" required>
@@ -92,23 +126,23 @@ $usuarios = $conn->query("SELECT * FROM usuarios ORDER BY id")->fetchAll(PDO::FE
             </select>
             <br><br>
             <button type="submit" name="agregar">Agregar Usuario</button>
+            <br></br>
+            <a href="dashboard.php" class="boton-link">Volver al Inicio</a></br>
         </form>
-
-        <hr>
-        <h3>Usuarios Registrados</h3>
-        <ul>
-            <?php foreach ($usuarios as $u): ?>
-                <li>
-                    <?= htmlspecialchars($u['username']) ?> - Rol: <?= $u['rol'] ?>
-                    <?php if ($u['rol'] !== 'admin'): ?>
-                        <a href="eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
-                    <?php endif; ?>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-
-        <br>
-        <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
+    </div>
+        <div class="form-seccion">
+            <h3>Usuarios Registrados</h3>
+            <ul>
+                <?php foreach ($usuarios as $u): ?>
+                    <li>
+                        <?= htmlspecialchars($u['username']) ?> - Rol: <?= $u['rol'] ?>
+                        <?php if ($u['rol'] !== 'admin'): ?>
+                            <a href="eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     </div>
 </body>
 </html>
