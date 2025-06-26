@@ -3,8 +3,8 @@ require_once "conn/conexion.php";
 
 $id = $_GET['id'] ?? 0;
 
-$stmt = $conn->prepare("SELECT * FROM salud_estudiantil WHERE estudiante_id = :id");
-$stmt->execute([':id' => $id]);
+$stmt = $conn->prepare("SELECT * FROM salud_estudiantil WHERE estudiante_id = :estudiante_id");
+$stmt->execute([':estudiante_id' => $id]);
 
 $ficha = $stmt->fetch(PDO::FETCH_ASSOC);
 

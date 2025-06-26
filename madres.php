@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $fecha_nac = $_POST["fecha_nacimiento"];
     $cedula = $_POST["cedula"];
     $nacionalidad = $_POST["nacionalidad"];
-    $idiomas = $_POST["idiomas"];
+    $idiomas = $_POST["idioma"];
     $profesion = $_POST["profesion"];
     $empresa = $_POST["empresa"];
     $tel_trabajo = $_POST["telefono_trabajo"];

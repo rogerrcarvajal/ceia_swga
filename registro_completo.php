@@ -247,7 +247,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <textarea name="info_adicional" placeholder="Información adicional"></textarea>
                 <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
-                <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
+                <input type="date" name="fecha_examen" placeholder="Fecha último examen oído/vista">
 
                 <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
                 <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
