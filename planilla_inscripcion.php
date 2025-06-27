@@ -21,55 +21,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->beginTransaction();
 
         // Insertar ESTUDIANTES
-        $nombre_completo = $_POST['nombre_completo'] ?? '';
-        $fecha_nacimiento = $_POST['fecha_nacimiento'] ?? '';
-        $lugar_nacimiento = $_POST['lugar_nacimiento'] ?? '';
-        $nacionalidad = $_POST['nacionalidad'] ?? '';
-        $idioma = $_POST['idioma'] ?? '';
-        $direccion = $_POST['direccion'] ?? '';
-        $telefono_casa = $_POST['telefono_casa'] ?? '';
-        $telefono_movil = $_POST['telefono_movil'] ?? '';
-        $telefono_emergencia = $_POST['telefono_emergencia'] ?? '';
-        $grado_ingreso = $_POST['grado_ingreso'] ?? '';
-        $fecha_inscripcion = $_POST['fecha_inscripcion'] ?? '';
-        $recomendado_por = $_POST['recomendado_por'] ?? '';
-        $activo = isset($_POST['activo']) && $_POST['activo'] === 'on';
+           $sql = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, activo) 
+                    VALUES (:nombre_completo, :fecha_nacimiento, :lugar_nacimiento, :nacionalidad, :idioma, :direccion, :telefono_casa, :telefono_movil, :telefono_emergencia, :grado_ingreso, :fecha_inscripcion, :recomendado_por, :activo)";
 
-        $sql = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, activo) 
-                VALUES (:nombre_completo, :fecha_nacimiento, :lugar_nacimiento, :nacionalidad, :idioma, :direccion, :telefono_casa, :telefono_movil, :telefono_emergencia, :grado_ingreso, :fecha_inscripcion, :recomendado_por, :activo)";
-
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':nombre_completo', $nombre_completo);
-        $stmt->bindParam(':fecha_nacimiento', $fecha_nacimiento);
-        $stmt->bindParam(':lugar_nacimiento', $lugar_nacimiento);
-        $stmt->bindParam(':nacionalidad', $nacionalidad);
-        $stmt->bindParam(':idioma', $idioma);
-        $stmt->bindParam(':direccion', $direccion);
-        $stmt->bindParam(':telefono_casa', $telefono_casa);
-        $stmt->bindParam(':telefono_movil', $telefono_movil);
-        $stmt->bindParam(':telefono_emergencia', $telefono_emergencia);
-        $stmt->bindParam(':grado_ingreso', $grado_ingreso);
-        $stmt->bindParam(':fecha_inscripcion', $fecha_inscripcion);
-        $stmt->bindParam(':recomendado_por', $recomendado_por);
-        $stmt->bindParam(':activo', $activo, PDO::PARAM_BOOL);
-        $stmt->execute();
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nombre_completo', $_POST['nombre_completo']);
+            $stmt->bindParam(':fecha_nacimiento', $_POST['fecha_nacimiento']);
+            $stmt->bindParam(':lugar_nacimiento', $_POST['lugar_nacimiento']);
+            $stmt->bindParam(':nacionalidad', $_POST['nacionalidad']);
+            $stmt->bindParam(':idioma', $_POST['idioma']);
+            $stmt->bindParam(':direccion', $_POST['direccion']);
+            $stmt->bindParam(':telefono_casa', $_POST['telefono_casa']);
+            $stmt->bindParam(':telefono_movil', $_POST['telefono_movil']);
+            $stmt->bindParam(':telefono_emergencia', $_POST['telefono_emergencia']);
+            $stmt->bindParam(':grado_ingreso', $_POST['grado_ingreso']);
+            $stmt->bindParam(':fecha_inscripcion', $_POST['fecha_inscripcion']);
+            $stmt->bindParam(':recomendado_por', $_POST['recomendado_por']);
+            $activo = isset($_POST['activo']) ? 1 : 0;
+            $stmt->bindParam(':activo', $activo, PDO::PARAM_BOOL);
+            $stmt->execute();
 
         // Insertar PADRES
             $sql = "INSERT INTO padres (padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
             VALUES (:padre_nombre, :padre_apellido, :padre_fecha_nacimiento, :padre_cedula_pasaporte, :padre_nacionalidad, :padre_idioma, :padre_profesion, :padre_empresa, :padre_telefono_trabajo, :padre_celular, :padre_email)";
             
             $stmt_padres = $conn->prepare($sql);
-            $stmt_padres->bindParam(':padre_nombre', $padre_nombre);
-            $stmt_padres->bindParam(':padre_apellido', $padre_apellido);
-            $stmt_padres->bindParam(':padre_fecha_nacimiento', $padre_fecha_nacimiento);
-            $stmt_padres->bindParam(':padre_cedula_pasaporte', $padre_cedula_pasaporte);
-            $stmt_padres->bindParam(':padre_nacionalidad', $padre_nacionalidad);
-            $stmt_padres->bindParam(':padre_idioma', $padre_idiomas);
-            $stmt_padres->bindParam(':padre_profesion', $padre_profesion);
-            $stmt_padres->bindParam(':padre_empresa', $padre_empresa);
-            $stmt_padres->bindParam(':padre_telefono_trabajo', $padre_telefono_trabajo);
-            $stmt_padres->bindParam(':padre_celular', $padre_celular);
-            $stmt_padres->bindParam(':padre_email', $padre_email);
+            $stmt_padres->bindParam(':padre_nombre', $_POST['padre_nombre']);
+            $stmt_padres->bindParam(':padre_apellido', $_POST['padre_apellido']);
+            $stmt_padres->bindParam(':padre_fecha_nacimiento', $_POST['padre_fecha_nacimiento']);
+            $stmt_padres->bindParam(':padre_cedula_pasaporte', $_POST['padre_cedula_pasaporte']);
+            $stmt_padres->bindParam(':padre_nacionalidad', $_POST['padre_nacionalidad']);
+            $stmt_padres->bindParam(':padre_idioma', $_POST['padre_idiomas']);
+            $stmt_padres->bindParam(':padre_profesion', $_POST['padre_profesion']);
+            $stmt_padres->bindParam(':padre_empresa', $_POST['padre_empresa']);
+            $stmt_padres->bindParam(':padre_telefono_trabajo', $_POST['padre_telefono_trabajo']);
+            $stmt_padres->bindParam(':padre_celular', $_POST['padre_celular']);
+            $stmt_padres->bindParam(':padre_email', $_POST['padre_email']);
             $stmt_padres->execute();
             $padre_id = $conn->lastInsertId();
         
@@ -78,23 +65,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (:madre_nombre, :madre_apellido, :madre_fecha_nacimiento, :madre_cedula_pasaporte, :madre_nacionalidad, :madre_idioma, :madre_profesion, :madre_empresa, :madre_telefono_trabajo, :madre_celular, :madre_email)";
 
             $stmt_madres = $conn->prepare($sql);
-            $stmt_madres->bindParam(':madre_nombre', $madre_nombre);
-            $stmt_madres->bindParam(':madre_apellido', $madre_apellido);
-            $stmt_madres->bindParam(':madre_fecha_nacimiento', $madre_fecha_nacimiento);
-            $stmt_madres->bindParam(':madre_cedula_pasaporte', $madre_cedula_pasaporte);
-            $stmt_madres->bindParam(':madre_nacionalidad', $madre_nacionalidad);
-            $stmt_madres->bindParam(':madre_idioma', $madre_idiomas);
-            $stmt_madres->bindParam(':madre_profesion', $madre_profesion);
-            $stmt_madres->bindParam(':madre_empresa', $madre_empresa);
-            $stmt_madres->bindParam(':madre_telefono_trabajo', $madre_telefono_trabajo);
-            $stmt_madres->bindParam(':madre_celular', $madre_celular);
-            $stmt_madres->bindParam(':madre_email', $madre_email);
+            $stmt_madres->bindParam(':madre_nombre', $_POST['madre_nombre']);
+            $stmt_madres->bindParam(':madre_apellido', $_POST['madre_apellido']);
+            $stmt_madres->bindParam(':madre_fecha_nacimiento', $_POST['madre_fecha_nacimiento']);
+            $stmt_madres->bindParam(':madre_cedula_pasaporte', $_POST['madre_cedula_pasaporte']);
+            $stmt_madres->bindParam(':madre_nacionalidad', $_POST['madre_nacionalidad']);
+            $stmt_madres->bindParam(':madre_idioma', $_POST['madre_idiomas']);
+            $stmt_madres->bindParam(':madre_profesion', $_POST['madre_profesion']);
+            $stmt_madres->bindParam(':madre_empresa', $_POST['madre_empresa']);
+            $stmt_madres->bindParam(':madre_telefono_trabajo', $_POST['madre_telefono_trabajo']);
+            $stmt_madres->bindParam(':madre_celular', $_POST['madre_celular']);
+            $stmt_madres->bindParam(':madre_email', $_POST['madre_email']);
             $stmt_madres->execute();
             $madre_id = $conn->lastInsertId();
 
         // Insertar FICHA MÉDICA
             $stmt_ficha = $conn->prepare("INSERT INTO salud_estudiantil (estudiante_id, edad, completado_por, fecha, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen_oido_vista, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
-                        VALUES (:estudiante_id, :edad, :completado_por, :fecha, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen_oido_vista, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)");
+                                        VALUES (:estudiante_id, :edad, :completado_por, :fecha, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen_oido_vista, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)");
             $stmt_ficha->bindParam(':estudiante_id', $estudiante_id);
             $stmt_ficha->bindParam(':edad', $_POST['edad_estudiante']);
             $stmt_ficha->bindParam(':completado_por', $_POST['completado_por']);
@@ -299,6 +286,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Madre -->
             <div class="form-seccion">
                 <h3>Datos de la Madre</h3>
+                <form method="POST">
                 <input type="text" name="madre_nombre" placeholder="Nombre" required>
                 <input type="text" name="madre_apellido" placeholder="Apellido" required>
                 <input type="date" name="madre_fecha_nacimiento" required>

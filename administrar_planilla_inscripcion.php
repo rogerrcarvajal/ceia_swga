@@ -1,6 +1,19 @@
 <?php
 session_start();
+if (!isset($_SESSION['usuario'])) {
+    header("Location: home.php");
+    exit();
+}
 require_once "conn/conexion.php";
+
+$mensaje = "";
+
+// Obtener período escolar activo
+$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+
+if (!$periodo) {
+    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
+}
 
 $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER BY nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
