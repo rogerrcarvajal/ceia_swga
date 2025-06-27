@@ -253,7 +253,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="telefono_casa" placeholder="Teléfono de casa" required>
                 <input type="text" name="telefono_movil" placeholder="Teléfono celular" required>
                 <input type="text" name="telefono_emergencia" placeholder="Teléfono de emergencia" required>
-                <input type="text" name="grado_ingreso" placeholder="Grado de ingreso" required>
+                <select name="grado_ingreso" required>
+                    <option value="">Grado de ingreso</option>
+                    <option value="Daycare">Daycare</option>
+                    <option value="Pk-3">Pk-3</option>
+                    <option value="Pk-4">Pk-4</option>
+                    <option value="Kindergarten">Kindergarten</option>
+                    <option value="Grade 1">Grade 1</option>
+                    <option value="Grade 2">Grade 2</option>
+                    <option value="Grade 3">Grade 3</option>
+                    <option value="Grade 4">Grade 4</option>
+                    <option value="Grade 5">Grade 5</option>
+                    <option value="Grade 6">Grade 6</option>
+                    <option value="Grade 7">Grade 7</option>
+                    <option value="Grade 8">Grade 8</option>
+                    <option value="Grade 9">Grade 9</option>
+                    <option value="Grade 10">Grade 10</option>
+                    <option value="Grade 11">Grade 11</option>
+                    <option value="Grade 12">Grade 12</option>
+                </select>
                 <input type="date" name="fecha_inscripcion" required>
                 <input type="text" name="recomendado_por" placeholder="Recomendado por">
                 <input type="number" name="edad_estudiante" placeholder="Edad" required>
