@@ -143,7 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             max-width: 85%;
             display: flex;
             flex-wrap: wrap;
-            justify-content: space-around;
         }
 
         .form-seccion {
@@ -301,8 +300,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     <div>
-        <br>
-        <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
+        <br><a href="dashboard.php" class="boton-link">Volver al Inicio</a>
     </div>
     </div>
 </body>

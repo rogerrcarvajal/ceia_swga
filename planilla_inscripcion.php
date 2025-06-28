@@ -21,11 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->beginTransaction();
 
         // Insertar ESTUDIANTES
-           $sql = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, activo) 
+           $sql = "INSERT INTO estudiantes (nombre_completo, nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, activo) 
                     VALUES (:nombre_completo, :fecha_nacimiento, :lugar_nacimiento, :nacionalidad, :idioma, :direccion, :telefono_casa, :telefono_movil, :telefono_emergencia, :grado_ingreso, :fecha_inscripcion, :recomendado_por, :activo)";
 
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':nombre_completo', $_POST['nombre_completo']);
+            $stmt->bindParam(':apellido_completo', $_POST['apellido_completo']);
             $stmt->bindParam(':fecha_nacimiento', $_POST['fecha_nacimiento']);
             $stmt->bindParam(':lugar_nacimiento', $_POST['lugar_nacimiento']);
             $stmt->bindParam(':nacionalidad', $_POST['nacionalidad']);
@@ -130,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 0;
             background-image: url('img/fondo.jpg');
             background-size: cover;
-            background-position: center;
+            background-position: top;
             font-family: 'Arial', sans-serif;
         }
         
@@ -231,7 +232,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-seccion">
                 <h3>Datos del Estudiante</h3>
                 <form method="POST">
-                <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
+                <input type="text" name="nombre_completo" placeholder="Nombres completo" required>
+                <input type="text" name="apellido_completo" placeholder="Apellidos completo" required>
                 <input type="date" name="fecha_nacimiento" required>
                 <input type="text" name="lugar_nacimiento" placeholder="Lugar de nacimiento" required>
                 <input type="text" name="nacionalidad" placeholder="Nacionalidad" required>

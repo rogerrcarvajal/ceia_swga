@@ -4,7 +4,7 @@
 }
 
 .panel-izquierdo {
-    width: 25%;
+    width: 30%;
     color: white;
     padding: 20px;
     border-right: 2px solid #ccc;
@@ -14,7 +14,7 @@
 }
 
 .panel-derecho {
-    width: 75%;
+    width: 65%;
     color: white;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.7);

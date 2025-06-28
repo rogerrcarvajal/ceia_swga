@@ -55,7 +55,7 @@ $usuarios = $conn->query("SELECT * FROM usuarios ORDER BY id")->fetchAll(PDO::FE
             margin: 0px auto;
             padding: 30px;
             border-radius: 10px;
-            max-width: 65%;
+            max-width: 50%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
@@ -111,7 +111,6 @@ $usuarios = $conn->query("SELECT * FROM usuarios ORDER BY id")->fetchAll(PDO::FE
         <h1><br>Registro de Usuarios del Sistema</h1></br>
     </div>
     
-    <br></br>
     <div class="formulario-contenedor">
         <div class="form-seccion">
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>

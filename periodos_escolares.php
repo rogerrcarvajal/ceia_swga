@@ -114,6 +114,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
     <div class="formulario-contenedor">
         <div class="form-seccion">
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
+        
         <form method="POST">
             <h3>Crear Período Escolar</h3>
             <input type="text" name="nombre_periodo" placeholder="Ej: Agosto 2025 - Junio 2026" required><br><br>
@@ -121,12 +122,11 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
             <input type="date" name="fecha_inicio" required><br><br>
             <label>Fecha de Fin:</label><br>
             <input type="date" name="fecha_fin" required><br><br>
-
             <button type="submit" name="crear">Crear Período</button>
             <br></br>
             <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
-
         </form>
+
     </div>
 
         <div class="form-seccion">
