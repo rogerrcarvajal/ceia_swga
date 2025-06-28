@@ -21,40 +21,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->beginTransaction();
 
         // 1. Insertar PADRE y obtener su ID
-        $sql_padre = "INSERT INTO padres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idioma, profesion, empresa, telefono_trabajo, celular, email)
-                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula_pasaporte, :nacionalidad, :idioma, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
+        $sql_padre = "INSERT INTO padres (padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
+            VALUES (:padre_nombre, :padre_apellido, :padre_fecha_nacimiento, :padre_cedula_pasaporte, :padre_nacionalidad, :padre_idioma, :padre_profesion, :padre_empresa, :padre_telefono_trabajo, :padre_celular, :padre_email)";
         $stmt_padre = $conn->prepare($sql_padre);
         $stmt_padre->execute([
-            ':nombre' => $_POST['padre_nombre'], 
-            ':apellido' => $_POST['padre_apellido'], 
-            ':fecha_nacimiento' => $_POST['padre_fecha_nacimiento'],
-            ':cedula_pasaporte' => $_POST['padre_cedula_pasaporte'], 
-            ':nacionalidad' => $_POST['padre_nacionalidad'], 
-            ':idioma' => $_POST['padre_idioma'],
-            ':profesion' => $_POST['padre_profesion'], 
-            ':empresa' => $_POST['padre_empresa'], 
-            ':telefono_trabajo' => $_POST['padre_telefono_trabajo'],
-            ':celular' => $_POST['padre_celular'], 
-            ':email' => $_POST['padre_email']
+            ':padre_nombre' => $_POST['padre_nombre'], 
+            ':padre_apellido' => $_POST['padre_apellido'], 
+            ':padre_fecha_nacimiento' => $_POST['padre_fecha_nacimiento'],
+            ':padre_cedula_pasaporte' => $_POST['padre_cedula_pasaporte'], 
+            ':padre_nacionalidad' => $_POST['padre_nacionalidad'], 
+            ':padre_idioma' => $_POST['padre_idioma'],
+            ':padre_profesion' => $_POST['padre_profesion'], 
+            ':padre_empresa' => $_POST['padre_empresa'], 
+            ':padre_telefono_trabajo' => $_POST['padre_telefono_trabajo'],
+            ':padre_celular' => $_POST['padre_celular'], 
+            ':padre_email' => $_POST['padre_email']
         ]);
         $padre_id = $conn->lastInsertId();
 
         // 2. Insertar MADRE y obtener su ID
-        $sql_madre = "INSERT INTO madres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idioma, profesion, empresa, telefono_trabajo, celular, email) 
-                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula_pasaporte, :nacionalidad, :idioma, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
+        $sql_madre = "INSERT INTO madres (madre_nombre, madre_apellido, madre_fecha_nacimiento, madre_cedula_pasaporte, madre_nacionalidad, madre_idioma, madre_profesion, madre_empresa, madre_telefono_trabajo, madre_celular, madre_email) 
+            VALUES (:madre_nombre, :madre_apellido, :madre_fecha_nacimiento, :madre_cedula_pasaporte, :madre_nacionalidad, :madre_idioma, :madre_profesion, :madre_empresa, :madre_telefono_trabajo, :madre_celular, :madre_email)";
         $stmt_madre = $conn->prepare($sql_madre);
         $stmt_madre->execute([
-            ':nombre' => $_POST['madre_nombre'], 
-            ':apellido' => $_POST['madre_apellido'], 
-            ':fecha_nacimiento' => $_POST['madre_fecha_nacimiento'],
-            ':cedula_pasaporte' => $_POST['madre_cedula_pasaporte'], 
-            ':nacionalidad' => $_POST['madre_nacionalidad'], 
-            ':idioma' => $_POST['madre_idioma'],
-            ':profesion' => $_POST['madre_profesion'], 
-            ':empresa' => $_POST['madre_empresa'], 
-            ':telefono_trabajo' => $_POST['madre_telefono_trabajo'],
-            ':celular' => $_POST['madre_celular'], 
-            ':email' => $_POST['madre_email']
+            ':madre_nombre' => $_POST['madre_nombre'], 
+            ':madre_apellido' => $_POST['madre_apellido'], 
+            ':madre_fecha_nacimiento' => $_POST['madre_fecha_nacimiento'],
+            ':madre_cedula_pasaporte' => $_POST['madre_cedula_pasaporte'], 
+            ':madre_nacionalidad' => $_POST['madre_nacionalidad'], 
+            ':madre_idioma' => $_POST['madre_idioma'],
+            ':madre_profesion' => $_POST['madre_profesion'], 
+            ':madre_empresa' => $_POST['madre_empresa'], 
+            ':madre_telefono_trabajo' => $_POST['madre_telefono_trabajo'],
+            ':madre_celular' => $_POST['madre_celular'], 
+            ':madre_email' => $_POST['madre_email']
         ]);
         $madre_id = $conn->lastInsertId();
         
@@ -85,12 +85,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $estudiante_id = $conn->lastInsertId();
 
         // 4. Insertar FICHA MÉDICA con el ID del estudiante
-        $sql_ficha = "INSERT INTO salud_estudiantil (estudiante_id, edad, completado_por, fecha_salud, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
-                      VALUES (:estudiante_id, :edad, :completado_por, :fecha_salud, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)";
+        $sql_ficha = "INSERT INTO salud_estudiantil (estudiante_id, completado_por, fecha_salud, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
+                      VALUES (:estudiante_id, :completado_por, :fecha_salud, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)";
         $stmt_ficha = $conn->prepare($sql_ficha);
         $stmt_ficha->execute([
             ':estudiante_id' => $estudiante_id, 
-            ':edad' => $_POST['edad_estudiante'], 
             ':completado_por' => $_POST['completado_por'], 
             ':fecha_salud' => $_POST['fecha_salud'],
             ':contacto_emergencia' => $_POST['contacto_emergencia'], 
@@ -105,7 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ':problemas_oido_vista' => $_POST['problemas_oido_vista'], 
             ':fecha_examen' => $_POST['fecha_examen'],
             ':autorizo_medicamentos' => isset($_POST['autorizo_medicamentos']) ? 1 : 0, 
-            ':medicamentos_actuales' => $_POST['medicamentos_actuales'], ':autorizo_emergencia' => isset($_POST['autorizo_emergencia']) ? 1 : 0
+            ':medicamentos_actuales' => $_POST['medicamentos_actuales'], 
+            ':autorizo_emergencia' => isset($_POST['autorizo_emergencia']) ? 1 : 0
         ]);
 
         $conn->commit();
@@ -264,7 +264,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="form-seccion">
             <h3>Datos del Padre</h3>
-            <input type="text" name="padre_nombre" placeholder="Nombre" required>
+                <input type="text" name="padre_nombre" placeholder="Nombre" required>
                 <input type="text" name="padre_apellido" placeholder="Apellido" required>
                 <input type="date" name="padre_fecha_nacimiento" required>
                 <input type="text" name="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
@@ -279,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="form-seccion">
             <h3>Datos de la Madre</h3>
-            <input type="text" name="madre_nombre" placeholder="Nombre" required>
+                <input type="text" name="madre_nombre" placeholder="Nombre" required>
                 <input type="text" name="madre_apellido" placeholder="Apellido" required>
                 <input type="date" name="madre_fecha_nacimiento" required>
                 <input type="text" name="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
@@ -294,11 +294,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="form-seccionFM">
             <h3>Ficha Médica</h3>
-            <input type="text" name="completado_por" placeholder="Completado por" required>
-            <input type="date" name="fecha_salud" required>
-            <input type="text" name="contacto_emergencia" placeholder="Contacto de Emergencia" required>
-            <input type="text" name="relacion_emergencia" placeholder="Relación de Emergencia" required>
-            <input type="text" name="telefono1" placeholder="Teléfono 1" required> <input type="text" name="telefono2" placeholder="Teléfono 2"> <br><br>
+                <input type="text" name="completado_por" placeholder="Completado por" required>
+                <input type="date" name="fecha_salud" required>
+                <input type="text" name="contacto_emergencia" placeholder="Contacto de Emergencia" required>
+                <input type="text" name="relacion_emergencia" placeholder="Relación de Emergencia" required>
+                <input type="text" name="Teléfono1" placeholder="Teléfono 1" required>
+                <input type="text" name="Teléfono1" placeholder="Teléfono 2">
+                <textarea name="observaciones" placeholder="Observaciones"></textarea>
+
+                <label><input type="checkbox" name="dislexia"> Dislexia</label>
+                <label><input type="checkbox" name="atencion"> Déficit de Atención</label>
+                <label><input type="checkbox" name="otros"> Otros</label>
+
+                <textarea name="info_adicional" placeholder="Información adicional"></textarea>
+                <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
+                <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
+
+                <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
+                <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
+
+                <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
+
+                <br><br>
+
             <button type="submit">Guardar Inscripción</button>
         </div>
     </form> 
