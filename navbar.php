@@ -7,7 +7,7 @@
                 <a href="#">📝 Inscripción</a>
                 <div class="dropdown-content">
                     <a href="planilla_inscripcion.php">Nuevo Ingreso</a>
-                    <a href="administrar_planilla_inscripcion.php">Adminnistrar expedientes</a>
+                    <a href="administrar_planilla_inscripcion.php">Adminnistrar Planilla de Inscripción</a>
                 </div>
             </div>
             <div class="dropdown">

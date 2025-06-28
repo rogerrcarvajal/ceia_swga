@@ -1,27 +1,67 @@
 <?php
 require_once "conn/conexion.php";
 
+// Validar que el ID exista
+if (empty($_POST['id'])) {
+    echo "Error: ID de estudiante no proporcionado.";
+    exit;
+}
+
+// Asignar todas las variables desde _POST
 $id = $_POST['id'];
-$nombre = $_POST['nombre_completo'];
-$direccion = $_POST['direccion'];
-$tel_casa = $_POST['telefono_casa'];
-$tel_movil = $_POST['telefono_movil'];
-$tel_emergencia = $_POST['telefono_emergencia'];
-$grado = $_POST['grado_ingreso'];
+$nombre_completo = $_POST['nombre_completo'] ?? '';
+$apellido_completo = $_POST['apellido_completo'] ?? '';
+$fecha_nacimiento = $_POST['fecha_nacimiento'] ?? null;
+$lugar_nacimiento = $_POST['lugar_nacimiento'] ?? '';
+$nacionalidad = $_POST['nacionalidad'] ?? '';
+$idioma = $_POST['idioma'] ?? '';
+$direccion = $_POST['direccion'] ?? '';
+$telefono_casa = $_POST['telefono_casa'] ?? '';
+$telefono_movil = $_POST['telefono_movil'] ?? '';
+$telefono_emergencia = $_POST['telefono_emergencia'] ?? '';
+$grado_ingreso = $_POST['grado_ingreso'] ?? '';
+$fecha_inscripcion = $_POST['fecha_inscripcion'] ?? null;
+$recomendado_por = $_POST['recomendado_por'] ?? '';
+$edad_estudiante = $_POST['edad_estudiante'] ?? 0;
 $activo = isset($_POST['activo']) ? 1 : 0;
 
-$sql = "UPDATE estudiantes SET nombre_completo = :nombre, direccion = :direccion, telefono_casa = :tel_casa, telefono_movil = :tel_movil, telefono_emergencia = :tel_emergencia, grado_ingreso = :grado, activo = :activo WHERE id = :id";
+$sql = "UPDATE estudiantes SET 
+            nombre_completo = :nombre_completo, 
+            apellido_completo = :apellido_completo,
+            fecha_nacimiento = :fecha_nacimiento,
+            lugar_nacimiento = :lugar_nacimiento,
+            nacionalidad = :nacionalidad,
+            idioma = :idioma,
+            direccion = :direccion, 
+            telefono_casa = :telefono_casa, 
+            telefono_movil = :telefono_movil, 
+            telefono_emergencia = :telefono_emergencia, 
+            grado_ingreso = :grado_ingreso,
+            fecha_inscripcion = :fecha_inscripcion,
+            recomendado_por = :recomendado_por,
+            edad_estudiante = :edad_estudiante,
+            activo = :activo 
+        WHERE id = :id";
+
 $stmt = $conn->prepare($sql);
 $stmt->execute([
-    ':nombre' => $nombre,
+    ':nombre_completo' => $nombre_completo,
+    ':apellido_completo' => $apellido_completo,
+    ':fecha_nacimiento' => $fecha_nacimiento,
+    ':lugar_nacimiento' => $lugar_nacimiento,
+    ':nacionalidad' => $nacionalidad,
+    ':idioma' => $idioma,
     ':direccion' => $direccion,
-    ':tel_casa' => $tel_casa,
-    ':tel_movil' => $tel_movil,
-    ':tel_emergencia' => $tel_emergencia,
-    ':grado' => $grado,
+    ':telefono_casa' => $telefono_casa,
+    ':telefono_movil' => $telefono_movil,
+    ':telefono_emergencia' => $telefono_emergencia,
+    ':grado_ingreso' => $grado_ingreso,
+    ':fecha_inscripcion' => $fecha_inscripcion,
+    ':recomendado_por' => $recomendado_por,
+    ':edad_estudiante' => $edad_estudiante,
     ':activo' => $activo,
     ':id' => $id
 ]);
 
-echo "✅ Datos actualizados correctamente.";
+echo "✅ Datos del estudiante actualizados correctamente.";
 ?>

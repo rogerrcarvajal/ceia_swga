@@ -47,132 +47,126 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
         .content {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 50px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
 
         .content img {
-            width: 150px;
+            width: 180px;
             margin-bottom: 0px;
         }
-    </style>    
+    </style>
 </head>
 <body>
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Administrar Expedientes</h1></br>
+        <h1><br>Administrar Planilla de Inscripción</h1><br>
     </div>
-    <label>Foto de Perfil:</label><br>
-        <img id="foto_perfil" src="fotos/default.png" width="120"><br><br>
 
-        <input type="file" name="foto" id="foto" accept="image/*"><br><br>
-
-        <button type="submit">Actualizar</button>
-
-        <div class="contenedor-principal">
-        <!-- Panel Izquierdo -->
-        <div class="panel-izquierdo" size= "20">
+    <div class="contenedor-principal">
+        <div class="panel-izquierdo">
             <h3>Lista de Estudiantes</h3>
             <select id="lista_estudiantes" size="20">
+                <option value="">-- Seleccione un estudiante --</option>
                 <?php foreach ($estudiantes as $e): ?>
                     <option value="<?= $e['id'] ?>"><?= htmlspecialchars($e['nombre_completo']) ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
 
-        <!-- Panel Derecho -->
-        <div class="panel-derecho">
+        <div class="panel-derecho">            
             <h3>Datos del Estudiante</h3>
-            <form id="form_estudiante">
+            <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
+            <form id="form_estudiante" size="30">
                 <input type="hidden" name="id" id="estudiante_id">
-                <input type="text" name="nombre_completo" placeholder="Nombres completo" required>
-                <input type="text" name="apellido_completo" placeholder="Apellidos completo" required>
-                <input type="date" name="fecha_nacimiento" required>
-                <input type="text" name="lugar_nacimiento" placeholder="Lugar de nacimiento" required>
-                <input type="text" name="nacionalidad" placeholder="Nacionalidad" required>
-                <input type="text" name="idioma" placeholder="Idiomas que habla" required>
-                <textarea name="direccion" placeholder="Dirección" required></textarea>
-                <input type="text" name="telefono_casa" placeholder="Teléfono de casa" required>
-                <input type="text" name="telefono_movil" placeholder="Teléfono celular" required>
-                <input type="text" name="telefono_emergencia" placeholder="Teléfono de emergencia" required>
-                <input type="text" name="grado_ingreso" placeholder="Grado de ingreso" required>
-                <input type="date" name="fecha_inscripcion" required>
-                <input type="text" name="recomendado_por" placeholder="Recomendado por">
-                <input type="number" name="edad_estudiante" placeholder="Edad" required>
+                <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombres completo" required>
+                <input type="text" name="apellido_completo" id="apellido_completo" placeholder="Apellidos completo" required>
+                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+                <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" placeholder="Lugar de nacimiento" required>
+                <input type="text" name="nacionalidad" id="nacionalidad" placeholder="Nacionalidad" required>
+                <input type="text" name="idioma" id="idioma" placeholder="Idiomas que habla" required>
+                <textarea name="direccion" id="direccion" placeholder="Dirección" required></textarea>
+                <input type="text" name="telefono_casa" id="telefono_casa" placeholder="Teléfono de casa">
+                <input type="text" name="telefono_movil" id="telefono_movil" placeholder="Teléfono celular">
+                <input type="text" name="telefono_emergencia" id="telefono_emergencia" placeholder="Teléfono de emergencia" required>
+                <input type="text" name="grado_ingreso" id="grado_ingreso" placeholder="Grado de ingreso" required>
+                <input type="date" name="fecha_inscripcion" id="fecha_inscripcion" required>
+                <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por">
+                <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
 
-                <label><input type="checkbox" name="activo"> Estudiante Activo</label><br><br>
+                <label><input type="checkbox" name="activo" id="activo"> Estudiante Activo</label><br><br>
 
-                <button type="submit">Actualizar</button>
+                <button type="submit">Actualizar Estudiante</button>
             </form>
         </div>
 
-        <div id="mensaje_actualizacion"></div>
-
         <div class="panel-derecho">
-            <h3>Datos del Padre</h3>
-            <form id="datos_padres_madres">                
-                <input type="hidden" id="padre_id">
-                <input type="text" name="padre_nombre" placeholder="Nombre" required>
-                <input type="text" name="padre_apellido" placeholder="Apellido" required>
-                <input type="date" name="padre_fecha_nacimiento" required>
-                <input type="text" name="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
-                <input type="text" name="padre_nacionalidad" placeholder="Nacionalidad" required>
-                <input type="text" name="padre_idioma" placeholder="Idiomas que habla" required>
-                <input type="text" name="padre_profesion" placeholder="Profesión" required>
-                <input type="text" name="padre_empresa" placeholder="Empresa donde trabaja" required>
-                <input type="text" name="padre_telefono_trabajo" placeholder="Teléfono trabajo" required>
-                <input type="text" name="padre_celular" placeholder="Celular" required>
-                <input type="email" name="padre_email" placeholder="Correo electrónico" required>
+            <h3>Datos de Padres y Madres</h3>
+            <form id="form_padres_madres">
+                <input type="hidden" id="estudiante_id_padres" name="estudiante_id">
+                
+                <h4>Datos del Padre</h4>
+                <input type="hidden" id="padre_id" name="padre_id">
+                <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombre del Padre" >
+                <input type="text" name="padre_apellido" id="padre_apellido" placeholder="Apellido del Padre" >
+                <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" >
+                <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
+                <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" >
+                <input type="text" name="padre_idioma" id="padre_idioma" placeholder="Idiomas que habla" >
+                <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" >
+                <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" >
+                <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono trabajo" >
+                <input type="text" name="padre_celular" id="padre_celular" placeholder="Celular" >
+                <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" >
 
-                <h3>Datos de la Madre</h3>
-                <input type="hidden" id="madre_id">
-                <input type="text" name="madre_nombre" placeholder="Nombre" required>
-                <input type="text" name="madre_apellido" placeholder="Apellido" required>
-                <input type="date" name="madre_fecha_nacimiento" required>
-                <input type="text" name="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
-                <input type="text" name="madre_nacionalidad" placeholder="Nacionalidad" required>
-                <input type="text" name="madre_idioma" placeholder="Idiomas que habla" required>
-                <input type="text" name="madre_profesion" placeholder="Profesión" required>
-                <input type="text" name="madre_empresa" placeholder="Empresa donde trabaja" required>
-                <input type="text" name="madre_telefono_trabajo" placeholder="Teléfono trabajo" required>
-                <input type="text" name="madre_celular" placeholder="Celular" required>
-                <input type="email" name="madre_email" placeholder="Correo electrónico" required><br><br>
+                <h4>Datos de la Madre</h4>
+                <input type="hidden" id="madre_id" name="madre_id">
+                <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombre de la Madre" >
+                <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellido de la Madre" >
+                <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" >
+                <input type="text" name="madre_cedula_pasaporte" id="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
+                <input type="text" name="madre_nacionalidad" id="madre_nacionalidad" placeholder="Nacionalidad" >
+                <input type="text" name="madre_idioma" id="madre_idioma" placeholder="Idiomas que habla" >
+                <input type="text" name="madre_profesion" id="madre_profesion" placeholder="Profesión" >
+                <input type="text" name="madre_empresa" id="madre_empresa" placeholder="Empresa donde trabaja" >
+                <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono trabajo" >
+                <input type="text" name="madre_celular" id="madre_celular" placeholder="Celular" >
+                <input type="email" name="madre_email" id="madre_email" placeholder="Correo electrónico" ><br><br>
 
                 <button type="button" id="actualizar_padres_madres">Actualizar Padres/Madres</button>
             </form>
         </div>
-        
+
         <div class="panel-derecho">
+
             <h3>Ficha Médica</h3>
-            <form id="ficha_medica_section">             
+            <form id="form_ficha_medica">
                 <input type="hidden" name="estudiante_id" id="estudiante_id_medica">
-                <input type="text" name="completado_por" placeholder="Completado por" required>
-                <input type="date" name="fecha_salud" required>
-                <input type="text" name="contacto_emergencia" placeholder="Contacto de Emergencia" required>
-                <input type="text" name="relacion_emergencia" placeholder="Relación de Emergencia" required>
-                <input type="text" name="Teléfono1" placeholder="Teléfono 1" required>
-                <input type="text" name="Teléfono1" placeholder="Teléfono 2">
-                <textarea name="observaciones" placeholder="Observaciones"></textarea>
-                <label><input type="checkbox" name="dislexia"> Dislexia</label>
-                <label><input type="checkbox" name="atencion"> Déficit de Atención</label>
-                <label><input type="checkbox" name="otros"> Otros</label>
-                <textarea name="info_adicional" placeholder="Información adicional"></textarea>
-                <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
-                <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
-                <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
-                <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
-                <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label><br><br>
+                <input type="text" name="completado_por" id="completado_por" placeholder="Completado por" >
+                <input type="date" name="fecha_salud" id="fecha_salud" >
+                <input type="text" name="contacto_emergencia" id="contacto_emergencia" placeholder="Contacto de Emergencia" >
+                <input type="text" name="relacion_emergencia" id="relacion_emergencia" placeholder="Relación de Emergencia" >
+                <input type="text" name="telefono1" id="telefono1" placeholder="Teléfono 1" >
+                <input type="text" name="telefono2" id="telefono2" placeholder="Teléfono 2">
+                <textarea name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
+                <label><input type="checkbox" name="dislexia" id="dislexia"> Dislexia</label>
+                <label><input type="checkbox" name="atencion" id="atencion"> Déficit de Atención</label>
+                <label><input type="checkbox" name="otros" id="otros"> Otros</label>
+                <textarea name="info_adicional" id="info_adicional" placeholder="Información adicional"></textarea>
+                <textarea name="problemas_oido_vista" id="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
+                <input type="text" name="fecha_examen" id="fecha_examen" placeholder="Fecha último examen oído/vista">
+                <label><input type="checkbox" name="autorizo_medicamentos" id="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
+                <textarea name="medicamentos_actuales" id="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
+                <label><input type="checkbox" name="autorizo_emergencia" id="autorizo_emergencia"> Autorizo atención de emergencia</label><br><br>
 
                 <button type="button" id="actualizar_ficha_medica">Actualizar Ficha Médica</button>
-            </form>    
+            </form>
         </div>
-
-        <script src="js/ficha_medica.js"></script>
-
     </div>
 
-    <script src="js/planilla_ajax.js"></script>
+    <script src="js/admin_expedientes.js"></script>
+
 </body>
 </html>

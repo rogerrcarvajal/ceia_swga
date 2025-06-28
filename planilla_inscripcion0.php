@@ -20,95 +20,93 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $conn->beginTransaction();
 
-        // Registrar padre
-        $sql_padre = "INSERT INTO padres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idiomas, profesion, empresa, telefono_trabajo, celular, email)
-                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula, :nacionalidad, :idiomas, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
-        $stmt_padre = $conn->prepare($sql_padre);
-        $stmt_padre->execute([
-            ':nombre' => $_POST['padre_nombre'],
-            ':apellido' => $_POST['padre_apellido'],
-            ':fecha_nacimiento' => $_POST['padre_fecha_nacimiento'],
-            ':cedula' => $_POST['padre_cedula'],
-            ':nacionalidad' => $_POST['padre_nacionalidad'],
-            ':idiomas' => $_POST['padre_idiomas'],
-            ':profesion' => $_POST['padre_profesion'],
-            ':empresa' => $_POST['padre_empresa'],
-            ':telefono_trabajo' => $_POST['padre_telefono_trabajo'],
-            ':celular' => $_POST['padre_celular'],
-            ':email' => $_POST['padre_email']
-        ]);
-        $padre_id = $conn->lastInsertId();
+        // Insertar ESTUDIANTES
+           $sql = "INSERT INTO estudiantes (nombre_completo, nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, activo) 
+                    VALUES (:nombre_completo, :fecha_nacimiento, :lugar_nacimiento, :nacionalidad, :idioma, :direccion, :telefono_casa, :telefono_movil, :telefono_emergencia, :grado_ingreso, :fecha_inscripcion, :recomendado_por, :activo)";
 
-        // Registrar madre
-        $sql_madre = "INSERT INTO madres (nombre, apellido, fecha_nacimiento, cedula_pasaporte, nacionalidad, idiomas, profesion, empresa, telefono_trabajo, celular, email)
-                      VALUES (:nombre, :apellido, :fecha_nacimiento, :cedula, :nacionalidad, :idiomas, :profesion, :empresa, :telefono_trabajo, :celular, :email)";
-        $stmt_madre = $conn->prepare($sql_madre);
-        $stmt_madre->execute([
-            ':nombre' => $_POST['madre_nombre'],
-            ':apellido' => $_POST['madre_apellido'],
-            ':fecha_nacimiento' => $_POST['madre_fecha_nacimiento'],
-            ':cedula' => $_POST['madre_cedula'],
-            ':nacionalidad' => $_POST['madre_nacionalidad'],
-            ':idiomas' => $_POST['madre_idiomas'],
-            ':profesion' => $_POST['madre_profesion'],
-            ':empresa' => $_POST['madre_empresa'],
-            ':telefono_trabajo' => $_POST['madre_telefono_trabajo'],
-            ':celular' => $_POST['madre_celular'],
-            ':email' => $_POST['madre_email']
-        ]);
-        $madre_id = $conn->lastInsertId();
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':nombre_completo', $_POST['nombre_completo']);
+            $stmt->bindParam(':apellido_completo', $_POST['apellido_completo']);
+            $stmt->bindParam(':fecha_nacimiento', $_POST['fecha_nacimiento']);
+            $stmt->bindParam(':lugar_nacimiento', $_POST['lugar_nacimiento']);
+            $stmt->bindParam(':nacionalidad', $_POST['nacionalidad']);
+            $stmt->bindParam(':idioma', $_POST['idioma']);
+            $stmt->bindParam(':direccion', $_POST['direccion']);
+            $stmt->bindParam(':telefono_casa', $_POST['telefono_casa']);
+            $stmt->bindParam(':telefono_movil', $_POST['telefono_movil']);
+            $stmt->bindParam(':telefono_emergencia', $_POST['telefono_emergencia']);
+            $stmt->bindParam(':grado_ingreso', $_POST['grado_ingreso']);
+            $stmt->bindParam(':fecha_inscripcion', $_POST['fecha_inscripcion']);
+            $stmt->bindParam(':recomendado_por', $_POST['recomendado_por']);
+            $activo = isset($_POST['activo']) ? 1 : 0;
+            $stmt->bindParam(':activo', $activo, PDO::PARAM_BOOL);
+            $stmt->execute();
 
-        $activo = isset($_POST['activo']) && $_POST['activo'] === 'on';
+        // Insertar PADRES
+            $sql = "INSERT INTO padres (padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
+            VALUES (:padre_nombre, :padre_apellido, :padre_fecha_nacimiento, :padre_cedula_pasaporte, :padre_nacionalidad, :padre_idioma, :padre_profesion, :padre_empresa, :padre_telefono_trabajo, :padre_celular, :padre_email)";
+            
+            $stmt_padres = $conn->prepare($sql);
+            $stmt_padres->bindParam(':padre_nombre', $_POST['padre_nombre']);
+            $stmt_padres->bindParam(':padre_apellido', $_POST['padre_apellido']);
+            $stmt_padres->bindParam(':padre_fecha_nacimiento', $_POST['padre_fecha_nacimiento']);
+            $stmt_padres->bindParam(':padre_cedula_pasaporte', $_POST['padre_cedula_pasaporte']);
+            $stmt_padres->bindParam(':padre_nacionalidad', $_POST['padre_nacionalidad']);
+            $stmt_padres->bindParam(':padre_idioma', $_POST['padre_idiomas']);
+            $stmt_padres->bindParam(':padre_profesion', $_POST['padre_profesion']);
+            $stmt_padres->bindParam(':padre_empresa', $_POST['padre_empresa']);
+            $stmt_padres->bindParam(':padre_telefono_trabajo', $_POST['padre_telefono_trabajo']);
+            $stmt_padres->bindParam(':padre_celular', $_POST['padre_celular']);
+            $stmt_padres->bindParam(':padre_email', $_POST['padre_email']);
+            $stmt_padres->execute();
+            $padre_id = $conn->lastInsertId();
+        
+        // Insertar MADRES
+            $sql = "INSERT INTO madres (madre_nombre, madre_apellido, madre_fecha_nacimiento, madre_cedula_pasaporte, madre_nacionalidad, madre_idioma, madre_profesion, madre_empresa, madre_telefono_trabajo, madre_celular, madre_email) 
+            VALUES (:madre_nombre, :madre_apellido, :madre_fecha_nacimiento, :madre_cedula_pasaporte, :madre_nacionalidad, :madre_idioma, :madre_profesion, :madre_empresa, :madre_telefono_trabajo, :madre_celular, :madre_email)";
 
-        // Registrar estudiante
-        $sql_est = "INSERT INTO estudiantes (nombre_completo, fecha_nacimiento, lugar_nacimiento, nacionalidad, idioma, direccion, telefono_casa, telefono_movil, telefono_emergencia, grado_ingreso, fecha_inscripcion, recomendado_por, padre_id, madre_id, activo, periodo_id)
-                    VALUES (:nombre, :fecha_nac, :lugar_nac, :nacionalidad, :idioma, :direccion, :tel_casa, :tel_movil, :tel_emergencia, :grado, :fecha_insc, :recomendado, :padre_id, :madre_id, :activo, :periodo_id)";
-        $stmt->bindParam(':activo', $activo, PDO::PARAM_BOOL);
-        $stmt_est = $conn->prepare($sql_est);
-        $stmt_est->execute([
-            ':nombre' => $_POST['nombre_estudiante'],
-            ':fecha_nac' => $_POST['fecha_nacimiento_estudiante'],
-            ':lugar_nac' => $_POST['lugar_nacimiento_estudiante'],
-            ':nacionalidad' => $_POST['nacionalidad_estudiante'],
-            ':idioma' => $_POST['idioma_estudiante'],
-            ':direccion' => $_POST['direccion_estudiante'],
-            ':tel_casa' => $_POST['tel_casa_estudiante'] ?: null,
-            ':tel_movil' => $_POST['tel_movil_estudiante'] ?: null,
-            ':tel_emergencia' => $_POST['tel_emergencia_estudiante'] ?: null,
-            ':grado' => $_POST['grado_estudiante'],
-            ':fecha_insc' => $_POST['fecha_inscripcion_estudiante'],
-            ':recomendado' => $_POST['recomendado_estudiante'],
-            ':padre_id' => $padre_id,
-            ':madre_id' => $madre_id,
-            ':activo' => $activo,
-            ':periodo_id' => $periodo['id']
-        ]);
-        $estudiante_id = $conn->lastInsertId();
+            $stmt_madres = $conn->prepare($sql);
+            $stmt_madres->bindParam(':madre_nombre', $_POST['madre_nombre']);
+            $stmt_madres->bindParam(':madre_apellido', $_POST['madre_apellido']);
+            $stmt_madres->bindParam(':madre_fecha_nacimiento', $_POST['madre_fecha_nacimiento']);
+            $stmt_madres->bindParam(':madre_cedula_pasaporte', $_POST['madre_cedula_pasaporte']);
+            $stmt_madres->bindParam(':madre_nacionalidad', $_POST['madre_nacionalidad']);
+            $stmt_madres->bindParam(':madre_idioma', $_POST['madre_idiomas']);
+            $stmt_madres->bindParam(':madre_profesion', $_POST['madre_profesion']);
+            $stmt_madres->bindParam(':madre_empresa', $_POST['madre_empresa']);
+            $stmt_madres->bindParam(':madre_telefono_trabajo', $_POST['madre_telefono_trabajo']);
+            $stmt_madres->bindParam(':madre_celular', $_POST['madre_celular']);
+            $stmt_madres->bindParam(':madre_email', $_POST['madre_email']);
+            $stmt_madres->execute();
+            $madre_id = $conn->lastInsertId();
 
-        // Registrar ficha médica
-        $sql_salud = "INSERT INTO salud_estudiantil (estudiante_id, edad, completado_por, fecha, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen_oido_vista, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
-                      VALUES (:estudiante_id, :edad, :completado_por, :fecha, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen_oido_vista, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)";
-        $stmt_salud = $conn->prepare($sql_salud);
-        $stmt_salud->execute([
-            ':estudiante_id' => $estudiante_id,
-            ':edad' => $_POST['edad_estudiante'],
-            ':completado_por' => $_POST['completado_por'],
-            ':fecha' => $_POST['fecha_salud'],
-            ':contacto_emergencia' => $_POST['contacto_emergencia'],
-            ':relacion_emergencia' => $_POST['relacion_emergencia'],
-            ':telefono1' => $_POST['telefono_emergencia1'],
-            ':telefono2' => $_POST['telefono_emergencia2'],
-            ':observaciones' => $_POST['observaciones'],
-            ':dislexia' => isset($_POST['dislexia']),
-            ':atencion' => isset($_POST['atencion']),
-            ':otros' => isset($_POST['otros']),
-            ':info_adicional' => $_POST['info_adicional'],
-            ':problemas_oido_vista' => $_POST['problemas_oido_vista'],
-            ':fecha_examen_oido_vista' => $_POST['fecha_examen'],
-            ':autorizo_medicamentos' => isset($_POST['autorizo_medicamentos']),
-            ':medicamentos_actuales' => $_POST['medicamentos_actuales'],
-            ':autorizo_emergencia' => isset($_POST['autorizo_emergencia'])
-        ]);
+        // Insertar FICHA MÉDICA
+            $stmt_ficha = $conn->prepare("INSERT INTO salud_estudiantil (estudiante_id, edad, completado_por, fecha, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen_oido_vista, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
+                                        VALUES (:estudiante_id, :edad, :completado_por, :fecha, :contacto_emergencia, :relacion_emergencia, :telefono1, :telefono2, :observaciones, :dislexia, :atencion, :otros, :info_adicional, :problemas_oido_vista, :fecha_examen_oido_vista, :autorizo_medicamentos, :medicamentos_actuales, :autorizo_emergencia)");
+            $stmt_ficha->bindParam(':estudiante_id', $estudiante_id);
+            $stmt_ficha->bindParam(':edad', $_POST['edad_estudiante']);
+            $stmt_ficha->bindParam(':completado_por', $_POST['completado_por']);
+            $stmt_ficha->bindParam(':fecha', $_POST['fecha_salud']);
+            $stmt_ficha->bindParam(':contacto_emergencia', $_POST['contacto_emergencia']);
+            $stmt_ficha->bindParam(':relacion_emergencia', $_POST['relacion_emergencia']);
+            $stmt_ficha->bindParam(':telefono1', $_POST['telefono1']);
+            $stmt_ficha->bindParam(':telefono2', $_POST['telefono1']);
+            $stmt_ficha->bindParam(':observaciones', $_POST['observaciones']);
+            $dislexia = isset($_POST['dislexia']) ? 1 : 0;
+            $atencion = isset($_POST['atencion']) ? 1 : 0;
+            $otros = isset($_POST['otros']) ? 1 : 0;
+            $stmt_ficha->bindParam(':info_adicional', $_POST['info_adicional']);
+            $stmt_ficha->bindParam(':problemas_oido_vista', $_POST['problemas_oido_vista']);
+            $stmt_ficha->bindParam(':fecha_examen_oido_vista', $_POST['fecha_examen']);
+            $autorizo_medicamentos = isset($_POST['autorizo_medicamentos']) ? 1 : 0;
+            $stmt_ficha->bindParam(':medicamentos_actuales', $_POST['medicamentos_actuales']);
+            $autorizo_emergencia = isset($_POST['autorizo_emergencia']) ? 1 : 0;
+            $stmt_ficha->bindParam(':dislexia', $dislexia, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':atencion', $atencion, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':otros', $otros, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':autorizo_medicamentos', $autorizo_medicamentos, PDO::PARAM_BOOL);
+            $stmt_ficha->bindParam(':autorizo_emergencia', $autorizo_emergencia, PDO::PARAM_BOOL);
+            $stmt_ficha->execute();
 
         $conn->commit();
         $mensaje = "✅ Registro completado correctamente.";
@@ -116,14 +114,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->rollBack();
         $mensaje = "❌ Error en el registro: " . $e->getMessage();
     }
+     
 }
+
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Planilla de Inscripción</title>
+    <title>Planilla de Inscripción - CEIA</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -131,10 +131,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 0;
             background-image: url('img/fondo.jpg');
             background-size: cover;
-            background-position: center;
+            background-position: top;
             font-family: 'Arial', sans-serif;
         }
-
+        
         .formulario-contenedor {
             background-color: rgba(0, 0, 0, 0.7);
             margin: 30px auto;
@@ -143,6 +143,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             max-width: 85%;
             display: flex;
             flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .formulario {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 25px;
+            margin: 30px auto;
+            width: 30%;
+            border-radius: 8px;
         }
 
         .form-seccion {
@@ -152,37 +162,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 20px;
         }
 
+        .form-seccionFM {
+            width: 30%;
+            color: white;
+            min-width: 300px;
+            margin-bottom: 20px;
+            justify-content: left;
+        }
+
         h3 {
             text-align: center;
             margin-bottom: 15px;
             border-bottom: 2px solid #0057A0;
             padding-bottom: 5px;
-        }
-
-        input, textarea, select {
-            width: 95%;
-            padding: 8px;
-            margin: 8px 0;
-        }
-
-        button {
-            padding: 12px 25px;
-            background-color: #0057A0;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #003d73;
-        }
-
-        .mensaje {
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: green;
         }
 
         .content {
@@ -197,55 +189,95 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             margin-bottom: 20px;
         }
 
-        .dashboard {
-            background-color: red;
-            padding: 5px 10px;
-            border-radius: 5px;
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            font-size: 16px;
         }
 
+        .formulario h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .alerta {
+            background: #ddffdd;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 5px solid green;
+        }
+
+        .alerta-error {
+            background: #ffdddd;
+            padding: 10px;
+            margin: 10px 0;
+            border-left: 5px solid red;
+        }
     </style>
 </head>
 <body>
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>PLANILLA DE INSCRIPCIÓN</h1></br>
+        <h1><br>Planilla de Inscripción</h1></br>
     </div>
-    
+
     <div class="formulario-contenedor">
         <?php if ($mensaje): ?>
             <p class="<?= strpos($mensaje, '✅') !== false ? 'alerta' : 'alerta-error' ?>"><?= $mensaje ?></p>
         <?php endif; ?>
 
-        <form method="POST" style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-around;">
-
             <!-- Estudiante -->
             <div class="form-seccion">
                 <h3>Datos del Estudiante</h3>
-                <input type="text" name="nombre_estudiante" placeholder="Nombre completo" required>
-                <input type="date" name="fecha_nacimiento_estudiante" required>
-                <input type="text" name="lugar_nacimiento_estudiante" placeholder="Lugar de nacimiento" required>
-                <input type="text" name="nacionalidad_estudiante" placeholder="Nacionalidad" required>
-                <input type="text" name="idioma_estudiante" placeholder="Idiomas que habla" required>
-                <textarea name="direccion_estudiante" placeholder="Dirección" required></textarea>
-                <input type="text" name="tel_casa_estudiante" placeholder="Teléfono de casa" required>
-                <input type="text" name="tel_movil_estudiante" placeholder="Teléfono celular" required>
-                <input type="text" name="tel_emergencia_estudiante" placeholder="Teléfono de emergencia" required>
-                <input type="text" name="grado_estudiante" placeholder="Grado de ingreso" required>
-                <input type="date" name="fecha_inscripcion_estudiante" required>
-                <input type="text" name="recomendado_estudiante" placeholder="Recomendado por">
+                <form method="POST">
+                <input type="text" name="nombre_completo" placeholder="Nombres completo" required>
+                <input type="text" name="apellido_completo" placeholder="Apellidos completo" required>
+                <input type="date" name="fecha_nacimiento" required>
+                <input type="text" name="lugar_nacimiento" placeholder="Lugar de nacimiento" required>
+                <input type="text" name="nacionalidad" placeholder="Nacionalidad" required>
+                <input type="text" name="idioma" placeholder="Idiomas que habla" required>
+                <textarea name="direccion" placeholder="Dirección" required></textarea>
+                <input type="text" name="telefono_casa" placeholder="Teléfono de casa" required>
+                <input type="text" name="telefono_movil" placeholder="Teléfono celular" required>
+                <input type="text" name="telefono_emergencia" placeholder="Teléfono de emergencia" required>
+                <select name="grado_ingreso" required>
+                    <option value="">Grado de ingreso</option>
+                    <option value="Daycare">Daycare</option>
+                    <option value="Pk-3">Pk-3</option>
+                    <option value="Pk-4">Pk-4</option>
+                    <option value="Kindergarten">Kindergarten</option>
+                    <option value="Grade 1">Grade 1</option>
+                    <option value="Grade 2">Grade 2</option>
+                    <option value="Grade 3">Grade 3</option>
+                    <option value="Grade 4">Grade 4</option>
+                    <option value="Grade 5">Grade 5</option>
+                    <option value="Grade 6">Grade 6</option>
+                    <option value="Grade 7">Grade 7</option>
+                    <option value="Grade 8">Grade 8</option>
+                    <option value="Grade 9">Grade 9</option>
+                    <option value="Grade 10">Grade 10</option>
+                    <option value="Grade 11">Grade 11</option>
+                    <option value="Grade 12">Grade 12</option>
+                </select>
+                <input type="date" name="fecha_inscripcion" required>
+                <input type="text" name="recomendado_por" placeholder="Recomendado por">
                 <input type="number" name="edad_estudiante" placeholder="Edad" required>
+
+                <label><input type="checkbox" name="activo"> Estudiante Activo</label><br><br>
             </div>
 
             <!-- Padre -->
             <div class="form-seccion">
                 <h3>Datos del Padre</h3>
+                <form method="POST">
                 <input type="text" name="padre_nombre" placeholder="Nombre" required>
                 <input type="text" name="padre_apellido" placeholder="Apellido" required>
                 <input type="date" name="padre_fecha_nacimiento" required>
-                <input type="text" name="padre_cedula" placeholder="Cédula o Pasaporte" required>
+                <input type="text" name="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
                 <input type="text" name="padre_nacionalidad" placeholder="Nacionalidad" required>
-                <input type="text" name="padre_idiomas" placeholder="Idiomas que habla" required>
+                <input type="text" name="padre_idioma" placeholder="Idiomas que habla" required>
                 <input type="text" name="padre_profesion" placeholder="Profesión" required>
                 <input type="text" name="padre_empresa" placeholder="Empresa donde trabaja" required>
                 <input type="text" name="padre_telefono_trabajo" placeholder="Teléfono trabajo" required>
@@ -256,12 +288,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <!-- Madre -->
             <div class="form-seccion">
                 <h3>Datos de la Madre</h3>
+                <form method="POST">
                 <input type="text" name="madre_nombre" placeholder="Nombre" required>
                 <input type="text" name="madre_apellido" placeholder="Apellido" required>
                 <input type="date" name="madre_fecha_nacimiento" required>
-                <input type="text" name="madre_cedula" placeholder="Cédula o Pasaporte" required>
+                <input type="text" name="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
                 <input type="text" name="madre_nacionalidad" placeholder="Nacionalidad" required>
-                <input type="text" name="madre_idiomas" placeholder="Idiomas que habla" required>
+                <input type="text" name="madre_idioma" placeholder="Idiomas que habla" required>
                 <input type="text" name="madre_profesion" placeholder="Profesión" required>
                 <input type="text" name="madre_empresa" placeholder="Empresa donde trabaja" required>
                 <input type="text" name="madre_telefono_trabajo" placeholder="Teléfono trabajo" required>
@@ -270,14 +303,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <!-- Ficha Médica -->
-            <div class="form-seccion" style="width: 30%;">
+             <div class="form-seccionFM">
                 <h3>Ficha Médica</h3>
+                <form method="POST">
                 <input type="text" name="completado_por" placeholder="Completado por" required>
                 <input type="date" name="fecha_salud" required>
                 <input type="text" name="contacto_emergencia" placeholder="Contacto de Emergencia" required>
                 <input type="text" name="relacion_emergencia" placeholder="Relación de Emergencia" required>
-                <input type="text" name="telefono_emergencia1" placeholder="Teléfono 1" required>
-                <input type="text" name="telefono_emergencia2" placeholder="Teléfono 2">
+                <input type="text" name="Teléfono1" placeholder="Teléfono 1" required>
+                <input type="text" name="Teléfono1" placeholder="Teléfono 2">
                 <textarea name="observaciones" placeholder="Observaciones"></textarea>
 
                 <label><input type="checkbox" name="dislexia"> Dislexia</label>
@@ -294,14 +328,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
 
                 <br><br>
-           
-                <button type="submit">Registrar</button>
-                               
+
+                <button type="submit">Guardar Inscripción</button>
+
             </div>
         </form>
-    <div>
-        <br><a href="dashboard.php" class="boton-link">Volver al Inicio</a>
-    </div>
     </div>
 </body>
 </html>
