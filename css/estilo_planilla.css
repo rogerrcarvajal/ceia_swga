@@ -3,10 +3,12 @@
     width: 100%;
 }
 
+.container { background-color: rgba(0, 0, 0, 0.8); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+
 .panel-izquierdo {
     width: 20%;
     color: white;
-    padding: 20px;
+    padding: 10px;
     border-right: 2px solid #ccc;
     background-color: rgba(0, 0, 0, 0.7);
     height: 90vh;
@@ -21,8 +23,13 @@
 }
 
 select {
-    width: 20%;
-    height: 500px;
+    width: 10%;
+    height: 50px;
+}
+
+select Std {
+    width: 10%;
+    height: 50px;
 }
 
 input, textarea {

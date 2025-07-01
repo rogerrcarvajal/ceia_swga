@@ -25,14 +25,14 @@ $posiciones = [
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Administrar Profesores por Período - CEIA</title>
+    <title>Administrar Staff / Profesores por Período - CEIA</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         /* Estilos (sin cambios respecto a la versión anterior) */
         body { margin: 0; padding: 0; background-image: url('img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
-        .container { background-color: rgba(0, 0, 0, 0.8); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .container { background-color: rgba(0, 0, 0, 0.7); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .content { text-align: center; }
-        .content img { width: 150px; }
+        .content img { width: 180px; }
         h2 { margin-bottom: 25px; text-shadow: 1px 1px 2px black; }
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
         .toolbar label { font-weight: bold; }
@@ -60,7 +60,7 @@ $posiciones = [
     <div class="container">
         <div class="content">
             <img src="img/logo_ceia.png" alt="Logo CEIA">
-            <h2>Administración de Profesores por Período</h2>
+            <h2>Administración de Staff / Profesores por Período</h2>
 
             <div class="toolbar">
                 <div>
@@ -73,15 +73,15 @@ $posiciones = [
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <button id="btn-mostrar-form-asignar">Asignar Profesor a este Período</button>
+                <button id="btn-mostrar-form-asignar">Asignar Staff / Profesor a este Período</button>
             </div>
             
             <div id="form-asignar">
-                <h3>Asignar Nuevo Profesor</h3>
+                <h3>Asignar Nuevo Staff / Profesor</h3>
                 <form id="form-asignacion-profesor">
                     <div class="form-grid">
                         <div>
-                            <label for="profesor-a-asignar">Profesor:</label>
+                            <label for="profesor-a-asignar">Staff / Profesor:</label>
                             <select id="profesor-a-asignar" name="profesor_id" required></select>
                         </div>
                         <div>

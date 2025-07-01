@@ -51,8 +51,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         }
 
         .content img {
-            width: 150px;
-            margin-bottom: 10px;
+            width: 180px;
+            margin-bottom: 20px;
         }
         
         .content h2 {
@@ -102,12 +102,14 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
 <body>
     <?php include 'navbar.php'; ?>
-    <br><br>
+    <div class="content">
+        <img src="img/logo_ceia.png" alt="Logo CEIA">
+        <h1><br>Reportes del Sistema</h1></br>
+    </div>
+
     <div class="formulario-contenedor">
         <div class="content">
-            <img src="img/logo_ceia.png" alt="Logo CEIA">
-            <h2>Reportes del Sistema</h2>
-            
+        
             <ul class="lista-reportes">
                 <li>
                     <a href= "reportes/roster_actual.php" target="_blank">

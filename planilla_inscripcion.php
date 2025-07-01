@@ -182,6 +182,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: left;
         }
 
+        .h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 0px;
+        }
+
         h3 {
             text-align: center;
             margin-bottom: 20px;
@@ -189,6 +195,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding-bottom: 5px;
         }
 
+        .container { background-color: rgba(0, 0, 0, 0.8); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        
         .content {
             text-align: center;
             margin-top: 50px;
@@ -231,10 +239,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php include 'navbar.php'; ?>
     <div class="content">
-        <img src="img/logo_ceia.png" alt="Logo CEIA">
+            <img src="img/logo_ceia.png" alt="Logo CEIA">
         <h1><br>Planilla de Inscripción</h1></br>
-    </div>
-     
+
+    <div class="container"> 
     <form method="POST">
         <?php if ($mensaje): ?>
             <p class="<?= strpos($mensaje, '✅') !== false ? 'alerta' : 'alerta-error' ?>"><?= $mensaje ?></p>
@@ -344,6 +352,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Guardar Inscripción</button>
         </div>
     </div>
-    </form> 
+    </form>
+    </div> 
 </body>
 </html>

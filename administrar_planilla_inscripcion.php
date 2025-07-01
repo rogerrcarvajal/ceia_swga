@@ -41,9 +41,17 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             padding-bottom: 5px;
         }
 
+        select {
+        width: 100%;
+        height: 500px;
+        }
+
+
+        .container { background-color: rgba(0, 0, 0, 0.8); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        
         .content {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 30px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
