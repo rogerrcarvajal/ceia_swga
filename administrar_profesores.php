@@ -8,6 +8,17 @@ require_once "conn/conexion.php";
 
 // Obtener todos los períodos escolares para el selector
 $periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escolares ORDER BY fecha_inicio DESC")->fetchAll(PDO::FETCH_ASSOC);
+
+// Lista de posiciones para el formulario
+$posiciones = [
+    "Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology",
+    "DC-Grade 12 Music", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3",
+    "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11",
+    "Grade 12", "Spanish teacher - Grade 1-6", "Spanish teacher - Grade 7-12",
+    "Social Studies - Grade 6-12", "IT Teacher - Grade Pk-3-12", "Science Teacher - Grade 6-12",
+    "ESL - Elementary", "ESL - Secondary", "PE - Grade Pk3-12", "Language Arts - Grade 6-9",
+    "Math teacher - Grade 6-9", "Math teacher - Grade 10-12", "Librarian"
+];
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +28,7 @@ $periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escola
     <title>Administrar Profesores por Período - CEIA</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        /* Mismos estilos que la respuesta anterior, con adiciones para el formulario de asignación */
+        /* Estilos (sin cambios respecto a la versión anterior) */
         body { margin: 0; padding: 0; background-image: url('img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .container { background-color: rgba(0, 0, 0, 0.8); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .content { text-align: center; }
@@ -40,7 +51,7 @@ $periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escola
         #form-asignar { display: none; background-color: #333; padding: 20px; margin-top: 20px; border-radius: 8px; text-align: left; }
         #form-asignar h3 { margin-top: 0; }
         #form-asignar .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        #form-asignar select, #form-asignar input { width: 100%; box-sizing: border-box; }
+        #form-asignar select, #form-asignar input { width: 100%; box-sizing: border-box; padding: 8px; border-radius: 4px; border: 1px solid #ccc; }
     </style>
 </head>
 
@@ -75,7 +86,12 @@ $periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escola
                         </div>
                         <div>
                             <label for="posicion-asignar">Posición / Especialidad:</label>
-                            <input type="text" id="posicion-asignar" name="posicion" required>
+                            <select id="posicion-asignar" name="posicion" required>
+                                <option value="">Seleccione una posición...</option>
+                                <?php foreach ($posiciones as $posicion): ?>
+                                    <option value="<?= htmlspecialchars($posicion) ?>"><?= htmlspecialchars($posicion) ?></option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                         <div>
                            <label for="homeroom-asignar">Homeroom Teacher:</label>

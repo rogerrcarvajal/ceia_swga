@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarProfesores(periodoSelect.value);
 
     periodoSelect.addEventListener('change', () => {
-        formAsignarContainer.style.display = 'none'; // Ocultar form al cambiar de período
+        formAsignarContainer.style.display = 'none';
         cargarProfesores(periodoSelect.value);
     });
 
@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 tbody.innerHTML = '';
                 data.forEach(p => {
                     const row = document.createElement('tr');
-                    // Los datos del profesor no son editables aquí, solo la asignación
                     row.innerHTML = `
                         <td>${p.nombre_completo}</td>
                         <td>${p.cedula}</td>
@@ -61,9 +60,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const field = cell.dataset.field;
         let editor;
 
+        // CAMBIO: Añadida lógica para crear un select para el campo 'posicion'
         if (field === 'homeroom_teacher') {
             editor = crearSelectHomeroom(originalValue);
-        } else { // para 'posicion'
+        } else if (field === 'posicion') {
+            editor = crearSelectPosicion(originalValue);
+        } else {
             editor = document.createElement('input');
             editor.type = 'text';
             editor.value = originalValue;
@@ -89,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const formData = new FormData();
-        formData.append('id', cell.dataset.id); // ID de la asignación
+        formData.append('id', cell.dataset.id);
         formData.append('field', cell.dataset.field);
         formData.append('value', newValue);
 
@@ -102,8 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     cell.innerHTML = originalValue;
                     mostrarMensaje(data.message || 'Error desconocido.', 'error');
-                }
-            }).catch(() => mostrarMensaje('Error de conexión.', 'error'));
+
     }
 
     // --- FUNCIONES PARA EL FORMULARIO DE ASIGNACIÓN ---

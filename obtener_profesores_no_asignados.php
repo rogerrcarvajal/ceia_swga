@@ -1,5 +1,5 @@
 <?php
-require_once "../conn/conexion.php";
+require_once "conn/conexion.php";
 
 $periodo_id = $_GET['periodo_id'] ?? null;
 $response = ['error' => 'No se proporcionó un ID de período.'];

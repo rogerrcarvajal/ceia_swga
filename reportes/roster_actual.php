@@ -20,9 +20,7 @@ $nombre_periodo = $periodo['nombre_periodo'];
 
 
 // --- CONSULTA PARA OBTENER EL PERSONAL (PROFESORES Y ADMINISTRATIVOS) ---
-// NOTA: Asume que tienes una tabla 'profesores' con 'nombre_completo' y 'especialidad'.
-// Ajusta la consulta si tu tabla se llama diferente (p. ej. 'personal').
-$profesores_sql = "SELECT nombre_completo, especialidad FROM profesores ORDER BY especialidad, nombre_completo";
+$profesores_sql = "SELECT nombre_completo, posicion FROM profesores ORDER BY posicion, nombre_completo";
 $profesores_stmt = $conn->query($profesores_sql);
 $profesores = $profesores_stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -190,7 +188,7 @@ foreach ($estudiantes_result as $estudiante) {
             <tbody>
                 <?php foreach ($profesores as $profesor): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($profesor['especialidad']); ?></td>
+                        <td><?php echo htmlspecialchars($profesor['posicion']); ?></td>
                         <td><?php echo htmlspecialchars($profesor['nombre_completo']); ?></td>
                     </tr>
                 <?php endforeach; ?>

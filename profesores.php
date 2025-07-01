@@ -10,12 +10,12 @@ $mensaje = "";
 
 // Registro
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
-    $nombre = $_POST["nombre"];
-    $cedula = $_POST["cedula"];
-    $especialidad = $_POST["especialidad"];
-    $homeroom_teacher = $_POST["homeroom_teacher"];
-    $telefono = $_POST["telefono"];
-    $email = $_POST["email"];
+    $nombre_completo = $_POST["nombre_completo"] ?? '';
+    $cedula = $_POST["cedula"] ?? '';
+    $posicion = $_POST["posicion"] ?? '';
+    $homeroom_teacher = $_POST["homeroom_teacher"] ?? '';
+    $telefono = $_POST["telefono"] ?? '';
+    $email = $_POST["email"] ?? '';
 
     $check = $conn->prepare("SELECT id FROM profesores WHERE cedula = :cedula");
     $check->execute([':cedula' => $cedula]);
@@ -23,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     if ($check->rowCount() > 0) {
         $mensaje = "⚠️ Profesor ya registrado con esta cédula.";
     } else {
-        $sql = "INSERT INTO profesores (nombre_completo, cedula, especialidad, homeroom_teacher, telefono, email)
-                VALUES (:nombre, :cedula, :especialidad, :homeroom_teacher, :telefono, :email)";
+        $sql = "INSERT INTO profesores (nombre_completo, cedula, posicion, homeroom_teacher, telefono, email)
+                VALUES (:nombre_completo, :cedula, :posicion, :homeroom_teacher, :telefono, :email)";
         $stmt = $conn->prepare($sql);
         $stmt->execute([
-            ':nombre' => $nombre,
+            ':nombre_completo' => $nombre_completo,
             ':cedula' => $cedula,
-            ':especialidad' => $especialidad,
+            ':posicion' => $posicion,
             ':homeroom_teacher' => $homeroom_teacher,
             ':telefono' => $telefono,
             ':email' => $email
@@ -59,13 +59,27 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
 
         .formulario-contenedor {
             background-color: rgba(0, 0, 0, 0.7);
-            margin: 30px auto;
+            margin: 0px auto;
             padding: 30px;
             border-radius: 10px;
-            max-width: 30%;
+            max-width: 65%;
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
+        }
+
+        .form-seccion {
+            width: 30%;
+            color: white;
+            min-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #0057A0;
+            padding-bottom: 5px;
         }
 
         .content {
@@ -76,30 +90,41 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
         }
 
         .content img {
-            width: 150px;
-            margin-bottom: 0px;
+            width: 180px;
+            margin-bottom: 20px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 12px;
+            font-size: 16px;
         }
     </style>    
 </head>
 <body>
     <?php include 'navbar.php'; ?>
-    <br></br>
+    <div class="content">
+        <img src="img/logo_ceia.png" alt="Logo CEIA">
+        <h1><br>Gestión de Staff/Profesores</h1></br>
+    </div>
+
     <div class="formulario-contenedor">
-        <div class="content">
-            <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h2>Registro de Profesores</h2>
+        <div class="form-seccion">
+        <h3><br>Registro de Staff/Profesores</h3></br>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
+
         <form method="POST">
-            <input type="text" name="nombre" placeholder="Nombre completo" required>
+            <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
             <input type="text" name="cedula" placeholder="Cédula" required>
-            <select name="especialidad" required>
-                <option value="">Especialidad</option>
+            <select name="posicion" required>
+                <option value="">Posicion/Especialidad</option>
                 <option value="Director">Director</option>
                 <option value="Bussiness Manager">Bussiness Manager</option>
                 <option value="Administrative Assistant">Administrative Assistant</option>
                 <option value="IT Manager">IT Manager</option>
                 <option value="Psychology">Psychology</option>
-                <option value="DC-Grade 12 Music">IT Manager</option>
+                <option value="DC-Grade 12 Music">DC-Grade 12 Music</option>
                 <option value="Daycare, Pk-3">Daycare, Pk-3</option>
                 <option value="Pk-4, Kindergarten">Pk-4, Kindergarten</option>
                 <option value="Grade 1">Grade 1</option>
@@ -129,6 +154,7 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
             </select>
             <select name="homeroom_teacher" required>
                 <option value="">Homeroom Teacher</option>
+                <option value="N/A">N/A</option>
                 <option value="Daycare, Pk-3">Daycare, Pk-3</option>
                 <option value="Pk-4, Kindergarten">Pk-4, Kindergarten</option>
                 <option value="Grade 1">Grade 1</option>
@@ -149,21 +175,22 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
             <br><br>
             <button type="submit" name="agregar">Agregar Profesor</button>
         </form>
+        </div> 
 
-        <hr>
-        <h3>Profesores Registrados</h3>
-        <ul>
-            <?php foreach ($profesores as $p): ?>
-                <li>
-                    <?= htmlspecialchars($p['nombre_completo']) ?> - <?= htmlspecialchars($p['cedula']) ?>
-                    <a href="editar_profesor.php?id=<?= $p['id'] ?>">Editar</a> |
-                    <a href="eliminar_profesor.php?id=<?= $p['id'] ?>" onclick="return confirm('¿Eliminar profesor?')">Eliminar</a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-
-        <br>
-        <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
+        <div class="form-seccion">
+            <h3>Staff Registrados</h3>
+            <ul>
+                <?php foreach ($profesores as $p): ?>
+                    <li>
+                        <?= htmlspecialchars($p['nombre_completo']) ?> - <?= htmlspecialchars($p['cedula']) ?>
+                        <a href="editar_profesor.php?id=<?= $p['id'] ?>">Editar</a> |
+                        <a href="eliminar_profesor.php?id=<?= $p['id'] ?>" onclick="return confirm('¿Eliminar profesor?')">Eliminar</a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <br>
+            <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
+        </div>
     </div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once "../conn/conexion.php";
+require_once "conn/conexion.php";
 
 $response = ['status' => 'error', 'message' => 'Solicitud inválida.'];
 
