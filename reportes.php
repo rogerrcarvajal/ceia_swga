@@ -15,6 +15,7 @@ if (!$periodo) {
     die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear y activar uno.");
 }
 
+$estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER BY nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -109,7 +110,7 @@ if (!$periodo) {
             
             <ul class="lista-reportes">
                 <li>
-                    <a href= "../reportes/roster_actual.php" target="_blank">
+                    <a href= "reportes/roster_actual.php" target="_blank">
                         <span class="icono-reporte">📄</span> Roster Actualizado
                     </a>
                     <p>Vista previa del personal y listado de estudiantes por grado, con opciones para exportar a PDF y Excel.</p>
