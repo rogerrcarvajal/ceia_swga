@@ -4,7 +4,7 @@
 }
 
 .panel-izquierdo {
-    width: 15%;
+    width: 20%;
     color: white;
     padding: 20px;
     border-right: 2px solid #ccc;
@@ -21,7 +21,7 @@
 }
 
 select {
-    width: 100%;
+    width: 20%;
     height: 500px;
 }
 

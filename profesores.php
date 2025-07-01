@@ -91,10 +91,24 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
             <input type="text" name="nombre" placeholder="Nombre completo" required>
             <input type="text" name="cedula" placeholder="Cédula" required>
             <select name="especialidad" required>
-                <option value="">Especialidad</option>
-                <option value="especialidad">Administrador</option>
-                <option value="especialidad">Consulta</option>
-            </select>
+                    <option value="">Especialidad</option>
+                    <option value="Daycare">Daycare</option>
+                    <option value="Pk-3">Pk-3</option>
+                    <option value="Pk-4">Pk-4</option>
+                    <option value="Kindergarten">Kindergarten</option>
+                    <option value="Grade 1">Grade 1</option>
+                    <option value="Grade 2">Grade 2</option>
+                    <option value="Grade 3">Grade 3</option>
+                    <option value="Grade 4">Grade 4</option>
+                    <option value="Grade 5">Grade 5</option>
+                    <option value="Grade 6">Grade 6</option>
+                    <option value="Grade 7">Grade 7</option>
+                    <option value="Grade 8">Grade 8</option>
+                    <option value="Grade 9">Grade 9</option>
+                    <option value="Grade 10">Grade 10</option>
+                    <option value="Grade 11">Grade 11</option>
+                    <option value="Grade 12">Grade 12</option>
+                </select>
             <input type="text" name="telefono" placeholder="Teléfono de contacto">
             <input type="email" name="email" placeholder="Correo electrónico">
             <br><br>

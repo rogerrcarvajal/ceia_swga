@@ -108,7 +108,7 @@ if (!isset($_SESSION['usuario'])) {
 <body>
     <?php include 'navbar.php'; ?>
     <div class="content">
-        <img src="img/logo_ceia.png" alt="Logo CEIA"> <!-- Puedes cambiar por el logo real -->
+        <img src="img/logo_ceia.png" alt="Logo CEIA">
         <h1>Bienvenidos <br>Sistema Web de Gestión Académica</h1></br>
         <h2>Centro Educativo Internacional Anzoátegui</h2>
         <p>Selecciona una opción en el menú para comenzar.</p>

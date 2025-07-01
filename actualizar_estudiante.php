@@ -23,6 +23,7 @@ $grado_ingreso = $_POST['grado_ingreso'] ?? '';
 $fecha_inscripcion = $_POST['fecha_inscripcion'] ?? null;
 $recomendado_por = $_POST['recomendado_por'] ?? '';
 $edad_estudiante = $_POST['edad_estudiante'] ?? 0;
+$staff = isset($_POST['staff']) ? 1 : 0;
 $activo = isset($_POST['activo']) ? 1 : 0;
 
 $sql = "UPDATE estudiantes SET 
@@ -40,7 +41,8 @@ $sql = "UPDATE estudiantes SET
             fecha_inscripcion = :fecha_inscripcion,
             recomendado_por = :recomendado_por,
             edad_estudiante = :edad_estudiante,
-            activo = :activo 
+            staff = :staff, 
+            activo = :activo
         WHERE id = :id";
 
 $stmt = $conn->prepare($sql);
@@ -59,6 +61,7 @@ $stmt->execute([
     ':fecha_inscripcion' => $fecha_inscripcion,
     ':recomendado_por' => $recomendado_por,
     ':edad_estudiante' => $edad_estudiante,
+    ':staff' => $staff,
     ':activo' => $activo,
     ':id' => $id
 ]);

@@ -1,6 +1,7 @@
 <?php
 require_once "conn/conexion.php";
 
+// Validar que el ID exista
 if (empty($_POST['estudiante_id'])) {
     echo "Error: ID de estudiante no proporcionado para la ficha médica.";
     exit;
@@ -12,8 +13,8 @@ $completado_por = $_POST['completado_por'] ?? '';
 $fecha_salud = $_POST['fecha_salud'] ?? null;
 $contacto_emergencia = $_POST['contacto_emergencia'] ?? '';
 $relacion_emergencia = $_POST['relacion_emergencia'] ?? '';
-$telefono1 = $_POST['telefono1'] ?? ''; // Corregido
-$telefono2 = $_POST['telefono2'] ?? ''; // Corregido
+$telefono1 = $_POST['telefono1'] ?? '';
+$telefono2 = $_POST['telefono2'] ?? '';
 $observaciones = $_POST['observaciones'] ?? '';
 $dislexia = isset($_POST['dislexia']) ? 1 : 0;
 $atencion = isset($_POST['atencion']) ? 1 : 0;

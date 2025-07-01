@@ -33,16 +33,12 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             background-position: top;
             font-family: 'Arial', sans-serif;
         }
-
-        .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.7);
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 30%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
+        
+        h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #0057A0;
+            padding-bottom: 5px;
         }
 
         .content {
@@ -68,7 +64,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <div class="contenedor-principal">
         <div class="panel-izquierdo">
             <h3>Lista de Estudiantes</h3>
-            <select id="lista_estudiantes" size="20">
+            <select id="lista_estudiantes" size= "20">
                 <option value="">-- Seleccione un estudiante --</option>
                 <?php foreach ($estudiantes as $e): ?>
                     <option value="<?= $e['id'] ?>"><?= htmlspecialchars($e['nombre_completo']) ?></option>
@@ -79,7 +75,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="panel-derecho">            
             <h3>Datos del Estudiante</h3>
             <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
-            <form id="form_estudiante" size="30">
+            <form id="form_estudiante">
                 <input type="hidden" name="id" id="estudiante_id">
                 <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombres completo" required>
                 <input type="text" name="apellido_completo" id="apellido_completo" placeholder="Apellidos completo" required>
@@ -96,6 +92,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por">
                 <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
 
+                <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
                 <label><input type="checkbox" name="activo" id="activo"> Estudiante Activo</label><br><br>
 
                 <button type="submit">Actualizar Estudiante</button>
@@ -103,12 +100,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         </div>
 
         <div class="panel-derecho">
-            <h3>Datos de Padres y Madres</h3>
-            <form id="form_padres_madres">
-                <input type="hidden" id="estudiante_id_padres" name="estudiante_id">
-                
-                <h4>Datos del Padre</h4>
-                <input type="hidden" id="padre_id" name="padre_id">
+            <h3>Datos del Padre</h3>
+            <form id="form_padre">
+                <input type="hidden" name="estudiante_id" id="estudiante_id_padre">                
                 <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombre del Padre" >
                 <input type="text" name="padre_apellido" id="padre_apellido" placeholder="Apellido del Padre" >
                 <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" >
@@ -119,10 +113,15 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" >
                 <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono trabajo" >
                 <input type="text" name="padre_celular" id="padre_celular" placeholder="Celular" >
-                <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" >
+                <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" ><br><br>
+                <button type="button" id="actualizar_padre">Actualizar Padre</button>
+            </form>
+        </div>
 
-                <h4>Datos de la Madre</h4>
-                <input type="hidden" id="madre_id" name="madre_id">
+        <div class="panel-derecho">
+            <h3>Datos de la Madre</h3>
+            <form id="form_madre">   
+                <input type="hidden" name="estudiante_id" id="estudiante_id_madre">
                 <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombre de la Madre" >
                 <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellido de la Madre" >
                 <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" >
@@ -134,13 +133,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono trabajo" >
                 <input type="text" name="madre_celular" id="madre_celular" placeholder="Celular" >
                 <input type="email" name="madre_email" id="madre_email" placeholder="Correo electrónico" ><br><br>
-
-                <button type="button" id="actualizar_padres_madres">Actualizar Padres/Madres</button>
+                <button type="button" id="actualizar_madre">Actualizar Madre</button>
             </form>
         </div>
 
         <div class="panel-derecho">
-
             <h3>Ficha Médica</h3>
             <form id="form_ficha_medica">
                 <input type="hidden" name="estudiante_id" id="estudiante_id_medica">
@@ -160,12 +157,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 <label><input type="checkbox" name="autorizo_medicamentos" id="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
                 <textarea name="medicamentos_actuales" id="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
                 <label><input type="checkbox" name="autorizo_emergencia" id="autorizo_emergencia"> Autorizo atención de emergencia</label><br><br>
-
                 <button type="button" id="actualizar_ficha_medica">Actualizar Ficha Médica</button>
             </form>
         </div>
     </div>
-
+    
     <script src="js/admin_expedientes.js"></script>
 
 </body>
