@@ -106,7 +106,7 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Gestión de Staff/Profesores</h1></br>
+        <h1><br>Gestión de Staff / Profesores</h1></br>
     </div>
 
     <div class="formulario-contenedor">

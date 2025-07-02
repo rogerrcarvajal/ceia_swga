@@ -11,10 +11,10 @@
                 </div>
             </div>
             <div class="dropdown">
-                    <a href="#">📝 Profesores</a>
+                    <a href="#">📝 Staff / Profesores</a>
                     <div class="dropdown-content">
-                        <a href="profesores.php">Agregar Profesores</a>
-                        <a href="administrar_profesores.php">Administrar Profesores</a>
+                        <a href="profesores.php">Nuevo Ingreso</a>
+                        <a href="administrar_profesores.php">Administrar Staff / Profesores</a>
                     </div>
             </div>
             <div class="dropdown">
