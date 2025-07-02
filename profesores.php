@@ -45,7 +45,7 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registro de Profesores</title>
+    <title>Registro de Staff / Profesores</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
         body {
@@ -111,14 +111,14 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
 
     <div class="formulario-contenedor">
         <div class="form-seccion">
-        <h3><br>Registro de Staff/Profesores</h3></br>
+        <h3><br>Registro de Staff / Profesores</h3></br>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
 
         <form method="POST">
             <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
             <input type="text" name="cedula" placeholder="Cédula" required>
             <select name="posicion" required>
-                <option value="">Posicion/Especialidad</option>
+                <option value="">Posicion / Especialidad</option>
                 <option value="Director">Director</option>
                 <option value="Bussiness Manager">Bussiness Manager</option>
                 <option value="Administrative Assistant">Administrative Assistant</option>
