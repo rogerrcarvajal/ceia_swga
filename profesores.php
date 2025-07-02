@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
             ':telefono' => $telefono,
             ':email' => $email
         ]);
-        $mensaje = "✅ Profesor registrado correctamente.";
+        $mensaje = "✅ Staff / Profesor registrado correctamente.";
     }
 }
 
