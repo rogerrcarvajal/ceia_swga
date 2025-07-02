@@ -172,7 +172,6 @@ foreach ($estudiantes_result as $estudiante) {
         <h1>Roster <?php echo htmlspecialchars($nombre_periodo); ?></h1>
         <div class="export-buttons">
             <button class="btn-pdf" onclick="alert('Funcionalidad de PDF no implementada');">Exportar a PDF</button>
-            <button class="btn-excel" onclick="alert('Funcionalidad de Excel no implementada');">Exportar a Excel</button>
         </div>
     </div>
 
