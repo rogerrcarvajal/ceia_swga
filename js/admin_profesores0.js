@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarProfesores(periodoSelect.value);
 
     periodoSelect.addEventListener('change', () => {
-        formAsignarContainer.style.display = 'none';
+        formAsignarContainer.style.display = 'none'; // Ocultar form al cambiar de período
         cargarProfesores(periodoSelect.value);
     });
 
@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 tbody.innerHTML = '';
                 data.forEach(p => {
                     const row = document.createElement('tr');
+                    // Los datos del profesor no son editables aquí, solo la asignación
                     row.innerHTML = `
                         <td>${p.nombre_completo}</td>
                         <td>${p.cedula}</td>
@@ -60,12 +61,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const field = cell.dataset.field;
         let editor;
 
-        // ----- CORRECCIÓN APLICADA AQUÍ -----
         if (field === 'homeroom_teacher') {
             editor = crearSelectHomeroom(originalValue);
-        } else if (field === 'posicion') { // Se añade la condición para el campo 'posicion'
-            editor = crearSelectPosicion(originalValue);
-        } else { // Esto ya no debería ocurrir para los campos editables
+        } else { // para 'posicion'
             editor = document.createElement('input');
             editor.type = 'text';
             editor.value = originalValue;
@@ -91,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const formData = new FormData();
-        formData.append('id', cell.dataset.id);
+        formData.append('id', cell.dataset.id); // ID de la asignación
         formData.append('field', cell.dataset.field);
         formData.append('value', newValue);
 
@@ -123,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function cargarOpcionesHomeroom() {
         const select = document.getElementById('homeroom-asignar');
-        select.innerHTML = '';
+        select.innerHTML = ''; // Limpiar opciones
         const opciones = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
         opciones.forEach(op => {
             const option = document.createElement('option');
@@ -138,40 +136,22 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(formAsignar);
         formData.append('periodo_id', periodoSelect.value);
 
-        fetch('asignar_profesor.php', { method: 'POST', body: formData })
-            .then(response => response.json())
-            .then(data => {
-                mostrarMensaje(data.message, data.status);
-                if (data.status === 'success') {
-                    formAsignarContainer.style.display = 'none';
-                    formAsignar.reset();
-                    cargarProfesores(periodoSelect.value);
-                }
-            });
+        fetch('asignar_profesor.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            mostrarMensaje(data.message, data.status);
+            if (data.status === 'success') {
+                formAsignarContainer.style.display = 'none';
+                formAsignar.reset();
+                cargarProfesores(periodoSelect.value);
+            }
+        });
     }
     
-    // --- HELPERS PARA CREAR SELECTS DINÁMICOS ---
-    function crearSelectPosicion(selectedValue) {
-        const select = document.createElement('select');
-        const opciones = [
-            "Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology",
-            "DC-Grade 12 Music", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3",
-            "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11",
-            "Grade 12", "Spanish teacher - Grade 1-6", "Spanish teacher - Grade 7-12",
-            "Social Studies - Grade 6-12", "IT Teacher - Grade Pk-3-12", "Science Teacher - Grade 6-12",
-            "ESL - Elementary", "ESL - Secondary", "PE - Grade Pk3-12", "Language Arts - Grade 6-9",
-            "Math teacher - Grade 6-9", "Math teacher - Grade 10-12", "Librarian"
-        ];
-        opciones.forEach(op => {
-            const option = document.createElement('option');
-            option.value = op;
-            option.textContent = op;
-            if (op === selectedValue) option.selected = true;
-            select.appendChild(option);
-        });
-        return select;
-    }
-
+    // --- HELPERS ---
     function crearSelectHomeroom(selectedValue) {
         const select = document.createElement('select');
         const opciones = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
