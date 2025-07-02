@@ -173,12 +173,12 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY id DESC")->fetchAl
             <input type="text" name="telefono" placeholder="Teléfono de contacto">
             <input type="email" name="email" placeholder="Correo electrónico">
             <br><br>
-            <button type="submit" name="agregar">Agregar Profesor</button>
+            <button type="submit" name="agregar">Agregar Staff / Profesor</button>
         </form>
         </div> 
 
         <div class="form-seccion">
-            <h3>Staff Registrados</h3>
+            <h3>Staff / Profesor Registrados</h3>
             <ul>
                 <?php foreach ($profesores as $p): ?>
                     <li>
