@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['usuario'])) {
     // CORRECCIÓN: Ajustar la ruta para que suba un nivel al directorio raíz.
-    header("Location: ../home.php");
+    header("Location: home.php");
     exit();
 }
 // CORRECCIÓN: Ajustar la ruta para que suba un nivel y luego entre a la carpeta 'conn'.
