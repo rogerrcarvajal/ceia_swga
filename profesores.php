@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $check->execute([':cedula' => $cedula]);
 
     if ($check->rowCount() > 0) {
-        $mensaje = "⚠️ Profesor ya registrado con esta cédula.";
+        $mensaje = "⚠️ Staff / Profesor ya registrado con esta cédula.";
     } else {
         $sql = "INSERT INTO profesores (nombre_completo, cedula, posicion, homeroom_teacher, telefono, email)
                 VALUES (:nombre_completo, :cedula, :posicion, :homeroom_teacher, :telefono, :email)";
