@@ -65,7 +65,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Administrar Planilla de Inscripción</h1><br>
+        <h1>Administrar Planilla de Inscripción</h1><br>
     </div>
 
     <div class="contenedor-principal">

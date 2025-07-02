@@ -46,7 +46,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
         .content {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 30px;
             text-shadow: 1px 1px 2px black;
         }
 
@@ -104,7 +104,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Reportes del Sistema</h1></br>
+        <h1>Reportes del Sistema</h1>
     </div>
 
     <div class="formulario-contenedor">
@@ -115,7 +115,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <a href= "reportes/roster_actual.php" target="_blank">
                         <span class="icono-reporte">📄</span> Roster Actualizado
                     </a>
-                    <p>Vista previa del personal y listado de estudiantes por grado, con opciones para exportar a PDF y Excel.</p>
+                    <p>Vista previa del personal admininstrativo y docente, además un listado de estudiantes por grado, con opciones para exportar a PDF.</p>
                 </li>
 
                 <li>

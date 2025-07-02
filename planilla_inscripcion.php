@@ -240,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'navbar.php'; ?>
     <div class="content">
             <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Planilla de Inscripción</h1></br>
+        <h1>Planilla de Inscripción</h1></br>
 
     <div class="container"> 
     <form method="POST">

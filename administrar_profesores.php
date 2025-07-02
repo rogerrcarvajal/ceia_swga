@@ -31,7 +31,7 @@ $posiciones = [
         /* Estilos (sin cambios respecto a la versión anterior) */
         body { margin: 0; padding: 0; background-image: url('img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .container { background-color: rgba(0, 0, 0, 0.7); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
-        .content { text-align: center; }
+        .content { text-align: center; margin-top: 30px;}
         .content img { width: 180px; }
         h2 { margin-bottom: 25px; text-shadow: 1px 1px 2px black; }
         .toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
@@ -57,10 +57,12 @@ $posiciones = [
 
 <body>
     <?php include 'navbar.php'; ?>
+    <div class="content">
+        <img src="img/logo_ceia.png" alt="Logo CEIA">
+        <h1>Administración de Staff / Profesores por Período</h1>
+    </div>
+
     <div class="container">
-        <div class="content">
-            <img src="img/logo_ceia.png" alt="Logo CEIA">
-            <h2>Administración de Staff / Profesores por Período</h2>
 
             <div class="toolbar">
                 <div>
