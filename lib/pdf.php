@@ -16,11 +16,7 @@ $periodo_id = $periodo['id'];
 $nombre_periodo = $periodo['nombre_periodo'];
 
 // --- OBTENER PERSONAL ---
-$profesores_sql = "SELECT p.nombre_completo, pp.posicion
-                   FROM profesor_periodo pp
-                   JOIN profesores p ON pp.profesor_id = p.id
-                   WHERE pp.periodo_id = :periodo_id
-                   ORDER BY pp.posicion, p.nombre_completo";
+$profesores_sql = "SELECT p.nombre_completo, pp.posicion FROM profesor_periodo pp JOIN profesores p ON pp.profesor_id = p.id WHERE pp.periodo_id = :periodo_id ORDER BY pp.posicion, p.nombre_completo";
 $profesores_stmt = $conn->prepare($profesores_sql);
 $profesores_stmt->execute([':periodo_id' => $periodo_id]);
 $profesores = $profesores_stmt->fetchAll(PDO::FETCH_ASSOC);

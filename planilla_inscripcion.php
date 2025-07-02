@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: home.php");
+    header(header: "Location: home.php");
     exit();
 }
 require_once "conn/conexion.php";
@@ -21,16 +21,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->beginTransaction();
 
         // 1. Insertar PADRE y obtener su ID
-        $check = $conn->prepare("SELECT id FROM padres WHERE cedula_pasaporte = :cedula");
-        $check->execute([':cedula' => $cedula]);
+        $check = $conn->prepare(query: "SELECT id FROM padres WHERE padre_cedula_pasaporte = :padre_cedula_pasaporte");
+        $check->execute(params: [':padre_cedula_pasaporte' => $padre_cedula_pasaporte = $_POST['padre_cedula_pasaporte']]);
+
+         // Verificar si ya existe un padre con la misma cédula o pasaporte 
 
         if ($check->rowCount() > 0) {
             $mensaje = "⚠️ Ya existe un padre registrado con esa cédula/pasaporte.";
         } else {
-            $sql_padre = "INSERT INTO padres (padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
-                VALUES (:padre_nombre, :padre_apellido, :padre_fecha_nacimiento, :padre_cedula_pasaporte, :padre_nacionalidad, :padre_idioma, :padre_profesion, :padre_empresa, :padre_telefono_trabajo, :padre_celular, :padre_email)";
+            $sql_padre = "INSERT INTO padres (estudiante_id, padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
+                VALUES (:estudiante_id, :padre_nombre, :padre_apellido, :padre_fecha_nacimiento, :padre_cedula_pasaporte, :padre_nacionalidad, :padre_idioma, :padre_profesion, :padre_empresa, :padre_telefono_trabajo, :padre_celular, :padre_email)";
             $stmt_padre = $conn->prepare($sql_padre);
             $stmt_padre->execute([
+                ':estudiante_id' => $estudiante_id,
                 ':padre_nombre' => $_POST['padre_nombre'], 
                 ':padre_apellido' => $_POST['padre_apellido'], 
                 ':padre_fecha_nacimiento' => $_POST['padre_fecha_nacimiento'],
@@ -47,16 +50,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // 2. Insertar MADRE y obtener su ID
-        $check = $conn->prepare("SELECT id FROM madres WHERE cedula_pasaporte = :cedula");
-        $check->execute([':cedula' => $cedula]);
+        $check = $conn->prepare("SELECT id FROM madres WHERE madre_cedula_pasaporte = :madre_cedula_pasaporte");
+        $check->execute([':madre_cedula_pasaporte' => $madre_cedula_pasaporte = $_POST['madre_cedula_pasaporte']]);
+
+         // Verificar si ya existe una madre con la misma cédula o pasaporte    
 
         if ($check->rowCount() > 0) {
             $mensaje = "⚠️ Ya existe una madre registrada con esa cédula/pasaporte.";
         } else {
-            $sql_madre = "INSERT INTO madres (madre_nombre, madre_apellido, madre_fecha_nacimiento, madre_cedula_pasaporte, madre_nacionalidad, madre_idioma, madre_profesion, madre_empresa, madre_telefono_trabajo, madre_celular, madre_email) 
-                VALUES (:madre_nombre, :madre_apellido, :madre_fecha_nacimiento, :madre_cedula_pasaporte, :madre_nacionalidad, :madre_idioma, :madre_profesion, :madre_empresa, :madre_telefono_trabajo, :madre_celular, :madre_email)";
+            $sql_madre = "INSERT INTO madres (estudiante_id, madre_nombre, madre_apellido, madre_fecha_nacimiento, madre_cedula_pasaporte, madre_nacionalidad, madre_idioma, madre_profesion, madre_empresa, madre_telefono_trabajo, madre_celular, madre_email) 
+                VALUES (:estudiante_id, :madre_nombre, :madre_apellido, :madre_fecha_nacimiento, :madre_cedula_pasaporte, :madre_nacionalidad, :madre_idioma, :madre_profesion, :madre_empresa, :madre_telefono_trabajo, :madre_celular, :madre_email)";
             $stmt_madre = $conn->prepare($sql_madre);
             $stmt_madre->execute([
+                ':estudiante_id' => $estudiante_id,
                 ':madre_nombre' => $_POST['madre_nombre'], 
                 ':madre_apellido' => $_POST['madre_apellido'], 
                 ':madre_fecha_nacimiento' => $_POST['madre_fecha_nacimiento'],
