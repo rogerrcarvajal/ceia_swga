@@ -59,7 +59,7 @@ if (!isset($_SESSION['usuario'])) {
 
         .content {
             text-align: center;
-            margin-top: 100px;
+            margin-top: 120px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
@@ -107,11 +107,6 @@ if (!isset($_SESSION['usuario'])) {
 </head>
 <body>
     <?php include 'navbar.php'; ?>
-    <div class="content">
-        <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Bienvenidos <br>Sistema Web de Gestión Académica</h1></br>
-        <h2>Centro Educativo Internacional Anzoátegui</h2>
-        <p>Selecciona una opción en el menú para comenzar.</p>
-    </div>
+    
 </body>
 </html>

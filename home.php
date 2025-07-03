@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .formulario-contenedor {
             background-color: rgba(0, 0, 0, 0.7);
-            margin: 30px auto;
+            margin: 20px auto;
             padding: 30px;
             border-radius: 10px;
             max-width: 30%;
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="formulario-contenedor">
         <div class="content">
             <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h2>Acceso al Sistema Web de Gestión Académica</h2>
+        <h1><br>Sistema Web de<br>Gestión Académica<br></h1><h4>Introduca su usuario y contraseña</h4></br>
         <form method="POST">
             <input type="text" name="usuario" placeholder="Usuario" required><br>
             <input type="password" name="clave" placeholder="Contraseña" required><br>
