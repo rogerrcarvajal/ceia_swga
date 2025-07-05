@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("/public/img/fondo.jpg");
+    background-size: cover;
+    background-position: top;
+    font-family: 'Arial', sans-serif;
+}
+
+.login-box {
+    width: 350px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 95);
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px #00000088;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #0057A0;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+select {
+    width: 10%;
+    height: 50px;
+}
+
+.alerta {
+    background: #ddffdd;
+    border-left: 5px solid green;
+    padding: 10px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.alerta-error {
+    background: #ffdddd;
+    border-left: 5px solid red;
+    padding: 10px;
+    margin: 10px 0;
+    color: #a00;
+}
+
+input[type="text"], input[type="email"], textarea, select {
+    width: 95%;
+    padding: 7px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
