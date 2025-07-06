@@ -29,7 +29,7 @@
                 <a href="#">📝 Mantenimiento</a>
                 <div class="dropdown-content">
                     <a href= "/pages/periodos_escolares.php">Períodos Escolares</a>
-                    <a href= "/pages/usuarios.php">Usuarios del Sistema</a>
+                    <a href= "/pages/usuarios_configurar.php">Usuarios del Sistema</a>
                 </div>
             </div>
         <a href= "/pages/logout.php" class="logout">Salir</a>
