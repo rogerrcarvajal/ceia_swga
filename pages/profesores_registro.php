@@ -76,7 +76,7 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY nombre_completo AS
 
     <div class="formulario-contenedor">
         <div class="form-seccion">
-            <h3>Registrar Nuevo Miembro</h3>
+            <h3>Registrar Nuevo Ingreso</h3>
             <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
             <form method="POST">
                 <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
@@ -85,6 +85,7 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY nombre_completo AS
                 <input type="email" name="email" placeholder="Correo electrónico">
                 <br><br>
                 <button type="submit" name="agregar">Agregar Staff / Profesor</button>
+                <a href="/../pages/profesores_administrar.php" class="boton-link">Administrar Staff / Profesor</a>
             </form>
         </div> 
 

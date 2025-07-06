@@ -132,10 +132,8 @@ $posiciones = [
                 </table>
             </div>
             <br>
-            <a href="/pages/asignar_profesores.php" class="boton-link">Volver al Inicio</a>
-        </div>
-    </div>
+            <a href="/../pages/dashboard.php" class="boton-link">Volver al Home</a>
 
-    <script src="js/admin_profesores.js"></script>
+    <script src="/public/js/admin_profesores.js"></script>
 </body>
 </html>

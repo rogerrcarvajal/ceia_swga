@@ -6,38 +6,56 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-// Verificar permisos de usuario
-//if ($_SESSION['usuario']['rol'] !== 'admin') {
-//    header("Location: /../public/index.php");
-//    exit();
-//}
+// --- VALIDACIÓN DE ROL ACTIVADA ---
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    $_SESSION['error_mensaje'] = "Acceso denegado.";
+    header("Location: /pages/dashboard.php");
+    exit();
+}
 
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
 
-// Registrar nuevo período
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear'])) {
-    $nombre = $_POST['nombre_periodo'];
-    $fecha_inicio = $_POST['fecha_inicio'];
-    $fecha_fin = $_POST['fecha_fin'];
+// --- LÓGICA DE NEGOCIO ---
 
-    $sql = "INSERT INTO periodos_escolares (nombre_periodo, fecha_inicio, fecha_fin) VALUES (:nombre, :inicio, :fin)";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([':nombre' => $nombre, ':inicio' => $fecha_inicio, ':fin' => $fecha_fin]);
-    $mensaje = "✅ Período escolar creado correctamente.";
+// Desactivar período escolar (NUEVA FUNCIONALIDAD)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['desactivar'])) {
+    $periodo_id = $_POST['periodo_id'];
+    $stmt = $conn->prepare("UPDATE periodos_escolares SET activo = FALSE WHERE id = :id");
+    $stmt->execute([':id' => $periodo_id]);
+    $mensaje = "✅ Período escolar desactivado.";
 }
 
 // Activar período escolar
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['activar'])) {
     $periodo_id = $_POST['periodo_id'];
-
+    $conn->beginTransaction();
     $conn->query("UPDATE periodos_escolares SET activo = FALSE");
     $stmt = $conn->prepare("UPDATE periodos_escolares SET activo = TRUE WHERE id = :id");
     $stmt->execute([':id' => $periodo_id]);
-
+    $conn->commit();
     $mensaje = "✅ Período escolar activado correctamente.";
+}
+
+// Verificar si existe un período activo para la lógica de la vista
+$check_active_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+$periodo_activo_existe = ($check_active_stmt->rowCount() > 0);
+
+// Registrar nuevo período
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear'])) {
+    if ($periodo_activo_existe) {
+        $mensaje = "⚠️ No se puede crear un nuevo período mientras otro esté activo.";
+    } else {
+        $nombre = $_POST['nombre_periodo'];
+        $fecha_inicio = $_POST['fecha_inicio'];
+        $fecha_fin = $_POST['fecha_fin'];
+        $sql = "INSERT INTO periodos_escolares (nombre_periodo, fecha_inicio, fecha_fin) VALUES (:nombre, :inicio, :fin)";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':nombre' => $nombre, ':inicio' => $fecha_inicio, ':fin' => $fecha_fin]);
+        $mensaje = "✅ Período escolar creado correctamente. Ahora puede activarlo.";
+    }
 }
 
 $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio DESC")->fetchAll(PDO::FETCH_ASSOC);
@@ -48,9 +66,9 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Períodos Escolares</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <style>
-         body {
+        body {
             margin: 0;
             padding: 0;
             background-image: url("/public/img/fondo.jpg");
@@ -115,45 +133,71 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
             margin-bottom: 12px;
             font-size: 16px;
         }
-    </style>     
+        button {
+            background-color: #0057A0;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button[name="desactivar"] { background-color: #ffc107; color: #333; }
+    </style>
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Gestión de Períodos Escolares</h1></br>
+        <h1>Gestión de Períodos Escolares</h1>
     </div>
     
     <div class="formulario-contenedor">
         <div class="form-seccion">
-        <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
-        
-        <form method="POST">
             <h3>Crear Período Escolar</h3>
-            <input type="text" name="nombre_periodo" placeholder="Ej: Agosto 2025 - Junio 2026" required><br><br>
-            <label>Fecha de Inicio:</label><br>
-            <input type="date" name="fecha_inicio" required><br><br>
-            <label>Fecha de Fin:</label><br>
-            <input type="date" name="fecha_fin" required><br><br>
-            <button type="submit" name="crear">Crear Período</button>
-            <br></br>
-            <a href="/pages/dashboard.php" class="boton-link">Volver al Inicio</a>
-        </form>
+            <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
 
-    </div>
+            <?php if (!$periodo_activo_existe): ?>
+                <form method="POST">
+                    <input type="text" name="nombre_periodo" placeholder="Ej: Agosto 2025 - Junio 2026" required>
+                    <label>Fecha de Inicio:</label>
+                    <input type="date" name="fecha_inicio" required>
+                    <label>Fecha de Fin:</label>
+                    <input type="date" name="fecha_fin" required>
+                    <br><br>
+                    <button type="submit" name="crear">Crear Período</button>
+                </form>
+            <?php else: ?>
+                <div class="info-mensaje">
+                    <p>Ya existe un período escolar activo. Para crear uno nuevo, debe desactivar el período actual.</p>
+                </div>
+            <?php endif; ?>
+            <br>
+            <a href="/pages/dashboard.php" class="boton-link">Volver al Inicio</a>
+        </div>
 
         <div class="form-seccion">
             <h3>Períodos Registrados</h3>
-            <ul>
+            <ul class="lista-periodos">
                 <?php foreach ($periodos as $p): ?>
-                    <li class="act">
-                        <?= htmlspecialchars($p['nombre_periodo']) ?> <?= $p['activo'] ? "(Activo)": "" ?>
-                        <?php if (!$p['activo']): ?>
-                            <form method="POST" style="display:inline;">
-                                <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
-                                <button type="submit" name="activar">Activar</button>
-                            </form>
-                        <?php endif; ?>
+                    <li class="<?= $p['activo'] ? 'activo' : '' ?>">
+                        <span>
+                            <?= htmlspecialchars($p['nombre_periodo']) ?>
+                            <?= $p['activo'] ? "<strong>(Activo)</strong>" : "" ?>
+                        </span>
+                        <div>
+                            <?php if ($p['activo'] && $_SESSION['usuario']['rol'] === 'admin'): ?>
+                                <form method="POST" style="display:inline;">
+                                    <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
+                                    <button type="submit" name="desactivar">Desactivar</button>
+                                </form>
+                            <?php elseif (!$p['activo'] && $_SESSION['usuario']['rol'] === 'admin'): ?>
+                                <form method="POST" style="display:inline;">
+                                    <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
+                                    <button type="submit" name="activar">Activar</button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
                     </li>
                 <?php endforeach; ?>
             </ul>
