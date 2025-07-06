@@ -2,13 +2,13 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /../public/index.php");
+    header(header: "Location: /../public/index.php");
     exit();
 }
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Verificar si el rol del usuario NO es 'admin'
-if ($_SESSION['rol'] !== 'admin') {
+if ($_SESSION['usuario']['rol'] !== 'admin') {
     // Guardar un mensaje de error en la sesión para mostrarlo en el dashboard
     $_SESSION['error_mensaje'] = "Acceso denegado. No tiene permiso para ver esta página.";
     header("Location: /../pages/dashboard.php"); // Redirigir a una página segura
@@ -20,8 +20,12 @@ require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
 
-// Obtener todos los períodos escolares para el selector
-$periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escolares ORDER BY fecha_inicio DESC")->fetchAll(PDO::FETCH_ASSOC);
+// Obtener período escolar activo
+$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+
+if (!$periodo) {
+    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
+}
 
 // Lista de posiciones para el formulario
 $posiciones = [

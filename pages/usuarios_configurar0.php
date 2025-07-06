@@ -2,39 +2,28 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header("Location: /index.php");
     exit();
 }
 
-// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
-// Verificar si el rol del usuario NO es 'admin'
+// --- CORRECCIÓN APLICADA AQUÍ ---
+// Se accede al array 'usuario' y luego a la clave 'rol'
 if ($_SESSION['usuario']['rol'] !== 'admin') {
-    // Guardar un mensaje de error en la sesión para mostrarlo en el dashboard
     $_SESSION['error_mensaje'] = "Acceso denegado. No tiene permiso para ver esta página.";
-    header("Location: /../pages/dashboard.php"); // Redirigir a una página segura
+    header("Location: /pages/dashboard.php"); 
     exit();
 }
 
-// Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
-
 $mensaje = "";
 
-// Obtener período escolar activo
-$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-
-if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
-}
-
-// Lógica para agregar un nuevo usuario (ahora guarda la contraseña encriptada)
+// Lógica para agregar un nuevo usuario (con contraseña hasheada)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $profesor_id = $_POST["profesor_id"] ?? null;
     $username = $_POST["username"];
     $clave = $_POST["clave"];
     $rol = $_POST["rol"];
     
-    // Encriptar la contraseña antes de guardarla
     $hashed_password = password_hash($clave, PASSWORD_DEFAULT);
 
     $check = $conn->prepare("SELECT id FROM usuarios WHERE username = :username");
@@ -47,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
         $stmt = $conn->prepare($sql);
         $stmt->execute([
             ':username' => $username,
-            ':password' => $hashed_password, // Se guarda el hash
+            ':password' => $hashed_password,
             ':rol' => $rol,
             ':profesor_id' => ($profesor_id === '') ? null : $profesor_id
         ]);
@@ -65,23 +54,12 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Usuarios</title>
-    <link rel="stylesheet" href="/public/css/style.css">
-    <style>
-        body { margin: 0; padding: 0; background-image: url('/public/img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
-        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.75); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
-        .form-seccion { width: 45%; color: white; min-width: 350px; }
-        .form-seccion h3 { text-align: center; border-bottom: 1px solid #0057A0; padding-bottom: 10px; }
-        .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; padding-top: 20px;}
-        .content img { width: 150px; }
-        .lista-profesores { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; }
-        .lista-profesores li { background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .lista-profesores a { color: #87cefa; text-decoration: none; margin-left: 10px; }
-    </style>    
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestión de Usuarios del Sistema</h1>
     </div>
     
@@ -130,7 +108,7 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
                             <div>
                                 <?php if ($u['username'] !== $_SESSION['usuario']['username']): ?>
                                     <a href="/pages/editar_usuario.php?id=<?= $u['id'] ?>">Editar</a> |
-                                    <a href="/pages/eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
+                                    <a href="/api/eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
                                 <?php endif; ?>
                             </div>
                         </li>

@@ -2,20 +2,30 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /../public/index.php");
+    header(header: "Location: /../public/index.php");
     exit();
 }
 
-// Verificar permisos de usuario
-//if ($_SESSION['usuario']['rol'] !== 'admin') {
-//    header("Location: /../public/index.php");
-//    exit();
-//}
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Verificar si el rol del usuario NO es 'admin'
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    // Guardar un mensaje de error en la sesión para mostrarlo en el dashboard
+    $_SESSION['error_mensaje'] = "Acceso denegado. No tiene permiso para ver esta página.";
+    header("Location: /../pages/dashboard.php"); // Redirigir a una página segura
+    exit();
+}
 
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
+
+// Obtener período escolar activo
+$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+
+if (!$periodo) {
+    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
+}
 
 // Lógica para agregar un nuevo profesor (solo datos básicos)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
@@ -99,8 +109,8 @@ $profesores = $conn->query("SELECT * FROM profesores ORDER BY nombre_completo AS
                         <li>
                             <span><?= htmlspecialchars($p['nombre_completo']) ?> (C.I: <?= htmlspecialchars($p['cedula']) ?>)</span>
                             <div>
-                                <a href="/api/editar_profesor.php?id=<?= $p['id'] ?>">Editar</a> |
-                                <a href="/api/eliminar_profesor.php?id=<?= $p['id'] ?>" onclick="return confirm('¿Estás seguro de eliminar a este miembro del staff? Se eliminarán todas sus asignaciones en todos los períodos escolares.')">Eliminar</a>
+                                <a href="/pages/editar_profesor.php?id=<?= $p['id'] ?>">Editar</a> |
+                                <a href="/pages/eliminar_profesor.php?id=<?= $p['id'] ?>" onclick="return confirm('¿Estás seguro de eliminar a este miembro del staff? Se eliminarán todas sus asignaciones en todos los períodos escolares.')">Eliminar</a>
                             </div>
                         </li>
                     <?php endforeach; ?>

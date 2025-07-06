@@ -1,33 +1,31 @@
 <?php
 session_start();
-if (isset($_SESSION['usuario'])) {
-    header("Location: /pages/dashboard.php");
-    exit();
-}
 require_once __DIR__ . '/../src/config.php';
+
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST['username'] ?? '';
-    $password = $_POST['password'] ?? '';
+    $usuario = $_POST["usuario"];
+    $clave = $_POST["clave"];
 
-    $sql = "SELECT * FROM usuarios WHERE username = :username";
+    $sql = "SELECT * FROM usuarios WHERE username = :usuario";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([':username' => $username]);
-    $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt->bindParam(':usuario', $usuario);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Verificación segura y funcional
-    if ($usuario && password_verify($password, $usuario['password'])) {
-        // Guardamos todo el array de usuario en la sesión
-        $_SESSION['usuario'] = $usuario;
-        
-        header("Location: /pages/dashboard.php");
+    // Comparación sin encriptación
+    if ($user && $clave === $user['password']) {
+        $_SESSION['usuario'] = $user['username'];
+        $_SESSION['rol'] = $user['rol'];
+        header(header: "Location: /../pages/dashboard.php");
         exit();
     } else {
-        $mensaje = "⚠️ Usuario o contraseña incorrectos.";
+        $mensaje = "Usuario o contraseña incorrectos.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -74,14 +72,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="content">
             <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1><br>Sistema Web de<br>Gestión Académica<br></h1><h4>Introduca su usuario y contraseña</h4></br>
-        <?php if ($mensaje): ?>
-            <p class="alerta-login"><?= htmlspecialchars($mensaje) ?></p>
-        <?php endif; ?>
         <form method="POST">
-            <input type="text" name="username" placeholder="Usuario" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="text" name="usuario" placeholder="Usuario" required><br>
+            <input type="password" name="clave" placeholder="Contraseña" required><br>
             <button type="submit">Ingresar</button>
         </form>
+        <?php if ($mensaje): ?>
+            <div class="alerta"><?php echo $mensaje; ?></div>
+        <?php endif; ?>
     </div>
 </body>
 </html>
