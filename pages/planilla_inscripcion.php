@@ -2,15 +2,18 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /../public/index.php");
+    header(header: "Location: /../public/index.php");
     exit();
 }
 
-// Verificar permisos de usuario
-//if ($_SESSION['usuario']['rol'] !== 'admin') {
-//    header("Location: /../public/index.php");
-//    exit();
-//}
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Verificar si el rol del usuario NO es 'admin'
+if ($_SESSION['rol'] !== 'admin') {
+    // Guardar un mensaje de error en la sesión para mostrarlo en el dashboard
+    $_SESSION['error_mensaje'] = "Acceso denegado. No tiene permiso para ver esta página.";
+    header("Location: /../pages/dashboard.php"); // Redirigir a una página segura
+    exit();
+}
 
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';

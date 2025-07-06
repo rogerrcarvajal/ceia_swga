@@ -18,8 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && $clave === $user['password']) {
         $_SESSION['usuario'] = $user['username'];
         $_SESSION['rol'] = $user['rol'];
-        //header("Location: ../ceia_swga//pages/dashboard.php");
-        header("Location: /../pages/dashboard.php");
+        header(header: "Location: /../pages/dashboard.php");
         exit();
     } else {
         $mensaje = "Usuario o contraseña incorrectos.";
