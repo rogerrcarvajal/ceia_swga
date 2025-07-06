@@ -20,15 +20,7 @@ require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
 
-// Obtener período escolar activo
-$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-
-if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
-}
-
 // --- LÓGICA DE NEGOCIO ---
-
 // Desactivar período escolar (NUEVA FUNCIONALIDAD)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['desactivar'])) {
     $periodo_id = $_POST['periodo_id'];
@@ -157,7 +149,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestión de Períodos Escolares</h1>
     </div>
     

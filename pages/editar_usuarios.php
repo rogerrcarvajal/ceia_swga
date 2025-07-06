@@ -81,17 +81,22 @@ if (!$usuario_a_editar) {
 <head>
     <meta charset="UTF-8">
     <title>Editar Usuario</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/public/css/estilo_planilla.css">
+    <style>
+        body { margin: 0; padding: 0; background-image: url('/public/img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.75); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
+        .content { text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
+        .content img { width: 150px; }
+    </style>
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Editar Usuario del Sistema</h1>
     </div>
 
-    <div class="formulario-contenedor" style="max-width: 500px;">
-        <div class="form-seccion" style="width: 100%;">
+    <div class="formulario-contenedor">
             <h3>Editando a: <?= htmlspecialchars($usuario_a_editar['username']) ?></h3>
             <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
             <form method="POST">
@@ -110,8 +115,7 @@ if (!$usuario_a_editar) {
                 <br><br>
                 <button type="submit">Actualizar Usuario</button>
                 <a href="/pages/usuarios_configurar.php" class="boton-link" style="margin-left: 15px;">Volver</a>
-            </form>
-        </div>
+            </form>       
     </div>
 </body>
 </html>

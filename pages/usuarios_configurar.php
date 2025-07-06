@@ -129,8 +129,8 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
                             </span>
                             <div>
                                 <?php if ($u['username'] !== $_SESSION['usuario']['username']): ?>
-                                    <a href="/pages/editar_usuario.php?id=<?= $u['id'] ?>">Editar</a> |
-                                    <a href="/pages/eliminar_usuario.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
+                                    <a href="/pages/editar_usuarios.php?id=<?= $u['id'] ?>">Editar</a> |
+                                    <a href="/pages/eliminar_usuarios.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
                                 <?php endif; ?>
                             </div>
                         </li>

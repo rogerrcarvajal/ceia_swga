@@ -24,6 +24,7 @@ $periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE
 if (!$periodo) {
     die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
 }
+
 // Inicializar variables
 $mensaje = "";
 $profesor = null;
