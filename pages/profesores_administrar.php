@@ -31,7 +31,7 @@ if ($periodo_stmt->rowCount() === 0) {
 }
 
 // Obtener datos para los selectores
-$periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escolares ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+$periodos = $conn->query(query: "SELECT id, nombre_periodo, activo FROM periodos_escolares ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 $posiciones = [
     "Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology",
     "DC-Grade 12 Music", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3",
@@ -135,7 +135,7 @@ $posiciones = [
         <br>
         <a href="/pages/dashboard.php" class="boton-link">Volver al Inicio</a>
     </div>
-
+    
     <script src="/public/js/admin_profesores.js"></script>
 </body>
 </html>

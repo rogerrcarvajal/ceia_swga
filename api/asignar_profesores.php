@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $sql = "INSERT INTO profesor_periodo (profesor_id, periodo_id, posicion, homeroom_teacher)
                     VALUES (:profesor_id, :periodo_id, :posicion, :homeroom_teacher)";
-            $stmt = $conn->prepare($sql);
+            $stmt = $conn->prepare(query: $sql);
             
             // Si el homeroom teacher es 'N/A' o está vacío, se inserta NULL en la base de datos.
             $homeroom_value = ($homeroom === 'N/A' || empty($homeroom)) ? null : $homeroom;
@@ -35,6 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-header('Content-Type: application/json');
-echo json_encode($response);
+header(header: 'Content-Type: application/json');
+echo json_encode(value: $response);
 ?>
