@@ -27,6 +27,9 @@ if (!$periodo) {
     die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
 }
 
+// Obtener la lista de períodos escolares
+$periodos = $conn->query("SELECT id, nombre_periodo, activo FROM periodos_escolares ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+
 // Lista de posiciones para el formulario
 $posiciones = [
     "Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology",

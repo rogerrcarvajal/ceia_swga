@@ -59,7 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear'])) {
     }
 }
 
+// Obtener el período escolar activo
 $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio DESC")->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>

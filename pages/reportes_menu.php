@@ -8,7 +8,7 @@ if (!isset($_SESSION['usuario'])) {
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Verificar si el rol del usuario NO es 'admin'
-if ($_SESSION['usuario']['rol'] !== 'admin') {
+if ($_SESSION['usuario']['rol'] !== '') {
     // Guardar un mensaje de error en la sesión para mostrarlo en el dashboard
     $_SESSION['error_mensaje'] = "Acceso denegado. No tiene permiso para ver esta página.";
     header("Location: /../pages/dashboard.php"); // Redirigir a una página segura

@@ -22,7 +22,16 @@ require_once __DIR__ . '/../src/config.php';
 $periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
 if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
+    // Si no hay período escolar activo, mostrar un mensaje y detener la ejecución
+    try {
+        $mensaje = "⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.";
+    } catch (PDOException $e) {
+        $mensaje = "⚠️ Error al verificar el período escolar activo. Por favor, intente nuevamente.";
+    } catch (PDOException $e) {
+        $mensaje = "⚠️ Vuelva a la pantalla anterios y cree un período escolar, o actiive uno.";
+    }
+    header("Location: /pages/periodos_escolares.php");
+    exit();   
 }
 
 // Inicializar variables
@@ -85,6 +94,7 @@ if (!$usuario_a_editar) {
     <style>
         body { margin: 0; padding: 0; background-image: url('/public/img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.75); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
+        .select {width: 30%;}
         .content { text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
         .content img { width: 150px; }
     </style>
@@ -103,12 +113,14 @@ if (!$usuario_a_editar) {
                 <label for="username">Nombre de Usuario:</label>
                 <input type="text" id="username" name="username" value="<?= htmlspecialchars($usuario_a_editar['username']) ?>" required>
 
+                <br>
                 <label for="rol">Rol:</label>
-                <select id="rol" name="rol" required>
+                <select id="rol" name="rol" class="select" required>
                     <option value="admin" <?= $usuario_a_editar['rol'] === 'admin' ? 'selected' : '' ?>>Administrador</option>
                     <option value="consulta" <?= $usuario_a_editar['rol'] === 'consulta' ? 'selected' : '' ?>>Consulta</option>
                 </select>
 
+                <br>
                 <label for="nueva_clave">Nueva Contraseña (opcional):</label>
                 <input type="password" id="nueva_clave" name="nueva_clave" placeholder="Dejar en blanco para no cambiar">
                 

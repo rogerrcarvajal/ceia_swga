@@ -24,8 +24,16 @@ $mensaje = "";
 $periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
 if (!$periodo) {
-    die ("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
-    
+    // Si no hay período escolar activo, mostrar un mensaje y detener la ejecución
+    try {
+        $mensaje = "⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.";
+    } catch (PDOException $e) {
+        $mensaje = "⚠️ Error al verificar el período escolar activo. Por favor, intente nuevamente.";
+    } catch (PDOException $e) {
+        $mensaje = "⚠️ Vuelva a la pantalla anterios y cree un período escolar, o actiive uno.";
+    }
+    header("Location: /pages/periodos_escolares.php");
+    exit();   
 }
 
 // Procesar formulario
