@@ -18,20 +18,14 @@ if ($_SESSION['usuario']['rol'] !== 'admin') {
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
-// Obtener período escolar activo
-$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 
-if (!$periodo) {
-    // Si no hay período escolar activo, mostrar un mensaje y detener la ejecución
-    try {
-        $mensaje = "⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.";
-    } catch (PDOException $e) {
-        $mensaje = "⚠️ Error al verificar el período escolar activo. Por favor, intente nuevamente.";
-    } catch (PDOException $e) {
-        $mensaje = "⚠️ Vuelva a la pantalla anterios y cree un período escolar, o actiive uno.";
-    }
-    header("Location: /pages/periodos_escolares.php");
-    exit();   
+$periodo_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+
+if ($periodo_stmt->rowCount() === 0) {
+    // Si no hay período activo, se guarda un mensaje de error en la sesión.
+    // La ventana modal se encargará de mostrarlo.
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
 }
 
 // Inicializar variables

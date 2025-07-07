@@ -20,21 +20,19 @@ require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
 
-// Obtener período escolar activo
-$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 
-if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear uno.");
+$periodo_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+
+if ($periodo_stmt->rowCount() === 0) {
+    // Si no hay período activo, se guarda un mensaje de error en la sesión.
+    // La ventana modal se encargará de mostrarlo.
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
 }
 
-// Obtener período escolar activo
-$periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-
-if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Dirijase al menú Mantenimiento para crear y activar uno.");
-}
-
+// Obtener lista de estudiantes
 $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER BY nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
