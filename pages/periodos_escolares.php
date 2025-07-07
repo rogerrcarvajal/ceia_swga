@@ -157,7 +157,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Gestión de Períodos Escolares</h1></br>
+        <h1>Gestión de Períodos Escolares</h1>
     </div>
     
     <div class="formulario-contenedor">

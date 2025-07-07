@@ -89,12 +89,10 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
     </style>    
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-    <br></br>
-    <div class="formulario-contenedor">
-        <div class="content">
-            <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h2>Registro de Vehículos Autorizados</h2></br>
+    <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
+    <div class="content">
+        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <h2>Registro de Vehículos Autorizados</h2>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
 
         <form method="POST">

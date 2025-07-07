@@ -44,12 +44,12 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 <head>
     <meta charset="UTF-8">
     <title>Reportes del Sistema - CEIA</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
     <style>
         body {
             margin: 0;
             padding: 0;
-            background-image: url('img/fondo.jpg');
+            background-image: url("/public/img/fondo.jpg");
             background-size: cover;
             background-position: top;
             font-family: 'Arial', sans-serif;
@@ -57,7 +57,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         }
 
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.75);
+            background-color: rgba(0, 0, 0, 0.7);
             margin: 30px auto;
             padding: 30px;
             border-radius: 10px;
@@ -121,10 +121,10 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 </head>
 
 <body>
-    <?php include 'navbar.php'; ?>
+    <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Reportes del Sistema</h1></br>
+        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <h1>Reportes del Sistema</h1>
     </div>
 
     <div class="formulario-contenedor">
@@ -132,17 +132,17 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         
             <ul class="lista-reportes">
                 <li>
+                    <a href="Planilla_Inscripcion_reporte.php" target="_blank">
+                        <span class="icono-reporte">📋</span> Planilla de Inscripción
+                    </a>
+                    <p>Muestra todos los estudiantes del período escolar activo, indicando si pertenecen al personal (staff).</p>
+                </li>
+
+                <li>
                     <a href= "reportes/roster_actual.php" target="_blank">
                         <span class="icono-reporte">📄</span> Roster Actualizado
                     </a>
                     <p>Vista previa del personal admininstrativo y docente, además un listado de estudiantes por grado, con opciones para exportar a PDF.</p>
-                </li>
-
-                <li>
-                    <a href="lista_general_estudiantes.php" target="_blank">
-                        <span class="icono-reporte">📋</span> Listado General de Estudiantes
-                    </a>
-                    <p>Muestra todos los estudiantes del período escolar activo, indicando si pertenecen al personal (staff).</p>
                 </li>
 
                 <li>
