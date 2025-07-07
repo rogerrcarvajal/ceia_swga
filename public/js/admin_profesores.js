@@ -38,9 +38,32 @@ document.addEventListener('DOMContentLoaded', function() {
         formAsignar.addEventListener('submit', guardarNuevaAsignacion);
     }
 
+
+    // --- HELPERS PARA CREAR SELECTS DINÁMICOS ---
+    function crearSelectPosicion(selectedValue) {
+        const select = document.createElement('select');
+        const opciones = [
+            "Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology",
+            "DC-Grade 12 Music", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3",
+            "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11",
+            "Grade 12", "Spanish teacher - Grade 1-6", "Spanish teacher - Grade 7-12",
+            "Social Studies - Grade 6-12", "IT Teacher - Grade Pk-3-12", "Science Teacher - Grade 6-12",
+            "ESL - Elementary", "ESL - Secondary", "PE - Grade Pk3-12", "Language Arts - Grade 6-9",
+            "Math teacher - Grade 6-9", "Math teacher - Grade 10-12", "Librarian"
+        ];
+        opciones.forEach(op => {
+            const option = document.createElement('option');
+            option.value = op;
+            option.textContent = op;
+            if (op === selectedValue) option.selected = true;
+            select.appendChild(option);
+        });
+        return select;
+    }
+
     // --- FUNCIONES ---
     function cargarProfesores(periodo_id) {
-        fetch(`/api/obtener_profesores.php?periodo_id=${periodo_id}`)
+        fetch(`../api/obtener_profesores.php?periodo_id=${periodo_id}`)
             .then(response => response.ok ? response.json() : Promise.reject(response.statusText))
             .then(data => {
                 if (!tbody) return;
@@ -59,7 +82,32 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => mostrarMensaje('Error al cargar los profesores.', 'error'));
     }
-    
+
+    // --- CARGA DE PROFESORES NO ASIGNADOS ---
+    function cargarProfesoresNoAsignados() {
+        const select = document.getElementById('profesor-a-asignar');
+        fetch(`../api/obtener_profesores_no_asignados.php?periodo_id=${periodoSelect.value}`)
+            .then(response => response.json())
+            .then(data => {
+                select.innerHTML = '<option value="">Seleccione un profesor...</option>';
+                data.forEach(p => {
+                    select.innerHTML += `<option value="${p.id}">${p.nombre_completo}</option>`;
+                });
+            });
+    }
+    // --- CARGA DE OPCIONES PARA HOMEROOM --
+    function cargarOpcionesHomeroom() {
+        const select = document.getElementById('homeroom-asignar');
+        select.innerHTML = '';
+        const opciones = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
+        opciones.forEach(op => {
+            const option = document.createElement('option');
+            option.value = op;
+            option.textContent = op;
+            select.appendChild(option);
+        });
+    }
+
     // --- CORRECCIÓN CLAVE AQUÍ ---
     function guardarNuevaAsignacion(e) {
         e.preventDefault();
@@ -67,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('periodo_id', periodoSelect.value);
 
         // La ruta ahora es absoluta, apuntando a la carpeta /api/
-        fetch('/api/asignar_profesor.php', {
+        fetch('../api/asignar_profesor.php', {
             method: 'POST',
             body: formData
         })
@@ -82,40 +130,73 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => mostrarMensaje('Error de conexión al guardar.', 'error'));
     }
-
-    function cargarProfesoresNoAsignados() {
-        const select = document.getElementById('profesor-a-asignar');
-        fetch(`/api/obtener_profesores_no_asignados.php?periodo_id=${periodoSelect.value}`)
-            .then(response => response.json())
-            .then(data => {
-                select.innerHTML = '<option value="">Seleccione un profesor...</option>';
-                data.forEach(p => {
-                    select.innerHTML += `<option value="${p.id}">${p.nombre_completo}</option>`;
-                });
-            });
-    }
-
-    function cargarOpcionesHomeroom() {
-        const select = document.getElementById('homeroom-asignar');
-        select.innerHTML = '';
-        const opciones = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
-        opciones.forEach(op => {
-            const option = document.createElement('option');
-            option.value = op;
-            option.textContent = op;
-            select.appendChild(option);
-        });
-    }
     
     function mostrarMensaje(mensaje, tipo) {
-        if (!statusMessage) return;
         statusMessage.textContent = mensaje;
         statusMessage.className = `status-${tipo}`;
         statusMessage.style.display = 'block';
-        setTimeout(() => {
-            statusMessage.style.display = 'none';
-        }, 4000);
+        setTimeout(() => statusMessage.style.display = 'none', 4000);
     }
 
     // El resto de funciones de edición en tabla, si las tienes, van aquí...
+
+        // --- LÓGICA DE EDICIÓN EN LA TABLA ---
+    tbody.addEventListener('click', function(e) {
+        const cell = e.target.closest('td[data-field]');
+        if (!cell || cell.querySelector('input, select')) return;
+
+        originalValue = cell.textContent.trim();
+        const field = cell.dataset.field;
+        let editor;
+
+        // ----- CORRECCIÓN APLICADA AQUÍ -----
+        if (field === 'homeroom_teacher') {
+            editor = crearSelectHomeroom(originalValue);
+        } else if (field === 'posicion') { // Se añade la condición para el campo 'posicion'
+            editor = crearSelectPosicion(originalValue);
+        } else { // Esto ya no debería ocurrir para los campos editables
+            editor = document.createElement('input');
+            editor.type = 'text';
+            editor.value = originalValue;
+        }
+
+        cell.innerHTML = '';
+        cell.appendChild(editor);
+        editor.focus();
+
+        editor.addEventListener('blur', () => guardarCambio(cell, editor));
+        editor.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') editor.blur();
+            if (e.key === 'Escape') cell.innerHTML = originalValue;
+        });
+    });
+
+    // --- FUNCIÓN PARA GUARDAR CAMBIOS DE UNA CELDA EDITADA ---
+    function guardarCambio(cell, editor) {
+        const newValue = editor.value;
+        if (newValue.trim() === originalValue) {
+            cell.innerHTML = originalValue;
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('id', cell.dataset.id);
+        formData.append('field', cell.dataset.field);
+        formData.append('value', newValue);
+
+        fetch('actualizar_profesores.php', { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    cell.innerHTML = newValue || (cell.dataset.field === 'homeroom_teacher' ? 'N/A' : '');
+                    mostrarMensaje(data.message, 'success');
+                } else {
+                    cell.innerHTML = originalValue;
+                    mostrarMensaje(data.message || 'Error desconocido.', 'error');
+                }
+            }).catch(() => mostrarMensaje('Error de conexión.', 'error'));
+    }
+    
 });
+// --- FIN DEL CÓDIGO ---
+// Este código JavaScript se ejecuta cuando el DOM está completamente cargado.
