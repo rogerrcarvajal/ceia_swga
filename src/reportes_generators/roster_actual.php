@@ -1,30 +1,47 @@
 <?php
 session_start();
+// Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    // Redirigir al login si no hay sesión, ajustando la ruta
-    header("Location: ../../home.php");
+    header(header: "Location: /../public/index.php");
     exit();
 }
-// Ajustar la ruta de conexión para que suba dos niveles desde la carpeta /reportes/
-require_once "../conn/conexion.php";
 
+// Incluir configuración y conexión a la base de datos
+require_once __DIR__ . '/../src/config.php';
+
+//Declaracion de variables
 $mensaje = "";
 
-// --- OBTENER PERÍODO ESCOLAR ACTIVO ---
-$periodo_stmt = $conn->query(query: "SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
-$periodo = $periodo_stmt->fetch(mode: PDO::FETCH_ASSOC);
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+$acceso_stmt = $conn->query(query: "SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
 
-if (!$periodo) {
-    die("⚠️ No hay período escolar activo. Diríjase al menú Mantenimiento para crear y activar uno.");
+$usuario_rol = $acceso_stmt;
+
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    if ($_SESSION !== $usuario_rol) {
+        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
+    }
 }
+
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
+$periodo_stmt = $conn->query(query: "SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+
+if ($periodo_stmt->rowCount() === 0) {
+    // Si no hay período activo, se guarda un mensaje de error en la sesión.
+    // La ventana modal se encargará de mostrarlo.
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
+}
+
 $periodo_id = $periodo['id'];
 $nombre_periodo = $periodo['nombre_periodo'];
 
 
 // --- CONSULTA PARA OBTENER EL PERSONAL (PROFESORES Y ADMINISTRATIVOS) ---
 $profesores_sql = "SELECT nombre_completo, posicion FROM profesores ORDER BY posicion, nombre_completo";
-$profesores_stmt = $conn->query($profesores_sql);
-$profesores = $profesores_stmt->fetchAll(PDO::FETCH_ASSOC);
+$profesores_stmt = $conn->query(query: $profesores_sql);
+$profesores = $profesores_stmt->fetchAll(mode: PDO::FETCH_ASSOC);
 
 
 // --- CONSULTA PARA OBTENER LOS ESTUDIANTES DEL PERÍODO ACTIVO ---
@@ -36,10 +53,10 @@ $estudiantes_sql = "SELECT
                     WHERE activo = TRUE AND periodo_id = :periodo_id 
                     ORDER BY grado_ingreso, nombre_completo";
 
-$estudiantes_stmt = $conn->prepare($estudiantes_sql);
-$estudiantes_stmt->bindParam(':periodo_id', $periodo_id, PDO::PARAM_INT);
+$estudiantes_stmt = $conn->prepare(query: $estudiantes_sql);
+$estudiantes_stmt->bindParam(param: ':periodo_id', var:$periodo_id, type: PDO::PARAM_INT);
 $estudiantes_stmt->execute();
-$estudiantes_result = $estudiantes_stmt->fetchAll(PDO::FETCH_ASSOC);
+$estudiantes_result = $estudiantes_stmt->fetchAll(mode: PDO::FETCH_ASSOC);
 
 // Agrupar estudiantes por grado en un array
 $estudiantes_por_grado = [];
@@ -57,11 +74,11 @@ foreach ($estudiantes_result as $estudiante) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roster Actual - <?php echo htmlspecialchars($nombre_periodo); ?></title>
+    <title>Roster Actual - <?php echo htmlspecialchars(string: $nombre_periodo); ?></title>
     <style>
         /* Estilos sin cambios */
-        body { font-family: 'Arial', sans-serif; background-color: #f4f4f4; color: #333; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        body { font-family: 'Arial', sans-serif; background-color:rgb(0, 0, 7); color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.3); }
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #005a9c; padding-bottom: 15px; margin-bottom: 25px; }
         .header h1 { color: #003366; margin: 0; font-size: 1.8em; }
         .export-buttons button { padding: 10px 18px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-left: 10px; color: white; transition: opacity 0.3s; }

@@ -1,6 +1,7 @@
 <?php
-require "../conn/conexion.php";
-require "../lib/fpdf.php";
+// Incluir configuración y conexión a la base de datos
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ .  '/../lib/fpdf.php';
 
 $pdf = new FPDF();
 $pdf->AddPage();
@@ -25,4 +26,4 @@ foreach ($query as $row) {
     $pdf->Ln();
 }
 
-$pdf->Output("I", "Listado_Estudiantes_CEIA.pdf");
+$pdf->Output("I", "planilla_inscripcion.pdf");

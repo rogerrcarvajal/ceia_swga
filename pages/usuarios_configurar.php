@@ -44,15 +44,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     // Encriptar la contraseña antes de guardarla
     $hashed_password = password_hash($clave, PASSWORD_DEFAULT);
 
-    $check = $conn->prepare("SELECT id FROM usuarios WHERE username = :username");
-    $check->execute([':username' => $username]);
+    $check = $conn->prepare(query: "SELECT id FROM usuarios WHERE username = :username");
+    $check->execute(params: [':username' => $username]);
 
     if ($check->rowCount() > 0) {
         $mensaje = "⚠️ Ya existe un usuario con ese nombre.";
     } else {
         $sql = "INSERT INTO usuarios (username, password, rol, profesor_id) VALUES (:username, :password, :rol, :profesor_id)";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([
+        $stmt = $conn->prepare(query: $sql);
+        $stmt->execute(params: [
             ':username' => $username,
             ':password' => $hashed_password, // Se guarda el hash
             ':rol' => $rol,
@@ -101,7 +101,7 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
                 <select name="profesor_id">
                     <option value="">-- No vincular / Usuario genérico --</option>
                     <?php foreach ($profesores_sin_usuario as $prof): ?>
-                        <option value="<?= $prof['id'] ?>"><?= htmlspecialchars($prof['nombre_completo']) ?></option>
+                        <option value="<?= $prof['id'] ?>"><?= htmlspecialchars(string: $prof['nombre_completo']) ?></option>
                     <?php endforeach; ?>
                 </select>
                 

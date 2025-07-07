@@ -132,21 +132,21 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         
             <ul class="lista-reportes">
                 <li>
-                    <a href="Planilla_Inscripcion_reporte.php" target="_blank">
+                    <a href="/src/reportes_generators/planilla_inscripcion_reporte.php" target="_blank">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción
                     </a>
                     <p>Muestra todos los estudiantes del período escolar activo, indicando si pertenecen al personal (staff).</p>
                 </li>
 
                 <li>
-                    <a href= "reportes/roster_actual.php" target="_blank">
+                    <a href= "/src/reportes_generators/roster_actual.php" target="_blank">
                         <span class="icono-reporte">📄</span> Roster Actualizado
                     </a>
                     <p>Vista previa del personal admininstrativo y docente, además un listado de estudiantes por grado, con opciones para exportar a PDF.</p>
                 </li>
 
                 <li>
-                    <a href="exportar_codigoqr.php" target="_blank">
+                    <a href="/src/reportes_generators/exportar_codigoqr.php" target="_blank">
                         <span class="icono-reporte">📷</span> Generador de Códigos QR
                     </a>
                     <p>Formulario para generar y exportar códigos QR para el control de acceso de estudiantes, profesores y vehículos.</p>
