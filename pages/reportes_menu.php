@@ -69,7 +69,6 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
         .content img {
             width: 180px;
-            margin-bottom: 20px;
         }
         
         .content h2 {

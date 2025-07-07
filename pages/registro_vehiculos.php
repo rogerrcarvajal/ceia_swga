@@ -80,8 +80,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
         }
 
         .content img {
-            width: 150px;
-            margin-bottom: 0px;
+            width: 180px;
         }
     </style>    
 </head>
@@ -91,7 +90,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
     <div class="formulario-contenedor">
         <div class="content">
             <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h2>Registro de Vehículos Autorizados</h2>
+        <h2>Registro de Vehículos Autorizados</h2></br>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
 
         <form method="POST">

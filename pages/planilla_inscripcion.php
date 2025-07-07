@@ -231,7 +231,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .content img {
             width: 180px;
-            margin-bottom: 20px;
         }
 
         input, textarea, select {

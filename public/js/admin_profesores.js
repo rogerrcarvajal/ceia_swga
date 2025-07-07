@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cargarProfesores(periodoSelect.value); // Recargar la tabla para mostrar el nuevo registro
             }
         })
-        .catch(error => mostrarMensaje('Error de conexión al guardar.', 'error'));
+    .catch(error => mostrarMensaje(`Error de conexión al guardar: ${error.message}`, 'error'));
     }
     
     function mostrarMensaje(mensaje, tipo) {

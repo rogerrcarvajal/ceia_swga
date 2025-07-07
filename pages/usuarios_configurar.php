@@ -75,7 +75,7 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
         .form-seccion { width: 45%; color: white; min-width: 350px; }
         .form-seccion h3 { text-align: center; border-bottom: 1px solid #0057A0; padding-bottom: 10px; }
         .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 30px; padding-top: 20px;}
-        .content img { width: 150px; }
+        .content img { width: 180px; }
         .lista-profesores { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; }
         .lista-profesores li { background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .lista-profesores a { color: #87cefa; text-decoration: none; margin-left: 10px; }

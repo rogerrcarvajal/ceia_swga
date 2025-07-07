@@ -68,9 +68,9 @@ $posiciones = [
 
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
-    <div class="content">
+    <class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Administración de Staff / Profesores</h1>
+        <h1>Administración de Staff / Profesores</h1></br>
     </div>
 
     <div class="container">
