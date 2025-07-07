@@ -6,21 +6,27 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
-// Verificar si el rol del usuario NO es 'admin'
-if ($_SESSION['usuario']['rol'] !== 'admin') {
-    // Guardar un mensaje de error en la sesión para mostrarlo en el dashboard
-    $_SESSION['error_mensaje'] = "Acceso denegado. No tiene permiso para ver esta página.";
-    header("Location: /../pages/dashboard.php"); // Redirigir a una página segura
-    exit();
-}
-
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
-// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
+//Declaracion de variables
+$mensaje = "";
 
-$periodo_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
+
+$usuario_rol = $acceso_stmt;
+
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    if ($_SESSION !== $usuario_rol) {
+        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
+    }
+}
+
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
+$periodo_stmt = $conn->query(query: "SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
 
 if ($periodo_stmt->rowCount() === 0) {
     // Si no hay período activo, se guarda un mensaje de error en la sesión.

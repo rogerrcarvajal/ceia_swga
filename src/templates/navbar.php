@@ -132,8 +132,88 @@
             navLinks.classList.toggle('active');
         });
     });
-</script><?php
-// Comprobar si existe el mensaje de error en la sesión
+</script>
+
+
+<?php
+// Comprobar si existe el mensaje de error en la sesións
+
+if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
+?>
+
+<style>
+    .modal-overlay {
+        background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Asegurarse de que esté por encima de todo */
+    }
+
+    .modal-content {
+        background-color: #fff;
+        color: #333;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.9);
+        text-align: center;
+        max-width: 500px;
+        width: 90%;
+    }
+
+    .modal-content h2 {
+        color: #d9534f; /* Rojo de advertencia */
+        margin-top: 0;
+    }
+
+    .modal-content p {
+        font-size: 1.1em;
+        margin: 20px 0;
+    }
+
+    .modal-content .boton-modal {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: #005a9c;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .modal-content .boton-modal:hover {
+        background-color: #004a8f;
+    }
+</style>
+
+<div class="modal-overlay" id="periodo-modal">
+    <div class="modal-content">
+        <h2>⚠️ Atención</h2>
+        <p>
+            <?php 
+                // Imprimir el mensaje de error guardado en la sesión
+                echo htmlspecialchars(string: $_SESSION['error_acceso']); 
+            ?>
+        </p>
+        <a href="/pages/dashboard.php" class="boton-modal">
+            Ir a la pantalla de inicio
+        </a>
+    </div>
+</div>
+
+<?php
+    // Limpiar la variable de sesión después de mostrar el mensaje
+    // para que no aparezca en otras páginas.
+    unset($_SESSION['error_acceso']);
+endif;
+
+
 if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_periodo_inactivo'])):
 ?>
 
@@ -194,7 +274,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
         <p>
             <?php 
                 // Imprimir el mensaje de error guardado en la sesión
-                echo htmlspecialchars($_SESSION['error_periodo_inactivo']); 
+                echo htmlspecialchars(string: $_SESSION['error_periodo_inactivo']); 
             ?>
         </p>
         <a href="/pages/periodos_escolares.php" class="boton-modal">
@@ -209,4 +289,3 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
     unset($_SESSION['error_periodo_inactivo']);
 endif;
 ?>
-
