@@ -224,7 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         .content {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 30px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }

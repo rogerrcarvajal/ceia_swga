@@ -89,7 +89,7 @@ if (!$profesor) {
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Editar Staff / Profesor</h1>
+        <h1>Editar Staff / Profesor</h1></br>
     </div>
 
     <div class="formulario-contenedor">

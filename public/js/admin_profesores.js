@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => mostrarMensaje('Error al cargar los profesores.', 'error'));
     }
 
-    // --- CARGA DE PROFESORES NO ASIGNADOS ---
+    // --- CARGA DE PROFESORES NO ASIGNADOS Y OPCIONES DE HOMEROOM ---
     function cargarProfesoresNoAsignados() {
         const select = document.getElementById('profesor-a-asignar');
         fetch(`/api/obtener_profesores_no_asignados.php?periodo_id=${periodoSelect.value}`)
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
     }
-    // --- CARGA DE OPCIONES PARA HOMEROOM --
+
     function cargarOpcionesHomeroom() {
         const select = document.getElementById('homeroom-asignar');
         select.innerHTML = '';
@@ -137,8 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
         statusMessage.style.display = 'block';
         setTimeout(() => statusMessage.style.display = 'none', 4000);
     }
-
-    // El resto de funciones de edición en tabla, si las tienes, van aquí...
 
         // --- LÓGICA DE EDICIÓN EN LA TABLA ---
     tbody.addEventListener('click', function(e) {

@@ -121,7 +121,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <?php include 'navbar.php'; ?>
     <div class="content">
         <img src="img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Reportes del Sistema</h1>
+        <h1>Reportes del Sistema</h1></br>
     </div>
 
     <div class="formulario-contenedor">

@@ -74,7 +74,7 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.75); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .form-seccion { width: 45%; color: white; min-width: 350px; }
         .form-seccion h3 { text-align: center; border-bottom: 1px solid #0057A0; padding-bottom: 10px; }
-        .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; padding-top: 20px;}
+        .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 30px; padding-top: 20px;}
         .content img { width: 150px; }
         .lista-profesores { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; }
         .lista-profesores li { background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
@@ -85,7 +85,7 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Gestión de Usuarios del Sistema</h1>
+        <h1>Gestión de Usuarios del Sistema</h1></br>
     </div>
     
     <div class="formulario-contenedor">
