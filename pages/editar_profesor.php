@@ -123,6 +123,9 @@ $homerooms = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2"
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestionar Staff / Profesor</h1>
+        <?php if ($periodo_activo): ?>
+            <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+        <?php endif; ?>
     </div>
 
     <div class="formulario-contenedor" style="max-width: 600px;">

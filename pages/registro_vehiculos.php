@@ -93,6 +93,9 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h2>Registro de Vehículos Autorizados</h2>
+        <?php if ($periodo_activo): ?>
+            <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+        <?php endif; ?>
         <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
 
         <form method="POST">

@@ -89,6 +89,9 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestión de Usuarios del Sistema</h1>
+        <?php if ($periodo_activo): ?>
+            <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+        <?php endif; ?>
     </div>
     
     <div class="formulario-contenedor">
