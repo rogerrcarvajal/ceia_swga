@@ -56,12 +56,14 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         }
 
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter:blur(10px);
+            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+            border:2px solid rgba(255,255,255,0.18);
             margin: 30px auto;
             padding: 30px;
             border-radius: 10px;
             max-width: 50%; /* Aumentado para mejor visualización */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
         }
 
         .content {
@@ -80,6 +82,10 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
         /* Estilos para la lista de reportes */
         .lista-reportes {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter:blur(10px);
+            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+            border:2px solid rgba(255,255,255,0.18);
             list-style: none;
             padding: 0;
             text-align: left;
@@ -130,8 +136,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     </div>
 
     <div class="formulario-contenedor">
-        <div class="content">
-        
+        <div class="content">       
             <ul class="lista-reportes">
                 <li>
                     <a href="/src/reportes_generators/planilla_estudiante.php" target="_blank">

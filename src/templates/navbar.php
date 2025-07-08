@@ -39,12 +39,15 @@
 
 <style>
     .navbar {
-        background-color: rgba(0, 0, 0, 0.7);
         display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 12px 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        z-index: 1000; /* Asegurarse de que esté por encima de todo */
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter:blur(10px);
+        box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+        border:2px solid rgba(255,255,255,0.18);
     }
 
     .navbar-logo {
@@ -69,7 +72,7 @@
     }
 
     .navbar-links a:hover {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.20);
         border-radius: 4px;
     }
 
@@ -81,9 +84,12 @@
     .dropdown-content {
         display: none;
         position: absolute;
-        background-color: rgba(0, 0, 0, 0.9);
         min-width: 160px;
         z-index: 1;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter:blur(10px);
+        box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+        border:2px solid rgba(255,255,255,0.18);
     }
 
     .dropdown-content a {
@@ -142,7 +148,10 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
 
 <style>
     .modal-overlay {
-        background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter:blur(37px);
+        box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+        border:2px solid rgba(255,255,255,0.18);
         position: fixed;
         top: 0;
         left: 0;
@@ -159,7 +168,10 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
         color: #333;
         padding: 30px;
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.9);
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter:blur(37px);
+        box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+        border:2px solid rgba(255,255,255,0.18);
         text-align: center;
         max-width: 500px;
         width: 90%;
@@ -178,7 +190,7 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
     .modal-content .boton-modal {
         display: inline-block;
         padding: 12px 25px;
-        background-color: #005a9c;
+        background-color:rgb(48, 48, 48);
         color: white;
         text-decoration: none;
         border-radius: 5px;
@@ -187,7 +199,7 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
     }
     
     .modal-content .boton-modal:hover {
-        background-color: #004a8f;
+        background-color:rgb(48, 48, 48);
     }
 </style>
 
@@ -218,7 +230,10 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
 
 <style>
     .modal-overlay {
-        background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter:blur(37px);
+        box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+        border:2px solid rgba(255,255,255,0.18);
         position: fixed;
         top: 0;
         left: 0;
@@ -235,7 +250,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
         color: #333;
         padding: 30px;
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.9);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         text-align: center;
         max-width: 500px;
         width: 90%;
@@ -254,7 +269,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
     .modal-content .boton-modal {
         display: inline-block;
         padding: 12px 25px;
-        background-color: #005a9c;
+        background-color:rgb(48, 48, 48);
         color: white;
         text-decoration: none;
         border-radius: 5px;
@@ -263,7 +278,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
     }
     
     .modal-content .boton-modal:hover {
-        background-color: #004a8f;
+        background-color:rgb(48, 48, 48);
     }
 </style>
 

@@ -176,7 +176,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter:blur(10px);
+            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+            border:2px solid rgba(255,255,255,0.18);
             margin: 30px auto;
             padding: 30px;
             border-radius: 10px;
@@ -187,7 +190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .formulario {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.3);
             color: white;
             padding: 25px;
             margin: 30px auto;
@@ -222,7 +225,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding-bottom: 5px;
         }
 
-        .container { background-color: rgba(0, 0, 0, 0.8); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .container { background-color: rgba(0, 0, 0, 0.5); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         
         .content {
             text-align: center;

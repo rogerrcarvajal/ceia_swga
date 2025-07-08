@@ -45,7 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter:blur(10px);
+            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+            border:2px solid rgba(255,255,255,0.18);
             margin: 20px auto;
             padding: 30px;
             border-radius: 10px;
@@ -57,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .content {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 0px;
             color: white;
             text-shadow: 1px 1px 2px black;
         }
