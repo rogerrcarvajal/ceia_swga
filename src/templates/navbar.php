@@ -14,7 +14,6 @@
                 <a href="#">📝 Staff / Profesores</a>
                 <div class="dropdown-content">
                     <a href= "/pages/profesores_registro.php">Nuevo Ingreso</a>
-                    <a href= "/pages/profesores_administrar.php">Administrar Staff / Profesores</a>
                 </div>
             </div>
             <div class="dropdown">

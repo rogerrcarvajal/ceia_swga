@@ -219,7 +219,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         h3 {
             text-align: center;
             margin-bottom: 20px;
-            border-bottom: 2px solid #0057A0;
             padding-bottom: 5px;
         }
 
