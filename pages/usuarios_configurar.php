@@ -26,12 +26,11 @@ if ($_SESSION['usuario']['rol'] !== 'admin') {
 }
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
-$periodo_stmt = $conn->query(query: "SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+// --- Obtener el período escolar activo ---
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
-if ($periodo_stmt->rowCount() === 0) {
-    // Si no hay período activo, se guarda un mensaje de error en la sesión.
-    // La ventana modal se encargará de mostrarlo.
-    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
 }
 
 // Lógica para agregar un nuevo usuario (ahora guarda la contraseña encriptada)

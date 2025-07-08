@@ -26,12 +26,11 @@ if ($_SESSION['usuario']['rol'] !== 'admin') {
 }
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
-$periodo_stmt = $conn->query(query: "SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+// --- Obtener el período escolar activo ---
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
-if ($periodo_stmt->rowCount() === 0) {
-    // Si no hay período activo, se guarda un mensaje de error en la sesión.
-    // La ventana modal se encargará de mostrarlo.
-    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
 }
 
 // Obtener lista de estudiantes
@@ -86,6 +85,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Administrar Planilla de Inscripción</h1>
+        <?php if ($periodo_activo): ?>
+            <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+        <?php endif; ?>
     </div>
 
     <div class="contenedor-principal">

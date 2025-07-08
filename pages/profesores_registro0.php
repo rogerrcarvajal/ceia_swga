@@ -26,48 +26,44 @@ if ($_SESSION['usuario']['rol'] !== 'admin') {
 }
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
-// --- Obtener el período escolar activo ---
-$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+$periodo_stmt = $conn->query(query: "SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
 
-if (!$periodo_activo) {
-    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
+if ($periodo_stmt->rowCount() === 0) {
+    // Si no hay período activo, se guarda un mensaje de error en la sesión.
+    // La ventana modal se encargará de mostrarlo.
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
 }
 
-// --- Lógica para registrar un nuevo profesor ---
+// Lógica para agregar un nuevo profesor (solo datos básicos)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $nombre_completo = $_POST["nombre_completo"] ?? '';
     $cedula = $_POST["cedula"] ?? '';
     $telefono = $_POST["telefono"] ?? '';
     $email = $_POST["email"] ?? '';
 
+    // Verificar si la cédula ya existe
     $check = $conn->prepare("SELECT id FROM profesores WHERE cedula = :cedula");
     $check->execute([':cedula' => $cedula]);
 
     if ($check->rowCount() > 0) {
         $mensaje = "⚠️ Un miembro del staff ya está registrado con esta cédula.";
     } else {
-        $sql = "INSERT INTO profesores (nombre_completo, cedula, telefono, email) VALUES (:nombre, :cedula, :telefono, :email)";
+        // La tabla 'profesores' ahora solo contiene estos campos
+        $sql = "INSERT INTO profesores (nombre_completo, cedula, telefono, email)
+                VALUES (:nombre_completo, :cedula, :telefono, :email)";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([':nombre' => $nombre_completo, ':cedula' => $cedula, ':telefono' => $telefono, ':email' => $email]);
-        $mensaje = "✅ Staff / Profesor registrado correctamente. Ahora puede asignarlo al período activo desde la lista.";
+        $stmt->execute([
+            ':nombre_completo' => $nombre_completo,
+            ':cedula' => $cedula,
+            ':telefono' => $telefono,
+            ':email' => $email
+        ]);
+        $mensaje = "✅ Staff / Profesor registrado correctamente.";
     }
 }
 
-// --- Obtener la lista de TODO el personal y su estado de asignación en el período activo ---
-$periodo_id_activo = $periodo_activo ? $periodo_activo['id'] : 0;
-
-$sql_profesores = "SELECT 
-                        p.id, 
-                        p.nombre_completo, 
-                        p.cedula,
-                        pp.id AS asignacion_id,  -- Será NULL si no está asignado
-                        pp.posicion
-                   FROM profesores p
-                   LEFT JOIN profesor_periodo pp ON p.id = pp.profesor_id AND pp.periodo_id = :periodo_id
-                   ORDER BY p.nombre_completo ASC";
-$stmt_profesores = $conn->prepare($sql_profesores);
-$stmt_profesores->execute([':periodo_id' => $periodo_id_activo]);
-$profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
+// Obtener la lista de profesores para mostrarla
+$profesores = $conn->query("SELECT * FROM profesores ORDER BY nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -93,9 +89,6 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestión de Staff / Profesores</h1>
-        <?php if ($periodo_activo): ?>
-            <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
-        <?php endif; ?>
     </div>
 
     <div class="formulario-contenedor">
@@ -104,11 +97,12 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
             <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
             <form method="POST">
                 <input type="text" name="nombre_completo" placeholder="Nombre completo" required>
-                <input type="text" name="cedula" placeholder="Cédula" required>
-                <input type="text" name="telefono" placeholder="Teléfono">
+                <input type="text" name="cedula" placeholder="Cédula (sin puntos ni comas)" required>
+                <input type="text" name="telefono" placeholder="Teléfono de contacto">
                 <input type="email" name="email" placeholder="Correo electrónico">
                 <br><br>
-                <button type="submit" name="agregar">Agregar Staff</button>
+                <button type="submit" name="agregar">Agregar Staff / Profesor</button>
+                <a href="/../pages/profesores_administrar.php" class="boton-link">Administrar Staff / Profesor</a>
             </form>
         </div> 
 
@@ -116,20 +110,14 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
             <h3>Personal Registrado</h3>
             <ul class="lista-profesores">
                 <?php if (empty($profesores)): ?>
-                    <li>No hay personal registrado en el sistema.</li>
+                    <li>No hay personal registrado.</li>
                 <?php else: ?>
                     <?php foreach ($profesores as $p): ?>
                         <li>
-                            <span>
-                                <?= htmlspecialchars($p['nombre_completo']) ?> (C.I: <?= htmlspecialchars($p['cedula']) ?>)
-                                <?php if ($p['asignacion_id']): ?>
-                                    <br><small style="color:#a2ff96;">Asignado como: <?= htmlspecialchars($p['posicion']) ?></small>
-                                <?php else: ?>
-                                    <br><small style="color:#ffc107;">No asignado a este período</small>
-                                <?php endif; ?>
-                            </span>
+                            <span><?= htmlspecialchars($p['nombre_completo']) ?> (C.I: <?= htmlspecialchars($p['cedula']) ?>)</span>
                             <div>
-                                <a href="/pages/editar_profesor.php?id=<?= $p['id'] ?>">Gestionar</a>
+                                <a href="/pages/editar_profesor.php?id=<?= $p['id'] ?>">Editar</a> |
+                                <a href="/pages/eliminar_profesor.php?id=<?= $p['id'] ?>" onclick="return confirm('¿Estás seguro de eliminar a este miembro del staff? Se eliminarán todas sus asignaciones en todos los períodos escolares.')">Eliminar</a>
                             </div>
                         </li>
                     <?php endforeach; ?>

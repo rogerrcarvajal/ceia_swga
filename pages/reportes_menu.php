@@ -26,12 +26,11 @@ if ($_SESSION['usuario']['rol'] !== 'admin') {
 }
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
-$periodo_stmt = $conn->query(query: "SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
+// --- Obtener el período escolar activo ---
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
-if ($periodo_stmt->rowCount() === 0) {
-    // Si no hay período activo, se guarda un mensaje de error en la sesión.
-    // La ventana modal se encargará de mostrarlo.
-    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar o crear uno en el menú de Mantenimiento para poder continuar.";
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
 }
 
 // Obtener lista de estudiantes
@@ -132,7 +131,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         
             <ul class="lista-reportes">
                 <li>
-                    <a href="/src/reportes_generators/planilla_inscripcion_reporte.php" target="_blank">
+                    <a href="/src/reportes_generators/planilla_estudiante.php" target="_blank">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción
                     </a>
                     <p>Muestra todos los estudiantes del período escolar activo, indicando si pertenecen al personal (staff).</p>
