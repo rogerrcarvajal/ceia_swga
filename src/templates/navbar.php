@@ -102,7 +102,7 @@
     }
 
     .logout {
-        background-color: red;
+        background-color: black;
         padding: 5px 10px;
         border-radius: 5px;
     }

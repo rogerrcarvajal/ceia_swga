@@ -22,41 +22,6 @@ if (!isset($_SESSION['usuario'])) {
             font-family: 'Arial', sans-serif;
         }
 
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 14px 20px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .navbar a:hover {
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-        }
-
-        .navbar .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.9);
-            min-width: 160px;
-            z-index: 1;
-        }
-
-        .dropdown-content a {
-            padding: 12px 16px;
-            display: block;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
         .content {
             text-align: center;
             margin-top: 100px;
@@ -70,38 +35,12 @@ if (!isset($_SESSION['usuario'])) {
         }
 
         .content h1 {
-            font-size: 48px;
+            font-size: 50px;
             margin-bottom: 20px;
         }
 
         .content p {
-            font-size: 18px;
-        }
-
-        .boton-accion {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #0057A0;
-            color: white;
-            border-radius: 5px;
-            margin-top: 20px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        .boton-accion:hover {
-            background-color: #003d73;
-        }
-
-        .logout {
-            background-color: red;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .logout:hover {
-            background-color: darkred;
+            font-size: 20px;
         }
     </style>
 </head>
