@@ -55,7 +55,7 @@ $posiciones = [
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
         body { margin: 0; padding: 0; background-image: url('/public//img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
-        .container { background-color: rgba(0, 0, 0, 0.7); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+        .container { background-color: rgba(0, 0, 0, 0.5); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 85%; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
         .content { text-align: center; margin-top: 30px;}
         .content img { width: 180px; }
         h2 { margin-bottom: 25px; text-shadow: 1px 1px 2px black; }
@@ -63,7 +63,7 @@ $posiciones = [
         .toolbar label { font-weight: bold; }
         .toolbar select { padding: 8px; border-radius: 5px; min-width: 200px; }
         .toolbar button { padding: 10px 15px; border-radius: 5px; border: none; background-color: #28a745; color: white; cursor: pointer; }
-        #form-asignar { display: none; background-color: #333; padding: 20px; margin-top: 20px; border-radius: 8px; text-align: left; }
+        #form-asignar { background-color: rgba(0, 0, 0, 0.5); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18);display: none; padding: 20px; margin-top: 20px; border-radius: 8px; text-align: left; }
         table { width: 100%; border-collapse: collapse; background-color: rgba(255, 255, 255, 0.9); color: #333; }
         th, td { border: 1px solid #ccc; padding: 12px; text-align: left; }
         thead { background-color: #004a8f; color: white; }

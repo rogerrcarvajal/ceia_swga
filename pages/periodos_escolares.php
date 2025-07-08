@@ -86,7 +86,10 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
         }
         
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter:blur(10px);
+            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+            border:2px solid rgba(255,255,255,0.18);
             margin: 0px auto;
             padding: 30px;
             border-radius: 10px;
