@@ -71,7 +71,7 @@ if ($periodo_stmt->rowCount() > 0) {
     <title>Roster Actual - <?php echo htmlspecialchars($nombre_periodo); ?></title>
     <style>
         body { margin: 0; padding: 0; background-image: url('/public/img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
-        .container { background-color: rgba(0, 0, 0, 0.5); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18);max-width: 900px; margin: 50px auto; padding: 25px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
+        .container { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18);max-width: 900px; margin: 50px auto; padding: 25px; border-radius: 8px; box-shadow: 0 2px 15px rgba(0,0,0,0.1); }
         .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #005a9c; padding-bottom: 15px; margin-bottom: 25px; }
         .header h1 { color:rgb(255, 255, 255); margin: 0; font-size: 1.8em; }
         .btn-pdf { background-color:rgb(48, 48, 48); color: white; padding: 10px 18px; text-decoration: none; border-radius: 5px; }
