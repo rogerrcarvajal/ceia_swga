@@ -163,30 +163,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             justify-content: space-around;
         }
 
-        .formulario {
-            background-color: rgba(0, 0, 0, 0.3);
-            color: white;
-            padding: 25px;
-            margin: 30px auto;
-            width: 30%;
-            border-radius: 8px;
-        }
-
-        .form-seccion {
-            width: 30%;
-            color: white;
-            min-width: 300px;
-            margin-bottom: 20px;
-        }
-
-        .form-seccionFM {
-            width: 30%;
-            color: white;
-            min-width: 300px;
-            margin-bottom: 20px;
-            justify-content: left;
-        }
-
         .h1 {
             color: white;
             text-align: center;
@@ -201,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .container {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             box-shadow: 0px 0px 10px rgba(227, 228, 237, 0.37);
             border: 2px solid rgba(255, 255, 255, 0.18);
@@ -209,7 +185,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 30px;
             border-radius: 10px;
             max-width: 85%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
 
         .content {
@@ -464,7 +440,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
                         <br><br>
                     </form>
-                <button type="submit" name="guardar_inscripcion" style="width: 100%; padding: 15px; font-size: 1.2em;">Guardar Inscripción</button>
+                <button type="submit" name="guardar_inscripcion" style="width: 100%; padding: 15px; font-size: 1.2em;">Guardar Planilla</button>
                 </div>
             </div>
         </form>
