@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // Incluir configuración y conexión a la base de datos
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../src/config.php';
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
@@ -125,7 +125,8 @@ if (!$usuario_a_editar) {
                 
                 <br><br>
                 <button type="submit">Actualizar Usuario</button>
-                <a href="/pages/usuarios_configurar.php" class="boton-link" style="margin-left: 15px;">Volver</a>
+                <!-- Botón para volver al Home -->
+                <a href="/pages/usuarios_configurar.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
             </form>       
     </div>
 </body>

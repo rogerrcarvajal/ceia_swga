@@ -147,8 +147,10 @@ if ($periodo_stmt->rowCount() > 0) {
         <?php else: ?>
             <p class="no-data">No se puede mostrar el Roster porque no hay un período escolar activo.</p>
         <?php endif; ?>
-        <!-- Botón para volver al menú de reportes -->
-        <a href="/pages/reportes_menu.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color: #6c757d; color: white; border-radius: 5px;">Volver</a> 
+        <div class="export-buttons">
+            <!-- Botón para volver al menú de reportes -->
+            <a href="/pages/reportes_menu.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
+        </div>
     </div>
 
 </body>

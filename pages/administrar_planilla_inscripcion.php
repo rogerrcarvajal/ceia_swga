@@ -159,6 +159,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 <label><input type="checkbox" name="autorizo_emergencia" id="autorizo_emergencia"> Autorizo atención de emergencia</label><br><br>
                 <button type="button" id="actualizar_ficha_medica">Actualizar Ficha Médica</button>
             </form>
+            <!-- Botón para volver al Home -->
+            <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
+
         </div>
     </div>
     

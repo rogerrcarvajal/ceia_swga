@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // Incluir configuración y conexión a la base de datos
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../src/config.php';
 
 //Declaracion de variables
 $mensaje = "";

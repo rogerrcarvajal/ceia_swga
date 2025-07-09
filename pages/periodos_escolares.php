@@ -117,7 +117,8 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
                 </div>
             <?php endif; ?>
             <br>
-            <a href="/pages/dashboard.php" class="boton-link">Volver al Inicio</a>
+            <!-- Botón para volver al Home -->
+            <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a>
         </div>
 
         <div class="form-seccion">

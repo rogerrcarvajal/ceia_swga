@@ -51,7 +51,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         .content img { width: 180px;}
         .content h2 { margin-bottom: 25px;}
         /* Estilos para la lista de reportes */
-        .lista-reportes { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); list-style: none; padding: 0; text-align: left;}
+        .lista-reportes { backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); list-style: none; padding: 0; text-align: left;}
         .lista-reportes li { background-color: rgba(255, 255, 255, 0.1); margin-bottom: 15px; border-radius: 5px; transition: background-color 0.3s ease;}
         .lista-reportes li:hover { background-color: rgba(255, 255, 255, 0.25);}
         .lista-reportes a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
@@ -97,7 +97,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             </ul>
 
             <br>
-            <a href="dashboard.php" class="boton-link">Volver al Inicio</a>
+            <!-- Botón para volver al Home -->
+            <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 10px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a>
         </div>
     </div>
 </body>
