@@ -40,10 +40,10 @@ if ($periodo_stmt->rowCount() > 0) {
     $profesores = $profesores_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Consulta para obtener los estudiantes del PERÍODO ACTIVO
-    $estudiantes_sql = "SELECT nombre_completo, grado_ingreso 
+    $estudiantes_sql = "SELECT nombre_completo, apellido_completo, grado_ingreso 
                         FROM estudiantes 
                         WHERE activo = TRUE AND periodo_id = :periodo_id 
-                        ORDER BY grado_ingreso, nombre_completo";
+                        ORDER BY grado_ingreso, nombre_completo, apellido_completo";
     $estudiantes_stmt = $conn->prepare($estudiantes_sql);
     $estudiantes_stmt->execute([':periodo_id' => $periodo_id]);
     $estudiantes_result = $estudiantes_stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -80,8 +80,8 @@ if ($periodo_stmt->rowCount() > 0) {
         .staff-table th, .staff-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         .staff-table thead { background-color:rgb(48, 48, 48); color: white; }
         .grades-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .grade-section { background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; }
-        .grade-title { margin-top: 0; margin-bottom: 10px; color: #005a9c; font-size: 1.2em; }
+        .grade-section { background-color:rgb(48, 48, 48); border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; }
+        .grade-title { margin-top: 0; margin-bottom: 10px; color:rgb(255, 255, 255); font-size: 1.2em; }
         .student-list { list-style: none; padding: 0; margin: 0; }
         .student-list li { padding: 5px 0; border-bottom: 1px solid #eee; }
         .no-data { text-align: center; padding: 20px; background-color: rgba(0, 0, 0, 0.50); border: 1px solidrgb(255, 255, 255); color:rgb(255, 255, 255); border-radius: 5px; }
@@ -135,7 +135,7 @@ if ($periodo_stmt->rowCount() > 0) {
                             <h3 class="grade-title"><?php echo htmlspecialchars($grado); ?></h3>
                             <ul class="student-list">
                                 <?php foreach ($estudiantes as $estudiante): ?>
-                                    <li><?php echo htmlspecialchars($estudiante['nombre_completo']); ?></li>
+                                    <li><?php echo htmlspecialchars($estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']); ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -148,7 +148,7 @@ if ($periodo_stmt->rowCount() > 0) {
             <p class="no-data">No se puede mostrar el Roster porque no hay un período escolar activo.</p>
         <?php endif; ?>
         <!-- Botón para volver al menú de reportes -->
-        <button href= "/../pages/reportes_menu.php" class="boton-link" style="margin-left: 15px;">Volver</button>
+        <a href="/pages/reportes_menu.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color: #6c757d; color: white; border-radius: 5px;">Volver</a> 
     </div>
 
 </body>
