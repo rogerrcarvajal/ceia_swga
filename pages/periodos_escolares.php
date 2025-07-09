@@ -118,7 +118,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
         h3 {
             text-align: center;
             margin-bottom: 15px;
-            border-bottom: 2px solid #0057A0;
+            border-bottom: 2px solidrgb(0, 0, 0);
             padding-bottom: 5px;
         }
 

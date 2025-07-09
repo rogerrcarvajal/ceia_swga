@@ -20,7 +20,7 @@ if (!$periodo_activo) {
     $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder inscribir estudiantes.";
 }
 
-// --- 2. LÓGICA DE PROCESAMIENTO DEL FORMULARIO (CORREGIDA Y FUNCIONAL) ---
+// --- 2. LÓGICA DE PROCESAMIENTO DEL FORMULARIO ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])) {
     try {
         $conn->beginTransaction();
