@@ -4,7 +4,9 @@ if (isset($_SESSION['usuario'])) {
     header("Location: /pages/dashboard.php");
     exit();
 }
-require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../config.php';
+
+
 $mensaje = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

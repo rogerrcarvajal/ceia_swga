@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // Incluir configuración y conexión a la base de datos
-require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../config.php';
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'

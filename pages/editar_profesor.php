@@ -7,6 +7,8 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
 
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
+
+//Declaracion de variables
 $mensaje = "";
 $profesor_id = $_GET['id'] ?? null;
 if (!$profesor_id) {
