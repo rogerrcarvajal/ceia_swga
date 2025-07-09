@@ -45,83 +45,18 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <title>Reportes del Sistema - CEIA</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url("/public/img/fondo.jpg");
-            background-size: cover;
-            background-position: top;
-            font-family: 'Arial', sans-serif;
-            color: white;
-        }
-
-        .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter:blur(10px);
-            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
-            border:2px solid rgba(255,255,255,0.18);
-            margin: 30px auto;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 50%; /* Aumentado para mejor visualización */
-        }
-
-        .content {
-            text-align: center;
-            margin-top: 30px;
-            text-shadow: 1px 1px 2px black;
-        }
-
-        .content img {
-            width: 180px;
-        }
-        
-        .content h2 {
-            margin-bottom: 25px;
-        }
-
+        body { margin: 0; padding: 0; background-image: url("/public/img/fondo.jpg"); background-size: cover; background-position: top;  font-family: 'Arial', sans-serif;} 
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
+        .content { text-align: center; margin-top: 30px; text-shadow: 1px 1px 2px black;}
+        .content img { width: 180px;}
+        .content h2 { margin-bottom: 25px;}
         /* Estilos para la lista de reportes */
-        .lista-reportes {
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter:blur(10px);
-            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
-            border:2px solid rgba(255,255,255,0.18);
-            list-style: none;
-            padding: 0;
-            text-align: left;
-        }
-
-        .lista-reportes li {
-            background-color: rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .lista-reportes li:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .lista-reportes a {
-            display: block;
-            padding: 15px;
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-        }
-
-        .lista-reportes p {
-            margin: 0;
-            padding: 0 15px 15px 15px;
-            font-size: 0.9em;
-            color: #ccc;
-        }
-        
-        .lista-reportes .icono-reporte {
-            margin-right: 12px;
-            font-size: 1.2em;
-        }
-
+        .lista-reportes { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); list-style: none; padding: 0; text-align: left;}
+        .lista-reportes li { background-color: rgba(255, 255, 255, 0.1); margin-bottom: 15px; border-radius: 5px; transition: background-color 0.3s ease;}
+        .lista-reportes li:hover { background-color: rgba(255, 255, 255, 0.25);}
+        .lista-reportes a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
+        .lista-reportes p { margin: 0; padding: 0 15px 15px 15px; font-size: 0.9em; color: #ccc;}
+        .lista-reportes .icono-reporte { margin-right: 12px; font-size: 1.2em;}
     </style>    
 </head>
 
@@ -159,7 +94,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Formulario para generar y exportar códigos QR para el control de acceso de estudiantes, profesores y vehículos.</p>
                 </li>
                 
-                </ul>
+            </ul>
 
             <br>
             <a href="dashboard.php" class="boton-link">Volver al Inicio</a>

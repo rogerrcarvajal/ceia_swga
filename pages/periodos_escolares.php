@@ -76,83 +76,16 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
     <title>Gestión de Períodos Escolares</title>
     <link rel="stylesheet" href="/css/style.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url("/public/img/fondo.jpg");
-            background-size: cover;
-            background-position: center;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter:blur(10px);
-            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
-            border:2px solid rgba(255,255,255,0.18);
-            margin: 0px auto;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 65%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .formulario {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 25px;
-            margin: 30px auto;
-            width: 30%;
-            border-radius: 8px;
-        }
-
-        .form-seccion {
-            width: 30%;
-            color: white;
-            min-width: 300px;
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            text-align: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solidrgb(0, 0, 0);
-            padding-bottom: 5px;
-        }
-
-        .act {
-            color: green;
-        }
-
-        .content {
-            text-align: center;
-            margin-top: 30px;
-            color: white;
-            text-shadow: 1px 1px 2px black;
-        }
-
-        .content img {
-            width: 180px;
-            margin-bottom: 20px;
-        }
-
-        input, textarea, select {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 12px;
-            font-size: 16px;
-        }
-        button {
-            background-color: #0057A0;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+        body { margin: 0; padding: 0; background-image: url("/public/img/fondo.jpg"); background-size: cover; background-position: top;  font-family: 'Arial', sans-serif;} 
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 0px auto; padding: 30px; border-radius: 10px; max-width: 65%; display: flex; flex-wrap: wrap; justify-content: space-around;}
+        .formulario {background-color: rgba(0, 0, 0, 0.3); color: white; padding: 25px; margin: 30px auto; width: 30%; border-radius: 8px;}
+        .form-seccion { width: 30%; color: white; min-width: 300px; margin-bottom: 20px;}
+        h3 { text-align: center; margin-bottom: 15px; border-bottom: 2px solidrgb(0, 0, 0); padding-bottom: 5px;}
+        .act { color: green;}
+        .content { text-align: center; margin-top: 30px; color: white; text-shadow: 1px 1px 2px black;}
+        .content img { width: 180px; margin-bottom: 20px;}
+        input, textarea, select { width: 100%; padding: 8px; margin-bottom: 12px; font-size: 16px;}
+        button { background-color:rgb(42, 42, 42); color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;}
         button[name="desactivar"] { background-color: #ffc107; color: #333; }
     </style>
 </head>

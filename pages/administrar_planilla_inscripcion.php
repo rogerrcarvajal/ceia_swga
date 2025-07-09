@@ -44,37 +44,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <title>Administrar Expedientes</title>
     <link rel="stylesheet" href="/public/css/estilo_planilla.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url("/public/img/fondo.jpg");
-            background-size: cover;
-            background-position: top;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        h3 {
-            text-align: center;
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-        }
-
-        select {
-        width: 100%;
-        height: 500px;
-        }
-        
-        .content {
-            text-align: center;
-            margin-top: 30px;
-            color: white;
-            text-shadow: 1px 1px 2px black;
-        }
-
-        .content img {
-            width: 180px;
-            margin-bottom: 0px;
-        }
+        body { margin: 0; padding: 0; background-image: url("/public/img/fondo.jpg"); background-size: cover; background-position: top;  font-family: 'Arial', sans-serif;} 
+        h3 { text-align: center; margin-bottom: 15px; padding-bottom: 5px;}
+        select { width: 100%; height: 500px;}
+        .content { text-align: center; margin-top: 30px; color: white; text-shadow: 1px 1px 2px black;}
+        .content img { width: 180px; margin-bottom: 0px;}
     </style>
 </head>
 <body>
