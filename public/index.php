@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.3);
             backdrop-filter:blur(10px);
             box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
             border:2px solid rgba(255,255,255,0.18);
@@ -69,6 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 150px;
             margin-bottom: 0px;
         }
+
     </style>
 </head>
 <body>
@@ -82,7 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endif; ?>
         <form method="POST">
             <input type="text" name="username" placeholder="Usuario" required>
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <input type="password" name="password" placeholder="Contraseña" id="password" required>
+            <input type="checkbox" id="show-password" onclick="password.type = this.checked ? 'text' : 'password'">
             <button type="submit">Ingresar</button>
         </form>
     </div>

@@ -61,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     }
 }
 
-$usuarios = $conn->query("SELECT u.id, u.username, u.rol, p.nombre_completo FROM usuarios u LEFT JOIN profesores p ON u.profesor_id = p.id ORDER BY u.id")->fetchAll(PDO::FETCH_ASSOC);
-$profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesores WHERE id NOT IN (SELECT profesor_id FROM usuarios WHERE profesor_id IS NOT NULL)")->fetchAll(PDO::FETCH_ASSOC);
+$usuarios = $conn->query(query: "SELECT u.id, u.username, u.rol, p.nombre_completo FROM usuarios u LEFT JOIN profesores p ON u.profesor_id = p.id ORDER BY u.id")->fetchAll(PDO::FETCH_ASSOC);
+$profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM profesores WHERE id NOT IN (SELECT profesor_id FROM usuarios WHERE profesor_id IS NOT NULL)")->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
@@ -74,11 +74,11 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
         body { margin: 0; padding: 0; background-image: url('/public/img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
-        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.5); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
-        .form-seccion { background-color: rgba(0, 0, 0, 0.5); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); width: 45%; color: white; min-width: 350px; }
-        .form-seccion h3 { text-align: center; border-bottom: 1px solid #0057A0; padding-bottom: 10px; }
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
+        .form-seccion { width: 45%; color: white; min-width: 350px; }
+        .form-seccion h3 { text-align: center; border-bottom: 1px solidrgb(42, 42, 42); padding-bottom: 10px; }
         .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 30px; padding-top: 20px;}
-        .content img { width: 180px; }
+        .content img { width: 150px; }
         .lista-profesores { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; }
         .lista-profesores li { background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .lista-profesores a { color: #87cefa; text-decoration: none; margin-left: 10px; }
@@ -111,7 +111,7 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 
                 <label>Contraseña:</label>
-                <input type="password" name="clave" placeholder="Contraseña" required>
+                <input type="password" name="password" placeholder="Contraseña" required>
                 
                 <label>Rol:</label>
                 <select name="rol" required>
@@ -133,8 +133,8 @@ $profesores_sin_usuario = $conn->query("SELECT id, nombre_completo FROM profesor
                     <?php foreach ($usuarios as $u): ?>
                         <li>
                             <span>
-                                <strong><?= htmlspecialchars($u['username']) ?></strong> (Rol: <?= $u['rol'] ?>)<br>
-                                <small><?= $u['nombre_completo'] ? 'Vinculado a: ' . htmlspecialchars($u['nombre_completo']) : 'No vinculado' ?></small>
+                                <strong><?= htmlspecialchars(string: $u['username']) ?></strong> (Rol: <?= $u['rol'] ?>)<br>
+                                <small><?= $u['nombre_completo'] ? 'Vinculado a: ' . htmlspecialchars(string: $u['nombre_completo']) : 'No vinculado' ?></small>
                             </span>
                             <div>
                                 <?php if ($u['username'] !== $_SESSION['usuario']['username']): ?>
