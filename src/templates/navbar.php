@@ -86,10 +86,13 @@
         position: absolute;
         min-width: 160px;
         z-index: 1;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter:blur(10px);
         box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
         border:2px solid rgba(255,255,255,0.18);
+        filter: drop-shadow(0.25rem 0.25rem 0.5rem rgba(0, 0, 0, 0.3));
+        width: 100%;
+        max-width: 14rem;
     }
 
     .dropdown-content a {
