@@ -10,12 +10,9 @@
                     <a href= "/pages/administrar_planilla_inscripcion.php">Adminnistrar Planilla de Inscripción</a>
                 </div>
             </div>
-            <div class="dropdown">
-                <a href="#">📝 Staff / Profesores</a>
-                <div class="dropdown-content">
-                    <a href= "/pages/profesores_registro.php">Nuevo Ingreso</a>
-                </div>
-            </div>
+
+            <a href= "/pages/profesores_registro.php">Staff / Profesores</a>
+
             <div class="dropdown">
                 <a href="#">📝 Late-Pass</a>
                 <div class="dropdown-content">
@@ -23,7 +20,9 @@
                     <a href= "/pages/latepass_profesores.php">Profesores</a>
                 </div>
             </div>
+
             <a href="/pages/reportes_menu.php">📊 Reportes</a>
+
             <div class="dropdown">
                 <a href="#">📝 Mantenimiento</a>
                 <div class="dropdown-content">
