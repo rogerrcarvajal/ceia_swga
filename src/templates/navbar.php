@@ -2,7 +2,7 @@
     <div class="navbar-logo">CEIA</div>
     <div class="navbar-menu" id="menuToggle">&#9776;</div>
     <div class="navbar-links" id="navLinks">
-        <a href="dashboard.php">🏠 Home</a>
+        <a href="/pages/dashboard.php">🏠 Home</a>
             <div class="dropdown">
                 <a href="#">📝 Estudiantes</a>
                 <div class="dropdown-content">
