@@ -170,7 +170,7 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
         color: #333;
         padding: 30px;
         border-radius: 10px;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter:blur(37px);
         box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
         border:2px solid rgba(255,255,255,0.18);
@@ -232,7 +232,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
 
 <style>
     .modal-overlay {
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 0, 0.3);
         backdrop-filter:blur(37px);
         box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
         border:2px solid rgba(255,255,255,0.18);
