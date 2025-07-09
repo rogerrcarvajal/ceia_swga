@@ -4,8 +4,8 @@ if (isset($_SESSION['usuario'])) {
     header("Location: /pages/dashboard.php");
     exit();
 }
-require_once __DIR__ . '/../config.php';
-
+// Incluir configuración y conexión a la base de datos
+require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
 
