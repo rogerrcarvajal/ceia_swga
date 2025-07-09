@@ -108,10 +108,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
         body { margin: 0; padding: 0; background-image: url("/public/img/fondo.jpg"); background-size: cover; background-position: center; font-family: 'Arial', sans-serif; }
         .container { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 95%; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 95%; display: flex; flex-wrap: wrap; justify-content: space-around; }
-        .form-seccion { width: 10%; color: white; min-width: 300px; margin-bottom: 20px; }
-        .form-seccionFM { width: 10%; color: white; min-width: 300px; margin-bottom: 20px; justify-content: left; }
+        .form-seccion { width: 10%; text-align: center; color: white; min-width: 300px; margin-bottom: 20px; }
+        .form-seccionFM { width: 10%; text-align: center; color: white; min-width: 300px; margin-bottom: 20px; justify-content: left; }
         .h1 { color: white; text-align: center; margin-bottom: 0px; }
-        h3 { text-align: center; margin-bottom: 20px; padding-bottom: 5px; color: white; }
+        .h3 { text-align: center; margin-bottom: 20px; padding-bottom: 5px; color: white; }
         .content { text-align: center; margin-top: 30px; color: white; text-shadow: 1px 1px 2px black; }
         .content img { width: 180px; }
         input, textarea, select { width: 100%; padding: 8px; margin-bottom: 12px; font-size: 16px; box-sizing: border-box;}

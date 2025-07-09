@@ -83,7 +83,7 @@ if ($periodo_stmt->rowCount() > 0) {
         .grade-section { background-color:rgb(48, 48, 48); border: 1px solid #e0e0e0; border-radius: 6px; padding: 15px; }
         .grade-title { margin-top: 0; margin-bottom: 10px; color:rgb(255, 255, 255); font-size: 1.2em; }
         .student-list { list-style: none; padding: 0; margin: 0; }
-        .student-list li { padding: 5px 0; border-bottom: 1px solid #eee; }
+        .student-list li { padding: 5px 0;}
         .no-data { text-align: center; padding: 20px; background-color: rgba(0, 0, 0, 0.50); border: 1px solidrgb(255, 255, 255); color:rgb(255, 255, 255); border-radius: 5px; }
     </style>
 </head>
@@ -98,7 +98,7 @@ if ($periodo_stmt->rowCount() > 0) {
             <h1>Roster <?php echo htmlspecialchars($nombre_periodo); ?></h1>
             <div class="export-buttons">
                 <?php if ($periodo_activo_encontrado): ?>
-                    <a href="/src/reports_generators/pdf_roster.php" target="_blank" class="btn-pdf">Exportar a PDF</a>
+                    <a href="/src/reports_generators/planilla_estudiante.php" target="_blank" class="btn-pdf">Exportar a PDF</a>
                 <?php endif; ?>
             </div>
         </div>
