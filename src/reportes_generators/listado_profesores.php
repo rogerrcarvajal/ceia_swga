@@ -1,6 +1,6 @@
 <?php
-require "../conn/conexion.php";
-require "../lib/fpdf.php";
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../fpdf.php';
 
 $pdf = new FPDF();
 $pdf->AddPage();

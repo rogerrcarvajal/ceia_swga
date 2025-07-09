@@ -1,7 +1,7 @@
 <?php
 // Incluir configuración y conexión a la base de datos
-require_once __DIR__ . '/../src/config.php';
-require_once __DIR__ .  '/../lib/fpdf.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../fpdf.php';
 
 $id = $_GET['id'] ?? 0;
 $stmt = $conn->prepare("SELECT * FROM estudiantes WHERE id = :id");
