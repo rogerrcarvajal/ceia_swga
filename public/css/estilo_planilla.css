@@ -38,12 +38,7 @@ input, textarea {
     margin-bottom: 10px;
 }
 
-button {
-    padding: 10px 20px;
-    background-color:rgb(48, 48, 48);
-    color: white;
-    border: none;
-    cursor: pointer;
+button { margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;
 }
 
 button:hover {
