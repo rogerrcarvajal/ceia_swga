@@ -56,7 +56,6 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
     <title>Registro de Vehículos Autorizados</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-        body { margin: 0; padding: 0; background-image: url("/public/img/fondo.jpg"); background-size: cover; background-position: top;  font-family: 'Arial', sans-serif;} 
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .content { text-align: center; margin-top: 10px; color: white; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px;}

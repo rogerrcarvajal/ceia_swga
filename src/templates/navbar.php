@@ -7,7 +7,7 @@
                 <a href="#">📝 Estudiantes</a>
                 <div class="dropdown-content">
                     <a href= "/pages/planilla_inscripcion.php">Planilla de Inscripción</a>
-                    <a href= "/pages/administrar_planilla_inscripcion.php">Adminnistrar Planilla de Inscripción</a>
+                    <a href= "/pages/administrar_planilla_estudiantes.php">Adminnistrar Planilla de Inscripción</a>
                 </div>
             </div>
 

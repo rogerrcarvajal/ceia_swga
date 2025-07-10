@@ -77,7 +77,6 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
     <title>Gestión de Staff / Profesores</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
-        body { margin: 0; padding: 0; background-image: url('/public/img/fondo.jpg'); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .form-seccion { width: 45%; color: white; min-width: 350px; }
         .form-seccion h3 { text-align: center; border-bottom: 1px solidrgb(42, 42, 42); padding-bottom: 10px; }

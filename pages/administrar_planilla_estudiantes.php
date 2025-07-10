@@ -33,15 +33,17 @@ if (!$periodo_activo) {
     $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
 }
 
-// Obtener lista de estudiantes
-$estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER BY nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+// --- 2. OBTENER LISTA DE ESTUDIANTES PARA EL PANEL IZQUIERDO ---
+$estudiantes_sql = "SELECT id, nombre_completo, apellido_completo FROM estudiantes ORDER BY apellido_completo, nombre_completo ASC";
+$estudiantes = $conn->query($estudiantes_sql)->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Administrar Expedientes</title>
+    <title>Administrar Expedientes de Estudiantes</title>
     <link rel="stylesheet" href="/public/css/estilo_planilla.css">
     <style>
         h3 { text-align: center; margin-bottom: 15px; padding-bottom: 5px;}
@@ -49,12 +51,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         .content { text-align: center; margin-top: 30px; color: white; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px; margin-bottom: 0px;}
     </style>
-</head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Administrar Planilla de Inscripción</h1>
+        <h1>Administrar Expedientes de Estudiantes</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>
@@ -98,45 +99,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             </form>
         </div>
 
-        <div class="panel-derecho">
-            <h3>Datos del Padre</h3>
-            <form id="form_padre">
-                <input type="hidden" name="estudiante_id" id="estudiante_id_padre">                
-                <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombre del Padre" >
-                <input type="text" name="padre_apellido" id="padre_apellido" placeholder="Apellido del Padre" >
-                <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" >
-                <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
-                <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" >
-                <input type="text" name="padre_idioma" id="padre_idioma" placeholder="Idiomas que habla" >
-                <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" >
-                <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" >
-                <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono trabajo" >
-                <input type="text" name="padre_celular" id="padre_celular" placeholder="Celular" >
-                <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" ><br><br>
-                <button type="button" id="actualizar_padre">Actualizar Padre</button>
-            </form>
-        </div>
-
-        <div class="panel-derecho">
-            <h3>Datos de la Madre</h3>
-            <form id="form_madre">   
-                <input type="hidden" name="estudiante_id" id="estudiante_id_madre">
-                <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombre de la Madre" >
-                <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellido de la Madre" >
-                <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" >
-                <input type="text" name="madre_cedula_pasaporte" id="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
-                <input type="text" name="madre_nacionalidad" id="madre_nacionalidad" placeholder="Nacionalidad" >
-                <input type="text" name="madre_idioma" id="madre_idioma" placeholder="Idiomas que habla" >
-                <input type="text" name="madre_profesion" id="madre_profesion" placeholder="Profesión" >
-                <input type="text" name="madre_empresa" id="madre_empresa" placeholder="Empresa donde trabaja" >
-                <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono trabajo" >
-                <input type="text" name="madre_celular" id="madre_celular" placeholder="Celular" >
-                <input type="email" name="madre_email" id="madre_email" placeholder="Correo electrónico" ><br><br>
-                <button type="button" id="actualizar_madre">Actualizar Madre</button>
-            </form>
-        </div>
-
-        <div class="panel-derecho">
+                <div class="panel-derecho">
             <h3>Ficha Médica</h3>
             <form id="form_ficha_medica">
                 <input type="hidden" name="estudiante_id" id="estudiante_id_medica">
@@ -164,7 +127,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         </div>
     </div>
     
-    <script src="/public/js/admin_expedientes.js"></script>
+    <script src="/public/js/admin_estudiantes.js"></script>
 
 </body>
 </html>

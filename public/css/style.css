@@ -1,11 +1,4 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-image: url("/public/img/fondo.jpg");
-    background-size: cover;
-    background-position: top;
-    font-family: 'Arial', sans-serif;
-}
+body { margin: 0; padding: 0; background-image: url("/public/img/fondo.jpg"); background-size: cover; background-position: top;  font-family: 'Arial', sans-serif;} 
 
 .login-box {
     width: 350px;
