@@ -60,8 +60,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <?php endif; ?>
     </div>
 
-    <div class="contenedor-principal">
-        <div class="panel-izquierdo">
+    <div class="main-container">
+        <div class="left-panel">
             <h3>Lista de Estudiantes</h3>
             <select id="lista_estudiantes" size= "20">
                 <option value="">-- Seleccione un estudiante --</option>
@@ -71,74 +71,76 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             </select>
         </div>
 
-        <div class="panel-derecho">            
-            <h3>Datos del Estudiante</h3>
-            <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
-            <form id="form_estudiante">
-                <input type="hidden" name="id" id="estudiante_id">
-                <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombres completo" required>
-                <input type="text" name="apellido_completo" id="apellido_completo" placeholder="Apellidos completo" required>
-                <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
-                <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" placeholder="Lugar de nacimiento" required>
-                <input type="text" name="nacionalidad" id="nacionalidad" placeholder="Nacionalidad" required>
-                <input type="text" name="idioma" id="idioma" placeholder="Idiomas que habla" required>
-                <textarea name="direccion" id="direccion" placeholder="Dirección" required></textarea>
-                <input type="text" name="telefono_casa" id="telefono_casa" placeholder="Teléfono de casa">
-                <input type="text" name="telefono_movil" id="telefono_movil" placeholder="Teléfono celular">
-                <input type="text" name="telefono_emergencia" id="telefono_emergencia" placeholder="Teléfono de emergencia" required>
-                <input type="text" name="grado_ingreso" id="grado_ingreso" placeholder="Grado de ingreso" required>
-                <input type="date" name="fecha_inscripcion" id="fecha_inscripcion" required>
-                <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por">
-                <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
+        <div class="right-panel"> 
+        <div id="panel_datos_estudiante">
+            <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
+            <div class="form-grid">
+                       
+                <form id="form_estudiante">
+                <h3>Datos del Estudiante</h3>
+                <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
+                    <input type="hidden" name="id" id="estudiante_id">
+                    <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombres completo" required>
+                    <input type="text" name="apellido_completo" id="apellido_completo" placeholder="Apellidos completo" required>
+                    <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" required>
+                    <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" placeholder="Lugar de nacimiento" required>
+                    <input type="text" name="nacionalidad" id="nacionalidad" placeholder="Nacionalidad" required>
+                    <input type="text" name="idioma" id="idioma" placeholder="Idiomas que habla" required>
+                    <textarea name="direccion" id="direccion" placeholder="Dirección" required></textarea>
+                    <input type="text" name="telefono_casa" id="telefono_casa" placeholder="Teléfono de casa">
+                    <input type="text" name="telefono_movil" id="telefono_movil" placeholder="Teléfono celular">
+                    <input type="text" name="telefono_emergencia" id="telefono_emergencia" placeholder="Teléfono de emergencia" required>
+                    <input type="text" name="grado_ingreso" id="grado_ingreso" placeholder="Grado de ingreso" required>
+                    <input type="date" name="fecha_inscripcion" id="fecha_inscripcion" required>
+                    <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por">
+                    <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
 
-                <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
-                <label><input type="checkbox" name="activo" id="activo"> Estudiante Activo</label><br><br>
+                    <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
+                    <label><input type="checkbox" name="activo" id="activo"> Estudiante Activo</label><br><br>
 
-                <button type="submit">Actualizar Estudiante</button>
-            </form>
-        </div>
+                    <button type="submit">Actualizar Estudiante</button>
+                </form>
+            
+                <form id="form_padre">
+                <h3>Datos del Padre</h3>
+                <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
+                    <input type="hidden" name="estudiante_id" id="estudiante_id_padre">                
+                    <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombre del Padre" >
+                    <input type="text" name="padre_apellido" id="padre_apellido" placeholder="Apellido del Padre" >
+                    <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" >
+                    <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
+                    <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" >
+                    <input type="text" name="padre_idioma" id="padre_idioma" placeholder="Idiomas que habla" >
+                    <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" >
+                    <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" >
+                    <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono trabajo" >
+                    <input type="text" name="padre_celular" id="padre_celular" placeholder="Celular" >
+                    <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" ><br><br>
+                    <button type="button" id="actualizar_padre">Actualizar Padre</button>
+                </form>
 
-        <div class="panel-derecho">
-            <h3>Datos del Padre</h3>
-            <form id="form_padre">
-                <input type="hidden" name="estudiante_id" id="estudiante_id_padre">                
-                <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombre del Padre" >
-                <input type="text" name="padre_apellido" id="padre_apellido" placeholder="Apellido del Padre" >
-                <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" >
-                <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
-                <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" >
-                <input type="text" name="padre_idioma" id="padre_idioma" placeholder="Idiomas que habla" >
-                <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" >
-                <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" >
-                <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono trabajo" >
-                <input type="text" name="padre_celular" id="padre_celular" placeholder="Celular" >
-                <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" ><br><br>
-                <button type="button" id="actualizar_padre">Actualizar Padre</button>
-            </form>
-        </div>
+                <form id="form_madre">
+                <h3>Datos de la Madre</h3>
+                <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
+                    <input type="hidden" name="estudiante_id" id="estudiante_id_madre">
+                    <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombre de la Madre" >
+                    <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellido de la Madre" >
+                    <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" >
+                    <input type="text" name="madre_cedula_pasaporte" id="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
+                    <input type="text" name="madre_nacionalidad" id="madre_nacionalidad" placeholder="Nacionalidad" >
+                    <input type="text" name="madre_idioma" id="madre_idioma" placeholder="Idiomas que habla" >
+                    <input type="text" name="madre_profesion" id="madre_profesion" placeholder="Profesión" >
+                    <input type="text" name="madre_empresa" id="madre_empresa" placeholder="Empresa donde trabaja" >
+                    <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono trabajo" >
+                    <input type="text" name="madre_celular" id="madre_celular" placeholder="Celular" >
+                    <input type="email" name="madre_email" id="madre_email" placeholder="Correo electrónico" ><br><br>
+                    <button type="button" id="actualizar_madre">Actualizar Madre</button>
+                </form>
 
-        <div class="panel-derecho">
-            <h3>Datos de la Madre</h3>
-            <form id="form_madre">   
-                <input type="hidden" name="estudiante_id" id="estudiante_id_madre">
-                <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombre de la Madre" >
-                <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellido de la Madre" >
-                <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" >
-                <input type="text" name="madre_cedula_pasaporte" id="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
-                <input type="text" name="madre_nacionalidad" id="madre_nacionalidad" placeholder="Nacionalidad" >
-                <input type="text" name="madre_idioma" id="madre_idioma" placeholder="Idiomas que habla" >
-                <input type="text" name="madre_profesion" id="madre_profesion" placeholder="Profesión" >
-                <input type="text" name="madre_empresa" id="madre_empresa" placeholder="Empresa donde trabaja" >
-                <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono trabajo" >
-                <input type="text" name="madre_celular" id="madre_celular" placeholder="Celular" >
-                <input type="email" name="madre_email" id="madre_email" placeholder="Correo electrónico" ><br><br>
-                <button type="button" id="actualizar_madre">Actualizar Madre</button>
-            </form>
-        </div>
-
-        <div class="panel-derecho">
-            <h3>Ficha Médica</h3>
+            
             <form id="form_ficha_medica">
+            <h3>Ficha Médica</h3>
+            <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
                 <input type="hidden" name="estudiante_id" id="estudiante_id_medica">
                 <input type="text" name="completado_por" id="completado_por" placeholder="Completado por" >
                 <input type="date" name="fecha_salud" id="fecha_salud" >
@@ -160,7 +162,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             </form>
             <!-- Botón para volver al Home -->
             <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
-
+        </div>
         </div>
     </div>
     

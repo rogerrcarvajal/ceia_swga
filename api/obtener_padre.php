@@ -1,13 +1,29 @@
 <?php
+header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
 
-$id = $_GET['id'] ?? 0;
+$response = ['status' => 'error', 'data' => null, 'message' => 'No se pudo procesar la solicitud.'];
 
-$stmt = $conn->prepare("SELECT * FROM padres WHERE estudiante_id = :estudiante_id");
-$stmt->execute([':estudiante_id' => $id]);
+try {
+    $id = $_GET['id'] ?? null;
+    if (!$id) {
+        throw new InvalidArgumentException('ID de padre no proporcionado.');
+    }
 
-$padre = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare("SELECT * FROM padres WHERE id = :id");
+    $stmt->execute([':id' => $id]);
+    $padre = $stmt->fetch(PDO::FETCH_ASSOC);
 
-header('Content-Type: application/json');
-echo json_encode($padre);
+    if ($padre) {
+        $response['status'] = 'exito';
+        $response['data'] = $padre;
+    } else {
+        $response['message'] = 'Padre no encontrado.';
+    }
+
+} catch (Exception $e) {
+    $response['message'] = 'Error: ' . $e->getMessage();
+}
+
+echo json_encode($response['data'] ?? ['error' => $response['message']]);
 ?>
