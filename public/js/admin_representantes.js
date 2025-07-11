@@ -1,19 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- Referencias a elementos principales ---
-    const listaEstudiantes = document.getElementById('lista_estudiantes');
+    const listaUI = document.getElementById('lista_estudiantes');
     const panelInformativo = document.getElementById('panel_informativo');
     const panelDatos = document.getElementById('panel_datos_representantes');
     const filtro = document.getElementById('filtro_estudiantes');
 
     // --- Event Listeners ---
-    if (listaEstudiantes) {
-        listaEstudiantes.addEventListener('click', (e) => {
+    if (listaUI) {
+        listaUI.addEventListener('click', (e) => {
             if (e.target && e.target.tagName === 'LI') {
                 const estudianteId = e.target.dataset.id;
                 if (panelInformativo) panelInformativo.style.display = 'none';
                 if (panelDatos) panelDatos.style.display = 'block';
-                // La función ahora carga los datos de los representantes USANDO el ID del estudiante
-                cargarDatosRepresentantes(estudianteId);
+                cargarDatosCompletos(estudianteId);
             }
         });
     }
@@ -27,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Vinculación de formularios para actualización ---
     const formPadre = document.getElementById('form_padre');
     if (formPadre) {
         formPadre.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_padre.php'));
@@ -40,51 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Carga los datos de los representantes (padre y madre) asociados a un estudiante.
- * @param {number} estudianteId - El ID del estudiante seleccionado.
+ * Función genérica para manejar el envío de formularios.
+ * @param {Event} event - El evento de submit.
+ * @param {string} url - La URL de la API a la que se enviarán los datos.
  */
-async function cargarDatosRepresentantes(estudianteId) {
-    const formPadre = document.getElementById('form_padre');
-    const formMadre = document.getElementById('form_madre');
-
-    // Limpiar formularios al inicio
-    if (formPadre) formPadre.reset();
-    if (formMadre) formMadre.reset();
-
-    try {
-        // 1. OBTENER LOS DATOS DEL ESTUDIANTE PARA ENCONTRAR padre_id y madre_id
-        const resEstudiante = await fetch(`/api/obtener_estudiante.php?id=${estudianteId}`);
-        const dataEstudiante = await resEstudiante.json();
-
-        if (dataEstudiante.error) {
-            throw new Error(`No se pudo encontrar al estudiante: ${dataEstudiante.error}`);
-        }
-
-        // 2. CARGAR DATOS DEL PADRE USANDO EL dataEstudiante.padre_id
-        if (dataEstudiante.padre_id && formPadre) {
-            const resPadre = await fetch(`/api/obtener_padre.php?id=${dataEstudiante.padre_id}`);
-            const dataPadre = await resPadre.json();
-            if (!dataPadre.error) {
-                rellenarFormulario(formPadre, dataPadre);
-            }
-        }
-
-        // 3. CARGAR DATOS DE LA MADRE USANDO EL dataEstudiante.madre_id
-        if (dataEstudiante.madre_id && formMadre) {
-            const resMadre = await fetch(`/api/obtener_madre.php?id=${dataEstudiante.madre_id}`);
-            const dataMadre = await resMadre.json();
-            if (!dataMadre.error) {
-                rellenarFormulario(formMadre, dataMadre);
-            }
-        }
-
-    } catch (error) {
-        console.error("Error detallado al cargar representantes:", error);
-        mostrarMensaje('error', `Error al cargar los datos: ${error.message}`);
-    }
-}
-
-async function handleFormSubmit(event, url) { event.preventDefault();
+async function handleFormSubmit(event, url) {
+    event.preventDefault();
     const formData = new FormData(event.target);
     try {
         const response = await fetch(url, { method: 'POST', body: formData });
@@ -97,17 +56,12 @@ async function handleFormSubmit(event, url) { event.preventDefault();
     }
 }
 
-function mostrarMensaje(status, message) { 
-    const divMensaje = document.getElementById('mensaje_actualizacion');
-    if (divMensaje) {
-        divMensaje.className = `mensaje ${status}`;
-        divMensaje.textContent = message;
-        divMensaje.style.display = 'block';
-        setTimeout(() => { divMensaje.style.display = 'none'; }, 4000);
-    }
-}
-
-function rellenarFormulario(formElement, data) { 
+/**
+ * Rellena un formulario de forma segura con los datos de un objeto.
+ * @param {HTMLFormElement} formElement - El elemento del formulario a rellenar.
+ * @param {object} data - El objeto con los datos.
+ */
+function rellenarFormulario(formElement, data) {
     if (!formElement || !data) return;
     // Recorrer todos los campos del formulario
     for (const key in data) {
@@ -121,5 +75,58 @@ function rellenarFormulario(formElement, data) {
                 field.value = data[key] || ''; // Usar '' si el valor es null
             }
         }
+    }
+}
+
+/**
+ * Carga todos los datos de un representante desde las APIs.
+ * @param {number} id - El ID del estudiante.
+ */
+async function cargarDatosCompletos(id) {
+    try {
+        // --- Cargar datos del Padre ---
+        const resPad = await fetch(`/api/obtener_padre.php?id=${id}`);
+        const dataPad = await resPad.json();
+        if (dataPad.error) throw new Error(`API Padre: ${dataPad.error}`);
+        
+        const formPadre = document.getElementById('form_padre');
+        formPadre.reset(); // Limpiar siempre antes de rellenar
+        rellenarFormulario(formPadre, dataPad);
+        
+        // --- Cargar datos de la Madre ---
+        const resMad = await fetch(`/api/obtener_madre.php?id=${id}`);
+        const dataMad = await resMad.json();
+
+        const formMadre = document.getElementById('form_madre');
+        formMadre.reset(); // Limpiar siempre antes de rellenar
+        if (!dataMad.error) {
+            rellenarFormulario(formMadre, dataMad);
+        }
+
+        // Asegurarse de que el ID oculto siempre esté presente para la actualización
+        const MadreIdField = document.getElementById('madre_id');
+        if (MadreIdField) MadreIdField.value = id;
+    
+        // --- Cargar Padres Vinculados ---
+        // (La lógica para padres se mantiene igual)
+
+    }catch (error) {
+        console.error("Error detallado:", error);
+        mostrarMensaje('error', `Error al cargar los datos: ${error.message}`);
+    }
+}
+
+/**
+ * Muestra un mensaje temporal en la pantalla.
+ * @param {string} status - 'exito' o 'error'.
+ * @param {string} message - El mensaje a mostrar.
+ */
+function mostrarMensaje(status, message) {
+    const divMensaje = document.getElementById('mensaje_actualizacion');
+    if (divMensaje) {
+        divMensaje.className = `mensaje ${status}`;
+        divMensaje.textContent = message;
+        divMensaje.style.display = 'block';
+        setTimeout(() => { divMensaje.style.display = 'none'; }, 4000);
     }
 }
