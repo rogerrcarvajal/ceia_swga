@@ -39,7 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-async function handleFormSubmit(event, url) { event.preventDefault();
+/**
+ * Función genérica para manejar el envío de formularios.
+ * @param {Event} event - El evento de submit.
+ * @param {string} url - La URL de la API a la que se enviarán los datos.
+ */
+async function handleFormSubmit(event, url) {
+    event.preventDefault();
     const formData = new FormData(event.target);
     try {
         const response = await fetch(url, { method: 'POST', body: formData });
@@ -52,17 +58,12 @@ async function handleFormSubmit(event, url) { event.preventDefault();
     }
 }
 
-function mostrarMensaje(status, message) { 
-    const divMensaje = document.getElementById('mensaje_actualizacion');
-    if (divMensaje) {
-        divMensaje.className = `mensaje ${status}`;
-        divMensaje.textContent = message;
-        divMensaje.style.display = 'block';
-        setTimeout(() => { divMensaje.style.display = 'none'; }, 4000);
-    }
-}
-
-function rellenarFormulario(formElement, data) { 
+/**
+ * Rellena un formulario de forma segura con los datos de un objeto.
+ * @param {HTMLFormElement} formElement - El elemento del formulario a rellenar.
+ * @param {object} data - El objeto con los datos.
+ */
+function rellenarFormulario(formElement, data) {
     if (!formElement || !data) return;
     // Recorrer todos los campos del formulario
     for (const key in data) {
@@ -95,7 +96,6 @@ async function cargarDatosRepresentantes(estudianteId) {
         // 1. OBTENER LOS DATOS DEL ESTUDIANTE PARA ENCONTRAR padre_id y madre_id
         const resEstudiante = await fetch(`/api/obtener_estudiante.php?id=${estudianteId}`);
         const dataEstudiante = await resEstudiante.json();
-
         if (dataEstudiante.error) {
             throw new Error(`No se pudo encontrar al estudiante: ${dataEstudiante.error}`);
         }
@@ -124,3 +124,17 @@ async function cargarDatosRepresentantes(estudianteId) {
     }
 }
 
+/**
+ * Muestra un mensaje temporal en la pantalla.
+ * @param {string} status - 'exito' o 'error'.
+ * @param {string} message - El mensaje a mostrar.
+ */
+function mostrarMensaje(status, message) {
+    const divMensaje = document.getElementById('mensaje_actualizacion');
+    if (divMensaje) {
+        divMensaje.className = `mensaje ${status}`;
+        divMensaje.textContent = message;
+        divMensaje.style.display = 'block';
+        setTimeout(() => { divMensaje.style.display = 'none'; }, 4000);
+    }
+}
