@@ -82,10 +82,10 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <input type="text" name="padre_celular" id="padre_celular" placeholder="Teléfono celular">
                         <input type="text" name="padre_email" id="padre_email" placeholder="Correo electr[onico" required>
 
-                        <button type="submit">Actualizar Estudiante</button>
+                        <button type="submit">Actualizar Padre</button>
                     </form>
 
-                    <>
+                    <div>
                         <form id="form_madre">
                             <h3>datos de la Madre</h3>
                             <input type="hidden" name="id" id="padre_id">
@@ -101,13 +101,17 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <input type="text" name="padre_celular" id="padre_celular" placeholder="Teléfono celular">
                         <input type="text" name="padre_email" id="padre_email" placeholder="Correo electr[onico" required>
 
-                        <button type="submit">Actualizar Estudiante</button>
+                        <button type="submit">Actualizar Madre</button>
                     </form>
+                    </div>
                 </div>
+                <!-- Botón para volver al menú de reportes -->
+                <a href="/pages/administrar_planilla_estudiantes.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
+
             </div>
         </div>
     </div>
     
-    <script src="/public/js/admin_representantess.js"></script>
+    <script src="/public/js/admin_representantes.js"></script>
 </body>
 </html>
