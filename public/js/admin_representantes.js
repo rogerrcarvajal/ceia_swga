@@ -26,14 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const formEstudiante = document.getElementById('form_padre');
-    if (formEstudiante) {
-        formEstudiante.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_padre.php'));
+    const formPadre = document.getElementById('form_padre');
+    if (formPadre) {
+        formPadre.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_padre.php'));
     }
 
-    const formFichaMedica = document.getElementById('form_madre');
-    if (formFichaMedica) {
-        formFichaMedica.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_madre.php'));
+    const formMadre = document.getElementById('form_madre');
+    if (formMadre) {
+        formMadre.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_madre.php'));
     }
 });
 
@@ -85,31 +85,31 @@ function rellenarFormulario(formElement, data) {
 async function cargarDatosCompletos(id) {
     try {
         // --- Cargar datos del Padre ---
-        const resEst = await fetch(`/api/obtener_padre.php?id=${id}`);
-        const dataEst = await resEst.json();
-        if (dataEst.error) throw new Error(`API Padre: ${dataEst.error}`);
+        const resPad = await fetch(`/api/obtener_padre.php?id=${id}`);
+        const dataPad = await resPad.json();
+        if (dataPad.error) throw new Error(`API Padre: ${dataPad.error}`);
         
-        const formEstudiante = document.getElementById('form_padre');
-        formEstudiante.reset();
-        rellenarFormulario(formEstudiante, dataEst);
+        const formPadre = document.getElementById('form_padre');
+        formPadre.reset(); // Limpiar siempre antes de rellenar
+        rellenarFormulario(formPadre, dataPad);
         
         // --- Cargar datos de la Madre ---
-        const resFicha = await fetch(`/api/obtener_madre.php?id=${id}`);
-        const dataFicha = await resFicha.json();
-        
-        const formFicha = document.getElementById('form_madre');
-        formFicha.reset(); // Limpiar siempre antes de rellenar
-        if (!dataFicha.error) {
-            rellenarFormulario(formFicha, dataFicha);
-        }
+        const resMad = await fetch(`/api/obtener_madre.php?id=${id}`);
+        const dataMad = await resMad.json();
+        if (dataMad.error) throw new Error(`API Madre: ${dataMad.error}`);
+
+        const formMadre = document.getElementById('form_madre');
+        formMadre.reset(); // Limpiar siempre antes de rellenar
+        rellenarFormulario(formMadre, dataMad);
+
         // Asegurarse de que el ID oculto siempre esté presente para la actualización
-        const fmEstudianteIdField = document.getElementById('madre_id');
-        if (fmEstudianteIdField) fmEstudianteIdField.value = id;
-     
+        const MadreIdField = document.getElementById('estudiante_id');
+        if (MadreIdField) MadreIdField.value = id;
+    
         // --- Cargar Padres Vinculados ---
         // (La lógica para padres se mantiene igual)
 
-    } catch (error) {
+    }catch (error) {
         console.error("Error detallado:", error);
         mostrarMensaje('error', `Error al cargar los datos: ${error.message}`);
     }

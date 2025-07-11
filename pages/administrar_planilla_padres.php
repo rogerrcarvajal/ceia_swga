@@ -87,8 +87,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
 
                     <div>
                         <form id="form_madre">
-                            <h3>datos de la Madre</h3>
-                            <input type="hidden" name="id" id="padre_id">
+                            <h3>Datos de la Madre</h3>
+                            <input type="hidden" name="id" id="madre_id">
                         <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombres completo" required>
                         <input type="text" name="padre_apellido" id="apellido_completo" placeholder="Apellidos completo" required>
                         <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" required>

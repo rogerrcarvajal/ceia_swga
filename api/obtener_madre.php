@@ -15,7 +15,7 @@ $response = [
 try {
     $id = $_GET['id'] ?? null;
     if (!$id) {
-        throw new InvalidArgumentException('ID de estudiante no proporcionado para la ficha médica.');
+        throw new InvalidArgumentException('ID de estudiante no proporcionado para la informacion de la Madre.');
     }
 
     $stmt = $conn->prepare("SELECT * FROM madres WHERE madre_id = :id");
@@ -24,12 +24,12 @@ try {
 
     if ($madre) {
         $response['status'] = 'exito';
-        $response['data'] = $ficha;
-        $response['message'] = 'Informacion de madre encontrada.';
+        $response['data'] = $madre;
+        $response['message'] = 'Informacion de padre encontrada.';
     } else {
         // No es un error, simplemente no se encontró.
         $response['status'] = 'error';
-        $response['message'] = 'No se encontró una ficha médica para este estudiante.';
+        $response['message'] = 'No se encontró un representante para este estudiante.';
     }
 
 } catch (PDOException $e) {

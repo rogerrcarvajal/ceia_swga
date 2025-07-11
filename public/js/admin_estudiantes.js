@@ -90,7 +90,7 @@ async function cargarDatosCompletos(id) {
         if (dataEst.error) throw new Error(`API Estudiante: ${dataEst.error}`);
         
         const formEstudiante = document.getElementById('form_estudiante');
-        formEstudiante.reset();
+        formEstudiante.reset(); // Limpiar siempre antes de rellenar
         rellenarFormulario(formEstudiante, dataEst);
         
         // --- Cargar Ficha Médica ---

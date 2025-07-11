@@ -37,15 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>CEIA SWGA - Login</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-image: url("/public/img/fondo.jpg");
-            background-size: cover;
-            background-position: top;
-            font-family: 'Arial', sans-serif;
-        }
-
         .formulario-contenedor {
             background-color: rgba(0, 0, 0, 0.3);
             backdrop-filter:blur(10px);
