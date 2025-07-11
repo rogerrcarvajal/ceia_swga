@@ -41,13 +41,15 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
 <head>
     <meta charset="UTF-8">
     <title>Administrar Expedientes de Estudiantes</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css"> </head>
+    <link rel="stylesheet" href="/public/css/estilo_admin.css">
+</head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Administrar Expedientes de Estudiantes</h1>
     </div>
+
     <div class="main-container">
         <div class="left-panel">
             <h3>Lista de Estudiantes</h3>
@@ -65,11 +67,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
             <div id="panel_datos_estudiante" style="display:none;">
                 <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
                 <div class="form-grid">
-
                     <form id="form_estudiante">
                         <h3>Datos Personales</h3>
-                        <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
-
                         <input type="hidden" name="id" id="estudiante_id">
                         <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombres completo" required>
                         <input type="text" name="apellido_completo" id="apellido_completo" placeholder="Apellidos completo" required>
@@ -93,13 +92,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                     </form>
 
                     <div>
-
                         <form id="form_ficha_medica">
                             <h3>Ficha Médica</h3>
                             <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
 
-                            <input type="hidden" name="estudiante_id" id="fm_estudiante_id">
-                            <input type="hidden" name="estudiante_id" id="estudiante_id_medica">
+                            <input type="hidden" name="estudiante_id" id="estudiante_id">
                             <input type="text" name="completado_por" id="completado_por" placeholder="Completado por" >
                             <input type="date" name="fecha_salud" id="fecha_salud" >
                             <input type="text" name="contacto_emergencia" id="contacto_emergencia" placeholder="Contacto de Emergencia" >

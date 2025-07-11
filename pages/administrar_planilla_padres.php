@@ -1,76 +1,113 @@
-
 <?php
 session_start();
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
-    header("Location: /index.php"); exit();
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['usuario'])) {
+    header(header: "Location: /../public/index.php");
+    exit();
 }
+
+// Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
-// Unimos ambas tablas para tener una sola lista de representantes
-$padres_sql = "(SELECT id, padre_nombre as nombre, padre_apellido as apellido, 'padre' as tipo FROM padres)
-               UNION
-               (SELECT id, madre_nombre as nombre, madre_apellido as apellido, 'madre' as tipo FROM madres)
-               ORDER BY apellido, nombre";
-$representantes = $conn->query($padres_sql)->fetchAll(PDO::FETCH_ASSOC);
+//Declaracion de variables
+$mensaje = "";
+
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
+
+$usuario_rol = $acceso_stmt;
+
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    if ($_SESSION !== $usuario_rol) {
+        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
+    }
+}
+
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
+// --- Obtener el período escolar activo ---
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
+}
+
+// --- 2. OBTENER LISTA DE ESTUDIANTES PARA EL PANEL IZQUIERDO ---
+$estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM estudiantes ORDER BY apellido_completo, nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Administrar Expedientes de Padres</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css"> </head>
+    <title>Administrar Expedientes de Representantes</title>
+    <link rel="stylesheet" href="/public/css/estilo_admin.css">
+</head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
-    <div class="content"><h1>Administrar Expedientes de Padres</h1></div>
+    <div class="content">
+        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <h1>Administrar Expedientes de Representantes</h1>
+    </div>
 
     <div class="main-container">
         <div class="left-panel">
-            <h3>Lista de Representantes</h3>
-
-    <div class="main-container">
-        <div class="left-panel">
-            <h3>Lista de Representantes</h3>
-            <input type="text" id="filtro_representantes" placeholder="Buscar por apellido...">
-            <ul id="lista_representantes">
-                <?php foreach ($representantes as $r): ?>
-                    <li data-id="<?= $r['id'] ?>" data-tipo="<?= $r['tipo'] ?>">
-                        <?= htmlspecialchars($r['apellido'] . ', ' . $r['nombre']) ?>
-                    </li>
+            <h3>Lista de Estudiantes</h3>
+            <input type="text" id="filtro_estudiantes" placeholder="Buscar por apellido...">
+            <ul id="lista_estudiantes">
+                <?php foreach ($estudiantes as $e): ?>
+                    <li data-id="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
 
         <div class="right-panel">
-            <div id="panel_informativo"><p>Seleccione un representante de la lista.</p></div>
+            <div id="panel_informativo"><p>Seleccione un estudiante de la lista para ver su expediente.</p></div>
             
-            <div id="panel_datos_representante" style="display:none;">
+            <div id="panel_datos_representantes" style="display:none;">
                 <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
                 <div class="form-grid">
-                    <form id="form_representante">
-                        <h3>Datos del Representante</h3>
-                        <input type="hidden" name="id" id="representante_id">
-                        <input type="hidden" name="tipo" id="representante_tipo">
-                        Nombres: <input type="text" name="nombre" id="rep_nombre" required>
-                        Apellidos: <input type="text" name="apellido" id="rep_apellido" required>
-                        Fecha Nacimiento: <input type="date" name="fecha_nacimiento" id="rep_fecha_nacimiento">
-                        Cédula/Pasaporte: <input type="text" name="cedula_pasaporte" id="rep_cedula_pasaporte">
-                        Nacionalidad: <input type="text" name="nacionalidad" id="rep_nacionalidad">
-                        Idioma: <input type="text" name="idioma" id="rep_idioma">
-                        Profesión: <input type="text" name="profesion" id="rep_profesion">
-                        Empresa: <input type="text" name="empresa" id="rep_empresa">
-                        Teléfono Trabajo: <input type="text" name="telefono_trabajo" id="rep_telefono_trabajo">
-                        Celular: <input type="text" name="celular" id="rep_celular">
-                        Email: <input type="email" name="email" id="rep_email">
-                        <button type="submit">Actualizar Representante</button>
+                    <form id="form_padre">
+                        <h3>Datos del Padre</h3>
+                        <input type="hidden" name="id" id="padre_id">
+                        <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombres completo" required>
+                        <input type="text" name="padre_apellido" id="apellido_completo" placeholder="Apellidos completo" required>
+                        <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" required>
+                        <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
+                        <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" required>
+                        <input type="text" name="idioma" id="idioma" placeholder="Idiomas que habla" required>
+                        <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" required>
+                        <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" required>
+                        <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono de Trabajo">
+                        <input type="text" name="padre_celular" id="padre_celular" placeholder="Teléfono celular">
+                        <input type="text" name="padre_email" id="padre_email" placeholder="Correo electr[onico" required>
+
+                        <button type="submit">Actualizar Estudiante</button>
                     </form>
-                    <div class="related-section">
-                        <h3>Estudiantes Vinculados</h3>
-                        <ul id="lista_estudiantes_vinculados"></ul>
-                    </div>
+
+                    <>
+                        <form id="form_madre">
+                            <h3>datos de la Madre</h3>
+                            <input type="hidden" name="id" id="padre_id">
+                        <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombres completo" required>
+                        <input type="text" name="padre_apellido" id="apellido_completo" placeholder="Apellidos completo" required>
+                        <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" required>
+                        <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
+                        <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" required>
+                        <input type="text" name="idioma" id="idioma" placeholder="Idiomas que habla" required>
+                        <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" required>
+                        <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" required>
+                        <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono de Trabajo">
+                        <input type="text" name="padre_celular" id="padre_celular" placeholder="Teléfono celular">
+                        <input type="text" name="padre_email" id="padre_email" placeholder="Correo electr[onico" required>
+
+                        <button type="submit">Actualizar Estudiante</button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="/public/js/admin_padres.js"></script>
+    
+    <script src="/public/js/admin_representantess.js"></script>
 </body>
 </html>

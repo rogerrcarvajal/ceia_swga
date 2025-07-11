@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Referencias a elementos principales ---
     const listaUI = document.getElementById('lista_estudiantes');
     const panelInformativo = document.getElementById('panel_informativo');
-    const panelDatos = document.getElementById('panel_datos_estudiante');
+    const panelDatos = document.getElementById('panel_datos_representantes');
     const filtro = document.getElementById('filtro_estudiantes');
 
     // --- Event Listeners ---
@@ -26,14 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const formEstudiante = document.getElementById('form_estudiante');
+    const formEstudiante = document.getElementById('form_padre');
     if (formEstudiante) {
-        formEstudiante.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_estudiante.php'));
+        formEstudiante.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_padre.php'));
     }
 
-    const formFichaMedica = document.getElementById('form_ficha_medica');
+    const formFichaMedica = document.getElementById('form_madre');
     if (formFichaMedica) {
-        formFichaMedica.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_ficha_medica.php'));
+        formFichaMedica.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_madre.php'));
     }
 });
 
@@ -79,33 +79,33 @@ function rellenarFormulario(formElement, data) {
 }
 
 /**
- * Carga todos los datos de un estudiante desde las APIs.
+ * Carga todos los datos de un representante desde las APIs.
  * @param {number} id - El ID del estudiante.
  */
 async function cargarDatosCompletos(id) {
     try {
-        // --- Cargar datos del Estudiante ---
-        const resEst = await fetch(`/api/obtener_estudiante.php?id=${id}`);
+        // --- Cargar datos del Padre ---
+        const resEst = await fetch(`/api/obtener_padre.php?id=${id}`);
         const dataEst = await resEst.json();
-        if (dataEst.error) throw new Error(`API Estudiante: ${dataEst.error}`);
+        if (dataEst.error) throw new Error(`API Padre: ${dataEst.error}`);
         
-        const formEstudiante = document.getElementById('form_estudiante');
+        const formEstudiante = document.getElementById('form_padre');
         formEstudiante.reset();
         rellenarFormulario(formEstudiante, dataEst);
         
-        // --- Cargar Ficha Médica ---
-        const resFicha = await fetch(`/api/obtener_ficha_medica.php?id=${id}`);
+        // --- Cargar datos de la Madre ---
+        const resFicha = await fetch(`/api/obtener_madre.php?id=${id}`);
         const dataFicha = await resFicha.json();
         
-        const formFicha = document.getElementById('form_ficha_medica');
+        const formFicha = document.getElementById('form_madre');
         formFicha.reset(); // Limpiar siempre antes de rellenar
         if (!dataFicha.error) {
             rellenarFormulario(formFicha, dataFicha);
         }
         // Asegurarse de que el ID oculto siempre esté presente para la actualización
-        const fmEstudianteIdField = document.getElementById('estudiante_id');
+        const fmEstudianteIdField = document.getElementById('madre_id');
         if (fmEstudianteIdField) fmEstudianteIdField.value = id;
-
+     
         // --- Cargar Padres Vinculados ---
         // (La lógica para padres se mantiene igual)
 
