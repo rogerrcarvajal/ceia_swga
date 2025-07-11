@@ -119,7 +119,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <div class="related-section">
                             <h3>Padres Vinculados</h3>
                             <ul id="lista_padres_vinculados"></ul>
-                            <a href="/pages/administrar_planilla_padres.php" class="btn-agregar" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Administrar Padres</a>
+                            <a href="/pages/administrar_planilla_representantes.php" class="btn-agregar" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Administrar Padres</a>
                         </div>
                     </div>
                 </div>

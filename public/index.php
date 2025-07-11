@@ -37,32 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>CEIA SWGA - Login</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
-        .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.3);
-            backdrop-filter:blur(10px);
-            box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
-            border:2px solid rgba(255,255,255,0.18);
-            margin: 20px auto;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 30%;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-
-        .content {
-            text-align: center;
-            margin-top: 0px;
-            color: white;
-            text-shadow: 1px 1px 2px black;
-        }
-
-        .content img {
-            width: 150px;
-            margin-bottom: 0px;
-        }
-
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 30%; display: flex; flex-wrap: wrap; justify-content: space-around;  }
+        .content { text-align: center; margin-top: 0px; color: white; text-shadow: 1px 1px 2px black;}
+        .content img { width: 150px; margin-bottom: 0px; }
     </style>
 </head>
 <body>

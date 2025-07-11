@@ -91,7 +91,9 @@ async function cargarDatosCompletos(id) {
         
         const formPadre = document.getElementById('form_padre');
         formPadre.reset(); // Limpiar siempre antes de rellenar
-        rellenarFormulario(formPadre, dataPad);
+        if (!dataPad.error) {
+            rellenarFormulario(formPadre, dataPad);
+        }
         
         // --- Cargar datos de la Madre ---
         const resMad = await fetch(`/api/obtener_madre.php?id=${id}`);
@@ -104,13 +106,13 @@ async function cargarDatosCompletos(id) {
         }
 
         // Asegurarse de que el ID oculto siempre esté presente para la actualización
-        const MadreIdField = document.getElementById('madre_id');
+        const MadreIdField = document.getElementById('estudiante_id');
         if (MadreIdField) MadreIdField.value = id;
     
         // --- Cargar Padres Vinculados ---
         // (La lógica para padres se mantiene igual)
 
-    }catch (error) {
+    } catch (error) {
         console.error("Error detallado:", error);
         mostrarMensaje('error', `Error al cargar los datos: ${error.message}`);
     }
