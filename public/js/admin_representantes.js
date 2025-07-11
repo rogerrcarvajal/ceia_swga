@@ -103,7 +103,7 @@ async function cargarDatosCompletos(id) {
         rellenarFormulario(formMadre, dataMad);
 
         // Asegurarse de que el ID oculto siempre esté presente para la actualización
-        const MadreIdField = document.getElementById('estudiante_id');
+        const MadreIdField = document.getElementById('madre_id');
         if (MadreIdField) MadreIdField.value = id;
     
         // --- Cargar Padres Vinculados ---

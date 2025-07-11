@@ -85,21 +85,21 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <button type="submit">Actualizar Padre</button>
                     </form>
 
-                    <div>
-                        <form id="form_madre">
-                            <h3>Datos de la Madre</h3>
-                            <input type="hidden" name="id" id="madre_id">
-                        <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombres completo" required>
-                        <input type="text" name="padre_apellido" id="apellido_completo" placeholder="Apellidos completo" required>
-                        <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" required>
-                        <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
-                        <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" required>
+                <div>
+                    <form id="form_madre">
+                        <h3>Datos de la Madre</h3>
+                        <input type="hidden" name="id" id="madre_id">
+                        <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombres completos" required>
+                        <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellidos completos" required>
+                        <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" required>
+                        <input type="text" name="madre_cedula_pasaporte" id="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" required>
+                        <input type="text" name="madre_nacionalidad" id="madre_nacionalidad" placeholder="Nacionalidad" required>
                         <input type="text" name="idioma" id="idioma" placeholder="Idiomas que habla" required>
-                        <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" required>
-                        <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" required>
-                        <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono de Trabajo">
-                        <input type="text" name="padre_celular" id="padre_celular" placeholder="Teléfono celular">
-                        <input type="text" name="padre_email" id="padre_email" placeholder="Correo electr[onico" required>
+                        <input type="text" name="madre_profesion" id="madre_profesion" placeholder="Profesión" required>
+                        <input type="text" name="madre_empresa" id="madre_empresa" placeholder="Empresa donde trabaja" required>
+                        <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono de Trabajo">
+                        <input type="text" name="madre_celular" id="madre_celular" placeholder="Teléfono celular">
+                        <input type="text" name="madre_email" id="madre_email" placeholder="Correo electronico" required>
 
                         <button type="submit">Actualizar Madre</button>
                     </form>
