@@ -1,15 +1,40 @@
 <?php
 session_start();
-// --- Seguridad y Configuración ---
-if (!isset($_SESSION['usuario'])) { header("Location: /index.php"); exit(); }
+// Verificar si el usuario está autenticado
+if (!isset($_SESSION['usuario'])) {
+    header(header: "Location: /../public/index.php");
+    exit();
+}
+
+// Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
-// --- OBTENER LISTA DE TODOS LOS REPRESENTANTES (PADRES Y MADRES) ---
-$sql = "(SELECT id, padre_nombre as nombre, padre_apellido as apellido, 'padre' as tipo FROM padres)
-        UNION
-        (SELECT id, madre_nombre as nombre, madre_apellido as apellido, 'madre' as tipo FROM madres)
-        ORDER BY apellido, nombre";
-$representantes = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+//Declaracion de variables
+$mensaje = "";
+
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
+
+$usuario_rol = $acceso_stmt;
+
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    if ($_SESSION !== $usuario_rol) {
+        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
+    }
+}
+
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
+// --- Obtener el período escolar activo ---
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
+}
+
+// --- 2. OBTENER LISTA DE ESTUDIANTES PARA EL PANEL IZQUIERDO ---
+$estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM estudiantes ORDER BY apellido_completo, nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,30 +45,31 @@ $representantes = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
-    <div class="content"><h1>Administrar Expedientes de Representantes</h1></div>
+    <div class="content">
+        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <h1>Administrar Expedientes de Representantes</h1>
+    </div>
 
     <div class="main-container">
         <div class="left-panel">
-            <h3>Lista de Representantes</h3>
-            <input type="text" id="filtro_representantes" placeholder="Buscar por apellido...">
-            <ul id="lista_representantes">
-                <?php foreach ($representantes as $r): ?>
-                    <li data-id="<?= $r['id'] ?>" data-tipo="<?= $r['tipo'] ?>">
-                        <?= htmlspecialchars($r['apellido'] . ', ' . $r['nombre']) ?> (<?= ucfirst($r['tipo']) ?>)
-                    </li>
+            <h3>Lista de Estudiantes</h3>
+            <input type="text" id="filtro_estudiantes" placeholder="Buscar por apellido...">
+            <ul id="lista_estudiantes">
+                <?php foreach ($estudiantes as $e): ?>
+                    <li data-id="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
 
         <div class="right-panel">
-            <div id="panel_informativo"><p>Seleccione un representante de la lista.</p></div>
+            <div id="panel_informativo"><p>Seleccione un estudiante de la lista para ver su expediente.</p></div>
             
             <div id="panel_datos_representantes" style="display:none;">
                 <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
                 <div class="form-grid">
-                    <form id="form_padre" style="display:none;">
+                    <form id="form_padre">
                         <h3>Datos del Padre</h3>
-                        <input type="hidden" name="padre_id" id="padre_id_form">
+                        <input type="hidden" name="padre_id" id="padre_id">
                         <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombres completo" required>
                         <input type="text" name="padre_apellido" id="apellido_completo" placeholder="Apellidos completo" required>
                         <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" required>
@@ -59,9 +85,10 @@ $representantes = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                         <button type="submit">Actualizar Padre</button>
                     </form>
 
-                    <form id="form_madre" style="display:none;">
+                <div>
+                    <form id="form_madre">
                         <h3>Datos de la Madre</h3>
-                        <input type="hidden" name="madre_id" id="madre_id_form">
+                        <input type="hidden" name="madre_id" id="madre_id">
                         <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombres completos" required>
                         <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellidos completos" required>
                         <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" required>
@@ -76,12 +103,11 @@ $representantes = $conn->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
                         <button type="submit">Actualizar Madre</button>
                     </form>
-
-                    <div class="related-section">
-                        <h3>Estudiantes Vinculados</h3>
-                        <ul id="estudiantes_vinculados_lista"></ul>
                     </div>
                 </div>
+                <!-- Botón para volver al menú de reportes -->
+                <a href="/pages/administrar_planilla_estudiantes.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
+
             </div>
         </div>
     </div>
