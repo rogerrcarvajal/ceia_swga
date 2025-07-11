@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     autorizo_medicamentos = :autorizo_medicamentos,
                     medicamentos_actuales = :medicamentos_actuales,
                     autorizo_emergencia = :autorizo_emergencia
-                WHERE id = :id";
+                WHERE estudiante_id = :id";
 
         $stmt_ficha = $conn->prepare($sql);
 

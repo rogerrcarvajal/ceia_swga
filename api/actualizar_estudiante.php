@@ -29,12 +29,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     edad_estudiante = :edad_estudiante, 
                     staff = :staff, 
                     activo = :activo
-                WHERE estudiante_id = :id";
+                WHERE id = :id";
         
         $stmt = $conn->prepare($sql);
         
         $stmt->execute([
-            ':id' => $_POST['estudiante_id'],
+            ':id' => $_POST['id'],
             ':nombre_completo' => $_POST['nombre_completo'] ?? '',
             ':apellido_completo' => $_POST['apellido_completo'] ?? '',
             ':fecha_nacimiento' => $_POST['fecha_nacimiento'] ?: null,
