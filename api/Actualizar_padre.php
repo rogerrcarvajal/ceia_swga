@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 $response = ['status' => 'error', 'message' => 'Solicitud inválida.'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (empty($_POST['estudiante_id'])) {
+    if (empty($_POST['id'])) {
         $response['message'] = 'Error: ID de estudiante no proporcionado para Padre.';
         echo json_encode($response);
         exit;
@@ -24,12 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     padre_telefono_trabajo = :padre_telefono_trabajo,
                     padre_celular = :padre_celular,
                     padre_email = :padre_email
-                WHERE estudiante_id = :id";
+                WHERE padre_id = :id";
 
         $stmt = $conn->prepare($sql);
 
         $stmt->execute([
-            ':id' => $_POST['estudiante_id'], 
+            ':id' => $_POST['padre_id'], 
             ':padre_nombre' => $_POST['padre_nombre'] ?? '',
             ':padre_apellido' => $_POST['padre_apellido'] ?? '',
             ':padre_fecha_nacimiento' => $_POST['padre_fecha_nacimiento'] ?: null,

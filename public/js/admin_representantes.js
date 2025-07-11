@@ -96,11 +96,12 @@ async function cargarDatosCompletos(id) {
         // --- Cargar datos de la Madre ---
         const resMad = await fetch(`/api/obtener_madre.php?id=${id}`);
         const dataMad = await resMad.json();
-        if (dataMad.error) throw new Error(`API Madre: ${dataMad.error}`);
 
         const formMadre = document.getElementById('form_madre');
         formMadre.reset(); // Limpiar siempre antes de rellenar
-        rellenarFormulario(formMadre, dataMad);
+        if (!dataMad.error) {
+            rellenarFormulario(formMadre, dataMad);
+        }
 
         // Asegurarse de que el ID oculto siempre esté presente para la actualización
         const MadreIdField = document.getElementById('madre_id');
