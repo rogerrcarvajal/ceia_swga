@@ -73,10 +73,10 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-reportes">
                 <li>
-                    <a href="/src/reports_generators/planilla_estudiante.php" target="_blank">
+                    <<a href="/pages/seleccionar_planilla.php">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción
                     </a>
-                    <p>Muestra todos los estudiantes del período escolar activo, indicando si pertenecen al personal (staff).</p>
+                    <p>Permite la seleccion de un estudiante para obtener la planilla de inscripcion.</p>
                 </li>
 
                 <li>
