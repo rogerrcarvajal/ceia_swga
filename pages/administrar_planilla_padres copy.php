@@ -69,7 +69,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                 <div class="form-grid">
                     <form id="form_padre">
                         <h3>Datos del Padre</h3>
-                        <input type="hidden" name="padre_id" id="padre_id">
+                        <input type="hidden" name="padre_id">
                         <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombres completo" required>
                         <input type="text" name="padre_apellido" id="apellido_completo" placeholder="Apellidos completo" required>
                         <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" required>
@@ -88,7 +88,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                 <div>
                     <form id="form_madre">
                         <h3>Datos de la Madre</h3>
-                        <input type="hidden" name="madre_id" id="madre_id">
+                        <input type="hidden" name="madre_id">
                         <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombres completos" required>
                         <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellidos completos" required>
                         <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" required>

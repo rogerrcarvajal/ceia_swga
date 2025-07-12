@@ -15,21 +15,21 @@ $response = [
 try {
     $id = $_GET['id'] ?? null;
     if (!$id) {
-        throw new InvalidArgumentException('ID de estudiante no proporcionado para la informacion de la Madre.');
+        throw new InvalidArgumentException('ID de estudiante no proporcionado para la ficha médica.');
     }
 
-    $stmt = $conn->prepare("SELECT * FROM madres WHERE madre_id = :id");
+    $stmt = $conn->prepare("SELECT * FROM salud_estudiantil WHERE estudiante_id = :id");
     $stmt->execute([':id' => $id]);
-    $madre = $stmt->fetch(PDO::FETCH_ASSOC);
+    $ficha = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($madre) {
+    if ($ficha) {
         $response['status'] = 'exito';
-        $response['data'] = $madre;
-        $response['message'] = 'Informacion de padre encontrada.';
+        $response['data'] = $ficha;
+        $response['message'] = 'Ficha médica encontrada.';
     } else {
         // No es un error, simplemente no se encontró.
         $response['status'] = 'error';
-        $response['message'] = 'No se encontró un representante para este estudiante.';
+        $response['message'] = 'No se encontró una ficha médica para este estudiante.';
     }
 
 } catch (PDOException $e) {

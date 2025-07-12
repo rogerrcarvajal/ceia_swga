@@ -1,31 +1,25 @@
 <?php
-// 1. Establecer la cabecera JSON
 header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
-$response = ['status' => 'error', 'data' => null, 'message' => 'No se pudo procesar la solicitud.'];
 
 try {
-    // CORRECCIÓN: Se espera el parámetro 'id' que envía el JavaScript.
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
+    $id_del_padre_a_buscar = $_GET['id'] ?? null;
+    if (!$id_del_padre_a_buscar) {
         throw new InvalidArgumentException('ID de padre no proporcionado.');
     }
     
-    // CORRECCIÓN: Se busca por la columna correcta 'id' en la tabla 'padres'.
-    $stmt = $conn->prepare("SELECT * FROM padres WHERE id = :id");
-    $stmt->execute([':id' => $id]);
+    $stmt = $conn->prepare("SELECT * FROM padres WHERE padre_id = :id_padre");
+    $stmt->execute([':id_padre' => $id_del_padre_a_buscar]);
     $padre = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($padre) {
-        $response['status'] = 'exito';
-        $response['data'] = $padre;
-    } else {
-        $response['message'] = 'No se encontró información para el padre con el ID proporcionado.';
+    if (!$padre) {
+        echo json_encode(['error' => 'No se encontró información para el padre.']);
+        exit;
     }
-} catch (Exception $e) {
-    $response['message'] = 'Error: ' . $e->getMessage();
-}
+    echo json_encode($padre);
 
-// 4. Imprimir la respuesta final.
-echo json_encode($response['data'] ?? ['error' => $response['message']]);
+} catch (Exception $e) {
+    http_response_code(400); // Bad Request
+    echo json_encode(['error' => $e->getMessage()]);
+}
 ?>

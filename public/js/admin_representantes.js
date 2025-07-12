@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const panelDatos = document.getElementById('panel_datos_representantes');
     const filtro = document.getElementById('filtro_representantes');
 
+    // Clic en un representante de la lista
     if (listaUI) {
         listaUI.addEventListener('click', (e) => {
             if (e.target && e.target.tagName === 'LI') {
@@ -16,11 +17,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Filtro de búsqueda
+    if (filtro) {
+        filtro.addEventListener('keyup', () => {
+            const texto = filtro.value.toLowerCase();
+            document.querySelectorAll('#lista_representantes li').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(texto) ? '' : 'none';
+            });
+        });
+    }
+
+    // Cargar datos si se llega a la página con parámetros en la URL
     const params = new URLSearchParams(window.location.search);
     if (params.has('id') && params.has('tipo')) {
+        if (panelInformativo) panelInformativo.style.display = 'none';
+        if (panelDatos) panelDatos.style.display = 'block';
         cargarDatosRepresentante(params.get('id'), params.get('tipo'));
     }
 
+    // Vincular formularios a la función de envío
     const formPadre = document.getElementById('form_padre');
     if (formPadre) {
         formPadre.addEventListener('submit', (e) => handleFormSubmit(e, '/api/actualizar_padre.php'));
@@ -39,7 +54,7 @@ async function cargarDatosRepresentante(id, tipo) {
 
         document.getElementById('form_padre').style.display = 'none';
         document.getElementById('form_madre').style.display = 'none';
-        formElement.style.display = 'block';
+        formElement.style.display = 'grid'; // 'grid' para que se vea en dos columnas
         
         const res = await fetch(`/api/obtener_${tipo}.php?id=${id}`);
         const data = await res.json();
@@ -88,56 +103,8 @@ function rellenarFormulario(formElement, data) {
     for (const key in data) {
         const field = formElement.querySelector(`[name="${key}"]`);
         if (field) {
-            if (field.type === 'checkbox') {
-                field.checked = (data[key] == 1 || data[key] === true);
-            } else {
-                field.value = data[key] || '';
-            }
+            field.value = data[key] || '';
         }
-    }
-}
-
-/**
- * Carga los datos de los representantes (padre y madre) asociados a un estudiante.
- * @param {number} estudianteId - El ID del estudiante seleccionado.
- */
-async function cargarDatosRepresentantes(estudianteId) {
-    const formPadre = document.getElementById('form_padre');
-    const formMadre = document.getElementById('form_madre');
-
-    // Limpiar formularios al inicio
-    if (formPadre) formPadre.reset();
-    if (formMadre) formMadre.reset();
-
-    try {
-        // 1. OBTENER LOS DATOS DEL ESTUDIANTE PARA ENCONTRAR padre_id y madre_id
-        const resEstudiante = await fetch(`/api/obtener_estudiante.php?id=${estudianteId}`);
-        const dataEstudiante = await resEstudiante.json();
-        if (dataEstudiante.error) {
-            throw new Error(`No se pudo encontrar al estudiante: ${dataEstudiante.error}`);
-        }
-
-        // 2. CARGAR DATOS DEL PADRE USANDO EL dataEstudiante.padre_id
-        if (dataEstudiante.padre_id && formPadre) {
-            const resPadre = await fetch(`/api/obtener_padre.php?id=${dataEstudiante.padre_id}`);
-            const dataPadre = await resPadre.json();
-            if (!dataPadre.error) {
-                rellenarFormulario(formPadre, dataPadre);
-            }
-        }
-
-        // 3. CARGAR DATOS DE LA MADRE USANDO EL dataEstudiante.madre_id
-        if (dataEstudiante.madre_id && formMadre) {
-            const resMadre = await fetch(`/api/obtener_madre.php?id=${dataEstudiante.madre_id}`);
-            const dataMadre = await resMadre.json();
-            if (!dataMadre.error) {
-                rellenarFormulario(formMadre, dataMadre);
-            }
-        }
-
-    } catch (error) {
-        console.error("Error detallado al cargar representantes:", error);
-        mostrarMensaje('error', `Error al cargar los datos: ${error.message}`);
     }
 }
 

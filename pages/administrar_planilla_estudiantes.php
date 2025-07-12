@@ -66,9 +66,10 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
             
             <div id="panel_datos_estudiante" style="display:none;">
                 <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
-                <div class="form-grid">
+                
+                <div class="form-grid-quad">
                     <form id="form_estudiante">
-                        <h3>Datos Personales</h3>
+                    <h3>Datos del Estudiante</h3>
                         <input type="hidden" name="id" id="estudiante_id">
                         <input type="text" name="nombre_completo" id="nombre_completo" placeholder="Nombres completo" required>
                         <input type="text" name="apellido_completo" id="apellido_completo" placeholder="Apellidos completo" required>
@@ -84,46 +85,72 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <input type="date" name="fecha_inscripcion" id="fecha_inscripcion" required>
                         <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por">
                         <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
-
                         <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
                         <label><input type="checkbox" name="activo" id="activo"> Estudiante Activo</label><br><br>
 
                         <button type="submit">Actualizar Estudiante</button>
+                    </form>  
+                
+                    <form id="form_padre">
+                    <h3>Datos del Padre</h3>
+                        <input type="hidden" name="padre_id" id="padre_id">                
+                        <input type="text" name="padre_nombre" id="padre_nombre" placeholder="Nombre del Padre" >
+                        <input type="text" name="padre_apellido" id="padre_apellido" placeholder="Apellido del Padre" >
+                        <input type="date" name="padre_fecha_nacimiento" id="padre_fecha_nacimiento" >
+                        <input type="text" name="padre_cedula_pasaporte" id="padre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
+                        <input type="text" name="padre_nacionalidad" id="padre_nacionalidad" placeholder="Nacionalidad" >
+                        <input type="text" name="padre_idioma" id="padre_idioma" placeholder="Idiomas que habla" >
+                        <input type="text" name="padre_profesion" id="padre_profesion" placeholder="Profesión" >                        <input type="text" name="padre_empresa" id="padre_empresa" placeholder="Empresa donde trabaja" >
+                        <input type="text" name="padre_telefono_trabajo" id="padre_telefono_trabajo" placeholder="Teléfono trabajo" >
+                        <input type="text" name="padre_celular" id="padre_celular" placeholder="Celular" >
+                        <input type="email" name="padre_email" id="padre_email" placeholder="Correo electrónico" ><br><br>
+
+                        <button type="submit">Actualizar Padre</button>
+
+                    </form>
+                
+                    <form id="form_madre">    
+                    <h3>Datos de la Madre</h3>
+                        <input type="hidden" name="madre_id" id="madre_id">
+                        <input type="text" name="madre_nombre" id="madre_nombre" placeholder="Nombre de la Madre" >
+                        <input type="text" name="madre_apellido" id="madre_apellido" placeholder="Apellido de la Madre" >
+                        <input type="date" name="madre_fecha_nacimiento" id="madre_fecha_nacimiento" >
+                        <input type="text" name="madre_cedula_pasaporte" id="madre_cedula_pasaporte" placeholder="Cédula o Pasaporte" >
+                        <input type="text" name="madre_nacionalidad" id="madre_nacionalidad" placeholder="Nacionalidad" >
+                        <input type="text" name="madre_idioma" id="madre_idioma" placeholder="Idiomas que habla" >
+                        <input type="text" name="madre_profesion" id="madre_profesion" placeholder="Profesión" >
+                        <input type="text" name="madre_empresa" id="madre_empresa" placeholder="Empresa donde trabaja" >
+                        <input type="text" name="madre_telefono_trabajo" id="madre_telefono_trabajo" placeholder="Teléfono trabajo" >
+                        <input type="text" name="madre_celular" id="madre_celular" placeholder="Celular" >
+                        <input type="email" name="madre_email" id="madre_email" placeholder="Correo electrónico" ><br><br>
+
+                        <button type="submit">Actualizar Madre</button>
                     </form>
 
-                    <div>
-                        <form id="form_ficha_medica">
-                            <h3>Ficha Médica</h3>
-                            <div id="mensaje_actualizacion" style="color: lightgreen; margin-bottom: 15px;"></div>
-
-                            <input type="hidden" name="estudiante_id" id="estudiante_id">
-                            <input type="text" name="completado_por" id="completado_por" placeholder="Completado por" >
-                            <input type="date" name="fecha_salud" id="fecha_salud" >
-                            <input type="text" name="contacto_emergencia" id="contacto_emergencia" placeholder="Contacto de Emergencia" >
-                            <input type="text" name="relacion_emergencia" id="relacion_emergencia" placeholder="Relación de Emergencia" >
-                            <input type="text" name="telefono1" id="telefono1" placeholder="Teléfono 1" >
-                            <input type="text" name="telefono2" id="telefono2" placeholder="Teléfono 2">
-                            <textarea name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
-                            <label><input type="checkbox" name="dislexia" id="dislexia"> Dislexia</label>
-                            <label><input type="checkbox" name="atencion" id="atencion"> Déficit de Atención</label>
-                            <label><input type="checkbox" name="otros" id="otros"> Otros</label>
-                            <textarea name="info_adicional" id="info_adicional" placeholder="Información adicional"></textarea>
-                            <textarea name="problemas_oido_vista" id="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
-                            <input type="text" name="fecha_examen" id="fecha_examen" placeholder="Fecha último examen oído/vista">
-                            <label><input type="checkbox" name="autorizo_medicamentos" id="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
-                            <textarea name="medicamentos_actuales" id="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
-                            <label><input type="checkbox" name="autorizo_emergencia" id="autorizo_emergencia"> Autorizo atención de emergencia</label><br><br>
-                            <button type="submit">Actualizar Ficha Médica</button>
-                        </form>
-
-                        <div class="related-section">
-                            <h3>Padres Vinculados</h3>
-                            <ul id="lista_padres_vinculados"></ul>
-                            <a href="/pages/administrar_planilla_representantes.php" class="btn-agregar" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Administrar Padres</a>
-                        </div>
-                    </div>
+                    <form id="form_ficha_medica">
+                    <h3>Ficha Médica</h3>
+                        <input type="hidden" name="estudiante_id" id="estudiante_id">
+                        <input type="text" name="completado_por" id="completado_por" placeholder="Completado por" >
+                        <input type="date" name="fecha_salud" id="fecha_salud" >
+                        <input type="text" name="contacto_emergencia" id="contacto_emergencia" placeholder="Contacto de Emergencia" >
+                        <input type="text" name="relacion_emergencia" id="relacion_emergencia" placeholder="Relación de Emergencia" >
+                        <input type="text" name="telefono1" id="telefono1" placeholder="Teléfono 1" >
+                        <input type="text" name="telefono2" id="telefono2" placeholder="Teléfono 2">
+                        <textarea name="observaciones" id="observaciones" placeholder="Observaciones"></textarea>
+                        <label><input type="checkbox" name="dislexia" id="dislexia"> Dislexia</label>
+                        <label><input type="checkbox" name="atencion" id="atencion"> Déficit de Atención</label>
+                        <label><input type="checkbox" name="otros" id="otros"> Otros</label>
+                        <textarea name="info_adicional" id="info_adicional" placeholder="Información adicional"></textarea>
+                        <textarea name="problemas_oido_vista" id="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
+                        <input type="text" name="fecha_examen" id="fecha_examen" placeholder="Fecha último examen oído/vista">
+                        <label><input type="checkbox" name="autorizo_medicamentos" id="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
+                        <textarea name="medicamentos_actuales" id="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
+                        <label><input type="checkbox" name="autorizo_emergencia" id="autorizo_emergencia"> Autorizo atención de emergencia</label><br><br>
+                        
+                        <button type="submit">Actualizar Ficha Médica</button>
+                    </form>
                 </div>
-            </div>
+            </div>    
         </div>
     </div>
     

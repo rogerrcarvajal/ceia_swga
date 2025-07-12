@@ -1,18 +1,18 @@
 <?php
 require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
-
 $response = ['status' => 'error', 'message' => 'Solicitud inválida.'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (empty($_POST['estudiante_id'])) {
-        $response['message'] = 'Error: ID de estudiante no proporcionado para la ficha médica.';
-        echo json_encode($response);
-        exit;
-    }
-
-    try {
-        $sql = "UPDATE salud_estudiantil SET 
+    // CORRECCIÓN: Usamos consistentemente 'estudiante_id' como el ID que viene del formulario.
+    $estudiante_id = $_POST['estudiante_id'] ?? null;
+    if (!$estudiante_id) {
+        $response['message'] = 'Error: ID de Estudiante no proporcionado para actualizar la ficha.';
+    } else {
+        try {
+            // CORRECCIÓN: Aseguramos que la tabla sea 'salud_estudiantil' y que los campos sean correctos.
+            // El SQL ya estaba bien, usando 'id_where' como placeholder
+            $sql = "UPDATE salud_estudiantil SET
                     completado_por = :completado_por,
                     fecha_salud = :fecha_salud,
                     contacto_emergencia = :contacto_emergencia, 
@@ -29,12 +29,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     autorizo_medicamentos = :autorizo_medicamentos,
                     medicamentos_actuales = :medicamentos_actuales,
                     autorizo_emergencia = :autorizo_emergencia
-                WHERE estudiante_id = :id";
+                WHERE estudiante_id = :id_where"; // UWHERE estudiante_id = :id_where;samos la Primary Key
 
         $stmt = $conn->prepare($sql);
 
-        $stmt->execute([
-            ':id' => $_POST['estudiante_id'], 
+            // CORRECCIÓN: Vinculamos la variable correcta '$estudiante_id' al placeholder.
+            $stmt->execute([
+            ':id_where' => $estudiante_id,
             ':completado_por' => $_POST['completado_por'] ?? '', 
             ':fecha_salud' => $_POST['fecha_salud'] ?: null,
             ':contacto_emergencia' => $_POST['contacto_emergencia'] ?? '', 
@@ -61,6 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response['message'] = 'Error de base de datos: ' . $e->getMessage();
     }
 }
-
+}
 echo json_encode($response);
 ?>

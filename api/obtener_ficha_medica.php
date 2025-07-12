@@ -1,46 +1,25 @@
 <?php
-// 1. Establecer la cabecera JSON al principio de todo.
 header('Content-Type: application/json');
-
-// 2. Incluir la configuración
 require_once __DIR__ . '/../src/config.php';
 
-// 3. Preparar una estructura de respuesta estándar
-$response = [
-    'status' => 'error',
-    'data' => null,
-    'message' => 'No se pudo procesar la solicitud.'
-];
-
 try {
-    $id = $_GET['id'] ?? null;
-    if (!$id) {
-        throw new InvalidArgumentException('ID de estudiante no proporcionado para la ficha médica.');
+    $id_de_la_ficha_a_buscar = $_GET['estudiante_id'] ?? null;
+    if (!$id_de_la_ficha_a_buscar) {
+        throw new InvalidArgumentException('ID de ficha Medica no proporcionado.');
     }
-
-    $stmt = $conn->prepare("SELECT * FROM salud_estudiantil WHERE estudiante_id = :id");
-    $stmt->execute([':id' => $id]);
+    
+    $stmt = $conn->prepare("SELECT * FROM salud_estudiantil WHERE estudiante_id = :id_ficha");
+    $stmt->execute([':id_ficha' => $id_de_la_ficha_a_buscar]);
     $ficha = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($ficha) {
-        $response['status'] = 'exito';
-        $response['data'] = $ficha;
-        $response['message'] = 'Ficha médica encontrada.';
-    } else {
-        // No es un error, simplemente no se encontró.
-        $response['status'] = 'error';
-        $response['message'] = 'No se encontró una ficha médica para este estudiante.';
+    if (!$ficha) {
+        echo json_encode(['error' => 'No se encontró información de la ficha Medica.']);
+        exit;
     }
+    echo json_encode($ficha);
 
-} catch (PDOException $e) {
-    // Error específico de la base de datos
-    $response['message'] = 'Error de base de datos: ' . $e->getMessage();
-    // En un entorno de producción, podrías querer loguear el error en lugar de mostrarlo.
 } catch (Exception $e) {
-    // Cualquier otro tipo de error
-    $response['message'] = 'Error general: ' . $e->getMessage();
+    http_response_code(400); // Bad Request
+    echo json_encode(['error' => $e->getMessage()]);
 }
-
-// 4. Imprimir la respuesta en formato JSON una sola vez al final.
-echo json_encode($response['data'] ?? ['error' => $response['message']]);
 ?>
