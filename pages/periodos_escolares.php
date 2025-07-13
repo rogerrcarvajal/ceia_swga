@@ -112,7 +112,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
                 </form>
             <?php else: ?>
                 <div class="info-mensaje">
-                    <p>Ya existe un período escolar activo. Para crear uno nuevo, debe desactivar el período actual.</p>
+                    <p><h3>⚠️ Ya existe un período escolar activo</h3><br>Solo puede activar o desactivar un perido escolar activo. Para crear uno nuevo, debe esperar a que éste termine su ejecución.</p>
                 </div>
             <?php endif; ?>
             <br>

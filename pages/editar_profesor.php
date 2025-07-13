@@ -179,7 +179,7 @@ $homerooms = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2"
                 <br><br>
                 <button type="submit">Guardar Cambios</button>
                 <!-- Botón para volver al Home -->
-                <a href="/pages/dashboard.php" class="btn">Volver</a> 
+                <a href="/pages/profesores_registro.php" class="btn">Volver</a> 
 
             </form>
         </div>
