@@ -109,7 +109,7 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
                 <br><br>
                 <button type="submit" name="agregar">Agregar Staff</button>
                 <!-- Botón para volver al Home -->
-                <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
+            <a href="/pages/dashboard.php" class="btn">Volver</a> 
             </form>
         </div> 
 

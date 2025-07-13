@@ -64,7 +64,11 @@ if ($periodo_activo) {
                     <option value="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></option>
                 <?php endforeach; ?>
             </select>
+            <br>
             <button type="submit">Generar PDF</button>
+            <!-- Botón para volver al Home -->
+            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+
         </form>
     </div>
 </body>

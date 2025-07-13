@@ -73,7 +73,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-reportes">
                 <li>
-                    <<a href="/pages/seleccionar_planilla.php">
+                    <<a href="/pages/seleccionar_planilla.php" target="_blank">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción
                     </a>
                     <p>Permite la seleccion de un estudiante para obtener la planilla de inscripcion.</p>
@@ -97,7 +97,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
             <br>
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 10px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a>
+            <a href="/pages/dashboard.php" class="btn">Volver</a> 
         </div>
     </div>
 </body>

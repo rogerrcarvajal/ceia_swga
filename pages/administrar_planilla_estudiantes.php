@@ -153,7 +153,10 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <button type="submit">Actualizar Ficha Médica</button>
                     </form>
                 </div>
-            </div>    
+            </div>   
+            <!-- Botón para volver al Home -->
+            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+ 
         </div>
     </div>
     

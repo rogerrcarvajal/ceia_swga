@@ -124,8 +124,9 @@ if (!$usuario_a_editar) {
                 
                 <br><br>
                 <button type="submit">Actualizar Usuario</button>
-                <!-- Botón para volver al Home -->
-                <a href="/pages/usuarios_configurar.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a> 
+                <!-- Botón para volver a configurar usuarios -->
+                <a href="/pages/usuarios_configurar.php" class="btn">Volver</a> 
+
             </form>       
     </div>
 </body>

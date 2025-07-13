@@ -74,7 +74,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
 <head>
     <meta charset="UTF-8">
     <title>Gestión de Períodos Escolares</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/public/css/style.css">
     <style>
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 0px auto; padding: 30px; border-radius: 10px; max-width: 65%; display: flex; flex-wrap: wrap; justify-content: space-around;}
         .formulario {background-color: rgba(0, 0, 0, 0.3); color: white; padding: 25px; margin: 30px auto; width: 30%; border-radius: 8px;}
@@ -117,7 +117,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
             <?php endif; ?>
             <br>
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="boton-link" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Volver</a>
+            <a href="/pages/dashboard.php" class="btn">Volver</a> 
         </div>
 
         <div class="form-seccion">
