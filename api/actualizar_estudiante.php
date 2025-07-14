@@ -26,7 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     grado_ingreso = :grado_ingreso,
                     fecha_inscripcion = :fecha_inscripcion, 
                     recomendado_por = :recomendado_por,
-                    edad_estudiante = :edad_estudiante, 
+                    edad_estudiante = :edad_estudiante,
+                    estudiante_hermanos = :estudiante_hermanos,
+                    colegios_anteriores = :colegios_anteriores,
                     staff = :staff, 
                     activo = :activo
                 WHERE id = :id";
@@ -49,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':fecha_inscripcion' => $_POST['fecha_inscripcion'] ?: null,
             ':recomendado_por' => $_POST['recomendado_por'] ?? '',
             ':edad_estudiante' => (int)($_POST['edad_estudiante'] ?? 0),
+            ':estudiante_hermanos' => $_POST['estudiante_hermanos'] ?? '',
+            ':colegios_anteriores' => $_POST['colegios_anteriores'] ?? '',
             ':staff' => isset($_POST['staff']) ? 1 : 0,
             ':activo' => isset($_POST['activo']) ? 1 : 0
         ]);

@@ -219,6 +219,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <input type="date" name="fecha_inscripcion" required data-required="true">
                     <input type="text" name="recomendado_por" placeholder="Recomendado por">
                     <input type="number" name="edad_estudiante" placeholder="Edad" required data-required="true">
+                    <textarea name="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
+                    <input type="text" name="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
                     <label><input type="checkbox" name="staff"> Estudiante Staff</label><br><br>
                     <label><input type="checkbox" name="activo" checked> Inscribir como Activo en este período</label><br><br>
                 </div>
@@ -268,11 +270,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <textarea name="observaciones" placeholder="Observaciones"></textarea>
                     <label><input type="checkbox" name="dislexia"> Dislexia</label>
                     <label><input type="checkbox" name="atencion"> Déficit de Atención</label>
-                    <label><input type="checkbox" name="otros"> Otros</label>
-                    <textarea name="info_adicional" placeholder="Información adicional"></textarea>
+                    <label><input type="checkbox" name="otros"> Informacion adicional</label>
+                    <textarea name="info_adicional" placeholder="hospitalización, operaciones o heridas importantes, alergias a medicamentos y vacunas,
+medicamentos, defectos, alimentación o otras enfermedades graves."></textarea>
                     <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
                     <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
-                    <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo administración de medicamentos</label>
+                    <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo la administración de medicamentos</label>
                     <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
                     <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
                     <br><br>

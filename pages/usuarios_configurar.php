@@ -111,6 +111,7 @@ $profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM p
                 
                 <label>Contraseña:</label>
                 <input type="password" name="password" placeholder="Contraseña" required>
+                <input type="checkbox" id="show-password" onclick="password.type = this.checked ? 'text' : 'password'">
                 
                 <label>Rol:</label>
                 <select name="rol" required>
