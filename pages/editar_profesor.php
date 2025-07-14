@@ -89,7 +89,7 @@ if (!$profesor) {
 }
 
 $posiciones = ["Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology", "DC-Grade 12 Music", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12", "Spanish teacher - Grade 1-6", "Spanish teacher - Grade 7-12", "Social Studies - Grade 6-12", "IT Teacher - Grade Pk-3-12", "Science Teacher - Grade 6-12", "ESL - Elementary", "ESL - Secondary", "PE - Grade Pk3-12", "Language Arts - Grade 6-9", "Math teacher - Grade 6-9", "Math teacher - Grade 10-12", "Librarian"];
-$homerooms = ["N/A", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
+$homerooms = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
 
 ?>
 

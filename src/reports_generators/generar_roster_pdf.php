@@ -160,6 +160,19 @@ $pdf->Ln(25); // Espacio antes de la tabla
 
 // Posicionar la tabla a la izquierda
 $pdf->SetX(10);
+$pdf->SetFont('Arial', '', 10);
+$pdf->Cell(40, 6, 'Daycare/Preschool', 1, 0, 'L');
+$pdf->Cell(20, 6, $total_daycare_preschool, 1, 1, 'C');
+$pdf->SetX(10);
+$pdf->Cell(40, 6, 'Elementary (K-5)', 1, 0, 'L');
+$pdf->Cell(20, 6, $total_elementary, 1, 1, 'C');
+$pdf->SetX(10);
+$pdf->Cell(40, 6, 'Secondary (6-12)', 1, 0, 'L');
+$pdf->Cell(20, 6, $total_secondary, 1, 1, 'C');
+
+$pdf->Ln(5);
+
+$pdf->SetX(10);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->SetFillColor(255, 255, 0); // Amarillo para el Staff
 $pdf->Cell(40, 7, 'Staff', 1, 0, 'L', true);
@@ -180,19 +193,6 @@ $pdf->SetFont('Arial', 'B', 11);
 $pdf->SetFillColor(220, 220, 220); // Gris para el Total
 $pdf->Cell(40, 7, 'Total', 1, 0, 'L', true);
 $pdf->Cell(20, 7, $total_staff_students, 1, 1, 'C');
-
-$pdf->Ln(5);
-
-$pdf->SetX(10);
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(40, 6, 'Daycare/Preschool', 1, 0, 'L');
-$pdf->Cell(20, 6, $total_daycare_preschool, 1, 1, 'C');
-$pdf->SetX(10);
-$pdf->Cell(40, 6, 'Elementary (K-5)', 1, 0, 'L');
-$pdf->Cell(20, 6, $total_elementary, 1, 1, 'C');
-$pdf->SetX(10);
-$pdf->Cell(40, 6, 'Secondary (6-12)', 1, 0, 'L');
-$pdf->Cell(20, 6, $total_secondary, 1, 1, 'C');
 // --- FIN DEL NUEVO BLOQUE PARA DIBUJAR LA TABLA ---
 
 $pdf->Output('I', 'Roster_' . $nombre_del_periodo . '.pdf');
