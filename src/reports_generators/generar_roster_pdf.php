@@ -74,10 +74,6 @@ class PDF_Roster extends FPDF {
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
-        $this->SetFont('Arial', 'B', 10);
-        $this->SetTextColor(0, 100, 0); // Verde oscuro
-        $this->Cell(0, 5, 'Periodo Escolar Activo: ' . $this->nombre_periodo, 0, 1, 'C');
-        $this->SetTextColor(0, 0, 0); // Restaurar a negro
         $this->Ln(10);
     }
 
@@ -112,8 +108,12 @@ class PDF_Roster extends FPDF {
 // --- 3. GENERACIÓN DEL DOCUMENTO ---
 $pdf = new PDF_Roster('P', 'mm', 'A4', $nombre_del_periodo);
 $pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 18);
-$pdf->Cell(0, 10, 'Roster ' . $nombre_del_periodo, 0, 1, 'C');
+$pdf->SetFont('Arial', 'B', 12);
+$pdf->Cell(0, 8, 'ROSTER DE ESTUDIANTES', 0, 1, 'C');
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->SetTextColor(0, 100, 0); // Verde oscuro
+$pdf->Cell(0, 5, 'Periodo Escolar Activo: ' . $nombre_del_periodo, 0, 1, 'C');
+$pdf->SetTextColor(0, 0, 0); // Restaurar a negro
 $pdf->Ln(5);
 
 // Tabla de Personal
@@ -237,6 +237,5 @@ $pdf->Cell(40, 7, 'Total', 1, 0, 'L', true);
 $pdf->Cell(20, 7, $total_staff_students, 1, 1, 'C');
 // --- FIN DEL NUEVO BLOQUE PARA DIBUJAR LA TABLA ---
 
-$pdf->Output('I', 'Roster_' . $nombre_del_periodo . '.pdf');
-
+$pdf->Output('I', 'Roster_' . $nombre_del_periodo . 'pdf');
 ?>

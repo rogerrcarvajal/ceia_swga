@@ -104,7 +104,7 @@ class PlanillaPDF extends FPDF
 // --- GENERACIÓN DEL DOCUMENTO PDF ---
 $pdf = new PlanillaPDF('P', 'mm', 'A4', $nombre_del_periodo);
 $pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 16);
+$pdf->SetFont('Arial', 'B', 15);
 $pdf->Cell(0, 10, 'PLANILLA DE INSCRIPCION', 0, 1, 'C');
 $pdf->Ln(5);
 
@@ -187,5 +187,5 @@ $pdf->Cell(0, 5, utf8_decode('Firma del padre o tutor: _________________________
 
 
 // 5. Enviar el PDF al navegador
-$pdf->Output('I', 'Planilla_Inscripcion_'. $estudiante['apellido_completo'] .'.pdf');
+$pdf->Output('I', 'Planilla_Inscripcion_'. $estudiante['nombre_completo'] . $estudiante['apellido_completo'] .'.pdf');
 ?>
