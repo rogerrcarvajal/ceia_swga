@@ -87,8 +87,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 </li>
 
                 <li>
-                    <a href="/../src/reports_generators/exportar_codigoqr.php" target="_blank">
-                        <span class="icono-reporte">📷</span> Generador de Códigos QR
+                    <a href="/../src/reports_generators/admin_late_pass.php" target="_blank">
+                        <span class="icono-reporte">📷</span> Control de acceso (Late-Pass)
                     </a>
                     <p>Formulario para generar y exportar códigos QR para el control de acceso de estudiantes, profesores y vehículos.</p>
                 </li>
