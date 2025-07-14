@@ -4,13 +4,23 @@ if (!isset($_SESSION['usuario'])) {
     header("Location: /../public/index.php");
     exit();
 }
+
+// Incluir configuración y conexión a la base de datos
+require_once __DIR__ . '/../src/config.php';
+
+// Obtener el período escolar activo
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder inscribir estudiantes.";
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<>
     <meta charset="UTF-8">
-    <title>CEIA - Sistema de Gestión Académica</title>
+    <title>CEIA - Sistema de Gestión Académica</title>  
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
         .content { text-align: center; margin-top: 100px; color: white; text-shadow: 1px 1px 2px black;}
@@ -25,6 +35,9 @@ if (!isset($_SESSION['usuario'])) {
 <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Bienvenidos <br>Sistema Web de Gestión Académica</h1></br>
         <h2>Centro Educativo Internacional Anzoátegui</h2>
+        <?php if ($periodo_activo): ?>
+            <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+        <?php endif; ?>
         <p>Powered by R.R.C - @Copyright TM 2025.</p>
     </div>
 </body>

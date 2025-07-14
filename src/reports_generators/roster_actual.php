@@ -76,7 +76,7 @@ if ($periodo_stmt->rowCount() > 0) {
     // Incluir la barra de navegación (que también contiene la lógica de la modal)
     require_once __DIR__ . '/../../src/templates/navbar.php'; 
     ?>
-    
+
     <div class="content"><img src="/public/img/logo_ceia.png" alt="Logo CEIA"></div>
     
     <div class="container">
@@ -84,7 +84,7 @@ if ($periodo_stmt->rowCount() > 0) {
             <h1>Roster <?php echo htmlspecialchars($nombre_periodo); ?></h1>
             <div class="export-buttons">
                 <?php if ($periodo_activo_encontrado): ?>
-                    <a href="/src/reports_generators/generar_roster_pdf.php" target="_blank" class="btn">Exportar a PDF</a>
+                    <a href="/src/reports_generators/generar_roster_pdf.php" target="_blank" class="btn">Generar PDF</a>
                 <?php endif; ?>
             </div>
         </div>

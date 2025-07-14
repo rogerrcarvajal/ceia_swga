@@ -102,10 +102,10 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	$this->ws = 0;
 	$this->iconv = function_exists('iconv');
 	// Font path
-	if(defined(constant_name: 'FPDF_FONTPATH'))
-		$this->fontpath = 'FPDF_FONTPATH';
-	else
-		$this->fontpath = dirname(__FILE__).'/src/ib/';
+	if(defined('FPDF_FONTPATH'))
+    $this->fontpath = 'FPDF_FONTPATH';
+else
+    $this->fontpath = __DIR__.'/../lib/font/';
 	if(substr($this->fontpath,-1)!='/')
 		$this->fontpath .= '/';
 	// Page sizesfont/'; // Path to the font directory
