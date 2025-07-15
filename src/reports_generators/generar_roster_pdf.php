@@ -35,13 +35,19 @@ foreach ($estudiantes_result as $estudiante) {
 }
 ksort($estudiantes_por_grado);
 
-// --- INICIO DEL NUEVO BLOQUE DE CÁLCULO DE TOTALES ---
+// --- INICIO DEL BLOQUE DE CÁLCULO DE TOTALES ---
 $total_daycare_preschool = 0;
 $total_elementary = 0;
 $total_secondary = 0;
-$total_staff_students = 0;
 
-// Grados que pertenecen a cada categoría
+// Nueva consulta para contar estudiantes que son staff
+$stmt_staff_students = $conn->prepare("SELECT count(*) FROM estudiantes WHERE staff = TRUE AND periodo_id = :pid");
+$stmt_staff_students->execute([':pid' => $periodo_id]);
+$total_estudiantes_staff = $stmt_staff_students->fetchColumn();
+
+$total_estudiantes_regulares = count($estudiantes_result) - $total_estudiantes_staff;
+
+// Grados que pertenecen a cada categoría (ajustados)
 $grados_daycare_preschool = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Kindergarten'];
 $grados_elementary = ['Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5'];
 $grados_secondary = ['Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
@@ -56,9 +62,7 @@ foreach ($estudiantes_por_grado as $grado => $estudiantes) {
         $total_secondary += $count;
     }
 }
-
-$total_staff_students = count($profesores_lista) + count($estudiantes_result);
-// --- FIN DEL NUEVO BLOQUE DE CÁLCULO ---
+// --- FIN DEL BLOQUE DE CÁLCULO ---
 
 // --- 2. CLASE PDF PERSONALIZADA PARA EL ROSTER ---
 class PDF_Roster extends FPDF {
@@ -217,9 +221,9 @@ $pdf->Ln(5);
 $pdf->SetX(10);
 $pdf->SetFont('Arial', 'B', 11);
 $pdf->SetFillColor(255, 255, 0); // Amarillo para el Staff
-$pdf->Cell(40, 7, 'Staff', 1, 0, 'L', true);
+$pdf->Cell(40, 7, 'Staff Students', 1, 0, 'L', true);
 $pdf->SetFillColor(240);
-$pdf->Cell(20, 7, count($profesores_lista), 1, 1, 'C');
+$pdf->Cell(20, 7, $total_estudiantes_staff, 1, 1, 'C');
 
 $pdf->SetX(10);
 $pdf->SetFont('Arial', 'B', 11);
@@ -228,7 +232,7 @@ $pdf->SetTextColor(255);
 $pdf->Cell(40, 7, 'Students', 1, 0, 'L', true);
 $pdf->SetTextColor(0);
 $pdf->SetFillColor(240);
-$pdf->Cell(20, 7, count($estudiantes_result), 1, 1, 'C');
+$pdf->Cell(20, 7, $total_estudiantes_regulares, 1, 1, 'C');
 
 $pdf->SetX(10);
 $pdf->SetFont('Arial', 'B', 11);

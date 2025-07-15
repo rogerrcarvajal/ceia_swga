@@ -8,6 +8,7 @@
                 <div class="dropdown-content">
                     <a href= "/pages/planilla_inscripcion.php">Planilla de Inscripción</a>
                     <a href= "/pages/administrar_planilla_estudiantes.php">Adminnistrar Planilla de Inscripción</a>
+                    <a href= "/pages/estudiante_periodo.php">Asignar Periodo Escolar</a>
                 </div>
             </div>
 
@@ -16,8 +17,7 @@
             <div class="dropdown">
                 <a href="#">📝 Late-Pass</a>
                 <div class="dropdown-content">
-                    <a href= "/pages/latepass_estudiantes.php">Estudiantes</a>
-                    <a href= "/pages/latepass_profesores.php">Profesores</a>
+                    <a href= "/pages/latepass_menu.php">Admininstracion de Late-Pass</a>
                 </div>
             </div>
 

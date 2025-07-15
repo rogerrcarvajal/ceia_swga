@@ -18,7 +18,7 @@ if (!$periodo_activo) {
 
 <!DOCTYPE html>
 <html lang="es">
-<>
+<head>
     <meta charset="UTF-8">
     <title>CEIA - Sistema de Gestión Académica</title>  
     <link rel="stylesheet" href="/public/css/style.css">
