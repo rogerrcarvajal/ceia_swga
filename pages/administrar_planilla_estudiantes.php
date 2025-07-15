@@ -90,6 +90,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <textarea name="estudiante_hermanos" id="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                         <input type="text" name="colegios_anteriores" id="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
                         <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
+                        <label><input type="checkbox" name="activo" id="activo" checked> Inscribir como Activo en este período</label><br><br>
                         
                         <button type="submit">Actualizar Estudiante</button>
                     </form>  

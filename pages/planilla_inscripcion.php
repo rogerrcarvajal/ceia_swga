@@ -221,6 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <textarea name="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                     <input type="text" name="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
                     <label><input type="checkbox" name="staff"> Estudiante Staff</label><br><br>
+                    <label><input type="checkbox" name="activo" checked> Inscribir como Activo en este período</label><br><br>
                 </div>
 
                 <div class="form-seccion" id="form_padre">
