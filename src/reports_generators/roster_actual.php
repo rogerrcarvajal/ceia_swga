@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-// --- 1. VERIFICACIÓN DE SEGURIDAD ---
 if (!isset($_SESSION['usuario'])) {
     header("Location: /index.php");
     exit();
@@ -11,66 +9,40 @@ if (!isset($_SESSION['usuario'])) {
 // La ruta correcta desde /src/reportes_generators/ es subir un nivel a /src/ y luego tomar el config.
 require_once __DIR__ . '/../config.php';
 
-// --- 3. INICIALIZACIÓN DE VARIABLES ---
-// Esto previene errores si no se encuentra un período activo.
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+$periodo_activo_encontrado = false;
 $profesores = [];
 $estudiantes_por_grado = [];
-$nombre_periodo = "Ningún Período Activo";
-$periodo_activo_encontrado = false;
+$maestros_por_grado = [];
 
-// --- 4. VERIFICACIÓN Y OBTENCIÓN DE DATOS DEL PERÍODO ACTIVO ---
-$periodo_stmt = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
-
-if ($periodo_stmt->rowCount() > 0) {
-    $periodo_activo = $periodo_stmt->fetch(PDO::FETCH_ASSOC);
+if ($periodo_activo) {
+    $periodo_activo_encontrado = true;
     $periodo_id = $periodo_activo['id'];
     $nombre_periodo = $periodo_activo['nombre_periodo'];
-    $periodo_activo_encontrado = true;
 
-    // --- 5. CONSULTAS SQL CORREGIDAS (SOLO SI HAY PERÍODO ACTIVO) ---
+    // 1. Obtener Personal asignado al período
+    $stmt_prof = $conn->prepare("SELECT p.nombre_completo, pp.posicion FROM profesor_periodo pp JOIN profesores p ON pp.profesor_id = p.id WHERE pp.periodo_id = :pid ORDER BY pp.posicion");
+    $stmt_prof->execute([':pid' => $periodo_id]);
+    $profesores = $stmt_prof->fetchAll(PDO::FETCH_ASSOC);
 
-    // Consulta para obtener el personal ASIGNADO AL PERÍODO ACTIVO
-    $profesores_sql = "SELECT p.nombre_completo, pp.posicion 
-                       FROM profesor_periodo pp
-                       JOIN profesores p ON pp.profesor_id = p.id
-                       WHERE pp.periodo_id = :periodo_id
-                       ORDER BY pp.posicion, p.nombre_completo";
-    $profesores_stmt = $conn->prepare($profesores_sql);
-    $profesores_stmt->execute([':periodo_id' => $periodo_id]);
-    $profesores = $profesores_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Consulta para obtener los estudiantes del PERÍODO ACTIVO
-    $estudiantes_sql = "SELECT nombre_completo, apellido_completo
-                        FROM estudiantes 
-                        WHERE activo = TRUE AND periodo_id = :periodo_id 
-                        ORDER BY nombre_completo, apellido_completo";
-    $estudiantes_stmt = $conn->prepare($estudiantes_sql);
-    $estudiantes_stmt->execute([':periodo_id' => $periodo_id]);
-    $estudiantes_result = $estudiantes_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Consulta para obtener los grados del PERÍODO ACTIVO
-        $grados_sql = "SELECT grado_cursado
-                            FROM estudiante_periodo
-                            WHERE periodo_id = :periodo_id
-                            GROUP BY grado_cursado
-                            ORDER BY grado_cursado";
-        $grados_stmt = $conn->prepare($grados_sql);
-        $grados_stmt->execute([':periodo_id' => $periodo_id]);
-        $grados_result = $estudiantes_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-    // Agrupar estudiantes por grado
-    foreach ($estudiantes_result as $estudiante) {
-        $grado = $estudiante['grado_ingreso'];
-        if (!isset($estudiantes_por_grado[$grado])) {
-            $estudiantes_por_grado[$grado] = [];
-        }
-        $estudiantes_por_grado[$grado][] = $estudiante;
+    // 2. Obtener Homeroom Teachers y agruparlos por grado
+    $stmt_homeroom = $conn->prepare("SELECT p.nombre_completo, pp.homeroom_teacher FROM profesor_periodo pp JOIN profesores p ON pp.profesor_id = p.id WHERE pp.periodo_id = :pid AND pp.homeroom_teacher IS NOT NULL AND pp.homeroom_teacher != ''");
+    $stmt_homeroom->execute([':pid' => $periodo_id]);
+    foreach($stmt_homeroom->fetchAll(PDO::FETCH_ASSOC) as $teacher) {
+        $maestros_por_grado[$teacher['homeroom_teacher']] = $teacher['nombre_completo'];
     }
 
-} else {
-    // Si no hay período activo, se guarda el mensaje para la ventana modal.
-    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para ver los reportes.";
+    // 3. Obtener Estudiantes asignados al período (usando la nueva tabla)
+    $sql_est = "SELECT e.nombre_completo, e.apellido_completo, ep.grado_cursado
+                FROM estudiante_periodo ep
+                JOIN estudiantes e ON ep.estudiante_id = e.id
+                WHERE ep.periodo_id = :pid
+                ORDER BY ep.grado_cursado, e.apellido_completo, e.nombre_completo";
+    $stmt_est = $conn->prepare($sql_est);
+    $stmt_est->execute([':pid' => $periodo_id]);
+    foreach ($stmt_est->fetchAll(PDO::FETCH_ASSOC) as $estudiante) {
+        $estudiantes_por_grado[$estudiante['grado_cursado']][] = $estudiante;
+    }
 }
 ?>
 
@@ -126,13 +98,16 @@ if ($periodo_stmt->rowCount() > 0) {
             <h2 class="section-title">Listado de Estudiantes por Grado</h2>
             <?php if (!empty($estudiantes_por_grado)): ?>
                 <div class="grades-container">
-                    <?php ksort($estudiantes_por_grado); // Ordenar los grados alfabéticamente/numéricamente ?>
+                    <?php ksort($estudiantes_por_grado); ?>
                     <?php foreach ($estudiantes_por_grado as $grado => $estudiantes): ?>
                         <div class="grade-section">
-                            <h3 class="grade-title"><?php echo htmlspecialchars($grado); ?></h3>
+                            <h3 class="grade-title"><?= htmlspecialchars($grado) ?></h3>
+                            <p class="teacher-name">
+                                <strong>Profesor:</strong> <?= htmlspecialchars($maestros_por_grado[$grado] ?? 'No asignado') ?>
+                            </p>
                             <ul class="student-list">
                                 <?php foreach ($estudiantes as $estudiante): ?>
-                                    <li><?php echo htmlspecialchars($estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']); ?></li>
+                                    <li><?= htmlspecialchars($estudiante['apellido_completo'] . ', ' . $estudiante['nombre_completo']) ?></li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>

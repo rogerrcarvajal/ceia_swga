@@ -67,7 +67,7 @@ if ($periodo_activo) {
             <br>
             <button type="submit">Generar PDF</button>
             <!-- Botón para volver al Home -->
-            <a href="/pages/menu_latepass.php" class="btn">Volver</a> 
+            <a href="/pages/menu_reportes.php" class="btn">Volver</a> 
 
         </form>
     </div>
