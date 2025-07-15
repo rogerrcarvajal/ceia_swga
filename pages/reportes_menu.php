@@ -73,7 +73,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-reportes">
                 <li>
-                    <<a href="/pages/seleccionar_planilla.php" target="_blank">
+                    <a href="/pages/seleccionar_planilla.php" target="_blank">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción
                     </a>
                     <p>Permite la seleccion de un estudiante para obtener la planilla de inscripcion.</p>
