@@ -112,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
         .h3 { text-align: center; margin-bottom: 20px; padding-bottom: 5px; color: white; }
         .content { text-align: center; margin-top: 30px; color: white; text-shadow: 1px 1px 2px black; }
         .content img { width: 180px; }
-        input, textarea, select { width: 100%; padding: 8px; margin-bottom: 12px; font-size: 16px; box-sizing: border-box;}
+        input, textarea, select { width: 100%; padding: 8px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box;}
         .alerta { padding: 10px; margin: 10px 0; border-left: 5px solid green; background-color: #ddffdd; color: #333; }
         .alerta-error { padding: 10px; margin: 10px 0; border-left: 5px solid red; background-color: #ffdddd; color: #333; }
         .resultado-busqueda { margin-top: -5px; margin-bottom: 15px; padding: 10px; border-radius: 5px; font-size: 0.9em; transition: all 0.3s; }

@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     edad_estudiante = :edad_estudiante,
                     estudiante_hermanos = :estudiante_hermanos,
                     colegios_anteriores = :colegios_anteriores,
-                    staff = :staff, 
+                    staff = :staff 
                 WHERE id = :id";
         
         $stmt = $conn->prepare($sql);
