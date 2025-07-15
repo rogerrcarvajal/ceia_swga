@@ -130,7 +130,7 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
                                 <?php endif; ?>
                             </span>
                             <div>
-                                <a href="/pages/editar_profesor.php?id=<?= $p['id'] ?>">Gestionar</a>
+                                <a href="/pages/gestionar_profesor.php?id=<?= $p['id'] ?>">Gestionar</a>
                             </div>
                         </li>
                     <?php endforeach; ?>

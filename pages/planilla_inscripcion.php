@@ -282,7 +282,7 @@ medicamentos, defectos, alimentación o otras enfermedades graves."></textarea>
             </div>
             <button type="submit" name="guardar_inscripcion" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Guardar Planilla de Inscripción</button>
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+            <a href="/pages/menu_estudiantes.php" class="btn">Volver</a> 
         </form>
     </div>
 </body>

@@ -49,13 +49,13 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         .content { color: white; text-align: center; margin-top: 30px; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px;}
         .content h2 { margin-bottom: 25px;}
-        /* Estilos para la lista de reportes */
-        .lista-reportes { backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); list-style: none; padding: 0; text-align: left;}
-        .lista-reportes li { background-color: rgba(255, 255, 255, 0.1); margin-bottom: 15px; border-radius: 5px; transition: background-color 0.3s ease;}
-        .lista-reportes li:hover { background-color: rgba(255, 255, 255, 0.25);}
-        .lista-reportes a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
-        .lista-reportes p { margin: 0; padding: 0 15px 15px 15px; font-size: 0.9em; color: #ccc;}
-        .lista-reportes .icono-reporte { margin-right: 12px; font-size: 1.2em;}
+        /* Estilos para la lista de menu */
+        .lista-menu { backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); list-style: none; padding: 0; text-align: left;}
+        .lista-menu li { background-color: rgba(255, 255, 255, 0.1); margin-bottom: 15px; border-radius: 5px; transition: background-color 0.3s ease;}
+        .lista-menu li:hover { background-color: rgba(255, 255, 255, 0.25);}
+        .lista-menu a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
+        .lista-menu p { margin: 0; padding: 0 15px 15px 15px; font-size: 0.9em; color: #ccc;}
+        .lista-menu .icono-reporte { margin-right: 12px; font-size: 1.2em;}
     </style>    
 </head>
 
@@ -71,7 +71,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
     <div class="formulario-contenedor">
         <div class="content">       
-            <ul class="lista-reportes">
+            <ul class="lista-menu">
                 <li>
                     <a href="/pages/seleccionar_planilla.php" target="_blank">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción

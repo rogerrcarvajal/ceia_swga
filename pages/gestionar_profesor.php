@@ -136,7 +136,7 @@ $homerooms = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kind
 
             <form method="POST">
                 <fieldset>
-                    <legend>Datos Básicos</legend>
+                    <legend>Datos Registrados</legend>
                     <label for="nombre_completo">Nombre Completo:</label>
                     <input type="text" id="nombre_completo" name="nombre_completo" value="<?= htmlspecialchars($profesor['nombre_completo']) ?>" required>
                     <label for="cedula">Cédula:</label>

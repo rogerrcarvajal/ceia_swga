@@ -156,7 +156,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                 </div>
             </div>   
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+            <a href="/pages/menu_estudiantes.php" class="btn">Volver</a> 
  
         </div>
     </div>

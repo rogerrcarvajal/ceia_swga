@@ -40,13 +40,24 @@ if ($periodo_stmt->rowCount() > 0) {
     $profesores = $profesores_stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Consulta para obtener los estudiantes del PERÍODO ACTIVO
-    $estudiantes_sql = "SELECT nombre_completo, apellido_completo, grado_ingreso 
+    $estudiantes_sql = "SELECT nombre_completo, apellido_completo
                         FROM estudiantes 
                         WHERE activo = TRUE AND periodo_id = :periodo_id 
-                        ORDER BY grado_ingreso, nombre_completo, apellido_completo";
+                        ORDER BY nombre_completo, apellido_completo";
     $estudiantes_stmt = $conn->prepare($estudiantes_sql);
     $estudiantes_stmt->execute([':periodo_id' => $periodo_id]);
     $estudiantes_result = $estudiantes_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Consulta para obtener los grados del PERÍODO ACTIVO
+        $grados_sql = "SELECT grado_cursado
+                            FROM estudiante_periodo
+                            WHERE periodo_id = :periodo_id
+                            GROUP BY grado_cursado
+                            ORDER BY grado_cursado";
+        $grados_stmt = $conn->prepare($grados_sql);
+        $grados_stmt->execute([':periodo_id' => $periodo_id]);
+        $grados_result = $estudiantes_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
     // Agrupar estudiantes por grado
     foreach ($estudiantes_result as $estudiante) {
