@@ -80,10 +80,42 @@ $grados_disponibles = [
             <div id="panel_datos_estudiante" style="display:none;">
                 <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
                 
-                <div id="mensaje_asignacion" class="mensaje" style="display:none;"></div>
+                <fieldset>
+                    <legend>Asignado al Período: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></legend>
+                    <label>
+                        <input type="checkbox" id="asignar_periodo" name="asignar_periodo" <?= $asignacion_actual ? 'checked' : '' ?>>
+                        Asignar a este período escolar
+                    </label>
+
+                    <div id="campos-asignacion" style="display: none; margin-top: 15px;">
+                        <label for="posicion">Posición / Especialidad:</label>
+                        <select id="posicion" name="posicion">
+                            <option value="">-- Seleccione --</option>
+                            <?php foreach ($posiciones as $pos): ?>
+                                <option value="<?= $pos ?>" <?= ($asignacion_actual && $asignacion_actual['posicion'] == $pos) ? 'selected' : '' ?>>
+                                    <?= $pos ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        
+                        <label for="homeroom_teacher">Homeroom Teacher:</label>
+                        <select id="homeroom_teacher" name="homeroom_teacher">
+                            <?php foreach ($homerooms as $hr): ?>
+                                <option value="<?= $hr ?>" <?= ($asignacion_actual && $asignacion_actual['homeroom_teacher'] == $hr) ? 'selected' : '' ?>>
+                                    <?= $hr ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </fieldset>
+
+
+
+                <div id="mensaje_asignacion" class="mensaje"></div>
                 <h3>Asignar Estudiante a este Período</h3>
                 <form id="form_asignar_estudiante">
                     <input type="hidden" id="periodo_id_hidden" name="periodo_id">
+                    
                     <label for="grado_cursado">Grado a cursar:</label>
                     <select name="grado_cursado" id="grado_cursado" required>
                         <?php foreach ($grados_disponibles as $grado): ?>
@@ -91,8 +123,7 @@ $grados_disponibles = [
                         <?php endforeach; ?>
                     </select>
                     
-                    <button type="submit">Asignar Estudiante</button>
-                    <a href="/pages/gestionar_estudiantes.php" class="btn">Gestionar Estudiantes</a> 
+                    <button type="submit">Asignar Estudiante</button>                   
                     <!-- Botón para volver al Home -->
                     <a href="/pages/menu_estudiantes.php" class="btn">Volver</a>
                 </form>

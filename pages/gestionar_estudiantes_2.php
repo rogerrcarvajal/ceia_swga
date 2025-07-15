@@ -10,7 +10,6 @@ require_once __DIR__ . '/../src/config.php';
 
 //Declaracion de variables
 $mensaje = "";
-$estudiante_id = $_GET['id'];
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 // --- Obtener el período escolar activo ---
@@ -39,42 +38,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // El usuario quiere que esté asignado
         if ($asignacion_actual) {
             // Ya existía una asignación, así que la ACTUALIZAMOS
-            $sql_asig = "UPDATE estudiante_periodo SET grado_cursado = :grado WHERE id = :id";
+            $sql_asig = "UPDATE estudiante_periodo SET grado_cursado = :grado_cursado WHERE id = :id";
             $stmt_asig = $conn->prepare($sql_asig);
-            $stmt_asig->execute([':grado' => $grado_actual, ':id' => $asignacion_actual['id']]);
+            $stmt_asig->execute([':grado_cursado' => $grado_cursado, ':id' => $asignacion_actual['id']]);
         } else {
             // No existía, así que la INSERTAMOS
-            $sql_asig = "INSERT INTO estudiante_periodo (estudiante_id, periodo_id, grado_cursado) VALUES (:estudiante_id, :periodo_id, :grado)";
+            $sql_asig = "INSERT INTO estudiante_periodo (estudiante_id, periodo_id, grado_cursado) VALUES (:est_id, :per_id, :grd)";
             $stmt_asig = $conn->prepare($sql_asig);
-            $stmt_asig->execute([':estudiante_id' => $estudiante_id, ':periodo_id' => $periodo_id_activo, ':grado' => $grado_actual]);
+            $stmt_asig->execute([':est_id' => $estudiante_id, ':per_id' => $periodo_id_activo, ':grd' => $grado_actual]);
         }
         $mensaje .= "✅ Asignación guardada para el período activo.";
     } else {
         // El usuario NO quiere que esté asignado, así que borramos la asignación si existe
-        if ($asignacion_actual) {  
+        if ($asignacion_actual) {
             $sql_del = "DELETE FROM estudiante_periodo WHERE id = :id";
             $stmt_del = $conn->prepare($sql_del);
             $stmt_del->execute([':id' => $asignacion_actual['id']]);
             $mensaje .= "✅ Asignación eliminada del período activo.";
-        }  
+        }
     }
     // Recargar los datos de la asignación para reflejar los cambios en el formulario
-    $stmt_asignacion->execute([':estudiante_id' => $estudiante_id, ':periodo_id' => $periodo_id_activo]);
+    $stmt_asignacion->execute([':estudianter_id' => $estuduante_id, ':periodo_id' => $periodo_id_activo]);
     $asignacion_actual = $stmt_asignacion->fetch(PDO::FETCH_ASSOC);
 }
 
-// --- 2. OBTENER LISTA DE ESTUDIANTES PARA EL FORMULARIO ---
-$estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM estudiantes ORDER BY apellido_completo, nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
+// Obtener los datos del profesor para el formulario
+$stmt_estudiante = $conn->prepare("SELECT * FROM profesores WHERE id = :id");
+$stmt_estudiante->execute([':id' => $estudiante_id]);
+$estudiante= $stmt_estudiante->fetch(PDO::FETCH_ASSOC);
+if (!$profesor) {
+    header("Location: /pages/menu_estudiantes.php");
+    exit();
+}
 
-$grado_actual = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
-
+// Lista de grados disponibles para el formulario
+$grados_disponibles = [
+    'Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Kindergarten', 
+    'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 
+    'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'
+];
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestionar Estudiante</title>
+    <title>Gestionar Staff / Profesor</title>
     <link rel="stylesheet" href="/public/css/estilo_planilla.css">
     <style>
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
@@ -106,48 +114,55 @@ $grado_actual = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "K
         <?php endif; ?>
     </div>
 
-    <div class="formulario-contenedor" style="max-width: 600px;">
-        <div class="form-seccion" style="width: 100%;">
-            <h3>Editando a: <label>Seleccione un Estudiante del Período Actual:</label>
-            <select name="id" required>
-                <option value="">-- Por favor, elija --</option>
+    <div class="main-container">
+        <div class="left-panel">
+            <h3>Lista de Estudiantes</h3>
+            <input type="text" id="filtro_estudiantes" placeholder="Buscar por apellido...">
+            <ul id="lista_estudiantes">
                 <?php foreach ($estudiantes as $e): ?>
-                    <option value="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></option>
+                    <li data-id="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></li>
                 <?php endforeach; ?>
-            </select>
-            <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
-
-            <form method="POST">    
-                <fieldset>
-                    <legend>Datos Registrados</legend>
-                    <legend>Asignación al Período: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></legend>
-                    <label>
-                        <input type="checkbox" id="asignar_periodo" name="asignar_periodo" <?= $asignacion_actual ? 'checked' : '' ?>>
-                        Asignar a este período escolar
-                    </label>
-                    
-                    <div id="campos-asignacion" style="display: none; margin-top: 15px;">
-                        <label for="grado_cursado">Grado a cursar:</label>
-                        <select id="grado_cursado" name="grado_cursado">
-                            <option value="">-- Seleccione --</option>
-                            <?php foreach ($grado_actual as $ga): ?>
-                                <option value="<?= $ga ?>" <?= ($asignacion_actual && $asignacion_actual['grado_cursado'] == $ga) ? 'selected' : '' ?>>
-                                    <?= $ga ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </fieldset>          
-                <br><br>
-                <button type="submit">Guardar Cambios</button>
-                <!-- Botón para asignar periodo -->
-                <a href="/pages/asignar_estudiante_periodo.php" class="btn">Volver</a> 
-
-            </form>
-            <!-- Botón para volver al Home -->
-            <a href="/pages/menu_estudiantes.php" class="btn">Volver</a> 
+            </ul>
         </div>
+
+        <div class="right-panel">
+            <div id="panel_informativo"><p>Seleccione un estudiante de la lista para ver su expediente.</p></div>
+            
+            <div id="panel_datos_estudiante" style="display:none;", style="max-width: 600px;">
+                <div id="mensaje_actualizacion" class="mensaje" style="display:none;"></div>
+
+            <div class="form-seccion" style="width: 100%;">
+                <h3>Editando a: <?= htmlspecialchars($Estudiante['nombre_completo']) ?></h3>
+                <?php if ($mensaje) echo "<p class='alerta'>$mensaje</p>"; ?>
+
+                <form method="POST">     
+                    <fieldset>
+                        <legend>Asignado al Período: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></legend>
+                        <label>
+                            <input type="checkbox" id="asignar_periodo" name="asignar_periodo" <?= $asignacion_actual ? 'checked' : '' ?>>
+                            Asignar a este período escolar
+                        </label>
+
+                        <div id="campos-asignacion" style="display: none; margin-top: 15px;">
+                            <label for="grado_cursado">Grado a cursar:</label>
+                            <select id="grado_cursado" name="grado_cursado">
+                                <option value="">-- Seleccione --</option>
+                                <?php foreach ($grados_disponibles as $grd): ?>
+                                    <option value="<?= $grd ?>" <?= ($asignacion_actual && $asignacion_actual['grado_cursado'] == $grd) ? 'selected' : '' ?>>
+                                        <?= $grd ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </fieldset>
+                    
+                    <br><br>
+                    <button type="submit">Guardar Cambios</button>
+                    <!-- Botón para volver al Home -->
+                    <a href="/pages/asignar_estudiante_periodo.php" class="btn">Volver</a> 
+
+                </form>
+            </div>
     </div>
-    <script src="/public/js/admin_asignar_estudiante.js"></script>
 </body>
 </html>

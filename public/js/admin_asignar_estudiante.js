@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     const listaUI = document.getElementById('lista_estudiantes');
+    const panelInformativo = document.getElementById('panel_informativo');
+    const panelDatos = document.getElementById('panel_datos_estudiante');
     const periodoSelector = document.getElementById('periodo_selector');
     const filtro = document.getElementById('filtro_estudiantes');
-    
+
     // --- Event Listeners ---
     if (listaUI) {
         listaUI.addEventListener('click', (e) => {
@@ -24,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Vinculamos el formulario a la misma función genérica de envío
+    //document.getElementById('form_asignar_estudiante').addEventListener('submit', (e) => handleFormSubmit(e, '/api/asignar_estudiante.php'));
+
+    
     periodoSelector.addEventListener('change', () => {
         const periodoId = periodoSelector.value;
         const panelInformativo = document.getElementById('panel_informativo');
@@ -65,6 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// --- FUNCIONES ---
 
 async function cargarEstudiantesAsignados(periodoId) {
     const listaUI = document.getElementById('lista_estudiantes_asignados');

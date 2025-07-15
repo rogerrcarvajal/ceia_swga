@@ -92,7 +92,7 @@ $grados_disponibles = [
                     </select>
                     
                     <button type="submit">Asignar Estudiante</button>
-                    <a href="/pages/gestionar_estudiantes.php" class="btn">Gestionar Estudiantes</a> 
+                    <a href="/pages/gestionar_estudiantes_2.php?id=<?= $p['id'] ?>">Gestionar Estudiantes</a>
                     <!-- Botón para volver al Home -->
                     <a href="/pages/menu_estudiantes.php" class="btn">Volver</a>
                 </form>

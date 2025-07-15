@@ -148,7 +148,7 @@ $homerooms = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kind
                 </fieldset>
                 
                 <fieldset>
-                    <legend>Asignación al Período: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></legend>
+                    <legend>Asignar al Período: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></legend>
                     <label>
                         <input type="checkbox" id="asignar_periodo" name="asignar_periodo" <?= $asignacion_actual ? 'checked' : '' ?>>
                         Asignar a este período escolar

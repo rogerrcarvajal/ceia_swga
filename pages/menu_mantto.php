@@ -73,26 +73,19 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-menu">
                 <li>
-                    <a href="/pages/seleccionar_planilla.php" target="_blank">
-                        <span class="icono-reporte">📋</span> Generar QR
+                    <a href="/pages/periodos_escolares.php" target="_blank">
+                        <span class="icono-reporte">📋</span> Establecer Períodos Escolares
                     </a>
-                    <p>Permite la seleccion de un estudiante para generar un codigo QR que usara para el contrl de entrada</p>
+                    <p>Permite crear y activar un nuevo Periodo escolar, el cual vinculara información de Estudiantes, Madre, Madre y Staff con el período escolar activo.</p>
                 </li>
 
                 <li>
-                    <a href= "/src/reports_generators/roster_actual.php" target="_blank">
-                        <span class="icono-reporte">📄</span> Sistema automatizado de Late-Pass
+                    <a href= "/pages/configurar_usuarios.php" target="_blank">
+                        <span class="icono-reporte">📄</span> Gestión de Usuarios del Sistema
                     </a>
-                    <p>Vista previa del personal admininstrativo y docente, además un listado de estudiantes por grado, con opciones para exportar a PDF.</p>
+                    <p>Permite laa creación y gestion de usuarios del sistema, vinculando al staff registrado como un usuario en el periodo escolar activo.</p>
                 </li>
 
-                <li>
-                    <a href="/../src/reports_generators/admin_late_pass.php" target="_blank">
-                        <span class="icono-reporte">📷</span> Control de acceso (Late-Pass)
-                    </a>
-                    <p>Formulario para generar y exportar códigos QR para el control de acceso de estudiantes, profesores y vehículos.</p>
-                </li>
-                
             </ul>
 
             <br>
