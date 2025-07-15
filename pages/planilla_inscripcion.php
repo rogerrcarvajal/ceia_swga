@@ -215,14 +215,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <input type="text" name="telefono_casa" placeholder="Teléfono de casa" required data-required="true">
                     <input type="text" name="telefono_movil" placeholder="Teléfono celular" required data-required="true">
                     <input type="text" name="telefono_emergencia" placeholder="Teléfono de emergencia" required data-required="true">
-                    <select name="grado_ingreso" required data-required="true"><option value="">Grado de ingreso</option><option value="Daycare">Daycare</option><option value="Pk-3">Pk-3</option><option value="Pk-4">Pk-4</option><option value="Kindergarten">Kindergarten</option><option value="Grade 1">Grade 1</option><option value="Grade 2">Grade 2</option><option value="Grade 3">Grade 3</option><option value="Grade 4">Grade 4</option><option value="Grade 5">Grade 5</option><option value="Grade 6">Grade 6</option><option value="Grade 7">Grade 7</option><option value="Grade 8">Grade 8</option><option value="Grade 9">Grade 9</option><option value="Grade 10">Grade 10</option><option value="Grade 11">Grade 11</option><option value="Grade 12">Grade 12</option></select>
                     <input type="date" name="fecha_inscripcion" required data-required="true">
                     <input type="text" name="recomendado_por" placeholder="Recomendado por">
                     <input type="number" name="edad_estudiante" placeholder="Edad" required data-required="true">
                     <textarea name="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                     <input type="text" name="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
                     <label><input type="checkbox" name="staff"> Estudiante Staff</label><br><br>
-                    <label><input type="checkbox" name="activo" checked> Inscribir como Activo en este período</label><br><br>
                 </div>
 
                 <div class="form-seccion" id="form_padre">

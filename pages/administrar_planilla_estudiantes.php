@@ -84,15 +84,13 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <input type="text" name="telefono_casa" id="telefono_casa" placeholder="Teléfono de casa">
                         <input type="text" name="telefono_movil" id="telefono_movil" placeholder="Teléfono celular">
                         <input type="text" name="telefono_emergencia" id="telefono_emergencia" placeholder="Teléfono de emergencia" required>
-                        <input type="text" name="grado_ingreso" id="grado_ingreso" placeholder="Grado de ingreso" required>
                         <input type="date" name="fecha_inscripcion" id="fecha_inscripcion" required>
                         <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por">
                         <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
                         <textarea name="estudiante_hermanos" id="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                         <input type="text" name="colegios_anteriores" id="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
                         <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
-                        <label><input type="checkbox" name="activo" id="activo"> Estudiante Activo</label><br><br>
-
+                        
                         <button type="submit">Actualizar Estudiante</button>
                     </form>  
                 
