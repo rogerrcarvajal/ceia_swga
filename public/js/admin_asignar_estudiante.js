@@ -1,5 +1,28 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const listaUI = document.getElementById('lista_estudiantes');
     const periodoSelector = document.getElementById('periodo_selector');
+    const filtro = document.getElementById('filtro_estudiantes');
+    
+    // --- Event Listeners ---
+    if (listaUI) {
+        listaUI.addEventListener('click', (e) => {
+            if (e.target && e.target.tagName === 'LI') {
+                const estudianteId = e.target.dataset.id;
+                if (panelInformativo) panelInformativo.style.display = 'none';
+                if (panelDatos) panelDatos.style.display = 'block';
+                cargarExpedienteCompleto(estudianteId);
+            }
+        });
+    }
+
+    if (filtro) {
+        filtro.addEventListener('keyup', () => {
+            const texto = filtro.value.toLowerCase();
+            document.querySelectorAll('#lista_estudiantes li').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(texto) ? '' : 'none';
+            });
+        });
+    }
 
     periodoSelector.addEventListener('change', () => {
         const periodoId = periodoSelector.value;
