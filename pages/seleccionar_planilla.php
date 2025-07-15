@@ -1,37 +1,28 @@
 <?php
 session_start();
-// Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header("Location: /index.php");
     exit();
 }
-
-// Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
-//Declaracion de variables
-$mensaje = "";
-
-// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
-// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
-$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
-
-$usuario_rol = $acceso_stmt;
-
-if ($_SESSION['usuario']['rol'] !== 'admin') {
-    if ($_SESSION !== $usuario_rol) {
-        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
-    }
-}
-
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
-// Obtenemos solo estudiantes del período activo
 $periodo_activo = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $estudiantes = [];
+
 if ($periodo_activo) {
-    $stmt = $conn->prepare("SELECT id, nombre_completo, apellido_completo FROM estudiantes WHERE periodo_id = :pid ORDER BY apellido_completo, nombre_completo");
-    $stmt->execute([':pid' => $periodo_activo['id']]);
+    $periodo_id = $periodo_activo['id'];
+    
+    // ESTA ES LA CONSULTA CORREGIDA
+    // Selecciona los estudiantes que tienen una entrada en 'estudiante_periodo' para el período activo.
+    $sql = "SELECT e.id, e.nombre_completo, e.apellido_completo
+            FROM estudiante_periodo ep
+            JOIN estudiantes e ON ep.estudiante_id = e.id
+            WHERE ep.periodo_id = :pid
+            ORDER BY e.apellido_completo, e.nombre_completo";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([':pid' => $periodo_id]);
     $estudiantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>

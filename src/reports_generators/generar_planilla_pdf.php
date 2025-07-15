@@ -51,6 +51,14 @@ $stmt_ficha = $conn->prepare("SELECT * FROM salud_estudiantil WHERE estudiante_i
 $stmt_ficha->execute([':id' => $estudiante_id]);
 $ficha_medica = $stmt_ficha->fetch(PDO::FETCH_ASSOC);
 
+// ---> NUEVA CONSULTA 5: PARA OBTENER EL GRADO DEL PERÍODO ACTIVO <---
+$stmt_asig = $conn->prepare(
+    "SELECT grado_cursado FROM estudiante_periodo 
+     WHERE estudiante_id = :eid AND periodo_id = (SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1)"
+);
+$stmt_asig->execute([':eid' => $estudiante_id]);
+$asignacion_activa = $stmt_asig->fetch(PDO::FETCH_ASSOC);
+
 
 // --- CLASE PDF PERSONALIZADA ---
 class PlanillaPDF extends FPDF
@@ -120,7 +128,7 @@ $pdf->DataRow('Idioma(s):', $estudiante['idioma']);
 $pdf->DataRow('Direccion:', $estudiante['direccion']);
 $pdf->DataRow('Telefono de Casa:', $estudiante['telefono_casa']);
 $pdf->DataRow('Telefono de Emergencia:', $estudiante['telefono_emergencia']);
-$pdf->DataRow('Grado de Ingreso:', $estudiante['grado_ingreso']);
+$pdf->DataRow('Grado para el Periodo Activo:', $asignacion_activa['grado_cursado'] ?? 'No asignado');
 $pdf->DataRow('Fecha de Inscripcion:', $estudiante['fecha_inscripcion']);
 $pdf->DataRow('Recomendado por:', $estudiante['recomendado_por']);
 $pdf->DataRow('Hermanos estudiando en CEIA:', $estudiante['estudiante_hermanos']);
@@ -186,6 +194,7 @@ $pdf->Ln(5);
 $pdf->Cell(0, 5, utf8_decode('Firma del padre o tutor: ________________________________________________________'), 0, 1, 'L');
 
 
-// 5. Enviar el PDF al navegador
-$pdf->Output('I', 'Planilla_Inscripcion_'. $estudiante['nombre_completo'] . $estudiante['apellido_completo'] .'.pdf');
+// --- Nombre del archivo de salida ---
+$nombre_archivo = 'Planilla_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf';
+$pdf->Output('I', $nombre_archivo);
 ?>

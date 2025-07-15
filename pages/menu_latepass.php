@@ -42,7 +42,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Admininstracion de Late-Pass - CEIA</title>
+    <title>Gestión de control de Late-Pass - CEIA</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
@@ -63,7 +63,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Admininstracion de Late-Pass</h1>
+        <h1>Gestión de control de Late-Pass</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>
