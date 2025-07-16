@@ -23,7 +23,7 @@ $grados_con_estudiantes = $stmt_grados->fetchAll(PDO::FETCH_COLUMN, 0);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestión de Control de Late-Pass</title>
+    <title>Gestión y consulta de Late-Pass</title>
     <link rel="stylesheet" href="/public/css/estilo_roster.css"> <style>
         .filtros-container {
             display: flex;
@@ -44,7 +44,7 @@ $grados_con_estudiantes = $stmt_grados->fetchAll(PDO::FETCH_COLUMN, 0);
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
-        <h1>Gestión de Control de Late-Pass</h1>
+        <h1>Gestión y consulta de Late-Pass</h1>
         <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
     </div>
 
@@ -72,7 +72,8 @@ $grados_con_estudiantes = $stmt_grados->fetchAll(PDO::FETCH_COLUMN, 0);
                     <th>Grado</th>
                     <th>Fecha de Llegada</th>
                     <th>Hora de Llegada</th>
-                    <th style="width: 100px; text-align:center;">Strikes Semanales</th>
+                    <th style="text-align:center;">Stikes Semanales</th>
+                    <th>Observaciones</th>
                 </tr>
             </thead>
             <tbody id="tabla_resultados_latepass">

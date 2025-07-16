@@ -50,11 +50,12 @@ if (!$periodo_activo) {
         .lista-profesores { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; }
         .lista-profesores li { background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .lista-profesores a { color: #87cefa; text-decoration: none; margin-left: 10px; }
+        .alerta.exito { background-color: rgba(46, 204, 113, 0.8); border-left: 5px solid #2ecc71; }
+        .alerta.advertencia { background-color: rgba(241, 196, 15, 0.8); border-left: 5px solid #f1c40f; color: #333; }
+        .alerta.error { background-color: rgba(231, 76, 60, 0.8); border-left: 5px solid #e74c3c; }
+        .qr-code { margin: 20px auto; text-align: center; }
+        .qr-code img { width: 150px; height: 150px; }
     </style>    
-    <script src="/public/js/reloj.js"></script>
-    <script src="/public/js/alerta.js"></script>
-    <script src="/public/js/qr.js"></script>
-    <script src="/public/js/log.js"></script>
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
@@ -70,7 +71,7 @@ if (!$periodo_activo) {
             <h3>Control de Acceso</h3>
             <p>Escanea el código QR del estudiante para registrar su entrada.</p>
             <form id="qr-form" method="POST">
-                <input type="text" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus required>
+                <input type="password" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus required>
             </form>
             <div id="qr-result" class="alerta"></div>
             <div id="qr-code" class="qr-code"></div>

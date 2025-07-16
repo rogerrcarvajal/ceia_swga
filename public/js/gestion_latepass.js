@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.registros.forEach(reg => {
                     const tr = document.createElement('tr');
                     
-                    // Colorear la fila según el número de strikes
+                    // --- LÓGICA DE COLORES AÑADIDA ---
                     if(reg.conteo_tardes == 2) tr.style.backgroundColor = 'rgba(255, 255, 0, 0.2)'; // Amarillo
                     if(reg.conteo_tardes >= 3) tr.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; // Rojo
 
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <td>${reg.fecha_registro}</td>
                         <td>${reg.hora_llegada}</td>
                         <td style="text-align:center;">${reg.conteo_tardes}</td>
-                    `;
+                        <td>${reg.ultimo_mensaje || ''}</td> `;
                     tablaResultados.appendChild(tr);
                 });
             } else {

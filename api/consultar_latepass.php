@@ -20,7 +20,8 @@ if ($semana) {
                     ep.grado_cursado,
                     lt.fecha_registro,
                     lt.hora_llegada,
-                    COALESCE(rs.conteo_tardes, 0) as conteo_tardes
+                    COALESCE(rs.conteo_tardes, 0) as conteo_tardes,
+                    rs.ultimo_mensaje -- <--- LÍNEA AÑADIDA
                 FROM llegadas_tarde lt
                 JOIN estudiantes e ON lt.estudiante_id = e.id
                 JOIN estudiante_periodo ep ON e.id = ep.estudiante_id AND ep.periodo_id = :pid
