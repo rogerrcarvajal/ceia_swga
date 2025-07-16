@@ -72,7 +72,7 @@ $grados_con_estudiantes = $stmt_grados->fetchAll(PDO::FETCH_COLUMN, 0);
                     <th>Grado</th>
                     <th>Fecha de Llegada</th>
                     <th>Hora de Llegada</th>
-                    <th style="text-align:center;">Stikes Semanales</th>
+                    <th style="text-align:center">Stikes Semanales</th>
                     <th>Observaciones</th>
                 </tr>
             </thead>
