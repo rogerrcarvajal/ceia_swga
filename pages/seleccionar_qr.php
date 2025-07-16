@@ -5,6 +5,7 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 require_once __DIR__ . '/../src/config.php';
+//require_once __DIR__ . '/../php-qrcode/qrlib.php'; // Ruta a la librería
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 $periodo_activo = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
@@ -34,6 +35,7 @@ if ($periodo_activo) {
     <title>Generar Código QR</title>
     <link rel="stylesheet" href="/public/css/estilo_admin.css">
     <style>
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 50px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .content { text-align: center; margin-top: 20px; color: white; text-shadow: 1px 1px 2px black;}
         .content img { width: 200px; margin-bottom: 20px;}
         .content h1 { font-size: 50px; margin-bottom: 20px;}
@@ -73,15 +75,22 @@ if ($periodo_activo) {
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
-    <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Generar QR</h1></div>
-    <div class="right-panel"></div>
-        <form action="/src/reports_generators/generar_qr_pdf.php" method="GET" target="_blank">
-            <label>Seleccione un Estudiante:</label>
-            <select name="id" required>
+    <div class="formulario-contenedor">
+        <div class="content">
+            <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+            <h1>Generar QR</h1></div>
+        <div class="right-panel"></div>
+            <form action="/src/reports_generators/generar_qr_pdf.php" method="GET" target="_blank">
+                <label>Seleccione un Estudiante:</label>
+                <select name="id" required>
+                    <option value="">-- Por favor, elija --</option>
+                    <?php foreach ($estudiantes as $e): ?>
+                        <option value="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></option>
+                    <?php endforeach; ?>
                 </select>
-            <button type="submit">Generar QR en PDF</button>
-        </form>
+                <br>
+                <button type="submit">Generar QR en PDF</button>
+            </form>
+    </div>
 </body>
 </html>

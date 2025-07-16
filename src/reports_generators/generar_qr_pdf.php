@@ -8,7 +8,7 @@ $estudiante_id = $_GET['id'] ?? 0;
 
 // Generar la imagen del QR temporalmente
 $qr_temp_file = __DIR__ . '/temp_qr.png';
-QRcode::png($estudiante_id, $qr_temp_file, QR_ECLEVEL_L, 10);
+QRcode::png($estudiante_id, $qr_temp_file, 'QR_ECLEVEL_L', 10);
 
 // Crear PDF e insertar el QR
 $pdf = new FPDF();

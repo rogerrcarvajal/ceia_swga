@@ -140,7 +140,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
             </fieldset>
             <br>
             <button type="submit">Guardar Cambios</button>
-            <a href="/pages/asignar_estudiante_periodo.php" class="btn-secondary">Volver a la Asignación General</a>
+            <a href="/pages/lista_gestion_estudiantes.php" class="btn">Volver y gestionar otro estudiante</a>
         </form>
     </div>
 </body>

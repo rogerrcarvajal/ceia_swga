@@ -43,6 +43,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
     <title>Gestionar Asignaciones de Estudiantes</title>
     <link rel="stylesheet" href="/public/css/estilo_admin.css">
     <style>
+        .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
+        .content { text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
+        .content img { width: 150px; }
         .lista-gestion {
             list-style: none;
             padding: 0;
@@ -57,7 +60,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
             border-bottom: 1px solid #ddd;
         }
         .lista-gestion li:nth-child(odd) {
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(255,255,255,0.18);
             backdrop-filter:blur(10px);
             box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
             border:2px solid rgba(255,255,255,0.18);
@@ -81,7 +84,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
         <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestionar Asignaciones de Estudiantes</h1>
     </div>
-
+<div class="formulario-contenedor">
     <ul class="lista-gestion">
         <?php if (count($estudiantes) > 0): ?>
             <?php foreach ($estudiantes as $e): ?>
@@ -94,5 +97,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
             <li>No hay estudiantes registrados en el sistema.</li>
         <?php endif; ?>
     </ul>
+    <a href="/pages/asignar_estudiante_periodo.php" class="btn">Volver</a> 
+</div>
 </body>
 </html>

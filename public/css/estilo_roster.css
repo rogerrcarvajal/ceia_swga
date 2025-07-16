@@ -109,7 +109,8 @@ button {
 }
 
 .staff-table thead {
-    background-color: rgb(48, 48, 48);
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
     color: white;
 }
 
@@ -120,7 +121,8 @@ button {
 }
 
 .grade-section {
-    background-color: rgb(48, 48, 48);
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     padding: 15px;
