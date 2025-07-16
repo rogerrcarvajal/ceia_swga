@@ -73,7 +73,11 @@ if (!$periodo_activo) {
                 <input type="text" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus required>
             </form>
             <div id="qr-result" class="alerta"></div>
-        </div>
+            <div id="qr-code" class="qr-code"></div>
+            <br><br>
+            <!-- Botón para salir -->
+            <a href="/pages/menu_latepass.php" class="btn">Salir</a>
+        </div> 
     </div>
     <div id="log-registros"></div>
     <script src="/public/js/control_acceso.js"></script>
