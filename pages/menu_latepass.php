@@ -87,8 +87,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 </li>
 
                 <li>
-                    <a href="/../src/reports_generators/admin_late_pass.php" target="_blank">
-                        <span class="icono-reporte">📋</span> Gestión de control de acceso (Late-Pass)
+                    <a href="/pages/gestion_latepass.php" target="_blank">
+                        <span class="icono-reporte">📋</span> Gestión y consulta de Late-Pass
                     </a>
                     <p>Vista en pantalla por grado de los Late'Pass registrados automáticamente.</p>
                 </li>
