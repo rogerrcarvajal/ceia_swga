@@ -67,7 +67,7 @@ if (!$periodo_activo) {
             <?php endif; ?>
         </div>
         <div class="form-seccion">
-            <h3>Registro de Acceso</h3>
+            <h3>Control de Acceso</h3>
             <p>Escanea el código QR del estudiante para registrar su entrada.</p>
             <form id="qr-form" method="POST">
                 <input type="text" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus required>

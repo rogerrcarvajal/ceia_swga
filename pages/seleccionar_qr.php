@@ -5,7 +5,6 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 require_once __DIR__ . '/../src/config.php';
-//require_once __DIR__ . '/../php-qrcode/qrlib.php'; // Ruta a la librería
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 $periodo_activo = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
