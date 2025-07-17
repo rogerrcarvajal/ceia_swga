@@ -9,7 +9,7 @@ if (!isset($_SESSION['usuario'])) {
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
-//Declaracion de variables
+// Declaración de variables
 $mensaje = "";
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
@@ -18,7 +18,7 @@ $acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1
 
 $usuario_rol = $acceso_stmt;
 
-if ($_SESSION['usuario']['rol'] == 'admin' && 'consulta') {
+if ($_SESSION['usuario']['rol'] == 'admin' and $_SESSION['usuario']['rol'] == 'consulta') {
     if ($_SESSION !== $usuario_rol) {
         $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
         // Aquí puedes redirigir o cargar la ventana modal según tu lógica

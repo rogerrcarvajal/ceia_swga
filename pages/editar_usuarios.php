@@ -128,7 +128,7 @@ if (!$usuario_a_editar) {
                 <br><br>
                 <button type="submit">Actualizar Usuario</button>
                 <!-- Botón para volver a configurar usuarios -->
-                <a href="/pages/usuarios_configurar.php" class="btn">Volver</a> 
+                <a href="/pages/configurar_usuarios.php" class="btn">Volver</a> 
 
             </form>       
     </div>
