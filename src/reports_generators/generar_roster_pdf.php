@@ -47,7 +47,7 @@ foreach ($estudiantes_result as $estudiante) {
 $total_estudiantes_regulares = count($estudiantes_result) - $total_estudiantes_staff;
 
 // 2. CLASE PDF PERSONALIZADA
-class PlanillaPDF extends FPDF
+class PDF_Roster extends FPDF
 {
     private $nombre_periodo;
 
@@ -135,7 +135,7 @@ if (empty($estudiantes_por_grado)) {
         foreach ($estudiantes as $estudiante) {
             $pdf->Cell(0, 7, '   ' . utf8_decode($estudiante['apellido_completo'] . ', ' . $estudiante['nombre_completo']), 'LR', 1);
 
-        $pdf->SetY($y_start); // Volver al inicio de la fila para la siguiente columna
+        //$pdf->SetY($y_start); // Volver al inicio de la fila para la siguiente columna
 
         }
         $pdf->Cell(0,1,'','T');

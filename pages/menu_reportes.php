@@ -85,13 +85,6 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     </a>
                     <p>Vista previa del personal admininstrativo y docente, además un listado de estudiantes por grado, con opciones para exportar a PDF.</p>
                 </li>
-
-                <li>
-                    <a href="/../src/reports_generators/admin_late_pass.php" target="_blank">
-                        <span class="icono-reporte">📷</span> Control de acceso (Late-Pass)
-                    </a>
-                    <p>Formulario para generar y exportar códigos QR para el control de acceso de estudiantes, profesores y vehículos.</p>
-                </li>
                 
             </ul>
 
