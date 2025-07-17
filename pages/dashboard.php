@@ -26,7 +26,7 @@ if (!$periodo_activo) {
         .content { text-align: center; margin-top: 100px; color: white; text-shadow: 1px 1px 2px black;}
         .content img { width: 200px; margin-bottom: 20px;}
         .content h1 { font-size: 50px; margin-bottom: 20px;}
-        .content p { font-size: 20px;}
+        .content p { font-size: 15px;}
     </style>
 </head>
 <body>
@@ -38,7 +38,7 @@ if (!$periodo_activo) {
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>
-        <p>Powered by R.R.C - @Copyright TM 2025.</p>
+        <h4><p>Powered by R.R.C - @Copyright TM 2025.</p></h4>
     </div>
 </body>
 </html>

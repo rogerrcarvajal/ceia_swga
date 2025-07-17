@@ -18,7 +18,7 @@ $acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1
 
 $usuario_rol = $acceso_stmt;
 
-if ($_SESSION['usuario']['rol'] !== 'admin') {
+if ($_SESSION['usuario']['rol'] == 'admin' && 'consulta') {
     if ($_SESSION !== $usuario_rol) {
         $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
         // Aquí puedes redirigir o cargar la ventana modal según tu lógica

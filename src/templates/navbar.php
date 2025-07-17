@@ -163,6 +163,7 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
     }
 
     .modal-content p {
+        color: white;
         font-size: 1.1em;
         margin: 20px 0;
     }

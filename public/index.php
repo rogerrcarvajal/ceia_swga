@@ -47,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="formulario-contenedor">
         <div class="content">
             <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1><br>Sistema Web de<br>Gestión Académica<br></h1><h4>Introzduca su usuario y contraseña</h4></br>
+        <h1>Sistema Web de<br>Gestión Académica<br></h1><h3 style="color: #a2ff96;">Inscripcion y Late-Pass</h3>
+        <h4>Introzduca su usuario y contraseña</h4>
         <?php if ($mensaje): ?>
             <p class="alerta-login"><?= htmlspecialchars($mensaje) ?></p>
         <?php endif; ?>
