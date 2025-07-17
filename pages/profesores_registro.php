@@ -9,6 +9,9 @@ if (!isset($_SESSION['usuario'])) {
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
+// Declaración de variables
+$mensaje = "";
+
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
 $acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
