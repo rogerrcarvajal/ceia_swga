@@ -304,9 +304,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <label><input type="checkbox" name="dislexia"> Dislexia</label>
                     <label><input type="checkbox" name="atencion"> Déficit de Atención</label>
                     <label><input type="checkbox" name="otros"> Informacion adicional</label>
-                    <textarea name="info_adicional" placeholder="hospitalización, operaciones o heridas importantes, alergias a medicamentos y vacunas,
-medicamentos, defectos, alimentación o otras enfermedades graves."></textarea>
-                    <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
+                    <textarea name="info_adicional" placeholder="hospitalización, operaciones o heridas importantes, alergias a medicamentos y vacunas,medicamentos, defectos, alimentación o otras enfermedades graves."></textarea>
+                    <textarea name="problemas_oido_vista " placeholder="Problemas de oído/vista"></textarea>
                     <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
                     <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo la administración de medicamentos</label>
                     <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>

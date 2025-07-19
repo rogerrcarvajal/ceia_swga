@@ -231,7 +231,10 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
         color: #333;
         padding: 30px;
         border-radius: 10px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter:blur(37px);
+        box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
+        border:2px solid rgba(255,255,255,0.18);
         text-align: center;
         max-width: 500px;
         width: 90%;
@@ -243,6 +246,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
     }
 
     .modal-content p {
+        color: white;
         font-size: 1.1em;
         margin: 20px 0;
     }
