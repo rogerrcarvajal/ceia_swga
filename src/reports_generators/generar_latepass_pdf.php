@@ -114,7 +114,7 @@ foreach ($datos as $grado => $alumnos) {
         $pdf->Cell(30, 6, $a['fecha_registro'], 1);
         $pdf->Cell(25, 6, $a['hora_llegada'], 1);
         $pdf->Cell(20, 6, $a['strikes'], 1);
-        $pdf->Cell(50, 6, $obs = mb_substr($a['ultimo_mensaje'] ?? '', 0, 40) . (mb_strlen($a['ultimo_mensaje'] ?? '') > 40 ? '...' : ''));
+        $pdf->Cell(50, 6, utf8_decode($a['ultimo_mensaje'] ?? ''), 1);
         $pdf->Ln();
     }
     $pdf->Ln(5);
