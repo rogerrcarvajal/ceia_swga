@@ -122,7 +122,7 @@ $profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM p
                 <br><br>
                 <button type="submit" name="agregar">Agregar Usuario</button>
                 <!-- Botón para volver al menu Mantto -->
-            <a href="/pages/menu_mantto.php" class="btn">Volver</a> 
+                <a href="/pages/menu_mantto.php" class="btn">Volver</a> 
 
             </form>
         </div>

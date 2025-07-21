@@ -108,6 +108,7 @@ if ($periodo_activo) {
                 </select>
                 <br>
                 <button type="submit">Generar QR en PDF</button>
+                <a href="/pages/menu_latepass.php" class="btn">Volver</a>
             </form>
     </div>
 </body>

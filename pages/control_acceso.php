@@ -77,7 +77,7 @@ if (!$periodo_activo) {
             <div id="qr-code" class="qr-code"></div>
             <br><br>
             <!-- Botón para salir -->
-            <a href="/pages/menu_latepass.php" class="btn">Salir</a>
+            <a href="/pages/menu_latepass.php" class="btn">Volver</a>
         </div> 
     </div>
     <div id="log-registros"></div>
