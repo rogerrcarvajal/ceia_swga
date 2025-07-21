@@ -73,21 +73,21 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-menu">
                 <li>
-                    <a href="/pages/seleccionar_qr.php" target="_blank">
+                    <a href="/pages/seleccionar_qr.php">
                         <span class="icono-reporte">📷</span> Generar QR
                     </a>
                     <p>Permite la seleccion de un estudiante para generar un codigo QR que usara para el contrpl de entrada</p>
                 </li>
 
                 <li>
-                    <a href= "/pages/control_acceso.php" target="_blank">
+                    <a href= "/pages/control_acceso.php">
                         <span class="icono-reporte">✅</span> Control de acceso (Late-Pass)
                     </a>
                     <p>Control de Acceso y Regisstro Atutomatizado de Late-Pass.</p>
                 </li>
 
                 <li>
-                    <a href="/pages/gestion_latepass.php" target="_blank">
+                    <a href="/pages/gestion_latepass.php">
                         <span class="icono-reporte">📋</span> Gestión y consulta de Late-Pass
                     </a>
                     <p>Vista en pantalla por grado de los Late'Pass registrados automáticamente.</p>

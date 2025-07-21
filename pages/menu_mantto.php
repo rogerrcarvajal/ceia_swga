@@ -73,14 +73,14 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-menu">
                 <li>
-                    <a href="/pages/periodos_escolares.php" target="_blank">
+                    <a href="/pages/periodos_escolares.php">
                         <span class="icono-reporte">📋</span> Establecer Períodos Escolares
                     </a>
                     <p>Permite crear y activar un nuevo Periodo escolar, el cual vinculara información de Estudiantes, Madre, Madre y Staff con el período escolar activo.</p>
                 </li>
 
                 <li>
-                    <a href= "/pages/configurar_usuarios.php" target="_blank">
+                    <a href= "/pages/configurar_usuarios.php">
                         <span class="icono-reporte">📄</span> Gestión de Usuarios del Sistema
                     </a>
                     <p>Permite laa creación y gestion de usuarios del sistema, vinculando al staff registrado como un usuario en el periodo escolar activo.</p>

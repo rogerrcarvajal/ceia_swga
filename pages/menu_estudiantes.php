@@ -73,21 +73,21 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-menu">
                 <li>
-                    <a href="/pages/planilla_inscripcion.php" target="_blank">
+                    <a href="/pages/planilla_inscripcion.php">
                         <span class="icono-reporte">📋</span> Planilla de Inscripción
                     </a>
                     <p>Permite el ingreso de un nuevo estudiante a través de la Planilla de Inscripción</p>
                 </li>
 
                 <li>
-                    <a href= "/pages/administrar_planilla_estudiantes.php" target="_blank">
+                    <a href= "/pages/administrar_planilla_estudiantes.php">
                         <span class="icono-reporte">📋</span> Gestionar Planilla de Inscripción
                     </a>
                     <p>Permite a través de una consulta dinámica, editar la Planilla de Inscripción</p>
                 </li>
 
                 <li>
-                    <a href="/pages/asignar_estudiante_periodo.php" target="_blank">
+                    <a href="/pages/asignar_estudiante_periodo.php">
                         <span class="icono-reporte">📋</span> Gestionar Estudiantes
                     </a>
                     <p>Permite gestionar y asignar/vincular a un estudiante con el Período Escolar activo</p>
