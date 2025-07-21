@@ -101,4 +101,5 @@ unlink($qr_temp_file); // Borrar el archivo temporal
 // --- Nombre del archivo de salida ---
 $nombre_archivo = 'CODIGO_QR_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf';
 $pdf->Output('I', $nombre_archivo);
+
 ?>;

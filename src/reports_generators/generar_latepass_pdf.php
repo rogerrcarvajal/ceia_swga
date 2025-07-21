@@ -120,5 +120,8 @@ foreach ($datos as $grado => $alumnos) {
     $pdf->Ln(5);
 }
 
-$pdf->Output('D', "LatePass_Semana_$semana" . ($grado !== 'todos' ? "_$grado" : '') . ".pdf");
+// Nombre del archivo de salida
+$nombre_archivo = "LatePass_Semana_$semana" . ($grado !== 'todos' ? "_$grado" : '' . ".pdf");
+$pdf->Output('I', $nombre_archivo);
+
 ?>
