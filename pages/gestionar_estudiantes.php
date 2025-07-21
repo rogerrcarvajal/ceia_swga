@@ -104,6 +104,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Asignación de Estudiante</title>
     <link rel="stylesheet" href="/public/css/estilo_admin.css">
     <style>

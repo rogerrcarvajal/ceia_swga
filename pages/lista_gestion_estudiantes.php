@@ -40,6 +40,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Asignaciones de Estudiantes</title>
     <link rel="stylesheet" href="/public/css/estilo_admin.css">
     <style>

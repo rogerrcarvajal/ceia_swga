@@ -73,6 +73,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Períodos Escolares</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
