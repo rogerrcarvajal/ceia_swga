@@ -178,6 +178,6 @@ $pdf->Cell(20, 6, $total_secondary, 1, 1, 'C');
 // --- FIN DEL NUEVO BLOQUE PARA DIBUJAR LA TABLA ---
 
 // Nombre del archivo de salida
-$nombre_archivo = 'Roster_' . str_replace(' ', '_', $nombre_del_periodo) . '.pdf';
-$pdf->Output('I', $nombre_archivo);
+$pdf->Output('D', 'Roster_' . str_replace(' ', '_', $nombre_del_periodo) . '.pdf');
+
 ?>

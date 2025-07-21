@@ -195,7 +195,6 @@ $pdf->Cell(0, 5, utf8_decode('Firma del padre o tutor: _________________________
 
 
 // --- Nombre del archivo de salida ---
-$nombre_archivo = 'Planilla_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf';
-$pdf->Output('I', $nombre_archivo);
+$pdf->Output('D', 'Planilla_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf');
 
 ?>
