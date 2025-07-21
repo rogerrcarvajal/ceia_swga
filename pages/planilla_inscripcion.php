@@ -31,7 +31,7 @@ if (!$periodo_activo) {
     $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder inscribir estudiantes.";
 }
 
-// --- 2. LÓGICA DE PROCESAMIENTO DEL FORMULARIO ---
+// --- 2. LÓGICA DE PROCESAMIENTO DEL FORMULARIO (REDISEÑADA Y CORREGIDA) ---
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])) {
     try {
         $conn->beginTransaction();
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
         // --- GESTIÓN INTELIGENTE DEL PADRE (A PRUEBA DE ERRORES) ---
         $padre_id = $_POST['padre_id_existente'] ?? null;
         if (empty($padre_id) && !empty($_POST['padre_cedula_pasaporte'])) {
-            // Antes de insertar, VERIFICAMOS si la cédula ya existe en la BD
+            // ANTES DE INSERTAR, VERIFICAMOS SI LA CÉDULA YA EXISTE EN LA BD
             $stmt_check_padre = $conn->prepare("SELECT padre_id FROM padres WHERE padre_cedula_pasaporte = :cedula");
             $stmt_check_padre->execute([':cedula' => $_POST['padre_cedula_pasaporte']]);
             $padre_existente = $stmt_check_padre->fetch();
@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
         // --- GESTIÓN INTELIGENTE DE LA MADRE (A PRUEBA DE ERRORES) ---
         $madre_id = $_POST['madre_id_existente'] ?? null;
         if (empty($madre_id) && !empty($_POST['madre_cedula_pasaporte'])) {
-            // Antes de insertar, VERIFICAMOS si la cédula ya existe en la BD
+            // ANTES DE INSERTAR, VERIFICAMOS SI LA CÉDULA YA EXISTE EN LA BD
             $stmt_check_madre = $conn->prepare("SELECT madre_id FROM madres WHERE madre_cedula_pasaporte = :cedula");
             $stmt_check_madre->execute([':cedula' => $_POST['madre_cedula_pasaporte']]);
             $madre_existente = $stmt_check_madre->fetch();
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
 
         // --- INSERCIÓN DE LA FICHA MÉDICA ---
         $sql_ficha = "INSERT INTO salud_estudiantil (estudiante_id, completado_por, fecha_salud, contacto_emergencia, relacion_emergencia, telefono1, telefono2, observaciones, dislexia, atencion, otros, info_adicional, problemas_oido_vista, fecha_examen, autorizo_medicamentos, medicamentos_actuales, autorizo_emergencia)
-                      VALUES (:est_id, :comp, :fec_sal, :cont, :rel, :tel1, :tel2, :obs, :dis, :aten, :otros, :info, :prob, :fec_ex, :auto_med, :meds, :auto_em)";
+                      VALUES (:est_id, :comp, :fec_sal, :cont, :rel, :tel1, :tel2, :obs, :dis, :aten, :otros, :info, :problemas_oido_vista, :fec_ex, :auto_med, :meds, :auto_em)";
         $stmt_ficha = $conn->prepare($sql_ficha);
         $stmt_ficha->execute([
             ':est_id' => $estudiante_id, ':comp' => $_POST['completado_por'], ':fec_sal' => $_POST['fecha_salud'],
@@ -119,11 +119,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
             ':tel1' => $_POST['telefono1'], ':tel2' => $_POST['telefono2'], ':obs' => $_POST['observaciones'], 
             ':dis' => isset($_POST['dislexia']) ? 1 : 0, ':aten' => isset($_POST['atencion']) ? 1 : 0, 
             ':otros' => isset($_POST['otros']) ? 1 : 0, ':info' => $_POST['info_adicional'], 
-            ':prob' => $_POST['problemas_oido_vista'], ':fec_ex' => $_POST['fecha_examen'],
+            ':problemas_oido_vista' => $_POST['problemas_oido_vista'], ':fec_ex' => $_POST['fecha_examen'],
             ':auto_med' => isset($_POST['autorizo_medicamentos']) ? 1 : 0, ':meds' => $_POST['medicamentos_actuales'],
             ':auto_em' => isset($_POST['autorizo_emergencia']) ? 1 : 0
         ]);
-
+                
         $conn->commit();
         $mensaje = "✅ Registro completado correctamente.";
     } catch (Exception $e) {
@@ -132,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

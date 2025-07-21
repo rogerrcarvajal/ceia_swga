@@ -69,6 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         resultDiv.style.display = 'block';
+
+        // 🕒 Ocultar el mensaje después de 3 segundos
+        setTimeout(() => {
+            resultDiv.style.display = 'none';
+        }, 3000);
     }
 
     // Función para añadir al historial en pantalla

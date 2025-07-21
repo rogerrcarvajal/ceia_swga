@@ -9,13 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const semana = filtroSemana.value ? filtroSemana.value.split('-W')[1] : null;
         const grado = filtroGrado.value;
 
-        // No hacer nada si no se ha seleccionado una semana
         if (!semana) {
-            tablaResultados.innerHTML = '<tr><td colspan="5" style="text-align:center;">Por favor, seleccione una semana.</td></tr>';
+            tablaResultados.innerHTML = '<tr><td colspan="6" style="text-align:center;">Por favor, seleccione una semana.</td></tr>';
             return;
         }
         
-        tablaResultados.innerHTML = '<tr><td colspan="5" style="text-align:center;">Cargando...</td></tr>';
+        tablaResultados.innerHTML = '<tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>';
 
         try {
             const response = await fetch(`/api/consultar_latepass.php?semana=${semana}&grado=${grado}`);
@@ -26,24 +25,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.registros.forEach(reg => {
                     const tr = document.createElement('tr');
                     
-                    // --- LÓGICA DE COLORES AÑADIDA ---
+                    // Lógica de colores para la fila
                     if(reg.conteo_tardes == 2) tr.style.backgroundColor = 'rgba(255, 255, 0, 0.2)'; // Amarillo
                     if(reg.conteo_tardes >= 3) tr.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; // Rojo
 
+                    // Se corrige el colspan a 6 en el mensaje de "no encontrados"
                     tr.innerHTML = `
                         <td>${reg.nombre_completo} ${reg.apellido_completo}</td>
                         <td>${reg.grado_cursado}</td>
                         <td>${reg.fecha_registro}</td>
                         <td>${reg.hora_llegada}</td>
                         <td style="text-align:center;">${reg.conteo_tardes}</td>
-                        <td>${reg.ultimo_mensaje || ''}</td> `;
+                        <td>${reg.ultimo_mensaje || ''}</td>
+                    `;
                     tablaResultados.appendChild(tr);
                 });
             } else {
-                tablaResultados.innerHTML = `<tr><td colspan="5" style="text-align:center;">${data.message || 'No se encontraron registros para los filtros seleccionados.'}</td></tr>`;
+                tablaResultados.innerHTML = `<tr><td colspan="6" style="text-align:center;">${data.message || 'No se encontraron registros para los filtros seleccionados.'}</td></tr>`;
             }
         } catch (error) {
-            tablaResultados.innerHTML = `<tr><td colspan="5" style="text-align:center;">Error de conexión.</td></tr>`;
+            tablaResultados.innerHTML = `<tr><td colspan="6" style="text-align:center;">Error de conexión o en la respuesta del servidor.</td></tr>`;
         }
     }
 
@@ -51,9 +52,39 @@ document.addEventListener('DOMContentLoaded', () => {
     filtroSemana.addEventListener('change', cargarDatos);
     filtroGrado.addEventListener('change', cargarDatos);
 
-    // Opcional: Establecer la semana actual por defecto
-    const hoy = new Date();
-    const anio = hoy.getFullYear();
-    const semana = Math.ceil((((hoy - new Date(anio, 0, 1)) / 86400000) + new Date(anio, 0, 1).getDay() + 1) / 7);
+    // Función para calcular la semana ISO actual
+    function getWeekNumber(d) {
+        d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+        var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+        var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+        return [d.getUTCFullYear(), weekNo];
+    }
+
+    // Establecer la semana actual por defecto
+    const [anio, semana] = getWeekNumber(new Date());
     filtroSemana.value = `${anio}-W${semana.toString().padStart(2, '0')}`;
+    
+    // --- ¡CORRECCIÓN CLAVE! ---
+    // Llamar a cargarDatos() una vez que la página ha cargado y la semana ha sido establecida.
+    cargarDatos();
+
+
+// Botón Generar PDF
+document.getElementById('btnGenerarPDF').addEventListener('click', () => {
+    const semanaRaw = filtroSemana.value;
+    const match = semanaRaw.match(/W(\d{1,2})$/);
+    const semana = match ? parseInt(match[1], 10) : null;
+    const grado = filtroGrado.value;
+
+    if (!semana) {
+        alert('Seleccione una semana válida.');
+        return;
+    }
+
+    window.open(`/src/reports_generators/generar_latepass_pdf.php?semana=${semana}&grado=${encodeURIComponent(grado)}`, '_blank');
 });
+
+});
+// --- FIN DEL CÓDIGO ---
+// Este código JavaScript se ejecuta cuando el DOM está completamente cargado.
