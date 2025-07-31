@@ -8,6 +8,8 @@
         <a href= "/pages/menu_latepass.php">Late-Pass</a>
         <a href="/pages/menu_reportes.php">📊 Reportes</a>
         <a href= "/pages/menu_mantto.php">Mantenimiento</a>
+        <div class="nav-user">
+        <span><?php echo htmlspecialchars($nombre_usuario); ?></span>
         <a href= "/pages/logout.php" class="logout">Salir</a>
     </div>
     </div>
@@ -51,6 +53,10 @@
     .navbar-links a:hover {
         background-color: rgba(0, 0, 0, 0.20);
         border-radius: 4px;
+    }
+
+    .nav-user span {
+        margin-right: 15px;
     }
 
     .dropdown {
@@ -121,6 +127,11 @@
 
 
 <?php
+
+// Obtener datos del usuario para el menú
+$nombre_usuario = $_SESSION['usuario_nombre'] ?? 'Usuario';
+$rol_usuario = $_SESSION['usuario_rol'] ?? 'Consulta';
+
 // Comprobar si existe el mensaje de error en la sesións
 
 if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
