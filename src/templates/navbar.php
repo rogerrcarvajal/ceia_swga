@@ -8,8 +8,6 @@
         <a href= "/pages/menu_latepass.php">Late-Pass</a>
         <a href="/pages/menu_reportes.php">📊 Reportes</a>
         <a href= "/pages/menu_mantto.php">Mantenimiento</a>
-        <div class="nav-user">
-        <span><?php echo htmlspecialchars($nombre_usuario); ?></span>
         <a href= "/pages/logout.php" class="logout">Salir</a>
     </div>
     </div>
