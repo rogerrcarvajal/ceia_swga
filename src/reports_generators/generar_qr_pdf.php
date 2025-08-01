@@ -6,9 +6,9 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // 2. Incluir archivos necesarios.
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/fpdf.php';
-require_once __DIR__ . '/../lib/php-qrcode/qrlib.php'; // Ruta a la librería
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../src/lib/fpdf.php';
+require_once __DIR__ . '/../src/lib/php-qrcode/qrlib.php'; // Ruta a la librería
 
 // 3. Obtener datos del período y del estudiante
 $periodo_activo = $conn->query("SELECT nombre_periodo, id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);

@@ -55,6 +55,6 @@ if ($usuario_id) {
 }
 
 // Redirigir siempre de vuelta a la página de gestión de usuarios
-header("Location: /pages/usuarios_configurar.php");
+header("Location: /ceia_swga/pages/usuarios_configurar.php");
 exit();
 ?>

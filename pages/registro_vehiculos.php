@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceis_swga/public/index.php");
     exit();
 }
 
@@ -55,7 +55,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Vehículos Autorizados</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .content { text-align: center; margin-top: 10px; color: white; text-shadow: 1px 1px 2px black;}
@@ -65,7 +65,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h2>Registro de Vehículos Autorizados</h2>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>

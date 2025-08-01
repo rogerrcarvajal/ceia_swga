@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -51,8 +51,9 @@ if ($periodo_activo) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleccionar Planilla</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .content { text-align: center; margin-top: 20px; color: white; text-shadow: 1px 1px 2px black;}
         .content img { width: 200px; margin-bottom: 20px;}
         .content h1 { font-size: 50px; margin-bottom: 20px;}
@@ -64,10 +65,10 @@ if ($periodo_activo) {
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Generar Planilla de Inscripción</h1></div>
     <div class="right-panel">
-        <form action="/src/reports_generators/generar_planilla_pdf.php" method="GET" target="_blank">
+        <form action="/ceia_swga/public/src/reports_generators/generar_planilla_pdf.php" method="GET" target="_blank">
             <label>Seleccione un Estudiante del Período Actual:</label>
             <select name="id" required>
                 <option value="">-- Por favor, elija --</option>
@@ -78,7 +79,7 @@ if ($periodo_activo) {
             <br>
             <button type="submit">Generar PDF</button>
             <!-- Botón para volver al Home -->
-            <a href="/pages/menu_reportes.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/menu_reportes.php" class="btn">Volver</a> 
 
         </form>
     </div>

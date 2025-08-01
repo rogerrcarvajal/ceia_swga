@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /CEia_swga/public/index.php");
     exit();
 }
 
@@ -44,6 +44,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
     <title>Gestionar Asignaciones de Estudiantes</title>
     <link rel="stylesheet" href="/public/css/estilo_admin.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
         .content { text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
         .content img { width: 150px; }
@@ -82,7 +83,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/Ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestionar Asignaciones de Estudiantes</h1>
     </div>
 <div class="formulario-contenedor">
@@ -91,14 +92,14 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
             <?php foreach ($estudiantes as $e): ?>
                 <li>
                     <span><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></span>
-                    <a href="/pages/gestionar_estudiantes.php?id=<?= $e['id'] ?>" class="btn-gestionar">Gestionar</a>
+                    <a href="/ceia_swga/pages/gestionar_estudiantes.php?id=<?= $e['id'] ?>" class="btn-gestionar">Gestionar</a>
                 </li>
             <?php endforeach; ?>
         <?php else: ?>
             <li>No hay estudiantes registrados en el sistema.</li>
         <?php endif; ?>
     </ul>
-    <a href="/pages/asignar_estudiante_periodo.php" class="btn">Volver</a> 
+    <a href="/ceia_swga/pages/asignar_estudiante_periodo.php" class="btn">Volver</a> 
 </div>
 </body>
 </html>

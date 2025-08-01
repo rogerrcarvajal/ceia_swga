@@ -1,6 +1,6 @@
 <?php
-require "../conn/conexion.php";
-require "../lib/fpdf.php";
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../src/lib/fpdf.php';
 
 $sql = "SELECT e.nombre_completo, v.placa, v.conductor_nombre, TO_CHAR(v.fecha_hora, 'DD/MM/YYYY HH24:MI') as fecha_hora
         FROM vehiculos_autorizados v

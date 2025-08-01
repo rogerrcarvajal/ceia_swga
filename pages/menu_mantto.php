@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -44,8 +44,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admininstracion de Late-Pass - CEIA</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .content { color: white; text-align: center; margin-top: 30px; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px;}
@@ -63,7 +64,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Admininstracion de Late-Pass</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
@@ -74,14 +75,14 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-menu">
                 <li>
-                    <a href="/pages/periodos_escolares.php">
+                    <a href="/ceia_swga/pages/periodos_escolares.php">
                         <span class="icono-reporte">📋</span> Establecer Períodos Escolares
                     </a>
                     <p>Permite crear y activar un nuevo Periodo escolar, el cual vinculara información de Estudiantes, Madre, Madre y Staff con el período escolar activo.</p>
                 </li>
 
                 <li>
-                    <a href= "/pages/configurar_usuarios.php">
+                    <a href= "/ceia_swga/pages/configurar_usuarios.php">
                         <span class="icono-reporte">📄</span> Gestión de Usuarios del Sistema
                     </a>
                     <p>Permite laa creación y gestion de usuarios del sistema, vinculando al staff registrado como un usuario en el periodo escolar activo.</p>
@@ -91,7 +92,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
             <br>
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
         </div>
     </div>
 </body>

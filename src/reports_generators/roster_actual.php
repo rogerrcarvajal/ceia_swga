@@ -1,13 +1,13 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 
 // --- 2. INCLUIR CONFIGURACIÓN Y CONEXIÓN ---
 // La ruta correcta desde /src/reportes_generators/ es subir un nivel a /src/ y luego tomar el config.
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../src/config.php';
 
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $periodo_activo_encontrado = false;
@@ -52,22 +52,22 @@ if ($periodo_activo) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roster Actual - <?php echo htmlspecialchars($nombre_periodo); ?></title>
-    <link rel="stylesheet" href="/public/css/estilo_roster.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_roster.css">
 </head>
 <body>
     <?php
     // Incluir la barra de navegación (que también contiene la lógica de la modal)
-    require_once __DIR__ . '/../../src/templates/navbar.php'; 
+    require_once __DIR__ . '/../src/templates/navbar.php';
     ?>
 
-    <div class="content"><img src="/public/img/logo_ceia.png" alt="Logo CEIA"></div>
+    <div class="content"><img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA"></div>
     
     <div class="container">
         <div class="header">
             <h1>Roster <?php echo htmlspecialchars($nombre_periodo); ?></h1>
             <div class="export-buttons">
                 <?php if ($periodo_activo_encontrado): ?>
-                    <a href="/src/reports_generators/generar_roster_pdf.php" target="_blank" class="btn">Generar PDF</a>
+                    <a href="/ceia_swga/public/src/reports_generators/generar_roster_pdf.php" target="_blank" class="btn">Generar PDF</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -121,7 +121,7 @@ if ($periodo_activo) {
         <?php endif; ?>
         <br>
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
     </div>
 
 </body>

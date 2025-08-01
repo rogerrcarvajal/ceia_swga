@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -53,6 +53,6 @@ if ($profesor_id) {
 }
 
 // Redirigir siempre de vuelta a la página principal de profesores
-header("Location: /../pages/profesores.php");
+header("Location: /ceia_swga/pages/profesores.php");
 exit();
 ?>

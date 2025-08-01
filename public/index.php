@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['usuario'])) {
-    header("Location: /pages/dashboard.php");
+    header("Location: /ceia_swga/pages/dashboard.php");
     exit();
 }
 // Incluir configuración y conexión a la base de datos
@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($usuario && password_verify($password, $usuario['password'])) {
         // Guardamos todo el array de usuario en la sesión
         $_SESSION['usuario'] = $usuario;
-        
-        header("Location: /pages/dashboard.php");
+
+        header("Location: /ceia_swga/pages/dashboard.php");
         exit();
     } else {
         $mensaje = "⚠️ Usuario o contraseña incorrectos.";
@@ -36,8 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CEIA SWGA - Login</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 30%; display: flex; flex-wrap: wrap; justify-content: space-around;  }
         .content { text-align: center; margin-top: 0px; color: white; text-shadow: 1px 1px 2px black;}
         .content img { width: 150px; margin-bottom: 0px; }
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <br></br>
     <div class="formulario-contenedor">
         <div class="content">
-            <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+            <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Sistema Web de<br>Gestión Académica<br></h1><h3 style="color: #a2ff96;">Inscripcion y Late-Pass</h3>
         <h4>Introzduca su usuario y contraseña</h4>
         <?php if ($mensaje): ?>

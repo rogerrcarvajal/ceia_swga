@@ -2,8 +2,8 @@
 session_start();
 if (!isset($_SESSION['usuario'])) { exit('Acceso denegado.'); }
 
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/fpdf.php';
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../src/lib/fpdf.php';
 
 // 1. OBTENER DATOS DEL PERÍODO ACTIVO
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);

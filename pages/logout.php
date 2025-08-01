@@ -2,6 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: /../public/index.php");
+header("Location: /ceia_swga/public/index.php");
 exit();
 ?>

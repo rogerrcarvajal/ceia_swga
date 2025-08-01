@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -79,7 +79,7 @@ $stmt->execute([':id' => $usuario_id]);
 $usuario_a_editar = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$usuario_a_editar) {
-    header("Location: /pages/usuarios_configurar.php");
+    header("Location: /ceia_swga/pages/usuarios_configurar.php");
     exit();
 }
 ?>
@@ -90,8 +90,9 @@ if (!$usuario_a_editar) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Usuario</title>
-    <link rel="stylesheet" href="/public/css/estilo_planilla.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_planilla.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
         .select {width: 30%;}
         .content { text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
@@ -101,7 +102,7 @@ if (!$usuario_a_editar) {
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Editar Usuario del Sistema</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
@@ -129,7 +130,7 @@ if (!$usuario_a_editar) {
                 <br><br>
                 <button type="submit">Actualizar Usuario</button>
                 <!-- Botón para volver a configurar usuarios -->
-                <a href="/pages/configurar_usuarios.php" class="btn">Volver</a> 
+                <a href="/ceia_swga/pages/configurar_usuarios.php" class="btn">Volver</a> 
 
             </form>       
     </div>

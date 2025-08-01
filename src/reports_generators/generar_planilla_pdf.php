@@ -6,8 +6,8 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // 2. Incluir archivos necesarios.
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/fpdf.php';
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../src/lib/fpdf.php';
 
 // Obtener el período escolar activo
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);

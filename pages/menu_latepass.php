@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -44,8 +44,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de control de Late-Pass - CEIA</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .content { color: white; text-align: center; margin-top: 30px; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px;}
@@ -63,7 +64,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestión de control de Late-Pass</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
@@ -74,21 +75,21 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         <div class="content">       
             <ul class="lista-menu">
                 <li>
-                    <a href="/pages/seleccionar_qr.php">
+                    <a href="/ceia_swga/pages/seleccionar_qr.php">
                         <span class="icono-reporte">📷</span> Generar QR
                     </a>
                     <p>Permite la seleccion de un estudiante para generar un codigo QR que usara para el contrpl de entrada</p>
                 </li>
 
                 <li>
-                    <a href= "/pages/control_acceso.php">
+                    <a href= "/ceia_swga/pages/control_acceso.php">
                         <span class="icono-reporte">✅</span> Control de acceso (Late-Pass)
                     </a>
                     <p>Control de Acceso y Regisstro Atutomatizado de Late-Pass.</p>
                 </li>
 
                 <li>
-                    <a href="/pages/gestion_latepass.php">
+                    <a href="/Ceia_swga/pages/gestion_latepass.php">
                         <span class="icono-reporte">📋</span> Gestión y consulta de Late-Pass
                     </a>
                     <p>Vista en pantalla por grado de los Late'Pass registrados automáticamente.</p>
@@ -98,7 +99,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 
             <br>
             <!-- Botón para volver al Home -->
-            <a href="/pages/dashboard.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
         </div>
     </div>
 </body>

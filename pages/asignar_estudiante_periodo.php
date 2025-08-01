@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -50,10 +50,13 @@ $grados_disponibles = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asignar Estudiantes a Período Escolar</title>
     <link rel="stylesheet" href="/public/css/estilo_admin.css"> </head>
+    <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
+    </style>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Asignar Estudiantes a Período</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
@@ -95,11 +98,11 @@ $grados_disponibles = [
                     <button type="submit">Asignar Estudiante</button>
                     <a href="/pages/lista_gestion_estudiantes.php?id=<?= $p['id'] ?>" class="btn">Gestionar Estudiantes</a>
                     <!-- Botón para volver al Home -->
-                    <a href="/pages/menu_estudiantes.php" class="btn">Volver</a>
+                    <a href="/ceia_swga/pages/menu_estudiantes.php" class="btn">Volver</a>
                 </form>
             </div>
         </div>
     </div>
-    <script src="/public/js/admin_asignar_estudiante.js"></script>
+    <script src="/ceia_swga/public/js/admin_asignar_estudiante.js"></script>
 </body>
 </html>

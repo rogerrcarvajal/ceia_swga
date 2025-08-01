@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -75,8 +75,9 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Períodos Escolares</title>
-    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 0px auto; padding: 30px; border-radius: 10px; max-width: 65%; display: flex; flex-wrap: wrap; justify-content: space-around;}
         .formulario {background-color: rgba(0, 0, 0, 0.3); color: white; padding: 25px; margin: 30px auto; width: 30%; border-radius: 8px;}
         .form-seccion { width: 30%; color: white; min-width: 300px; margin-bottom: 20px;}
@@ -117,8 +118,8 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
                 </div>
             <?php endif; ?>
             <br>
-            <!-- Botón para volver al menu Mantto -->
-            <a href="/pages/menu_mantto.php" class="btn">Volver</a>
+            <!-- Botón para volver aperiodos escolares -->
+            <a href="/ceia_swga/pages/menu_mantto.php" class="btn">Volver</a>
         </div>
 
         <div class="form-seccion">

@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -106,8 +106,9 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Asignación de Estudiante</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
         .content { text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
         .content img { width: 150px; }
@@ -127,7 +128,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
         <h1>Gestionar Asignación</h1>
         <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
     </div>
@@ -159,7 +160,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
             </fieldset>
             <br>
             <button type="submit">Guardar Cambios</button>
-            <a href="/pages/lista_gestion_estudiantes.php" class="btn">Volver y gestionar otro estudiante</a>
+            <a href="/ceia_swga/pages/lista_gestion_estudiantes.php" class="btn">Volver y gestionar otro estudiante</a>
         </form>
     </div>
 </body>

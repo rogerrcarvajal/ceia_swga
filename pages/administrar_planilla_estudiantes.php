@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -43,12 +43,15 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrar Expedientes de Estudiantes</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
+    <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
+    </style>
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Administrar Expedientes de Estudiantes</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
@@ -158,11 +161,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                 </div>
             </div>   
             <!-- Botón para volver al Home -->
-            <a href="/pages/menu_estudiantes.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/menu_estudiantes.php" class="btn">Volver</a> 
  
         </div>
     </div>
-    
-    <script src="/public/js/admin_estudiantes.js"></script>
+
+    <script src="/ceia_swga/public/js/admin_estudiantes.js"></script>
 </body>
 </html>

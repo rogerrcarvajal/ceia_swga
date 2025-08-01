@@ -2,13 +2,13 @@
     <div class="navbar-logo">CEIA</div>
     <div class="navbar-menu" id="menuToggle">&#9776;</div>
     <div class="navbar-links" id="navLinks">
-        <a href="/pages/dashboard.php">🏠 Home</a>
-        <a href="/pages/menu_estudiantes.php">📊 Estudiantes</a>
-        <a href= "/pages/profesores_registro.php">Staff</a>
-        <a href= "/pages/menu_latepass.php">Late-Pass</a>
-        <a href="/pages/menu_reportes.php">📊 Reportes</a>
-        <a href= "/pages/menu_mantto.php">Mantenimiento</a>
-        <a href= "/pages/logout.php" class="logout">Salir</a>
+        <a href="/ceia_swga/pages/dashboard.php">🏠 Home</a>
+        <a href="/ceia_swga/pages/menu_estudiantes.php">📊 Estudiantes</a>
+        <a href= "/ceia_swga/pages/profesores_registro.php">Staff</a>
+        <a href= "/ceia_swga/pages/menu_latepass.php">Late-Pass</a>
+        <a href="/ceia_swga/pages/menu_reportes.php">📊 Reportes</a>
+        <a href= "/ceia_swga/pages/menu_mantto.php">Mantenimiento</a>
+        <a href= "/ceia_swga/pages/logout.php" class="logout">Salir</a>
     </div>
     </div>
     </div>

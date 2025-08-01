@@ -1,7 +1,7 @@
 <?php
 // Incluir archivos necesarios.
-require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/fpdf.php';
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../src/lib/fpdf.php';
 
 $semana = filter_var($_GET['semana'] ?? 0, FILTER_VALIDATE_INT);
 if (!$semana) {

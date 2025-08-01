@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -9,7 +9,7 @@ if (!isset($_SESSION['usuario'])) {
 // Permite el acceso si el rol es 'admin' O 'consulta'.
 if ($_SESSION['usuario']['rol'] !== 'admin' && $_SESSION['usuario']['rol'] !== 'consulta') {
     $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-    header("Location: /pages/dashboard.php");
+    header("Location: /ceia_swga/pages/dashboard.php");
     exit();
 }
 
@@ -33,6 +33,7 @@ if ($periodo_activo) {
     <title>Gestión y consulta de Late-Pass</title>
     <link rel="stylesheet" href="/public/css/estilo_roster.css">
     <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .filtros-container { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background-color: rgba(0,0,0,0.1); border-radius: 8px; }
         .filtros-container select, .filtros-container input { padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
     </style>
@@ -40,7 +41,7 @@ if ($periodo_activo) {
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
         <h1>Gestión y consulta de Late-Pass</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
@@ -82,8 +83,8 @@ if ($periodo_activo) {
         </table>
         <br><br>
         <button id="btnGenerarPDF" class="btn">📄 Generar PDF</button>
-        <a href="/pages/menu_latepass.php" class="btn">Volver</a>
+        <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver</a>
     </div>
-    <script src="/public/js/gestion_latepass.js"></script>
+    <script src="/ceia_swga/public/js/gestion_latepass.js"></script>
 </body>
 </html>
