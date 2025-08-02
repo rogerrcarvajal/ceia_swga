@@ -4,11 +4,11 @@
     <div class="navbar-links" id="navLinks">
         <a href="/ceia_swga/pages/dashboard.php">🏠 Home</a>
         <a href="/ceia_swga/pages/menu_estudiantes.php">📊 Estudiantes</a>
-        <a href= "/ceia_swga/pages/profesores_registro.php">Staff</a>
-        <a href= "/ceia_swga/pages/menu_latepass.php">Late-Pass</a>
+        <a href="/ceia_swga/pages/profesores_registro.php">Staff</a>
+        <a href="/ceia_swga/pages/menu_latepass.php">Late-Pass</a>
         <a href="/ceia_swga/pages/menu_reportes.php">📊 Reportes</a>
-        <a href= "/ceia_swga/pages/menu_mantto.php">Mantenimiento</a>
-        <a href= "/ceia_swga/pages/logout.php" class="logout">Salir</a>
+        <a href="/ceia_swga/pages/menu_mantto.php">Mantenimiento</a>
+        <a href="/ceia_swga/pages/logout.php" class="logout">Salir</a>
     </div>
     </div>
     </div>
@@ -21,7 +21,7 @@
         align-items: center;
         padding: 12px 20px;
         z-index: 1000; /* Asegurarse de que esté por encima de todo */
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0,0, 0.3);
         backdrop-filter:blur(10px);
         box-shadow: 0px 0px 10px rgba(227,228,237,0.37);
         border:2px solid rgba(255,255,255,0.18);
@@ -202,7 +202,7 @@ if (isset($_SESSION['error_acceso']) && !empty($_SESSION['error_acceso'])):
                 echo htmlspecialchars(string: $_SESSION['error_acceso']); 
             ?>
         </p>
-        <a href="/pages/dashboard.php" class="boton-modal">
+        <a href="/ceia_swga/pages/dashboard.php" class="boton-modal">
             Ir a la pantalla de inicio
         </a>
     </div>
@@ -285,7 +285,7 @@ if (isset($_SESSION['error_periodo_inactivo']) && !empty($_SESSION['error_period
                 echo htmlspecialchars(string: $_SESSION['error_periodo_inactivo']); 
             ?>
         </p>
-        <a href="/pages/periodos_escolares.php" class="boton-modal">
+        <a href="/ceia_swga/pages/periodos_escolares.php" class="boton-modal">
             Ir a Gestión de Períodos
         </a>
     </div>

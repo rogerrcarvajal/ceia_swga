@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tablaResultados.innerHTML = '<tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>';
 
         try {
-            const response = await fetch(`/api/consultar_latepass.php?semana=${semana}&grado=${grado}`);
+            const response = await fetch(`/ceia_swga/api/consultar_latepass.php?semana=${semana}&grado=${grado}`);
             const data = await response.json();
 
             tablaResultados.innerHTML = ''; // Limpiar la tabla
@@ -82,7 +82,7 @@ document.getElementById('btnGenerarPDF').addEventListener('click', () => {
         return;
     }
 
-    window.open(`/src/reports_generators/generar_latepass_pdf.php?semana=${semana}&grado=${encodeURIComponent(grado)}`, '_blank');
+    window.open(`/ceia_swga/src/reports_generators/generar_latepass_pdf.php?semana=${semana}&grado=${encodeURIComponent(grado)}`, '_blank');
 });
 
 });

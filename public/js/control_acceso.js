@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Llama a nuestra API para registrar la llegada
-            const response = await fetch('/api/registrar_llegada.php', {
+            const response = await fetch('/ceia_swga/api/registrar_llegada.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ estudiante_id: estudianteId })
