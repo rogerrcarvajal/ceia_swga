@@ -115,7 +115,7 @@ $homerooms = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kind
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestionar Staff / Profesor</title>
+    <title>SWGA - Gestionar Staff/Profesor</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_planilla.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -142,7 +142,7 @@ $homerooms = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kind
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Gestionar Staff / Profesor</h1>
+        <h1>Gestionar Staff/Profesor</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>

@@ -21,7 +21,7 @@ if (!$periodo_activo) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEIA - Sistema de Gestión Académica</title>  
+    <title>SWGA - Sistema Web de Gestión Académica</title>  
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}

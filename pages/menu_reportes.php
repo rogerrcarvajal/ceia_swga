@@ -43,7 +43,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes del Sistema - CEIA</title>
+    <title>SWGA - Reportes del Sistema</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -58,6 +58,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         .lista-menu a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
         .lista-menu p { margin: 0; padding: 0 15px 15px 15px; font-size: 0.9em; color: #ccc;}
         .lista-menu .icono-reporte { margin-right: 12px; font-size: 1.2em;}
+        .btn { background-color: rgb(48, 48, 48); color: white; padding: 10px 18px; margin-top: 20px; text-decoration: none; display: inline-block; border-radius: 5px; cursor: pointer; }
     </style>    
 </head>
 
@@ -90,9 +91,8 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 
             </ul>
 
-            <br>
             <!-- Botón para volver al Home -->
-            <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a>
         </div>
     </div>
 </body>

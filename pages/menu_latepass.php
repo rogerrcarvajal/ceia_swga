@@ -43,7 +43,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de control de Late-Pass - CEIA</title>
+    <title>SWGA - Late-Pass - Gestión y control</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -95,9 +95,15 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Vista en pantalla por grado de los Late'Pass registrados automáticamente.</p>
                 </li>
                 
+                <li>
+                    <a href="/Ceia_swga/pages/gestion_es_staff.php">
+                        <span class="icono-reporte">📋</span> Gestión y consulta de Entrada/Salida Staff
+                    </a>
+                    <p>Vista en pantalla por grado de los Late'Pass registrados automáticamente.</p>
+                </li>
+                
             </ul>
 
-            <br>
             <!-- Botón para volver al Home -->
             <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
         </div>

@@ -75,7 +75,7 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Staff / Profesores</title>
+    <title>SWGA - Gestión de Staff/Profesores</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -93,7 +93,7 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Gestión de Staff / Profesores</h1>
+        <h1>Gestión de Staff/Profesores</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>

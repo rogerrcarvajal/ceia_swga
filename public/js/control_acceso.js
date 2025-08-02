@@ -87,4 +87,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-// ... (Funciones para el reloj y mostrarAlerta)
+// Espera a que el DOM esté completamente cargado
+const qrForm = document.getElementById("qr-form");
+qrForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const qrInput = document.getElementById("qr-input");
+  const qrContent = qrInput.value.trim();
+
+  if (qrContent === "") return;
+
+  let apiUrl = "";
+  let bodyPayload = {};
+
+  // --- LÓGICA PARA DIFERENCIAR QR DE ESTUDIANTE Y STAFF ---
+  if (qrContent.startsWith("STAFF:")) {
+    apiUrl = "/api/registrar_movimiento_staff.php";
+    bodyPayload = { profesor_id: qrContent.replace("STAFF:", "") };
+  } else {
+    apiUrl = "/api/registrar_llegada.php";
+    bodyPayload = { estudiante_id: qrContent };
+  }
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyPayload),
+    });
+    const result = await response.json();
+    mostrarAlerta(result); // La misma función de alerta funciona para ambos
+    // ... (lógica de log)
+  } catch (error) {
+    // ... (manejo de error)
+  }
+  qrInput.value = "";
+  qrInput.focus();
+});

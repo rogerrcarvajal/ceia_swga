@@ -5,34 +5,39 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-// --- BLOQUE DE CONTROL DE ACCESO CORREGIDO ---
-// Permite el acceso si el rol es 'admin' O 'consulta'.
-if ($_SESSION['usuario']['rol'] !== 'admin' && $_SESSION['usuario']['rol'] !== 'consulta') {
-    $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-    header("Location: /ceia_swga/pages/dashboard.php");
-    exit();
-}
-
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
+
+$usuario_rol = $acceso_stmt;
+
+if ($_SESSION['usuario']['rol'] !== 'admin') {
+    if ($_SESSION !== $usuario_rol) {
+        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
+    }
+}
+
 // --- Obtener datos para los filtros ---
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-$grados_con_estudiantes = [];
+$profesores = [];
 if ($periodo_activo) {
-    $sql_grados = "SELECT DISTINCT grado_cursado FROM estudiante_periodo WHERE periodo_id = :pid ORDER BY grado_cursado";
-    $stmt_grados = $conn->prepare($sql_grados);
-    $stmt_grados->execute([':pid' => $periodo_activo['id']]);
-    $grados_con_estudiantes = $stmt_grados->fetchAll(PDO::FETCH_COLUMN, 0);
+    $sql_prof = "SELECT p.id, p.nombre_completo FROM profesor_periodo pp JOIN profesores p ON pp.profesor_id = p.id WHERE pp.periodo_id = :pid ORDER BY p.nombre_completo";
+    $stmt_prof = $conn->prepare($sql_prof);
+    $stmt_prof->execute([':pid' => $periodo_activo['id']]);
+    $profesores = $stmt_prof->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWGA - Gestión y consulta de Late-Pass</title>
+    <title>SWGA - Gestión Asistencia de Staff</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_roster.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -44,7 +49,7 @@ if ($periodo_activo) {
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
-        <h1>Gestión y consulta de Late-Pass</h1>
+        <h1>Gestión y consulta de Entrada/Salida<br>Staff/Profesores</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>
@@ -57,11 +62,11 @@ if ($periodo_activo) {
                 <input type="week" id="filtro_semana">
             </div>
             <div>
-                <label for="filtro_grado">Seleccionar Grado:</label>
-                <select id="filtro_grado">
-                    <option value="todos">Todos los Grados</option>
-                    <?php foreach ($grados_con_estudiantes as $grado): ?>
-                        <option value="<?= htmlspecialchars($grado) ?>"><?= htmlspecialchars($grado) ?></option>
+                <label for="filtro_staff">Seleccionar Personal:</label>
+                <select id="filtro_staff">
+                    <option value="todos">Todo el Personal</option>
+                    <?php foreach ($profesores as $p): ?>
+                        <option value="<?= $p['id'] ?>"><?= htmlspecialchars($p['nombre_completo']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>
@@ -70,22 +75,21 @@ if ($periodo_activo) {
         <table class="staff-table">
             <thead>
                 <tr>
-                    <th>Estudiante</th>
-                    <th>Grado</th>
-                    <th>Fecha de Llegada</th>
-                    <th>Hora de Llegada</th>
-                    <th style="text-align:center">Strikes Semanales</th>
-                    <th>Observaciones</th>
+                    <th>Nombre Staff/Profesor</th>
+                    <th>Fecha</th>
+                    <th>Hora Entrada</th>
+                    <th>Hora Salida</th>
+                    <th>Ausente</th>
                 </tr>
             </thead>
-            <tbody id="tabla_resultados_latepass">
-                <tr><td colspan="6" style="text-align:center;">Seleccione una semana y un grado para ver los registros.</td></tr>
+            <tbody id="tabla_resultados_staff">
+                <tr><td colspan="6" style="text-align:center;">Seleccione una semana y un Staff para ver los registros.</td></tr>
             </tbody>
         </table>
-        <br><br>
+        <br>
         <button id="btnGenerarPDF" class="btn">📄 Generar PDF</button>
         <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver</a>
     </div>
-    <script src="/ceia_swga/public/js/gestion_latepass.js"></script>
+    <script src="/ceia_swga/public/js/gestion_es_staff.js"></script>
 </body>
 </html>

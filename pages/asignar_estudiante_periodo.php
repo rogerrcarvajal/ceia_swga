@@ -48,7 +48,7 @@ $grados_disponibles = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asignar Estudiantes a Período Escolar</title>
+    <title>SWGA - Asignar Estudiantes al Período Escolar</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css"> </head>
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -57,7 +57,7 @@ $grados_disponibles = [
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Asignar Estudiantes a Período</h1>
+        <h1>Asignar Estudiantes al Período Escolar</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>

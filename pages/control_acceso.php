@@ -64,7 +64,7 @@ if (!$periodo_activo) {
     <div class="formulario-contenedor">
         <div class="content">
             <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-            <h1>Control de Acceso - Late-Pass</h1>
+            <h1>SWGA - Late-Pass - Control de Acceso</h1>
             <?php if ($periodo_activo): ?>
                 <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
             <?php endif; ?>

@@ -54,7 +54,7 @@ $estudiantes = $conn->query("SELECT * FROM estudiantes ORDER BY nombre_completo"
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Vehículos Autorizados</title>
+    <title>SWGA - Registro de Vehículos Autorizados</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
