@@ -68,7 +68,7 @@ if ($periodo_activo) {
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Generar Planilla de Inscripción</h1></div>
     <div class="right-panel">
-        <form action="/ceia_swga/public/src/reports_generators/generar_planilla_pdf.php" method="GET" target="_blank">
+        <form action="/ceia_swga/src/reports_generators/generar_planilla_pdf.php" method="GET" target="_blank">
             <label>Seleccione un Estudiante del Período Actual:</label>
             <select name="id" required>
                 <option value="">-- Por favor, elija --</option>
