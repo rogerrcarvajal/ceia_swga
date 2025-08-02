@@ -1,7 +1,7 @@
 {
   "editor.linkedEditing": true,
   "terminal.integrated.stickyScroll.enabled": true,
-  "workbench.iconTheme": "material-icon-theme",
+  "workbench.iconTheme": "symbols",
   "workbench.startupEditor": "none",
   "workbench.colorTheme": "One Dark Pro Darker",
   "workbench.sideBar.location": "right",
