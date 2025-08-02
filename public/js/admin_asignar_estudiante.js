@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('/api/asignar_estudiante.php', { method: 'POST', body: formData });
+            const response = await fetch('/ceia_swga/api/asignar_estudiante.php', { method: 'POST', body: formData });
             const result = await response.json();
             if (result.status === 'exito') {
                 cargarEstudiantesAsignados(periodoId);
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function cargarEstudiantesAsignados(periodoId) {
     const listaUI = document.getElementById('lista_estudiantes_asignados');
     listaUI.innerHTML = '<li>Cargando...</li>';
-    const response = await fetch(`/api/obtener_estudiantes_por_periodo.php?periodo_id=${periodoId}`);
+    const response = await fetch(`/ceia_swga/api/obtener_estudiantes_por_periodo.php?periodo_id=${periodoId}`);
     const estudiantes = await response.json();
     listaUI.innerHTML = '';
     if (estudiantes.length > 0) {
@@ -94,7 +94,7 @@ async function cargarEstudiantesAsignados(periodoId) {
 async function cargarEstudiantesNoAsignados(periodoId) {
     const selectUI = document.getElementById('estudiante_id');
     selectUI.innerHTML = '<option>Cargando...</option>';
-    const response = await fetch(`/api/obtener_estudiantes_no_asignados.php?periodo_id=${periodoId}`);
+    const response = await fetch(`/ceia_swga/api/obtener_estudiantes_no_asignados.php?periodo_id=${periodoId}`);
     const estudiantes = await response.json();
     selectUI.innerHTML = '<option value="">-- Elija un estudiante para asignar --</option>';
     if (estudiantes.length > 0) {

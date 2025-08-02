@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /ceia_swga/public/index.php");
+    header(header: "Location: /../public/index.php");
     exit();
 }
 
@@ -157,6 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
         .resultado-busqueda.no-encontrado { background-color: #fffde7; border: 1px solid #fbc02d; color: #f57f17; }
         .resultado-busqueda.vinculado { background-color: #4caf50; border: 1px solid #2e7d32; color: white; text-align: center; font-weight: bold;}
         .resultado-busqueda button { padding: 5px 10px; margin: 5px; cursor: pointer; border: 1px solid #ccc; background-color: #f0f0f0; }
+        .btn { background-color: rgb(48, 48, 48); color: white; padding: 10px 18px; margin-top: 20px; text-decoration: none; display: inline-block; border-radius: 5px; cursor: pointer; }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -318,7 +319,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
             </div>
             <button type="submit" name="guardar_inscripcion" style="display: inline-block; margin-top: 20px; text-decoration: none; padding: 10px 15px; background-color:rgb(48, 48, 48); color: white; border-radius: 5px;">Guardar Planilla de Inscripción</button>
             <!-- Botón para volver al Home -->
-            <a href="/ceia_dega/pages/menu_estudiantes.php" class="btn">Volver</a> 
+            <a href="/ceia_swga/pages/menu_estudiantes.php" class="btn">Volver</a> 
         </form>
     </div>
 </body>

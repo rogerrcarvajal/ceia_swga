@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /CEia_swga/public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -42,7 +42,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestionar Asignaciones de Estudiantes</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 30px auto; padding: 30px; border-radius: 10px; max-width: 500px; }
@@ -83,7 +83,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/Ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestionar Asignaciones de Estudiantes</h1>
     </div>
 <div class="formulario-contenedor">

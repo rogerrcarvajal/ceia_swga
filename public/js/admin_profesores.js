@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- FUNCIONES ---
     function cargarProfesores(periodo_id) {
-        fetch(`/api/obtener_profesores.php?periodo_id=${periodo_id}`)
+        fetch(`/ceia_swga/api/obtener_profesores.php?periodo_id=${periodo_id}`)
             .then(response => response.ok ? response.json() : Promise.reject(response.statusText))
             .then(data => {
                 if (!tbody) return;
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- CARGA DE PROFESORES NO ASIGNADOS Y OPCIONES DE HOMEROOM ---
     function cargarProfesoresNoAsignados() {
         const select = document.getElementById('profesor-a-asignar');
-        fetch(`/api/obtener_profesores_no_asignados.php?periodo_id=${periodoSelect.value}`)
+        fetch(`/ceia_swga/api/obtener_profesores_no_asignados.php?periodo_id=${periodoSelect.value}`)
             .then(response => response.json())
             .then(data => {
                 select.innerHTML = '<option value="">Seleccione un profesor...</option>';
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('periodo_id', periodoSelect.value);
 
         // La ruta ahora es absoluta, apuntando a la carpeta /api/
-        fetch('/api/asignar_profesor.php', {
+        fetch('/ceia_swga/api/asignar_profesor.php', {
             method: 'POST',
             body: formData
         })

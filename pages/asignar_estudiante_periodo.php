@@ -49,7 +49,7 @@ $grados_disponibles = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asignar Estudiantes a Período Escolar</title>
-    <link rel="stylesheet" href="/public/css/estilo_admin.css"> </head>
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css"> </head>
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
     </style>
@@ -96,7 +96,7 @@ $grados_disponibles = [
                     </select>
                     
                     <button type="submit">Asignar Estudiante</button>
-                    <a href="/pages/lista_gestion_estudiantes.php?id=<?= $p['id'] ?>" class="btn">Gestionar Estudiantes</a>
+                    <a href="/ceia_swga/pages/lista_gestion_estudiantes.php?id=<?= $p['id'] ?>" class="btn">Gestionar Estudiantes</a>
                     <!-- Botón para volver al Home -->
                     <a href="/ceia_swga/pages/menu_estudiantes.php" class="btn">Volver</a>
                 </form>
