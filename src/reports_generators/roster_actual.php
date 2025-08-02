@@ -5,8 +5,7 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-// --- 2. INCLUIR CONFIGURACIÓN Y CONEXIÓN ---
-// La ruta correcta desde /src/reportes_generators/ es subir un nivel a /src/ y luego tomar el config.
+// Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);

@@ -1,0 +1,9 @@
+{
+  "editor.linkedEditing": true,
+  "terminal.integrated.stickyScroll.enabled": true,
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.startupEditor": "none",
+  "workbench.colorTheme": "Dracula Theme",
+  "workbench.sideBar.location": "right",
+  "workbench.editor.pinnedTabsOnSeparateRow": true
+}
