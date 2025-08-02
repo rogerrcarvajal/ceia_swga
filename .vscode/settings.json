@@ -3,7 +3,7 @@
   "terminal.integrated.stickyScroll.enabled": true,
   "workbench.iconTheme": "material-icon-theme",
   "workbench.startupEditor": "none",
-  "workbench.colorTheme": "Dracula Theme",
+  "workbench.colorTheme": "One Dark Pro Darker",
   "workbench.sideBar.location": "right",
   "workbench.editor.pinnedTabsOnSeparateRow": true
 }
