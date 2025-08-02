@@ -100,7 +100,7 @@ if ($periodo_activo) {
             <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
             <h1>Generar QR</h1></div>
         <div class="right-panel"></div>
-            <form action="/ceia_swga/public/src/reports_generators/generar_qr_pdf.php" method="GET" target="_blank">
+            <form action="/ceia_swga/src/reports_generators/generar_qr_pdf.php" method="GET" target="_blank">
                 <label>Seleccione un Estudiante:</label>
                 <select name="id" required>
                     <option value="">-- Por favor, elija --</option>

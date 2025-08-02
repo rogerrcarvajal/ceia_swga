@@ -6,9 +6,9 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // 2. Incluir archivos necesarios.
-require_once __DIR__ . '/../src/config.php';
-require_once __DIR__ . '/../src/lib/fpdf.php';
-require_once __DIR__ . '/../src/lib/php-qrcode/qrlib.php'; // Ruta a la librería
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../lib/fpdf.php';
+require_once __DIR__ . '/../lib/php-qrcode/qrlib.php'; // Ruta a la librería
 
 // 3. Obtener datos del período y del estudiante
 $periodo_activo = $conn->query("SELECT nombre_periodo, id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
@@ -56,7 +56,7 @@ class Generar_qr_pdf extends FPDF {
     }
 
     function Header() {
-        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/public/img/logo_ceia.png', 10, 8, 25);
+        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
@@ -68,7 +68,7 @@ class Generar_qr_pdf extends FPDF {
 
     function Footer() {
         $this->SetY(-20);
-        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/public/img/color_line.png', 10, $this->GetY(), 190);
+        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/color_line.png', 10, $this->GetY(), 190);
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
         $this->Cell(0, 5, utf8_decode('Av. José Antonio Anzoátegui, Km 98 - Anaco, Edo Anzoátegui 6003, Venezuela - +58 282 422 2683'), 0, 1, 'C');

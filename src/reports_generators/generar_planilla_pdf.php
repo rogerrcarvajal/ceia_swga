@@ -6,8 +6,8 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 // 2. Incluir archivos necesarios.
-require_once __DIR__ . '/../src/config.php';
-require_once __DIR__ . '/../src/lib/fpdf.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../lib/fpdf.php';
 
 // Obtener el período escolar activo
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
@@ -71,7 +71,7 @@ class PlanillaPDF extends FPDF
     }
 
     function Header() {
-        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/public/img/logo_ceia.png', 10, 8, 25);
+        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
@@ -85,7 +85,7 @@ class PlanillaPDF extends FPDF
         // Posición a 2 cm del final
         $this->SetY(-20);
         // Imagen de línea de colores
-        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/public/img/color_line.png', 10, $this->GetY(), 190);
+        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/color_line.png', 10, $this->GetY(), 190);
         
         $this->SetY(-15); // Posición a 1.5 cm del final
         $this->SetFont('Arial', 'I', 8);
