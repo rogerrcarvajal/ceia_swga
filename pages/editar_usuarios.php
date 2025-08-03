@@ -119,8 +119,8 @@ if (!$usuario_a_editar) {
                 <br>
                 <label for="rol">Rol:</label>
                 <select id="rol" name="rol" class="select" required>
-                    <option value="admin" <?= $usuario_a_editar['rol'] === 'admin' ? 'selected' : '' ?>>Administrador</option>
-                    <option value="consulta" <?= $usuario_a_editar['rol'] === 'consulta' ? 'selected' : '' ?>>Consulta</option>
+                    <option value="admin" <?= $usuario_a_editar['rol'] === 'admin' ? 'selected' : '' ?>>Usuario Admininstrador</option>
+                    <option value="consulta" <?= $usuario_a_editar['rol'] === 'consulta' ? 'selected' : '' ?>>Usuario Consulta</option>
                 </select>
 
                 <br>

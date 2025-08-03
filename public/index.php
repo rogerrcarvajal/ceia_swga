@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="content">
             <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Sistema Web de<br>Gestión Académica<br></h1><h3 style="color: #a2ff96;">Inscripcion y Late-Pass</h3>
-        <h4>Introzduca su usuario y contraseña</h4>
+        <h4>Introzduca el usuario y contraseña</h4>
         <?php if ($mensaje): ?>
             <p class="alerta-login"><?= htmlspecialchars($mensaje) ?></p>
         <?php endif; ?>
@@ -61,5 +61,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Ingresar</button>
         </form>
     </div>
+        <script src="/ceia_swga/public/js/fiveserver.config.js"></script>
 </body>
 </html>

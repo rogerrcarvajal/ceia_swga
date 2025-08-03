@@ -18,11 +18,12 @@ $acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1
 
 $usuario_rol = $acceso_stmt;
 
+// --- BLOQUE DE CONTROL DE ACCESO CORREGIDO ---
+// Permite el acceso si el rol es 'admin' O 'consulta'.
 if ($_SESSION['usuario']['rol'] !== 'admin') {
-    if ($_SESSION !== $usuario_rol) {
-        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
-    }
+    $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+    header("Location: /ceia_swga/pages/dashboard.php");
+    exit();
 }
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
@@ -36,9 +37,9 @@ if (!$periodo_activo) {
 // Lógica para agregar un nuevo usuario (ahora guarda la contraseña encriptada)
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $profesor_id = $_POST["profesor_id"] ?? null;
-    $username = $_POST["username"];
-    $clave = $_POST["clave"];
-    $rol = $_POST["rol"];
+    $username = $_POST["username"] ?? '';
+    $clave = $_POST["clave"] ?? '';
+    $rol = $_POST["rol"] ?? '';
     
     // Encriptar la contraseña antes de guardarla
     $hashed_password = password_hash($clave, PASSWORD_DEFAULT);
@@ -118,8 +119,8 @@ $profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM p
                 <label>Rol:</label>
                 <select name="rol" required>
                     <option value="">Seleccione Rol</option>
-                    <option value="admin">Administrador</option>
-                    <option value="consulta">Consulta</option>
+                    <option value="admin">Usuario Administrador</option>
+                    <option value="consulta">Usuario Consulta</option>
                 </select>
                 <br><br>
                 <button type="submit" name="agregar">Agregar Usuario</button>

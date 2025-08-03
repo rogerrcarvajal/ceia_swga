@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
 
 // --- BLOQUE DE CONTROL DE ACCESO CORREGIDO ---
 // Permite el acceso si el rol es 'admin' O 'consulta'.
-if ($_SESSION['usuario']['rol'] !== 'admin' && $_SESSION['usuario']['rol'] !== 'consulta') {
+if ($_SESSION['usuario']['rol'] !== 'admin' && $_SESSION['usuario']['rol'] !== 'master' && $_SESSION['usuario']['rol'] !== 'consulta') {
     $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
     header("Location: /ceia_swga/pages/dashboard.php");
     exit();
