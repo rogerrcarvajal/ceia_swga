@@ -6,5 +6,6 @@
   "workbench.colorTheme": "One Dark Pro Darker",
   "workbench.sideBar.location": "right",
   "workbench.editor.pinnedTabsOnSeparateRow": true,
-  "workbench.productIconTheme": "fluent-icons"
+  "workbench.productIconTheme": "fluent-icons",
+  "cSpell.words": ["Anzoátegui", "CEIA"]
 }

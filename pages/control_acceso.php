@@ -40,7 +40,7 @@ if (!$periodo_activo) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Control de Acceso - CEIA</title>
+    <title>SWGA - Leta-Pass - Control de Acceso</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -64,14 +64,14 @@ if (!$periodo_activo) {
     <div class="formulario-contenedor">
         <div class="content">
             <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-            <h1>SWGA - Late-Pass - Control de Acceso</h1>
+            <h1>Late-Pass - Control de Acceso</h1>
             <?php if ($periodo_activo): ?>
                 <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
             <?php endif; ?>
         </div>
         <div class="form-seccion">
-            <h3>Control de Acceso</h3>
-            <p>Escanea el código QR del estudiante para registrar su entrada.</p>
+            <h3>Escaneo del código QR</h3>
+            <p>Coloque el QR frente al dispositivo para escanearlo</p>
             <form id="qr-form" method="POST">
                 <input type="password" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus required>
             </form>

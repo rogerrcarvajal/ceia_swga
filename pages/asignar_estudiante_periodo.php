@@ -81,7 +81,7 @@ $grados_disponibles = [
             <div id="panel_informativo"><p>Seleccione un período para ver y asignar estudiantes.</p></div>
             <div id="panel_asignacion" style="display:none;">
                 <div id="mensaje_asignacion" class="mensaje" style="display:none;"></div>
-                <h3>Asignar Estudiante a este Período</h3>
+                <h3>Asignar Estudiantes a este Período</h3>
                 <form id="form_asignar_estudiante">
                     <input type="hidden" id="periodo_id_hidden" name="periodo_id">
                     

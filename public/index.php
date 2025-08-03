@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CEIA SWGA - Login</title>
+    <title>SWAG - Login</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -49,8 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="formulario-contenedor">
         <div class="content">
             <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Sistema Web de<br>Gestión Académica<br></h1><h3 style="color: #a2ff96;">Inscripcion y Late-Pass</h3>
-        <h4>Introzduca el usuario y contraseña</h4>
+        <h1>Sistema Web de<br>Gestión Académica<br></h1><h3 style="color: #a2ff96;">Inscripción y Late-Pass</h3>
+        <h4>Introduzca el usuario y contraseña</h4>
         <?php if ($mensaje): ?>
             <p class="alerta-login"><?= htmlspecialchars($mensaje) ?></p>
         <?php endif; ?>
