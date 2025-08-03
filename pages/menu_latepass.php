@@ -76,16 +76,16 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             <ul class="lista-menu">
                 <li>
                     <a href="/ceia_swga/pages/seleccionar_qr.php">
-                        <span class="icono-reporte">📷</span> Generar QR
+                        <span class="icono-reporte">📷</span> Generar Códigos QR
                     </a>
-                    <p>Permite la seleccion de un estudiante para generar un codigo QR que usara para el contrpl de entrada</p>
+                    <p>Permite la selección de un estudiante para generar un código QR que usara para el control de entrada</p>
                 </li>
 
                 <li>
                     <a href= "/ceia_swga/pages/control_acceso.php">
                         <span class="icono-reporte">✅</span> Control de acceso (Late-Pass)
                     </a>
-                    <p>Control de Acceso y Regisstro Atutomatizado de Late-Pass.</p>
+                    <p>Control de Acceso y Registro Automatizado de Late-Pass.</p>
                 </li>
 
                 <li>
