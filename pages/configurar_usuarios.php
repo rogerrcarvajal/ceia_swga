@@ -6,7 +6,7 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-// Incluir configuración y conexión a la base de datos
+// Incluir configuración y conexión a la base de datos 
 require_once __DIR__ . '/../src/config.php';
 
 // Declaración de variables
@@ -18,13 +18,13 @@ $acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1
 
 $usuario_rol = $acceso_stmt;
 
-// --- BLOQUE DE CONTROL DE ACCESO CORREGIDO ---
-// Permite el acceso si el rol es 'admin' O 'consulta'.
 if ($_SESSION['usuario']['rol'] !== 'admin') {
-    $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-    header("Location: /ceia_swga/pages/dashboard.php");
-    exit();
+    if ($_SESSION !== $usuario_rol) {
+        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
+        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
+    }
 }
+
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 // --- Obtener el período escolar activo ---
