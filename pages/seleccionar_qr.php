@@ -41,8 +41,9 @@ if ($periodo_id) {
     <title>SWGA - Generar Códigos QR</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
     <style>
-        .form-section { width: 45%; min-width: 400px; margin-bottom: 20px; display: none; }
-        .selector-container { margin-bottom: 20px; }
+        .main-container { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227, 228, 237, 0.37); border: 2px solid rgba(255, 255, 255, 0.18); display: flex; max-width: 63%; margin: 0 auto; gap: 20px; }
+        .form-section { width: 30%; min-width: 400px; margin-bottom: 20px; display: none; }
+        .selector-container { margin-bottom: 20px; padding: 30px;}
     </style>
 </head>
 <body>
@@ -52,15 +53,18 @@ if ($periodo_id) {
     <h1>Generar Códigos QR</h1>
 </div>
 
-<div class="main-container" style="flex-direction: column; align-items: center;">
+<div class="main-container" style="flex-direction: row; align-items: left;">
     <div class="selector-container">
-        <label><input type="radio" name="selector" value="estudiantes"> Estudiantes</label>
-        <label><input type="radio" name="selector" value="staff"> Staff / Profesores</label>
-        <label><input type="radio" name="selector" value="vehiculos"> Vehículos</label>
+        <label><input type="radio" name="selector" value="estudiantes">Estudiantes</label>
+        <label><input type="radio" name="selector" value="staff">Staff/Profesores</label>
+        <label><input type="radio" name="selector" value="vehiculos">Vehículos</label>
+        <br><br>
+        <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver</a>
     </div>
 
     <!-- Estudiantes -->
     <div id="form-estudiantes" class="form-section">
+        <br><br>
         <h3>Para Estudiantes</h3>
         <form action="/ceia_swga/src/reports_generators/generar_qr_pdf.php" method="GET" target="_blank">
             <label>Seleccione un Estudiante:</label>
@@ -77,7 +81,8 @@ if ($periodo_id) {
 
     <!-- Staff -->
     <div id="form-staff" class="form-section">
-        <h3>Para Staff / Profesores</h3>
+        <br><br>
+        <h3>Para Staff/Profesores</h3>
         <form action="/ceia_swga/src/reports_generators/generar_qr_staff_pdf.php" method="GET" target="_blank">
             <label>Seleccione un Miembro del Personal:</label>
             <select name="id" required>
@@ -93,6 +98,7 @@ if ($periodo_id) {
 
     <!-- Vehículos -->
     <div id="form-vehiculos" class="form-section">
+        <br><br>
         <h3>Para Vehículos Autorizados</h3>
         <form action="/ceia_swga/src/reports_generators/generar_qr_vehiculo_pdf.php" method="GET" target="_blank">
             <label>Seleccione un Vehículo:</label>
@@ -106,8 +112,7 @@ if ($periodo_id) {
             <button type="submit">Generar QR de Vehículo</button>
         </form>
     </div>
-
-    <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver</a>
+    
 </div>
 
 <script>
