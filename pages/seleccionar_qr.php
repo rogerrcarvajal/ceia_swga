@@ -33,7 +33,7 @@ if ($periodo_id) {
     <style>
         body { background-color: rgba(0, 0, 0, 0.3); font-family: Arial, sans-serif; }
         .content { text-align: center; margin: 40px auto; }
-        .main-container { background: white; padding: 20px; max-width: 960px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .main-container { background-color: rgba(0, 0, 0, 0.3); padding: 20px; max-width: 960px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         .selector-container { margin-bottom: 30px; }
         .form-section { display: none; margin-top: 20px; }
         select, button { width: 100%; padding: 10px; margin-top: 10px; }
