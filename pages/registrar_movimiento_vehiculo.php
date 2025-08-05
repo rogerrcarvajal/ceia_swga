@@ -1,39 +1,56 @@
 <?php
-session_start();
-if (!isset($_SESSION['usuario'])) {
-    exit('Acceso denegado.');
-}
-
 require_once __DIR__ . '/../src/config.php';
+header('Content-Type: application/json');
+date_default_timezone_set('America/Caracas');
 
-$vehiculo_id = $_GET['id'] ?? 0;
-if (!$vehiculo_id) exit('ID no válido.');
+$input = json_decode(file_get_contents('php://input'), true);
+$vehiculo_id = filter_var($input['vehiculo_id'] ?? 0, FILTER_VALIDATE_INT);
 
-$fecha_actual = date('Y-m-d');
-$hora_actual = date('H:i:s');
-$usuario = $_SESSION['usuario']['username'];
+$response = ['status' => 'error', 'message' => 'Solicitud inválida.'];
 
-// Verificar si ya tiene entrada hoy
-$stmt_check = $conn->prepare("SELECT id, hora_entrada, hora_salida FROM registro_vehiculos WHERE vehiculo_id = :id AND fecha = :fecha");
-$stmt_check->execute([':id' => $vehiculo_id, ':fecha' => $fecha_actual]);
-$registro = $stmt_check->fetch(PDO::FETCH_ASSOC);
-
-if ($registro) {
-    if (!$registro['hora_salida']) {
-        // Registrar salida
-        $stmt = $conn->prepare("UPDATE registro_vehiculos SET hora_salida = :hora, observaciones = 'Salida registrada', registrado_por = :usuario WHERE id = :reg_id");
-        $stmt->execute([':hora' => $hora_actual, ':usuario' => $usuario, ':reg_id' => $registro['id']]);
-        $mensaje = "Salida registrada correctamente.";
-    } else {
-        $mensaje = "Ya se registró entrada y salida hoy.";
-    }
-} else {
-    // Registrar entrada
-    $stmt = $conn->prepare("INSERT INTO registro_vehiculos (vehiculo_id, fecha, hora_entrada, observaciones, registrado_por) VALUES (:id, :fecha, :hora, 'Entrada registrada', :usuario)");
-    $stmt->execute([':id' => $vehiculo_id, ':fecha' => $fecha_actual, ':hora' => $hora_actual, ':usuario' => $usuario]);
-    $mensaje = "Entrada registrada correctamente.";
+if (!$vehiculo_id) {
+    echo json_encode($response);
+    exit();
 }
 
-header("Location: /ceia_swga/pages/gestion_vehiculos.php?msg=" . urlencode($mensaje));
+try {
+    $hora_actual = date('H:i:s');
+    $fecha_actual = date('Y-m-d');
+
+    // Consultar último movimiento
+    $stmt_ultimo = $conn->prepare("SELECT id, hora_salida FROM movimientos_vehiculos WHERE vehiculo_id = ? AND fecha = ? ORDER BY id DESC LIMIT 1");
+    $stmt_ultimo->execute([$vehiculo_id, $fecha_actual]);
+    $ultimo = $stmt_ultimo->fetch(PDO::FETCH_ASSOC);
+
+    if (!$ultimo || $ultimo['hora_salida']) {
+        // Registrar entrada
+        $stmt_insert = $conn->prepare("INSERT INTO movimientos_vehiculos (vehiculo_id, fecha, hora_entrada) VALUES (?, ?, ?)");
+        $stmt_insert->execute([$vehiculo_id, $fecha_actual, $hora_actual]);
+        $accion = "Entrada registrada";
+    } else {
+        // Registrar salida
+        $stmt_update = $conn->prepare("UPDATE movimientos_vehiculos SET hora_salida = ? WHERE id = ?");
+        $stmt_update->execute([$hora_actual, $ultimo['id']]);
+        $accion = "Salida registrada";
+    }
+
+    // Obtener datos del vehículo y familia asociada
+    $stmt_info = $conn->prepare("SELECT v.placa, v.descripcion, f.apellido_familia FROM vehiculos v JOIN estudiantes e ON e.id = v.estudiante_id JOIN familias f ON f.id = e.familia_id WHERE v.id = ?");
+    $stmt_info->execute([$vehiculo_id]);
+    $info = $stmt_info->fetch(PDO::FETCH_ASSOC);
+
+    $response = [
+        'status' => 'exito',
+        'familia' => $info['apellido_familia'],
+        'placa' => $info['placa'],
+        'descripcion' => $info['descripcion'],
+        'hora' => $hora_actual,
+        'mensaje' => $accion
+    ];
+
+} catch (Exception $e) {
+    $response = ['status' => 'error', 'message' => $e->getMessage()];
+}
+
+echo json_encode($response);
 exit();
-?>
