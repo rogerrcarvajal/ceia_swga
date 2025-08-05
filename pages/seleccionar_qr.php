@@ -31,7 +31,7 @@ if ($periodo_id) {
     <title>SWGA - Generar Códigos QR</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
     <style>
-        body { background-color: #f4f4f4; font-family: Arial, sans-serif; }
+        body { background-color: rgba(0, 0, 0, 0.3); font-family: Arial, sans-serif; }
         .content { text-align: center; margin: 40px auto; }
         .main-container { background: white; padding: 20px; max-width: 960px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
         .selector-container { margin-bottom: 30px; }

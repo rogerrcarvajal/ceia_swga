@@ -109,7 +109,7 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
         }
 
         .btn {
-            background-color: #2ecc71;
+            background-color: rgb(48, 48, 48);
             color: white;
             padding: 10px 15px;
             border-radius: 5px;
@@ -176,7 +176,7 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
 
         </ul>
 
-        <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver al Dashboard</a>
+        <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a>
     </div>
 </div>
 </body>
