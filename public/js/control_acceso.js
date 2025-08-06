@@ -1,143 +1,97 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const qrForm = document.getElementById("qr-form");
-  const qrInput = document.getElementById("qr-input");
-  const resultDiv = document.getElementById("qr-result");
-  const logDiv = document.getElementById("log-registros");
+document.addEventListener('DOMContentLoaded', () => {
+    const qrForm = document.getElementById('qr-form');
+    const qrInput = document.getElementById('qr-input');
+    const resultDiv = document.getElementById('qr-result');
+    const logDiv = document.getElementById('log-registros');
 
-  qrInput.focus();
-
-  qrForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const codigo = qrInput.value.trim();
-    if (!codigo) return;
-
-    let tipo = detectarTipoCodigo(codigo); // estudiante, staff o vehiculo
-    if (!tipo) {
-      mostrarError("Código no reconocido. Verifique el QR.");
-      limpiarCampo();
-      return;
-    }
-
-    let endpoint;
-    let payload;
-
-    switch (tipo) {
-      case "estudiante":
-        endpoint = "/api/registrar_llegada.php";
-        payload = { estudiante_id: parseInt(codigo) };
-        break;
-      case "staff":
-        endpoint = "/api/registrar_movimiento_staff.php";
-        payload = { staff_id: parseInt(codigo) };
-        break;
-      case "vehiculo":
-        endpoint = "/api/registrar_movimiento_vehiculos.php";
-        payload = { vehiculo_id: parseInt(codigo) };
-        break;
-    }
-
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) throw new Error("Error del servidor.");
-
-      const result = await response.json();
-
-      if (result.status === "exito") {
-        mostrarAlerta(tipo, result);
-        agregarAlLog(tipo, result);
-      } else {
-        mostrarError(result.message);
-      }
-    } catch (error) {
-      mostrarError(error.message);
-    }
-
-    limpiarCampo();
-  });
-
-  function detectarTipoCodigo(code) {
-    if (/^1\d{3,}$/.test(code)) return "estudiante";
-    if (/^2\d{3,}$/.test(code)) return "staff";
-    if (/^3\d{3,}$/.test(code)) return "vehiculo";
-    return null;
-  }
-
-  function mostrarAlerta(tipo, data) {
-    let html = "";
-    let colorClass = "exito";
-
-    if (tipo === "estudiante") {
-      if (data.es_tarde) {
-        if (data.conteo_tardes === 2) colorClass = "advertencia";
-        if (data.conteo_tardes >= 3) colorClass = "error";
-      }
-
-      html = `
-                <h4>${data.nombre_completo}</h4>
-                <p>Grado: ${data.grado}</p>
-                <p>Hora de Registro: ${data.hora_llegada}</p>
-                <p><strong>${data.mensaje}</strong></p>
-            `;
-    } else if (tipo === "staff") {
-      html = `
-                <h4>${data.nombre_completo}</h4>
-                <p>Posición: ${data.posicion}</p>
-                <p>Hora: ${data.hora}</p>
-                <p><strong>${data.mensaje}</strong></p>
-            `;
-    } else if (tipo === "vehiculo") {
-      html = `
-                <h4>Vehículo de: Familia ${data.familia}</h4>
-                <p>Placa: ${data.placa}</p>
-                <p>Descripción: ${data.descripcion}</p>
-                <p>Hora: ${data.hora}</p>
-                <p><strong>${data.mensaje}</strong></p>
-            `;
-    }
-
-    resultDiv.className = `alerta ${colorClass}`;
-    resultDiv.innerHTML = html;
-    resultDiv.style.display = "block";
-
-    setTimeout(() => {
-      resultDiv.style.display = "none";
-    }, 3000);
-  }
-
-  function mostrarError(msg) {
-    resultDiv.className = "alerta error";
-    resultDiv.innerHTML = `<h4>Error</h4><p>${msg}</p>`;
-    resultDiv.style.display = "block";
-
-    setTimeout(() => {
-      resultDiv.style.display = "none";
-    }, 3000);
-  }
-
-  function agregarAlLog(tipo, data) {
-    const logEntry = document.createElement("div");
-    logEntry.className = "log-entry";
-
-    let texto = "";
-    if (tipo === "estudiante") {
-      texto = `<span>${data.hora_llegada}</span> - <span>${data.nombre_completo}</span> - <span>${data.mensaje}</span>`;
-    } else if (tipo === "staff") {
-      texto = `<span>${data.hora}</span> - <span>${data.nombre_completo}</span> - <span>${data.mensaje}</span>`;
-    } else if (tipo === "vehiculo") {
-      texto = `<span>${data.hora}</span> - <span>Familia ${data.familia}</span> - <span>${data.mensaje}</span>`;
-    }
-
-    logEntry.innerHTML = texto;
-    logDiv.insertBefore(logEntry, logDiv.firstChild);
-  }
-
-  function limpiarCampo() {
-    qrInput.value = "";
+    // Foco inicial en input
     qrInput.focus();
-  }
+
+    // --- Evento de escaneo (form submit) ---
+    qrForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Extraer código puro (últimos dígitos del valor escaneado)
+        const raw = qrInput.value.trim();
+        const match = raw.match(/(\d{1,6})$/);  // Busca hasta 6 dígitos
+        const codigo = match ? match[1] : '';
+
+        if (codigo === '') {
+            mostrarError("Código no válido. Intente nuevamente.");
+            return;
+        }
+
+        try {
+            const response = await fetch('/ceia_swga/api/registrar_llegada.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estudiante_id: codigo }) // ← Es el mismo para staff/vehículo
+            });
+
+            if (!response.ok) throw new Error('Error del servidor.');
+
+            const result = await response.json();
+
+            if (result.status === 'error') {
+                mostrarError(result.message);
+            } else {
+                mostrarAlerta(result);
+                agregarAlLog(result);
+            }
+
+        } catch (error) {
+            mostrarError(error.message);
+        }
+
+        // Reiniciar input
+        qrInput.value = '';
+        qrInput.focus();
+    });
+
+    // --- Mostrar mensaje de alerta según tipo ---
+    function mostrarAlerta(data) {
+        let clase = 'exito';
+        let contenido = `
+            <h4>${data.nombre_completo}</h4>
+            <p>Hora de Registro: ${data.hora_llegada}</p>
+        `;
+
+        if (data.tipo === 'estudiante') {
+            if (data.es_tarde) {
+                if (data.conteo_tardes === 2) clase = 'advertencia';
+                if (data.conteo_tardes >= 3) clase = 'error';
+            }
+            contenido += `<p>Grado: ${data.grado}</p>`;
+            contenido += `<p><strong>${data.mensaje}</strong></p>`;
+        } else if (data.tipo === 'staff') {
+            clase = 'blanco';
+            contenido += `<p>Posición: ${data.posicion}</p>`;
+        } else if (data.tipo === 'vehiculo') {
+            clase = 'blanco';
+            contenido += `<p>Placa: ${data.placa}</p>`;
+            contenido += `<p>Estudiante: ${data.estudiante}</p>`;
+        }
+
+        resultDiv.className = `alerta ${clase}`;
+        resultDiv.innerHTML = contenido;
+        resultDiv.style.display = 'block';
+
+        setTimeout(() => { resultDiv.style.display = 'none'; }, 3000);
+    }
+
+    // --- Agregar registro al historial en pantalla ---
+    function agregarAlLog(data) {
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry';
+        logEntry.innerHTML = `<span>${data.hora_llegada}</span> - <span>${data.nombre_completo}</span> - <span>${data.mensaje || ''}</span>`;
+        logDiv.insertBefore(logEntry, logDiv.firstChild);
+    }
+
+    // --- Mostrar errores ---
+    function mostrarError(mensaje) {
+        resultDiv.className = 'alerta error';
+        resultDiv.innerHTML = `<h4>Error</h4><p>${mensaje}</p>`;
+        resultDiv.style.display = 'block';
+        setTimeout(() => { resultDiv.style.display = 'none'; }, 3000);
+    }
 });
