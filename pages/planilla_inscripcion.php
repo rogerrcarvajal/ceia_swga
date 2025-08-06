@@ -314,7 +314,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <label>Déficit de Atención<input type="checkbox" name="atencion"></label>
                     <label>Informacion adicional<input type="checkbox" name="otros"></label>
                     <textarea name="info_adicional" placeholder="hospitalización, operaciones o heridas importantes, alergias a medicamentos y vacunas,medicamentos, defectos, alimentación o otras enfermedades graves."></textarea>
-                    <textarea name="problemas_oido_vista " placeholder="Problemas de oído/vista"></textarea>
+                    <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
                     <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
                     <label>Autorizo la administración de medicamentos<input type="checkbox" name="autorizo_medicamentos"></label>
                     <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
