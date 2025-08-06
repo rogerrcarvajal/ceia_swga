@@ -251,8 +251,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <input type="text" name="nacionalidad" placeholder="Nacionalidad" required data-required="true">
                     <input type="text" name="idioma" placeholder="Idiomas que habla" required data-required="true">
                     <textarea name="direccion" placeholder="Dirección" required data-required="true"></textarea>
-                    <input type="text" name="telefono_casa" placeholder="Teléfono de casa" required data-required="true">
-                    <input type="text" name="telefono_movil" placeholder="Teléfono celular" required data-required="true">
+                    <input type="text" name="telefono_casa" placeholder="Teléfono de casa">
+                    <input type="text" name="telefono_movil" placeholder="Teléfono celular">
                     <input type="text" name="telefono_emergencia" placeholder="Teléfono de emergencia" required data-required="true">
                     <label for="fecha_inscripcion">Fecha de Inscripción:</label>
                     <input type="date" name="fecha_inscripcion" required data-required="true">
@@ -277,7 +277,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <input type="text" name="padre_idioma" placeholder="Idiomas que habla" required data-required="true">
                     <input type="text" name="padre_profesion" placeholder="Profesión" required data-required="true">
                     <input type="text" name="padre_empresa" placeholder="Empresa donde trabaja" required data-required="true">
-                    <input type="text" name="padre_telefono_trabajo" placeholder="Teléfono trabajo" required data-required="true">
+                    <input type="text" name="padre_telefono_trabajo" placeholder="Teléfono trabajo">
                     <input type="text" name="padre_celular" placeholder="Celular" required data-required="true">
                     <input type="email" name="padre_email" placeholder="Correo electrónico" required data-required="true">
                 </div>
@@ -295,7 +295,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <input type="text" name="madre_idioma" placeholder="Idiomas que habla" required data-required="true">
                     <input type="text" name="madre_profesion" placeholder="Profesión" required data-required="true">
                     <input type="text" name="madre_empresa" placeholder="Empresa donde trabaja" required data-required="true">
-                    <input type="text" name="madre_telefono_trabajo" placeholder="Teléfono trabajo" required data-required="true">
+                    <input type="text" name="madre_telefono_trabajo" placeholder="Teléfono trabajo">
                     <input type="text" name="madre_celular" placeholder="Celular" required data-required="true">
                     <input type="email" name="madre_email" placeholder="Correo electrónico" required data-required="true">
                 </div>
