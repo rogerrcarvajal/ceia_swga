@@ -47,6 +47,7 @@ if ($periodo_id) {
 <div class="content">
     <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
     <h1>Generar Códigos QR</h1>
+
 </div>
 
 <div class="main-container">
