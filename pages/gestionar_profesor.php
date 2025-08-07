@@ -105,7 +105,7 @@ if (!$profesor) {
     exit();
 }
 
-$posiciones = ["Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology", "DC-Grade 12 Music", "Daycare, Pk-3", "Pk-4, Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12", "Spanish teacher - Grade 1-6", "Spanish teacher - Grade 7-12", "Social Studies - Grade 6-12", "IT Teacher - Grade Pk-3-12", "Science Teacher - Grade 6-12", "ESL - Elementary", "ESL - Secondary", "PE - Grade Pk3-12", "Language Arts - Grade 6-9", "Math teacher - Grade 6-9", "Math teacher - Grade 10-12", "Librarian"];
+$posiciones = ["Director", "Bussiness Manager", "Administrative Assistant", "IT Manager", "Psychology", "DC-Grade 12 Music", "Daycare, Pk-3", "Daycare, Pk-3 (Asist.)", "Pk-4, Kindergarten", "Pk-4, Kindergarten (Asist.)", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12", "Spanish teacher - Grade 1-6", "Spanish teacher - Grade 7-12", "Social Studies - Grade 6-12", "IT Teacher - Grade Pk-3-12", "Science Teacher - Grade 6-12", "ESL - Elementary", "ESL - Secondary", "PE - Grade Pk3-12", "Language Arts - Grade 6-9", "Math teacher - Grade 6-9", "Math teacher - Grade 10-12", "Librarian" , "Art Teacher - Grade Pk3-12", "Music Teacher - Grade Pk3-12", "Counselor - Grade Pk3-12", "Substitute Teacher", "Mantenimiento", "Vigilancia", "Otro"];
 $homerooms = ["N/A", "Daycare", "Preschool", "Prekinder 3", "Prekinder 4", "Kindergarten", "Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5", "Grade 6", "Grade 7", "Grade 8", "Grade 9", "Grade 10", "Grade 11", "Grade 12"];
 
 ?>
