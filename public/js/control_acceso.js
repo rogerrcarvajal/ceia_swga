@@ -1,4 +1,4 @@
-ddocument.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const qrForm = document.getElementById("qr-form");
   const qrInput = document.getElementById("qr-input");
   const resultDiv = document.getElementById("qr-result");
@@ -19,8 +19,24 @@ ddocument.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let endpoint = "/api/registrar_llegada.php";
-    const payload = { estudiante_id: parseInt(codigo) };
+    let endpoint = "";
+    let payload = {};
+
+    // Seleccionar endpoint y payload por tipo de QR
+    switch (tipo) {
+      case "estudiante":
+        endpoint = "/api/registrar_llegada.php";
+        payload = { estudiante_id: parseInt(codigo) };
+        break;
+      case "staff":
+        endpoint = "/api/registrar_movimiento_staff.php";
+        payload = { staff_id: parseInt(codigo) };
+        break;
+      case "vehiculo":
+        endpoint = "/api/registrar_movimiento_vehiculo.php";
+        payload = { vehiculo_id: parseInt(codigo) };
+        break;
+    }
 
     try {
       const response = await fetch(endpoint, {
@@ -30,11 +46,11 @@ ddocument.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) throw new Error("Error del servidor.");
-
       const result = await response.json();
+
       if (result.status === "exito") {
-        mostrarAlerta(result.tipo, result);
-        agregarAlLog(result.tipo, result);
+        mostrarAlerta(tipo, result);
+        agregarAlLog(tipo, result);
       } else {
         mostrarError(result.message);
       }
@@ -72,15 +88,15 @@ ddocument.addEventListener("DOMContentLoaded", () => {
       html += `
         <h4>${data.nombre_completo}</h4>
         <p>Posición: ${data.posicion}</p>
-        <p>Hora: ${data.hora}</p>
+        <p>Hora: ${data.hora_llegada || data.hora}</p>
         <p><strong>${data.mensaje}</strong></p>
       `;
     } else if (tipo === "vehiculo") {
       html += `
-        <h4>Vehículo de: Familia ${data.familia}</h4>
+        <h4>Vehículo de: Familia ${data.apellido_familia}</h4>
         <p>Placa: ${data.placa}</p>
         <p>Modelo: ${data.modelo}</p>
-        <p>Hora: ${data.hora}</p>
+        <p>Hora: ${data.hora_llegada || data.hora}</p>
         <p><strong>${data.mensaje}</strong></p>
       `;
     }
@@ -112,9 +128,13 @@ ddocument.addEventListener("DOMContentLoaded", () => {
     if (tipo === "estudiante") {
       texto = `<span>${data.hora_llegada}</span> - <span>${data.nombre_completo}</span> - <span>${data.mensaje}</span>`;
     } else if (tipo === "staff") {
-      texto = `<span>${data.hora}</span> - <span>${data.nombre_completo}</span> - <span>${data.mensaje}</span>`;
+      texto = `<span>${data.hora_llegada || data.hora}</span> - <span>${
+        data.nombre_completo
+      }</span> - <span>${data.mensaje}</span>`;
     } else if (tipo === "vehiculo") {
-      texto = `<span>${data.hora}</span> - <span>Familia ${data.familia}</span> - <span>${data.mensaje}</span>`;
+      texto = `<span>${data.hora_llegada || data.hora}</span> - <span>Familia ${
+        data.apellido_familia
+      }</span> - <span>${data.mensaje}</span>`;
     }
 
     logEntry.innerHTML = texto;
