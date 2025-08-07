@@ -36,7 +36,7 @@ if ($periodo_activo) {
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_roster.css">
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
-        .filtros-container { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background-color: rgba(0,0,0,0.1); border-radius: 8px; }
+        .filtros-container { display: flex; gap: 20px; margin-bottom: 20px; padding: 15px; background-color: rgba(0,0,0,0.3); border-radius: 8px; }
         .filtros-container select, .filtros-container input { padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
     </style>
 </head>

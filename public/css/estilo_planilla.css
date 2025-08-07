@@ -50,7 +50,7 @@ select {
 .left-panel {
     flex: 1;
     background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
+    
     padding: 15px;
     border-radius: 8px;
 }
@@ -58,7 +58,7 @@ select {
 .right-panel {
     flex: 3;
     background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
+    
     padding: 20px;
     border-radius: 8px;
 }
