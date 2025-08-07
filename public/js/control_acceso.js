@@ -1,40 +1,26 @@
-document.addEventListener("DOMContentLoaded", () => {
+ddocument.addEventListener("DOMContentLoaded", () => {
   const qrForm = document.getElementById("qr-form");
   const qrInput = document.getElementById("qr-input");
   const resultDiv = document.getElementById("qr-result");
   const logDiv = document.getElementById("log-registros");
 
   qrInput.focus();
+  iniciarRelojDigital();
 
   qrForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const codigo = qrInput.value.trim();
     if (!codigo) return;
 
-    let tipo = detectarTipoCodigo(codigo); // estudiante, staff o vehiculo
+    const tipo = detectarTipoCodigo(codigo);
     if (!tipo) {
       mostrarError("Código no reconocido. Verifique el QR.");
       limpiarCampo();
       return;
     }
 
-    let endpoint;
-    let payload;
-
-    switch (tipo) {
-      case "estudiante":
-        endpoint = "/api/registrar_llegada.php";
-        payload = { estudiante_id: parseInt(codigo) };
-        break;
-      case "staff":
-        endpoint = "/api/registrar_movimiento_staff.php";
-        payload = { staff_id: parseInt(codigo) };
-        break;
-      case "vehiculo":
-        endpoint = "/api/registrar_movimiento_vehiculos.php";
-        payload = { vehiculo_id: parseInt(codigo) };
-        break;
-    }
+    let endpoint = "/api/registrar_llegada.php";
+    const payload = { estudiante_id: parseInt(codigo) };
 
     try {
       const response = await fetch(endpoint, {
@@ -46,10 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) throw new Error("Error del servidor.");
 
       const result = await response.json();
-
       if (result.status === "exito") {
-        mostrarAlerta(tipo, result);
-        agregarAlLog(tipo, result);
+        mostrarAlerta(result.tipo, result);
+        agregarAlLog(result.tipo, result);
       } else {
         mostrarError(result.message);
       }
@@ -68,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function mostrarAlerta(tipo, data) {
-    let html = "";
+    let html = `<div class="reloj-digital" id="reloj"></div>`;
     let colorClass = "exito";
 
     if (tipo === "estudiante") {
@@ -77,27 +62,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.conteo_tardes >= 3) colorClass = "error";
       }
 
-      html = `
-                <h4>${data.nombre_completo}</h4>
-                <p>Grado: ${data.grado}</p>
-                <p>Hora de Registro: ${data.hora_llegada}</p>
-                <p><strong>${data.mensaje}</strong></p>
-            `;
+      html += `
+        <h4>${data.nombre_completo}</h4>
+        <p>Grado: ${data.grado}</p>
+        <p>Hora de Registro: ${data.hora_llegada}</p>
+        <p><strong>${data.mensaje}</strong></p>
+      `;
     } else if (tipo === "staff") {
-      html = `
-                <h4>${data.nombre_completo}</h4>
-                <p>Posición: ${data.posicion}</p>
-                <p>Hora: ${data.hora}</p>
-                <p><strong>${data.mensaje}</strong></p>
-            `;
+      html += `
+        <h4>${data.nombre_completo}</h4>
+        <p>Posición: ${data.posicion}</p>
+        <p>Hora: ${data.hora}</p>
+        <p><strong>${data.mensaje}</strong></p>
+      `;
     } else if (tipo === "vehiculo") {
-      html = `
-                <h4>Vehículo de: Familia ${data.familia}</h4>
-                <p>Placa: ${data.placa}</p>
-                <p>Descripción: ${data.descripcion}</p>
-                <p>Hora: ${data.hora}</p>
-                <p><strong>${data.mensaje}</strong></p>
-            `;
+      html += `
+        <h4>Vehículo de: Familia ${data.familia}</h4>
+        <p>Placa: ${data.placa}</p>
+        <p>Modelo: ${data.modelo}</p>
+        <p>Hora: ${data.hora}</p>
+        <p><strong>${data.mensaje}</strong></p>
+      `;
     }
 
     resultDiv.className = `alerta ${colorClass}`;
@@ -106,17 +91,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setTimeout(() => {
       resultDiv.style.display = "none";
-    }, 3000);
+    }, 6000);
   }
 
   function mostrarError(msg) {
     resultDiv.className = "alerta error";
-    resultDiv.innerHTML = `<h4>Error</h4><p>${msg}</p>`;
+    resultDiv.innerHTML = `<div class="reloj-digital" id="reloj"></div><h4>Error</h4><p>${msg}</p>`;
     resultDiv.style.display = "block";
 
     setTimeout(() => {
       resultDiv.style.display = "none";
-    }, 3000);
+    }, 6000);
   }
 
   function agregarAlLog(tipo, data) {
@@ -139,5 +124,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function limpiarCampo() {
     qrInput.value = "";
     qrInput.focus();
+  }
+
+  function iniciarRelojDigital() {
+    setInterval(() => {
+      const now = new Date();
+      const hora = now.toLocaleTimeString("es-VE", { hour12: false });
+      const reloj = document.getElementById("reloj");
+      if (reloj) reloj.textContent = hora;
+    }, 1000);
   }
 });
