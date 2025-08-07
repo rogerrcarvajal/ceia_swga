@@ -245,21 +245,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <h3>Datos del Estudiante</h3>
                     <input type="text" name="nombre_completo" placeholder="Nombres completo" required data-required="true">
                     <input type="text" name="apellido_completo" placeholder="Apellidos completo" required data-required="true">
+                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
                     <input type="date" name="fecha_nacimiento" required data-required="true">
                     <input type="text" name="lugar_nacimiento" placeholder="Lugar de nacimiento" required data-required="true">
                     <input type="text" name="nacionalidad" placeholder="Nacionalidad" required data-required="true">
                     <input type="text" name="idioma" placeholder="Idiomas que habla" required data-required="true">
                     <textarea name="direccion" placeholder="Dirección" required data-required="true"></textarea>
-                    <input type="text" name="telefono_casa" placeholder="Teléfono de casa" required data-required="true">
-                    <input type="text" name="telefono_movil" placeholder="Teléfono celular" required data-required="true">
+                    <input type="text" name="telefono_casa" placeholder="Teléfono de casa">
+                    <input type="text" name="telefono_movil" placeholder="Teléfono celular">
                     <input type="text" name="telefono_emergencia" placeholder="Teléfono de emergencia" required data-required="true">
+                    <label for="fecha_inscripcion">Fecha de Inscripción:</label>
                     <input type="date" name="fecha_inscripcion" required data-required="true">
                     <input type="text" name="recomendado_por" placeholder="Recomendado por">
                     <input type="number" name="edad_estudiante" placeholder="Edad" required data-required="true">
                     <textarea name="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                     <input type="text" name="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
-                    <label><input type="checkbox" name="staff"> Estudiante Staff</label><br><br>
-                    <label><input type="checkbox" name="activo" checked> Inscribir como Activo en este período</label><br><br>
+                    <label>Estudiante Staff<input type="checkbox" name="staff"></label><br><br>
+                    <label>Inscribir como Activo en este período<input type="checkbox" name="activo" checked></label><br><br>
                 </div>
 
                 <div class="form-seccion" id="form_padre">
@@ -269,12 +271,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <div id="resultado_padre" class="resultado-busqueda"></div>
                     <input type="text" name="padre_nombre" placeholder="Nombre" required data-required="true">
                     <input type="text" name="padre_apellido" placeholder="Apellido" required data-required="true">
+                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
                     <input type="date" name="padre_fecha_nacimiento" required data-required="true">
                     <input type="text" name="padre_nacionalidad" placeholder="Nacionalidad" required data-required="true">
                     <input type="text" name="padre_idioma" placeholder="Idiomas que habla" required data-required="true">
                     <input type="text" name="padre_profesion" placeholder="Profesión" required data-required="true">
                     <input type="text" name="padre_empresa" placeholder="Empresa donde trabaja" required data-required="true">
-                    <input type="text" name="padre_telefono_trabajo" placeholder="Teléfono trabajo" required data-required="true">
+                    <input type="text" name="padre_telefono_trabajo" placeholder="Teléfono trabajo">
                     <input type="text" name="padre_celular" placeholder="Celular" required data-required="true">
                     <input type="email" name="padre_email" placeholder="Correo electrónico" required data-required="true">
                 </div>
@@ -286,12 +289,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <div id="resultado_madre" class="resultado-busqueda"></div>
                     <input type="text" name="madre_nombre" placeholder="Nombre" required data-required="true">
                     <input type="text" name="madre_apellido" placeholder="Apellido" required data-required="true">
+                    <label for="madre_fecha_nacimiento">Fecha de Nacimiento:</label>
                     <input type="date" name="madre_fecha_nacimiento" required data-required="true">
                     <input type="text" name="madre_nacionalidad" placeholder="Nacionalidad" required data-required="true">
                     <input type="text" name="madre_idioma" placeholder="Idiomas que habla" required data-required="true">
                     <input type="text" name="madre_profesion" placeholder="Profesión" required data-required="true">
                     <input type="text" name="madre_empresa" placeholder="Empresa donde trabaja" required data-required="true">
-                    <input type="text" name="madre_telefono_trabajo" placeholder="Teléfono trabajo" required data-required="true">
+                    <input type="text" name="madre_telefono_trabajo" placeholder="Teléfono trabajo">
                     <input type="text" name="madre_celular" placeholder="Celular" required data-required="true">
                     <input type="email" name="madre_email" placeholder="Correo electrónico" required data-required="true">
                 </div>
@@ -299,21 +303,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                 <div class="form-seccion">
                     <h3>Ficha Médica</h3>
                     <input type="text" name="completado_por" placeholder="Completado por" required data-required="true">
+                    <label for="fecha_salud">Fecha última actualización:</label>
                     <input type="date" name="fecha_salud" required data-required="true">
                     <input type="text" name="contacto_emergencia" placeholder="Contacto de Emergencia" required data-required="true">
                     <input type="text" name="relacion_emergencia" placeholder="Relación de Emergencia" required data-required="true">
                     <input type="text" name="telefono1" placeholder="Teléfono 1" required data-required="true">
                     <input type="text" name="telefono2" placeholder="Teléfono 2">
                     <textarea name="observaciones" placeholder="Observaciones"></textarea>
-                    <label><input type="checkbox" name="dislexia"> Dislexia</label>
-                    <label><input type="checkbox" name="atencion"> Déficit de Atención</label>
-                    <label><input type="checkbox" name="otros"> Informacion adicional</label>
+                    <label>Dislexia<input type="checkbox" name="dislexia"></label>
+                    <label>Déficit de Atención<input type="checkbox" name="atencion"></label>
+                    <label>Informacion adicional<input type="checkbox" name="otros"></label>
                     <textarea name="info_adicional" placeholder="hospitalización, operaciones o heridas importantes, alergias a medicamentos y vacunas,medicamentos, defectos, alimentación o otras enfermedades graves."></textarea>
-                    <textarea name="problemas_oido_vista " placeholder="Problemas de oído/vista"></textarea>
+                    <textarea name="problemas_oido_vista" placeholder="Problemas de oído/vista"></textarea>
                     <input type="text" name="fecha_examen" placeholder="Fecha último examen oído/vista">
-                    <label><input type="checkbox" name="autorizo_medicamentos"> Autorizo la administración de medicamentos</label>
+                    <label>Autorizo la administración de medicamentos<input type="checkbox" name="autorizo_medicamentos"></label>
                     <textarea name="medicamentos_actuales" placeholder="Medicamentos actuales"></textarea>
-                    <label><input type="checkbox" name="autorizo_emergencia"> Autorizo atención de emergencia</label>
+                    <label>Autorizo atención de emergencia<input type="checkbox" name="autorizo_emergencia"></label>
                     <br><br>
                 </div>
             </div>

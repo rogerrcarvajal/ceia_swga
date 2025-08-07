@@ -1,20 +1,10 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /../public/index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 require_once __DIR__ . '/../src/config.php';
-
-$mensaje = "";
-$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
-$usuario_rol = $acceso_stmt;
-
-if ($_SESSION['usuario']['rol'] !== 'admin') {
-    if ($_SESSION !== $usuario_rol) {
-        $_SESSION['error_acceso'] = "Acceso denegado.";
-    }
-}
 
 $periodo_activo = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $periodo_id = $periodo_activo['id'] ?? 0;
@@ -41,9 +31,15 @@ if ($periodo_id) {
     <title>SWGA - Generar Códigos QR</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_admin.css">
     <style>
-        .main-container { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227, 228, 237, 0.37); border: 2px solid rgba(255, 255, 255, 0.18); display: flex; max-width: 63%; margin: 0 auto; gap: 20px; }
-        .form-section { width: 30%; min-width: 400px; margin-bottom: 20px; display: none; }
-        .selector-container { margin-bottom: 20px; padding: 30px;}
+        body { background-color: rgba(0, 0, 0, 0.3); font-family: Arial, sans-serif; }
+        .content { text-align: center; margin: 40px auto; }
+        .main-container { background-color: rgba(0, 0, 0, 0.3); padding: 20px; max-width: 960px; margin: auto; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .selector-container { margin-bottom: 30px; }
+        .form-section { display: none; margin-top: 20px; }
+        select, button { width: 100%; padding: 10px; margin-top: 10px; }
+        h3 { border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+        .btn { background-color: #444; color: white; padding: 10px 20px; border: none; border-radius: 5px; text-decoration: none; }
+        .btn:hover { background-color: #333; }
     </style>
 </head>
 <body>
@@ -51,86 +47,80 @@ if ($periodo_id) {
 <div class="content">
     <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
     <h1>Generar Códigos QR</h1>
+
 </div>
 
-<div class="main-container" style="flex-direction: row; align-items: left;">
+<div class="main-container">
     <div class="selector-container">
-        <label><input type="radio" name="selector" value="estudiantes">Estudiantes</label>
-        <label><input type="radio" name="selector" value="staff">Staff/Profesores</label>
-        <label><input type="radio" name="selector" value="vehiculos">Vehículos</label>
+        <label><input type="radio" name="selector" value="estudiantes"> Estudiantes</label>
+        <label><input type="radio" name="selector" value="staff"> Staff / Profesores</label>
+        <label><input type="radio" name="selector" value="vehiculos"> Vehículos</label>
         <br><br>
-        <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver</a>
+        <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver al Menú</a>
     </div>
 
     <!-- Estudiantes -->
     <div id="form-estudiantes" class="form-section">
-        <br><br>
-        <h3>Para Estudiantes</h3>
+        <h3>Generar QR de Estudiante</h3>
         <form action="/ceia_swga/src/reports_generators/generar_qr_pdf.php" method="GET" target="_blank">
-            <label>Seleccione un Estudiante:</label>
-            <select name="id" required>
-                <option value="">-- Por favor, elija --</option>
+            <label for="select-estudiante">Seleccione un Estudiante:</label>
+            <select id="select-estudiante" name="id" required>
+                <option value="">-- Seleccione --</option>
                 <?php foreach ($estudiantes as $e): ?>
                     <option value="<?= $e['id'] ?>"><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></option>
                 <?php endforeach; ?>
             </select>
-            <br><br>
-            <button type="submit">Generar QR de Estudiante</button>
+            <button type="submit">Generar PDF</button>
         </form>
     </div>
 
     <!-- Staff -->
     <div id="form-staff" class="form-section">
-        <br><br>
-        <h3>Para Staff/Profesores</h3>
+        <h3>Generar QR de Staff</h3>
         <form action="/ceia_swga/src/reports_generators/generar_qr_staff_pdf.php" method="GET" target="_blank">
-            <label>Seleccione un Miembro del Personal:</label>
-            <select name="id" required>
-                <option value="">-- Por favor, elija --</option>
+            <label for="select-staff">Seleccione un Miembro del Staff:</label>
+            <select id="select-staff" name="id" required>
+                <option value="">-- Seleccione --</option>
                 <?php foreach ($profesores as $p): ?>
                     <option value="<?= $p['id'] ?>"><?= htmlspecialchars($p['nombre_completo']) ?></option>
                 <?php endforeach; ?>
             </select>
-            <br><br>
-            <button type="submit">Generar QR de Staff</button>
+            <button type="submit">Generar PDF</button>
         </form>
     </div>
 
     <!-- Vehículos -->
     <div id="form-vehiculos" class="form-section">
-        <br><br>
-        <h3>Para Vehículos Autorizados</h3>
+        <h3>Generar QR de Vehículo</h3>
         <form action="/ceia_swga/src/reports_generators/generar_qr_vehiculo_pdf.php" method="GET" target="_blank">
-            <label>Seleccione un Vehículo:</label>
-            <select name="id" required>
-                <option value="">-- Por favor, elija --</option>
+            <label for="select-vehiculo">Seleccione un Vehículo:</label>
+            <select id="select-vehiculo" name="id" required>
+                <option value="">-- Seleccione --</option>
                 <?php foreach ($vehiculos as $v): ?>
                     <option value="<?= $v['id'] ?>"><?= htmlspecialchars($v['placa'] . ' - ' . $v['modelo'] . ' (' . $v['estudiante'] . ')') ?></option>
                 <?php endforeach; ?>
             </select>
-            <br><br>
-            <button type="submit">Generar QR de Vehículo</button>
+            <button type="submit">Generar PDF</button>
         </form>
     </div>
-    
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const radios = document.querySelectorAll('input[name="selector"]');
-        const forms = {
-            estudiantes: document.getElementById('form-estudiantes'),
-            staff: document.getElementById('form-staff'),
-            vehiculos: document.getElementById('form-vehiculos'),
-        };
+document.addEventListener('DOMContentLoaded', () => {
+    const radios = document.querySelectorAll('input[name="selector"]');
+    const forms = {
+        estudiantes: document.getElementById('form-estudiantes'),
+        staff: document.getElementById('form-staff'),
+        vehiculos: document.getElementById('form-vehiculos')
+    };
 
-        radios.forEach(radio => {
-            radio.addEventListener('change', () => {
-                for (let key in forms) forms[key].style.display = 'none';
-                forms[radio.value].style.display = 'block';
-            });
+    radios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            for (let key in forms) forms[key].style.display = 'none';
+            forms[radio.value].style.display = 'block';
         });
     });
+});
 </script>
 </body>
 </html>

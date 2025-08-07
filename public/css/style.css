@@ -98,3 +98,11 @@ select {
     margin-bottom: 10px;
     font-size: 14px;
 }
+
+.reloj-digital {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #eaffaa;
+  text-align: center;
+}

@@ -95,6 +95,13 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Permite gestionar y asignar/vincular a un estudiante con el Período Escolar activo</p>
                 </li>
                 
+                <li>
+                    <a href="/ceia_swga/pages/registro_vehiculos.php">
+                        <span class="icono-reporte">📋</span> Gestionar Vehículos Autorizados
+                    </a>
+                    <p>Permite gestionar y asignar/vincular vehículos a los estudiantes</p>
+                </li>
+                
             </ul>
 
             <!-- Botón para volver al Home -->
