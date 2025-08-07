@@ -10,6 +10,7 @@ if (!$id) {
 }
 
 try {
+    // Verificar existencia
     $stmt_prof = $conn->prepare("
         SELECT p.id, p.nombre_completo, pp.posicion
         FROM profesores p
@@ -25,20 +26,36 @@ try {
         throw new Exception("Profesor no encontrado.");
     }
 
-    $hora = date('H:i:s');
     $fecha = date('Y-m-d');
+    $hora_actual = date('H:i:s');
 
-    $conn->prepare("
-        INSERT INTO movimientos_staff (profesor_id, hora_movimiento, fecha_movimiento)
-        VALUES (?, ?, ?)
-    ")->execute([$id, $hora, $fecha]);
+    // Buscar si ya tiene registro hoy
+    $check = $conn->prepare("SELECT * FROM entrada_salida_staff WHERE profesor_id = ? AND fecha = ?");
+    $check->execute([$id, $fecha]);
+    $registro = $check->fetch(PDO::FETCH_ASSOC);
+
+    if (!$registro) {
+        // Primera entrada del día
+        $conn->prepare("
+            INSERT INTO entrada_salida_staff (profesor_id, fecha, hora_entrada, ausente)
+            VALUES (?, ?, ?, false)
+        ")->execute([$id, $fecha, $hora_actual]);
+    } else {
+        // Ya tiene entrada, registrar salida si no existe
+        if (!$registro['hora_salida']) {
+            $update = $conn->prepare("
+                UPDATE entrada_salida_staff SET hora_salida = ? WHERE id = ?
+            ");
+            $update->execute([$hora_actual, $registro['id']]);
+        }
+    }
 
     echo json_encode([
         'status' => 'exito',
         'nombre_completo' => $profesor['nombre_completo'],
         'posicion' => $profesor['posicion'] ?? 'No asignada',
-        'hora_llegada' => $hora,
-        'mensaje' => 'Ingreso registrado exitosamente.'
+        'hora' => $hora_actual,
+        'mensaje' => 'Movimiento registrado.'
     ]);
 
 } catch (Exception $e) {

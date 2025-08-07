@@ -23,21 +23,32 @@ try {
         throw new Exception("Vehículo no registrado o no autorizado.");
     }
 
-    $hora = date('H:i:s');
     $fecha = date('Y-m-d');
+    $hora = date('H:i:s');
 
-    $conn->prepare("
-        INSERT INTO movimientos_vehiculos (vehiculo_id, hora_movimiento, fecha_movimiento)
-        VALUES (?, ?, ?)
-    ")->execute([$id, $hora, $fecha]);
+    // Verificar si hay entrada registrada
+    $check = $conn->prepare("SELECT * FROM registro_vehiculos WHERE vehiculo_id = ? AND fecha = ?");
+    $check->execute([$id, $fecha]);
+    $registro = $check->fetch(PDO::FETCH_ASSOC);
+
+    if (!$registro) {
+        $conn->prepare("
+            INSERT INTO registro_vehiculos (vehiculo_id, fecha, hora_entrada, registrado_por, creado_en)
+            VALUES (?, ?, ?, 'QR', NOW())
+        ")->execute([$id, $fecha, $hora]);
+    } elseif (!$registro['hora_salida']) {
+        $conn->prepare("
+            UPDATE registro_vehiculos SET hora_salida = ?, registrado_por = 'QR' WHERE id = ?
+        ")->execute([$hora, $registro['id']]);
+    }
 
     echo json_encode([
         'status' => 'exito',
         'placa' => $vehiculo['placa'],
         'modelo' => $vehiculo['modelo'],
-        'apellido_familia' => $vehiculo['apellido_completo'],
-        'hora_llegada' => $hora,
-        'mensaje' => 'Movimiento registrado.'
+        'familia' => $vehiculo['apellido_completo'],
+        'hora' => $hora,
+        'mensaje' => 'Movimiento de vehículo registrado.'
     ]);
 
 } catch (Exception $e) {

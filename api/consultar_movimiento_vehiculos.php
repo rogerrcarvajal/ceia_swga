@@ -1,55 +1,56 @@
 <?php
-session_start();
-header('Content-Type: application/json');
-
-if (!isset($_SESSION['usuario'])) {
-    http_response_code(403);
-    echo json_encode(['error' => 'Acceso denegado.']);
-    exit();
-}
-
 require_once __DIR__ . '/../src/config.php';
+header('Content-Type: application/json');
+date_default_timezone_set('America/Caracas');
 
-$semana = $_GET['semana'] ?? null;
-$vehiculo_id = $_GET['vehiculo_id'] ?? 'todos';
+// Leer parámetros
+$semana = isset($_GET['semana']) ? $_GET['semana'] : '';
+$vehiculo_id = isset($_GET['vehiculo_id']) ? intval($_GET['vehiculo_id']) : 0;
 
-if (!$semana) {
-    echo json_encode([]);
-    exit();
+try {
+    $params = [];
+    $where = [];
+
+    if ($semana) {
+        $week_start = date('Y-m-d', strtotime($semana));
+        $week_end = date('Y-m-d', strtotime($week_start . ' +6 days'));
+        $where[] = "r.fecha BETWEEN :week_start AND :week_end";
+        $params[':week_start'] = $week_start;
+        $params[':week_end'] = $week_end;
+    }
+
+    if ($vehiculo_id > 0) {
+        $where[] = "r.vehiculo_id = :vehiculo_id";
+        $params[':vehiculo_id'] = $vehiculo_id;
+    }
+
+    $sql = "
+        SELECT
+            v.placa,
+            v.modelo,
+            e.nombre_completo,
+            e.apellido_completo,
+            r.fecha,
+            r.hora_entrada,
+            r.hora_salida,
+            r.registrado_por
+        FROM registro_vehiculos r
+        JOIN vehiculos v ON r.vehiculo_id = v.id
+        JOIN estudiantes e ON v.estudiante_id = e.id
+    ";
+
+    if (!empty($where)) {
+        $sql .= " WHERE " . implode(' AND ', $where);
+    }
+
+    $sql .= " ORDER BY r.fecha DESC, r.hora_entrada DESC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute($params);
+    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode(['status' => 'ok', 'data' => $resultados]);
+
+} catch (Exception $e) {
+    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
 }
-
-// Convertir "2025-W32" → fecha del lunes correspondiente
-$fecha_inicio = date('Y-m-d', strtotime($semana));
-$fecha_fin = date('Y-m-d', strtotime($fecha_inicio . ' +6 days'));
-
-$params = [
-    ':fini' => $fecha_inicio,
-    ':ffin' => $fecha_fin,
-];
-
-$sql = "
-    SELECT
-        rv.fecha,
-        rv.hora_entrada,
-        rv.hora_salida,
-        rv.observaciones,
-        rv.registrado_por,
-        v.placa || ' - ' || v.modelo || ' (' || e.nombre_completo || ' ' || e.apellido_completo || ')' AS descripcion
-    FROM registro_vehiculos rv
-    JOIN vehiculos v ON rv.vehiculo_id = v.id
-    JOIN estudiantes e ON v.estudiante_id = e.id
-    WHERE rv.fecha BETWEEN :fini AND :ffin
-";
-
-if ($vehiculo_id !== 'todos') {
-    $sql .= " AND v.id = :vid";
-    $params[':vid'] = $vehiculo_id;
-}
-
-$sql .= " ORDER BY rv.fecha DESC, v.placa";
-
-$stmt = $conn->prepare($sql);
-$stmt->execute($params);
-$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-echo json_encode($resultados);
