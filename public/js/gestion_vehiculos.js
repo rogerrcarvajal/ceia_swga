@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!semana || vehiculo === "") return;
 
     fetch(
-      `/api/consulta_movimientos_vehiculos.php?semana=${semana}&vehiculo_id=${vehiculo}`
+      `/api/consultar_movimiento_vehiculos.php?semana=${semana}&vehiculo_id=${vehiculo}`
     )
       .then((res) => res.json())
       .then((data) => {

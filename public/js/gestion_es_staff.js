@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!semana || staff === "") return;
 
     fetch(
-      `/api/consulta_movimientos_staff.php?semana=${semana}&staff_id=${staff}`
+      `/api/consultar_movimiento_staff.php?semana=${semana}&staff_id=${staff}`
     )
       .then((res) => res.json())
       .then((data) => {
