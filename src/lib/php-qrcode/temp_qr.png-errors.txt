@@ -2650,3 +2650,207 @@
 <b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
 <br />
 <b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+2025-08-08 20:13:59: <br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_0\mask_21_0.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_1\mask_21_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_2\mask_21_2.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_3\mask_21_3.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_4\mask_21_4.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_5\mask_21_5.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_6\mask_21_6.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+2025-08-08 20:14:00: <br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_0\mask_21_0.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_1\mask_21_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_2\mask_21_2.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_3\mask_21_3.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_4\mask_21_4.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_5\mask_21_5.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_6\mask_21_6.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+2025-08-08 20:14:55: <br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_0\mask_21_0.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_1\mask_21_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_2\mask_21_2.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_3\mask_21_3.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_4\mask_21_4.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_5\mask_21_5.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_6\mask_21_6.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+2025-08-08 20:14:56: <br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_0\mask_21_0.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_1\mask_21_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_2\mask_21_2.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_3\mask_21_3.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_4\mask_21_4.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_5\mask_21_5.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_6\mask_21_6.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+2025-08-08 20:15:33: <br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_0\mask_21_0.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_1\mask_21_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_2\mask_21_2.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_3\mask_21_3.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_4\mask_21_4.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_5\mask_21_5.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_6\mask_21_6.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+2025-08-08 20:15:34: <br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_0\mask_21_0.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_1\mask_21_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_2\mask_21_2.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_3\mask_21_3.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_4\mask_21_4.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_5\mask_21_5.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_6\mask_21_6.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<br />
+<b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
+<br />
+<b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />

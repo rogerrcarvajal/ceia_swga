@@ -11,14 +11,12 @@ require_once __DIR__ . '/../src/config.php';
 
 $mensaje = "";
 
-// Control de acceso
-$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
-$usuario_rol = $acceso_stmt;
-
-if ($_SESSION['usuario']['rol'] !== 'admin') {
-    if ($_SESSION !== $usuario_rol) {
-        $_SESSION['error_acceso'] = "Acceso denegado.";
-    }
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin'])) {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de reportes.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de reportes."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    exit();
 }
 
 // Verificación del período escolar activo
