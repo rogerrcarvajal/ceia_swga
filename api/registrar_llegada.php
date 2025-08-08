@@ -172,10 +172,10 @@ function procesarVehiculo($id, $conn) {
         SELECT v.id, v.placa, v.modelo, e.apellido_completo
         FROM vehiculos v
         JOIN estudiantes e ON v.estudiante_id = e.id
-        WHERE v.id = ?
+            WHERE p.id = :id
     ");
     $stmt_veh->execute([$id]);
-    $vehiculo = $stmt_veh->fetch(PDO::FETCH_ASSOC);
+        $stmt_prof->execute([':id' => $id]);
 
     if (!$vehiculo) {
         echo json_encode(['status' => 'error', 'message' => 'Vehículo no encontrado o no autorizado.']);
