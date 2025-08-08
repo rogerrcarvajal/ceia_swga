@@ -119,6 +119,7 @@ $pdf->Ln(5);
 // ... (El resto del código para las secciones es idéntico)
 
 // Sección 1: Datos del Estudiante
+// ...existing code...
 $pdf->SectionTitle('Datos del Estudiante');
 $pdf->DataRow('Nombre Completo:', $estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']);
 $pdf->DataRow('Fecha de Nacimiento:', $estudiante['fecha_nacimiento']);
@@ -127,6 +128,7 @@ $pdf->DataRow('Nacionalidad:', $estudiante['nacionalidad']);
 $pdf->DataRow('Idioma(s):', $estudiante['idioma']);
 $pdf->DataRow('Direccion:', $estudiante['direccion']);
 $pdf->DataRow('Telefono de Casa:', $estudiante['telefono_casa']);
+$pdf->DataRow('Activo en Período Escolar:', $asignacion_activa ? 'Sí' : 'No');
 $pdf->DataRow('Telefono de Emergencia:', $estudiante['telefono_emergencia']);
 $pdf->DataRow('Grado para el Periodo Activo:', $asignacion_activa['grado_cursado'] ?? 'No asignado');
 $pdf->DataRow('Fecha de Inscripcion:', $estudiante['fecha_inscripcion']);

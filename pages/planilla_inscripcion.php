@@ -123,7 +123,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
             ':auto_med' => isset($_POST['autorizo_medicamentos']) ? 1 : 0, ':meds' => $_POST['medicamentos_actuales'],
             ':auto_em' => isset($_POST['autorizo_emergencia']) ? 1 : 0
         ]);
-                
+
+        // --- INSERCIÓN EN estudiante_periodo SI LA CASILLA ACTIVO ESTÁ MARCADA ---
+        if (isset($_POST['activo'])) {
+            $sql_asignacion = "INSERT INTO estudiante_periodo (estudiante_id, periodo_id, grado_cursado) VALUES (:eid, :pid, :grado)";
+            $stmt_asig = $conn->prepare($sql_asignacion);
+            $stmt_asig->execute([
+                ':eid' => $estudiante_id,
+                ':pid' => $periodo_id_activo,
+                ':grado' => $_POST['grado_cursado'] ?? ''
+            ]);
+        }
+
         $conn->commit();
         $mensaje = "✅ Registro completado correctamente.";
     } catch (Exception $e) {
