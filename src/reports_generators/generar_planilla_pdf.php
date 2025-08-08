@@ -128,7 +128,7 @@ $pdf->DataRow('Nacionalidad:', $estudiante['nacionalidad']);
 $pdf->DataRow('Idioma(s):', $estudiante['idioma']);
 $pdf->DataRow('Direccion:', $estudiante['direccion']);
 $pdf->DataRow('Telefono de Casa:', $estudiante['telefono_casa']);
-$pdf->DataRow('Activo en Período Escolar:', $asignacion_activa ? 'Sí' : 'No');
+$pdf->DataRow('Activo en Período Escolar:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? 'Sí' : 'No');
 $pdf->DataRow('Telefono de Emergencia:', $estudiante['telefono_emergencia']);
 $pdf->DataRow('Grado para el Periodo Activo:', $asignacion_activa['grado_cursado'] ?? 'No asignado');
 $pdf->DataRow('Fecha de Inscripcion:', $estudiante['fecha_inscripcion']);
