@@ -7,9 +7,9 @@ if (!isset($_SESSION['usuario'])) {
 
 // --- BLOQUE DE CONTROL DE ACCESO CORREGIDO ---
 // Permite el acceso si el rol es 'admin' O 'consulta'.
-if ($_SESSION['usuario']['rol'] !== 'admin' && $_SESSION['usuario']['rol'] !== 'master' && $_SESSION['usuario']['rol'] !== 'consulta') {
-    $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-    header("Location: /ceia_swga/pages/dashboard.php");
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin','consulta'])) {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de Late-Pass.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de Late-Pass."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
     exit();
 }
 

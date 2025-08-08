@@ -127,16 +127,18 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
                             <?= $p['activo'] ? "<strong>(Activo)</strong>" : "" ?>
                         </span>
                         <div>
-                            <?php if ($p['activo'] && $_SESSION['usuario']['rol'] === 'admin'): ?>
-                                <form method="POST" style="display:inline;">
-                                    <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
-                                    <button type="submit" name="desactivar">Desactivar</button>
-                                </form>
-                            <?php elseif (!$p['activo'] && $_SESSION['usuario']['rol'] === 'admin'): ?>
-                                <form method="POST" style="display:inline;">
-                                    <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
-                                    <button type="submit" name="activar">Activar</button>
-                                </form>
+                            <?php if (in_array($_SESSION['usuario']['rol'], ['master','admin'])): ?>
+                                <?php if ($p['activo']): ?>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
+                                        <button type="submit" name="desactivar">Desactivar</button>
+                                    </form>
+                                <?php else: ?>
+                                    <form method="POST" style="display:inline;">
+                                        <input type="hidden" name="periodo_id" value="<?= $p['id'] ?>">
+                                        <button type="submit" name="activar">Activar</button>
+                                    </form>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </li>
