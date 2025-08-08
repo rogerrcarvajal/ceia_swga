@@ -54,6 +54,7 @@ try {
         // STRIKES
         $mensaje = "Llegada registrada.";
         $conteo = 0;
+        $observacion = "";
 
         if ($es_tarde) {
             $conn->prepare("
@@ -75,6 +76,9 @@ try {
 
             $conteo = $summary['conteo_tardes'];
             $mensaje = $summary['ultimo_mensaje'];
+            if ($conteo >= 3) {
+                $observacion = "HA ALCANZADO EL MAXIMO DE STRIKE. PIERDE LA PRIMER HORA DE CLASE. DEBE LLAMAR A SU REPRESENTANTE";
+            }
         }
 
         $conn->commit();
@@ -87,7 +91,8 @@ try {
             'hora_llegada' => $hora,
             'es_tarde' => $es_tarde,
             'conteo_tardes' => $conteo,
-            'mensaje' => $mensaje
+            'mensaje' => $mensaje,
+            'observacion' => $observacion
         ]);
         exit();
     }
