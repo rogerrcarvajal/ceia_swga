@@ -16,7 +16,7 @@ $mensaje = "";
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
 
 // --- Lógica de acceso para el usuario master (superusuario) ---
-if (!isset($_SESSION['usuario']['username']) || $_SESSION['usuario']['username'] !== 'superusuario') {
+if (!isset($_SESSION['usuario']['rol']) || $_SESSION['usuario']['rol'] !== 'master') {
     $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento.";
     echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
     exit();
