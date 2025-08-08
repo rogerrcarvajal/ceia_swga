@@ -44,7 +44,8 @@ if (!$periodo_activo) {
             color: white;
         }
         .formulario-contenedor {
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter:blur(10px);
             margin: 70px auto;
             padding: 30px;
             border-radius: 10px;

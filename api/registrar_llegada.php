@@ -32,7 +32,7 @@ try {
     $estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
 
     if ($estudiante) {
-        $fecha = date('Y-m-d');
+        $fecha = date('m-d-y');
         $hora = date('H:i:s');
         $semana = date('W');
         $dia_semana = date('N');

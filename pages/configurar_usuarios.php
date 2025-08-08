@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -38,7 +38,7 @@ if (!$periodo_activo) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $profesor_id = $_POST["profesor_id"] ?? null;
     $username = $_POST["username"] ?? '';
-    $clave = $_POST["clave"] ?? '';
+    $clave = $_POST["password"] ?? ''; // <-- Cambiado aquí
     $rol = $_POST["rol"] ?? '';
     
     // Encriptar la contraseña antes de guardarla
@@ -119,6 +119,7 @@ $profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM p
                 <label>Rol:</label>
                 <select name="rol" required>
                     <option value="">Seleccione Rol</option>
+                    <option value="master">Usuario Master</option>
                     <option value="admin">Usuario Administrador</option>
                     <option value="consulta">Usuario Consulta</option>
                 </select>

@@ -3,7 +3,10 @@ require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
 date_default_timezone_set('America/Caracas');
 
+$input = json_decode(file_get_contents('php://input'), true);
+$qr_id = $input['qr_id'] ?? null;
 $id = filter_var($qr_id ?? 0, FILTER_VALIDATE_INT);
+
 if (!$id) {
     echo json_encode(['status' => 'error', 'message' => 'ID inválido de staff.']);
     exit();
@@ -52,10 +55,15 @@ try {
 
     echo json_encode([
         'status' => 'exito',
-        'nombre_completo' => $profesor['nombre_completo'],
-        'posicion' => $profesor['posicion'] ?? 'No asignada',
-        'hora' => $hora_actual,
-        'mensaje' => 'Movimiento registrado.'
+        'registros' => [[
+            'nombre' => $profesor['nombre_completo'],
+            'fecha' => $fecha,
+            'hora_entrada' => $hora_actual,
+            'hora_salida' => $registro['hora_salida'] ?? null,
+            'ausente' => $registro['ausente'] ?? false,
+            'posicion' => $profesor['posicion'] ?? 'No asignada',
+            'mensaje' => 'Movimiento registrado.'
+        ]]
     ]);
 
 } catch (Exception $e) {

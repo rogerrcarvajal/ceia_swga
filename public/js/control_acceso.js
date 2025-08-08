@@ -30,11 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "staff":
         endpoint = "/ceia_swga/api/registrar_movimiento_staff.php";
-        payload = { staff_id: parseInt(codigo) };
+        payload = { qr_id: parseInt(codigo) };
         break;
       case "vehiculo":
         endpoint = "/ceia_swga/api/registrar_movimiento_vehiculo.php";
-        payload = { vehiculo_id: parseInt(codigo) };
+        payload = { qr_id: parseInt(codigo) };
         break;
     }
 
@@ -154,5 +154,4 @@ document.addEventListener("DOMContentLoaded", () => {
       if (reloj) reloj.textContent = hora;
     }, 1000);
   }
-  
 });

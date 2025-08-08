@@ -3,6 +3,8 @@ require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
 date_default_timezone_set('America/Caracas');
 
+$input = json_decode(file_get_contents('php://input'), true);
+$qr_id = $input['qr_id'] ?? null;
 $id = filter_var($qr_id ?? 0, FILTER_VALIDATE_INT);
 if (!$id) {
     echo json_encode(['status' => 'error', 'message' => 'ID inválido de vehículo.']);
@@ -44,11 +46,15 @@ try {
 
     echo json_encode([
         'status' => 'exito',
-        'placa' => $vehiculo['placa'],
-        'modelo' => $vehiculo['modelo'],
-        'familia' => $vehiculo['apellido_completo'],
-        'hora' => $hora,
-        'mensaje' => 'Movimiento de vehículo registrado.'
+        'registros' => [[
+            'descripcion' => $vehiculo['placa'] . ' - ' . $vehiculo['modelo'] . ' (Familia ' . $vehiculo['apellido_completo'] . ')',
+            'fecha' => $fecha,
+            'hora_entrada' => $hora,
+            'hora_salida' => $registro['hora_salida'] ?? null,
+            'registrado_por' => 'QR',
+            'observaciones' => $registro['observaciones'] ?? '',
+            'mensaje' => 'Movimiento de vehículo registrado.'
+        ]]
     ]);
 
 } catch (Exception $e) {

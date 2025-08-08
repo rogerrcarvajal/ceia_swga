@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /../public/index.php");
+    header("Location: /ceia_swga/pages/configurar_usuarios.php");
     exit();
 }
 
@@ -55,6 +55,6 @@ if ($usuario_id) {
 }
 
 // Redirigir siempre de vuelta a la página de gestión de usuarios
-header("Location: /ceia_swga/pages/usuarios_configurar.php");
+header("Location: /ceia_swga/pages/configurar_usuarios.php");
 exit();
 ?>
