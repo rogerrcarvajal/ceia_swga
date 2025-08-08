@@ -14,15 +14,12 @@ $mensaje = "";
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
-$acceso_stmt = $conn->query("SELECT id FROM usuarios WHERE rol = 'admin' LIMIT 1");
 
-$usuario_rol = $acceso_stmt;
-
-if ($_SESSION['usuario']['rol'] !== 'admin') {
-    if ($_SESSION !== $usuario_rol) {
-        $_SESSION['error_acceso'] = "Acceso denegado. No tiene permiso para ver esta página.";
-        // Aquí puedes redirigir o cargar la ventana modal según tu lógica
-    }
+// --- Lógica de acceso para el usuario master (superusuario) ---
+if (!isset($_SESSION['usuario']['username']) || $_SESSION['usuario']['username'] !== 'superusuario') {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    exit();
 }
 
 
