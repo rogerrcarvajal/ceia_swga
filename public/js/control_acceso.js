@@ -25,15 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Seleccionar endpoint y payload por tipo de QR
     switch (tipo) {
       case "estudiante":
-        endpoint = "/api/registrar_llegada.php";
+        endpoint = "/ceia_swga/api/registrar_llegada.php";
         payload = { estudiante_id: parseInt(codigo) };
         break;
       case "staff":
-        endpoint = "/api/registrar_movimiento_staff.php";
+        endpoint = "/ceia_swga/api/registrar_movimiento_staff.php";
         payload = { staff_id: parseInt(codigo) };
         break;
       case "vehiculo":
-        endpoint = "/api/registrar_movimiento_vehiculo.php";
+        endpoint = "/ceia_swga/api/registrar_movimiento_vehiculo.php";
         payload = { vehiculo_id: parseInt(codigo) };
         break;
     }
@@ -154,4 +154,5 @@ document.addEventListener("DOMContentLoaded", () => {
       if (reloj) reloj.textContent = hora;
     }, 1000);
   }
+  
 });
