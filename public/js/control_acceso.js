@@ -48,14 +48,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) throw new Error("Error del servidor.");
       const result = await response.json();
 
-        if (result.status === "exito") {
-          // Si el backend devuelve 'registros', usar el primero
-          const data = result.registros ? result.registros[0] : result;
-          mostrarAlerta(tipo, data);
-          agregarAlLog(tipo, data);
-        } else {
-          mostrarError(result.message || "Error inesperado.");
-        }
+      if (result.status === "exito") {
+        // Si el backend devuelve 'registros', usar el primero
+        const data = result.registros ? result.registros[0] : result;
+        mostrarAlerta(tipo, data);
+        agregarAlLog(tipo, data);
+      } else {
+        mostrarError(result.message || "Error inesperado.");
+      }
     } catch (error) {
       mostrarError(error.message);
     }
@@ -128,11 +128,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let texto = "";
     if (tipo === "estudiante") {
-      texto = `<span>${data.hora_llegada || data.hora_entrada || ""}</span> - <span>${data.nombre_completo || ""}</span> - <span>${data.mensaje || data.observacion || ""}</span>`;
+      texto = `<span>${
+        data.hora_llegada || data.hora_entrada || ""
+      }</span> - <span>${data.nombre_completo || ""}</span> - <span>${
+        data.mensaje || data.observacion || ""
+      }</span>`;
     } else if (tipo === "staff") {
-      texto = `<span>${data.hora_entrada || data.hora_llegada || data.hora || ""}</span> - <span>${data.nombre || data.nombre_completo || ""}</span> - <span>${data.mensaje || ""}</span>`;
+      texto = `<span>${
+        data.hora_entrada || data.hora_llegada || data.hora || ""
+      }</span> - <span>${
+        data.nombre || data.nombre_completo || ""
+      }</span> - <span>${data.mensaje || ""}</span>`;
     } else if (tipo === "vehiculo") {
-      texto = `<span>${data.hora_entrada || data.hora_llegada || data.hora || ""}</span> - <span>${data.descripcion || "Vehículo"}</span> - <span>${data.mensaje || ""}</span>`;
+      texto = `<span>${
+        data.hora_entrada || data.hora_llegada || data.hora || ""
+      }</span> - <span>${data.descripcion || "Vehículo"}</span> - <span>${
+        data.mensaje || ""
+      }</span>`;
     }
 
     logEntry.innerHTML = texto;

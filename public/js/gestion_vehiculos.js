@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             tabla.appendChild(fila);
           });
         });
+  }
 
   function generarPDF() {
     const semana = semanaInput.value;
@@ -51,8 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(
       `/reportes/pdf_movimiento_vehiculos.php?semana=${semana}&vehiculo_id=${vehiculo}`,
       "_blank"
-      );
+    );
   }
 
 // --- FIN DEL CÓDIGO ---
-// Este código JavaScript se ejecuta cuando el DOM está completamente cargado.  
+// Este código JavaScript se ejecuta cuando el DOM está completamente cargado.
