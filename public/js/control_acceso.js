@@ -73,13 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function mostrarAlerta(tipo, data) {
     let html = `<div class="reloj-digital" id="reloj"></div>`;
     let colorClass = "exito";
-
     if (tipo === "estudiante") {
       if (data.es_tarde) {
         if (data.conteo_tardes === 2) colorClass = "advertencia";
         if (data.conteo_tardes >= 3) colorClass = "error";
       }
-
       html += `
         <h4>${data.nombre_completo}</h4>
         <p>Grado: ${data.grado}</p>
@@ -88,25 +86,26 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     } else if (tipo === "staff") {
       html += `
-        <h4>${data.nombre_completo}</h4>
-        <p>Posición: ${data.posicion}</p>
-        <p>Hora: ${data.hora_llegada || data.hora}</p>
-        <p><strong>${data.mensaje}</strong></p>
+        <h4>${data.nombre || data.nombre_completo || ""}</h4>
+        <p>Posición: ${data.posicion || "No asignada"}</p>
+        <p>Hora Entrada: ${data.hora_entrada || data.hora || ""}</p>
+        <p>Hora Salida: ${data.hora_salida || "-"}</p>
+        <p><strong>${data.mensaje || "Movimiento registrado."}</strong></p>
       `;
     } else if (tipo === "vehiculo") {
       html += `
-        <h4>Vehículo de: Familia ${data.apellido_familia}</h4>
-        <p>Placa: ${data.placa}</p>
-        <p>Modelo: ${data.modelo}</p>
-        <p>Hora: ${data.hora_llegada || data.hora}</p>
-        <p><strong>${data.mensaje}</strong></p>
+        <h4>${data.descripcion || "Vehículo"}</h4>
+        <p>Fecha: ${data.fecha || ""}</p>
+        <p>Hora Entrada: ${data.hora_entrada || data.hora || ""}</p>
+        <p>Hora Salida: ${data.hora_salida || "-"}</p>
+        <p><strong>${
+          data.mensaje || "Movimiento de vehículo registrado."
+        }</strong></p>
       `;
     }
-
     resultDiv.className = `alerta ${colorClass}`;
     resultDiv.innerHTML = html;
     resultDiv.style.display = "block";
-
     setTimeout(() => {
       resultDiv.style.display = "none";
     }, 6000);
@@ -123,30 +122,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function agregarAlLog(tipo, data) {
+    if (tipo !== "estudiante") return; // Solo mostrar en el log los estudiantes
     const logEntry = document.createElement("div");
     logEntry.className = "log-entry";
-
-    let texto = "";
-    if (tipo === "estudiante") {
-      texto = `<span>${
-        data.hora_llegada || data.hora_entrada || ""
-      }</span> - <span>${data.nombre_completo || ""}</span> - <span>${
-        data.mensaje || data.observacion || ""
-      }</span>`;
-    } else if (tipo === "staff") {
-      texto = `<span>${
-        data.hora_entrada || data.hora_llegada || data.hora || ""
-      }</span> - <span>${
-        data.nombre || data.nombre_completo || ""
-      }</span> - <span>${data.mensaje || ""}</span>`;
-    } else if (tipo === "vehiculo") {
-      texto = `<span>${
-        data.hora_entrada || data.hora_llegada || data.hora || ""
-      }</span> - <span>${data.descripcion || "Vehículo"}</span> - <span>${
-        data.mensaje || ""
-      }</span>`;
-    }
-
+    let texto = `<span>${
+      data.hora_llegada || data.hora_entrada || ""
+    }</span> - <span>${data.nombre_completo || ""}</span> - <span>${
+      data.mensaje || data.observacion || ""
+    }</span>`;
     logEntry.innerHTML = texto;
     logDiv.insertBefore(logEntry, logDiv.firstChild);
   }
