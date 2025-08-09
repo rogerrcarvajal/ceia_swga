@@ -8,6 +8,14 @@ if (!isset($_SESSION['usuario'])) {
 require_once __DIR__ . '/../src/config.php';
 $mensaje = "";
 
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin'])) {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de reportes.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de reportes."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    exit();
+}
+
 // Verificación de periodo activo
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 
