@@ -68,6 +68,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.open(url, "_blank");
   }
-  // --- FIN DEL CÓDIGO ---
-  // Este código JavaScript se ejecuta cuando el DOM está completamente cargado.
+
+  // --- Lógica para establecer la semana actual al cargar ---
+  function getWeekNumber(d) {
+    d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    var weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    return [d.getUTCFullYear(), weekNo];
+  }
+
+  // Establecer la semana actual por defecto y cargar datos
+  const [anio, semana] = getWeekNumber(new Date());
+  semanaInput.value = `${anio}-W${semana.toString().padStart(2, "0")}`;
+  consultarMovimientos(); // Carga inicial de datos
 });

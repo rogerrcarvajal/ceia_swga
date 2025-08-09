@@ -11,14 +11,16 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const codigo = qrInput.value.trim();
     if (!codigo) return;
+    
+    // Se extrae el tipo y el ID numérico del código leído.
+    const { tipo, id } = detectarCodigo(codigo);
 
-    const tipo = detectarTipoCodigo(codigo);
     if (!tipo) {
       mostrarError("Código no reconocido. Verifique el QR.");
       limpiarCampo();
       return;
     }
-
+    
     let endpoint = "";
     let payload = {};
 
@@ -26,15 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
     switch (tipo) {
       case "estudiante":
         endpoint = "/ceia_swga/api/registrar_llegada.php";
-        payload = { estudiante_id: parseInt(codigo) };
+        payload = { estudiante_id: id };
         break;
       case "staff":
         endpoint = "/ceia_swga/api/registrar_movimiento_staff.php";
-        payload = { qr_id: parseInt(codigo) };
+        payload = { qr_id: id };
         break;
       case "vehiculo":
         endpoint = "/ceia_swga/api/registrar_movimiento_vehiculo.php";
-        payload = { qr_id: parseInt(codigo) };
+        payload = { qr_id: id };
         break;
     }
 
@@ -63,22 +65,28 @@ document.addEventListener("DOMContentLoaded", () => {
     limpiarCampo();
   });
 
-  function detectarTipoCodigo(codigo) {
-    const id = parseInt(codigo, 10);
+  function detectarCodigo(codigo) {
+    // Extrae solo los dígitos del código para evitar errores con prefijos/sufijos (ej: "STF-15000")
+    const soloNumeros = codigo.replace(/\D/g, '');
+    if (!soloNumeros) {
+        return { tipo: null, id: null };
+    }
+
+    const id = parseInt(soloNumeros, 10);
     if (isNaN(id)) {
-      return null; // El código no es numérico
+      return { tipo: null, id: null };
     }
 
     if (id >= 1 && id <= 9999) {
-      return "estudiante";
+      return { tipo: "estudiante", id: id };
     }
     if (id >= 10000 && id <= 19999) {
-      return "staff";
+      return { tipo: "staff", id: id };
     }
     if (id >= 20000) {
-      return "vehiculo";
+      return { tipo: "vehiculo", id: id };
     }
-    return null; // El código está fuera de los rangos definidos
+    return { tipo: null, id: null }; // El ID numérico está fuera de los rangos definidos
   }
 
   function mostrarAlerta(tipo, data) {
@@ -132,14 +140,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function agregarAlLog(tipo, data) {
-    if (tipo !== "estudiante") return; // Solo mostrar en el log los estudiantes
     const logEntry = document.createElement("div");
     logEntry.className = "log-entry";
-    let texto = `<span>${
-      data.hora_llegada || data.hora_entrada || ""
-    }</span> - <span>${data.nombre_completo || ""}</span> - <span>${
-      data.mensaje || data.observacion || ""
-    }</span>`;
+
+    let nombre = "N/A";
+    let mensaje = "Registro procesado.";
+
+    if (tipo === "estudiante") {
+      nombre = data.nombre_completo || "Estudiante no encontrado";
+      mensaje = data.mensaje || data.observacion || "";
+    } else if (tipo === "staff") {
+      nombre = data.nombre_completo || data.nombre || "Personal no encontrado";
+      mensaje = data.mensaje || "Movimiento registrado";
+    } else if (tipo === "vehiculo") {
+      nombre = data.descripcion || "Vehículo no encontrado";
+      mensaje = data.mensaje || "Movimiento registrado";
+    }
+
+    const hora =
+      data.hora_llegada || data.hora_entrada || data.hora || new Date().toLocaleTimeString("es-VE", { hour12: false });
+
+    let texto = `<span>${hora}</span> - <span>[${tipo.toUpperCase()}] ${nombre}</span> - <span>${mensaje}</span>`;
     logEntry.innerHTML = texto;
     logDiv.insertBefore(logEntry, logDiv.firstChild);
   }
