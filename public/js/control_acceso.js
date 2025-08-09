@@ -88,8 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       html += `
         <h4>${data.nombre || data.nombre_completo || ""}</h4>
         <p>Posición: ${data.posicion || "No asignada"}</p>
-        <p>Hora Entrada: ${data.hora_entrada || data.hora || ""}</p>
-        <p>Hora Salida: ${data.hora_salida || "-"}</p>
+        <p>Hora Entrada: ${data.hora || data.hora_entrada || ""}</p>
         <p><strong>${data.mensaje || "Movimiento registrado."}</strong></p>
       `;
     } else if (tipo === "vehiculo") {
