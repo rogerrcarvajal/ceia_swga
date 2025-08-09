@@ -63,11 +63,22 @@ document.addEventListener("DOMContentLoaded", () => {
     limpiarCampo();
   });
 
-  function detectarTipoCodigo(code) {
-    if (/^1\d{3,}$/.test(code)) return "estudiante";
-    if (/^2\d{3,}$/.test(code)) return "staff";
-    if (/^3\d{3,}$/.test(code)) return "vehiculo";
-    return null;
+  function detectarTipoCodigo(codigo) {
+    const id = parseInt(codigo, 10);
+    if (isNaN(id)) {
+      return null; // El código no es numérico
+    }
+
+    if (id >= 1 && id <= 9999) {
+      return "estudiante";
+    }
+    if (id >= 10000 && id <= 19999) {
+      return "staff";
+    }
+    if (id >= 20000) {
+      return "vehiculo";
+    }
+    return null; // El código está fuera de los rangos definidos
   }
 
   function mostrarAlerta(tipo, data) {
