@@ -11,25 +11,23 @@ document.addEventListener("DOMContentLoaded", () => {
   function consultarMovimientos() {
     const semana = semanaInput.value;
     const staff = staffSelect.value;
-
     if (!semana || staff === "") return;
-
     fetch(
-      `/api/consultar_movimiento_staff.php?semana=${semana}&staff_id=${staff}`
+      `/ceia_swga/api/consultar_movimiento_staff.php?semana=${semana}${
+        staff !== "todos" ? `&staff_id=${staff}` : ""
+      }`
     )
       .then((res) => res.json())
       .then((data) => {
         tabla.innerHTML = "";
-
-        if (!data.length) {
+        if (data.status !== "ok" || !data.data || data.data.length === 0) {
           tabla.innerHTML = `<tr><td colspan="5" style="text-align:center;">Sin registros para la selección.</td></tr>`;
           return;
         }
-
-        data.forEach((reg) => {
+        data.data.forEach((reg) => {
           const fila = document.createElement("tr");
           fila.innerHTML = `
-            <td>${reg.nombre}</td>
+            <td>${reg.nombre_completo}</td>
             <td>${reg.fecha}</td>
             <td>${reg.hora_entrada || "-"}</td>
             <td>${reg.hora_salida || "-"}</td>
