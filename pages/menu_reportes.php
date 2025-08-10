@@ -84,6 +84,13 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Vista previa del personal admininstrativo y docente, además un listado de estudiantes por grado, con opciones para exportar a PDF.</p>
                 </li>
                 
+                <li>
+                    <a href="/ceia_swga/pages/gestionar_reportes.php">
+                        <span class="icono-reporte">📊</span> Gestionar Reportes de Estudiantes/Staff
+                    </a>
+                    <p>Genera reportes detallados en PDF para estudiantes, diferentes categorías de staff y vehículos autorizados.</p>
+                </li>
+
             </ul>
 
             <!-- Botón para volver al Home -->
