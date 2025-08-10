@@ -6,7 +6,11 @@ if (!isset($_SESSION['usuario'])) {
 }
 
 require_once __DIR__ . '/../src/config.php';
-$mensaje = "";
+
+$mensaje = $_SESSION['mensaje_vehiculo'] ?? "";
+if (isset($_SESSION['mensaje_vehiculo'])) {
+    unset($_SESSION['mensaje_vehiculo']);
+}
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
@@ -53,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     }
 }
-
 
 // Obtener estudiantes
 
@@ -115,6 +118,9 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 <label><input type="checkbox" name="autorizado" checked> Autorizado</label><br><br>
 
                 <button type="submit">Registrar Vehículo</button>
+                <!-- Botón para volver aal menu de estudiantes -->
+                <a href="/ceia_swga/pages/menu_estudiantes.php" class="btn">Volver</a> 
+
             </form>
         </div>
 

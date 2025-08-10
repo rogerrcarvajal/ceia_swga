@@ -15,8 +15,8 @@ $mensaje = "";
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
 if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin'])) {
-    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master y Admin pueden gestionar el módulo Staff.";
-    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master y Admin pueden gestionar el módulo Staff."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios con rol Master o Admin pueden gestionar la asignación de estudiantes.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios con rol Master o Admin pueden gestionar la asignación de estudiantes."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
     exit();
 }
 

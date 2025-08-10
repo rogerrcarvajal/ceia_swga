@@ -12,6 +12,16 @@ require_once __DIR__ . '/../src/config.php';
 // Declaración de variables
 $mensaje = "";
 
+// --- GESTIÓN DE MENSAJES DE SESIÓN ---
+if (isset($_SESSION['mensaje_usuario'])) {
+    $mensaje = $_SESSION['mensaje_usuario'];
+    unset($_SESSION['mensaje_usuario']);
+} elseif (isset($_SESSION['error_mensaje'])) {
+    $mensaje = $_SESSION['error_mensaje'];
+    unset($_SESSION['error_mensaje']);
+}
+
+
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
 
@@ -110,9 +120,10 @@ $profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM p
                 <input type="text" name="username" placeholder="Nombre de usuario" required>
                 
                 <label>Contraseña:</label>
-                <input type="password" name="password" placeholder="Contraseña" required>
-                <input type="checkbox" id="show-password" onclick="password.type = this.checked ? 'text' : 'password'">
-                
+                <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                <input type="checkbox" onclick="document.getElementById('password').type = this.checked ? 'text' : 'password'"> <label style="display: inline;">Mostrar contraseña</label>
+                <br>
+
                 <label>Rol:</label>
                 <select name="rol" required>
                     <option value="">Seleccione Rol</option>
@@ -141,9 +152,9 @@ $profesores_sin_usuario = $conn->query(query: "SELECT id, nombre_completo FROM p
                                 <small><?= $u['nombre_completo'] ? 'Vinculado a: ' . htmlspecialchars(string: $u['nombre_completo']) : 'No vinculado' ?></small>
                             </span>
                             <div>
-                                <?php if ($u['username'] !== $_SESSION['usuario']['username']): ?>
+                                <?php if (($u['id'] ?? 0) != ($_SESSION['usuario']['id'] ?? -1)): ?>
                                     <a href="/ceia_swga/pages/editar_usuarios.php?id=<?= $u['id'] ?>">Editar</a> |
-                                    <a href="/ceia_swga/pages/eliminar_usuarios.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Eliminar usuario?')">Eliminar</a>
+                                    <a href="/ceia_swga/pages/eliminar_usuarios.php?id=<?= $u['id'] ?>" onclick="return confirm('¿Está seguro de que desea eliminar a este usuario? Esta acción no se puede deshacer.')">Eliminar</a>
                                 <?php endif; ?>
                             </div>
                         </li>

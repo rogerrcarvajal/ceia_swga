@@ -34,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     $cedula = $_POST["cedula"] ?? '';
     $telefono = $_POST["telefono"] ?? '';
     $email = $_POST["email"] ?? '';
+    $categoria = $_POST["categoria"] ?? '';
 
     $check = $conn->prepare("SELECT id FROM profesores WHERE cedula = :cedula");
     $check->execute([':cedula' => $cedula]);
@@ -41,9 +42,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar'])) {
     if ($check->rowCount() > 0) {
         $mensaje = "⚠️ Un miembro del staff ya está registrado con esta cédula.";
     } else {
-        $sql = "INSERT INTO profesores (nombre_completo, cedula, telefono, email) VALUES (:nombre, :cedula, :telefono, :email)";
+        $sql = "INSERT INTO profesores (nombre_completo, cedula, telefono, email, categoria) VALUES (:nombre, :cedula, :telefono, :email, :categoria)";
         $stmt = $conn->prepare($sql);
-        $stmt->execute([':nombre' => $nombre_completo, ':cedula' => $cedula, ':telefono' => $telefono, ':email' => $email]);
+        $stmt->execute([':nombre' => $nombre_completo, ':cedula' => $cedula, ':telefono' => $telefono, ':email' => $email, ':categoria' => $categoria]);
         $mensaje = "✅ Staff / Profesor registrado correctamente. Ahora puede asignarlo al período activo desde la lista.";
     }
 }
@@ -55,6 +56,7 @@ $sql_profesores = "SELECT
                         p.id, 
                         p.nombre_completo, 
                         p.cedula,
+                        p.categoria,
                         pp.id AS asignacion_id,  -- Será NULL si no está asignado
                         pp.posicion
                    FROM profesores p
@@ -63,6 +65,14 @@ $sql_profesores = "SELECT
 $stmt_profesores = $conn->prepare($sql_profesores);
 $stmt_profesores->execute([':periodo_id' => $periodo_id_activo]);
 $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
+
+// Categorías de personal
+$categorias_staff = [
+    'Staff Administrativo',
+    'Staff Docente',
+    'Staff Mantenimiento',
+    'Staff Vigilancia'
+];
 ?>
 
 <!DOCTYPE html>
@@ -103,6 +113,12 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
                 <input type="text" name="cedula" placeholder="Cédula" required>
                 <input type="text" name="telefono" placeholder="Teléfono">
                 <input type="email" name="email" placeholder="Correo electrónico">
+                <label for="categoria">Categoría:</label>
+                <select name="categoria" id="categoria" required>
+                    <?php foreach ($categorias_staff as $cat): ?>
+                        <option value="<?= $cat ?>"><?= htmlspecialchars($cat) ?></option>
+                    <?php endforeach; ?>
+                </select>
                 <br><br>
                 <button type="submit" name="agregar">Agregar Staff</button>
                 <!-- Botón para volver al Home -->
@@ -119,7 +135,7 @@ $profesores = $stmt_profesores->fetchAll(PDO::FETCH_ASSOC);
                     <?php foreach ($profesores as $p): ?>
                         <li>
                             <span>
-                                <?= htmlspecialchars($p['nombre_completo']) ?> (C.I: <?= htmlspecialchars($p['cedula']) ?>)
+                                <?= htmlspecialchars($p['nombre_completo']) ?> (<?= htmlspecialchars($p['categoria'] ?? 'Sin categoría') ?>)
                                 <?php if ($p['asignacion_id']): ?>
                                     <br><small style="color:#a2ff96;">Asignado como: <?= htmlspecialchars($p['posicion']) ?></small>
                                 <?php else: ?>

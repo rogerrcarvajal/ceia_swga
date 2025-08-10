@@ -15,10 +15,10 @@ $mensaje = "";
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
 
-// --- Lógica de acceso para el usuario master (superusuario) ---
-if (!isset($_SESSION['usuario']['username']) || $_SESSION['usuario']['username'] !== 'superusuario') {
-    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento.";
-    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+// --- Lógica de acceso para el usuario master ---
+if (!isset($_SESSION['usuario']['rol']) || $_SESSION['usuario']['rol'] !== 'master') {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar los usuarios del sistema.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar los usuarios del sistema."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
     exit();
 }
 
@@ -116,7 +116,8 @@ if (!$usuario_a_editar) {
                 <br>
                 <label for="rol">Rol:</label>
                 <select id="rol" name="rol" class="select" required>
-                    <option value="admin" <?= $usuario_a_editar['rol'] === 'admin' ? 'selected' : '' ?>>Usuario Admininstrador</option>
+                    <option value="master" <?= $usuario_a_editar['rol'] === 'master' ? 'selected' : '' ?>>Usuario Master</option>
+                    <option value="admin" <?= $usuario_a_editar['rol'] === 'admin' ? 'selected' : '' ?>>Usuario Administrador</option>
                     <option value="consulta" <?= $usuario_a_editar['rol'] === 'consulta' ? 'selected' : '' ?>>Usuario Consulta</option>
                 </select>
 
