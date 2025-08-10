@@ -170,7 +170,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
             <style>
                 .paginacion { text-align: center; margin-top: 20px; }
                 .paginacion a { display: inline-block; padding: 8px 12px; margin: 0 5px; border: 1px solid #ddd; text-decoration: none; color: white; }
-                .paginacion a.active { background-color: #4CAF50; color: white; border: 1px solid #4CAF50; }
+                .paginacion a.active { background-color: rgb(48, 48, 48); color: white; border: 1px solid rgba(255, 255, 255, 0.18); }
             </style>
         </div>
     </div>
