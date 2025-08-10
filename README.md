@@ -1,86 +1,74 @@
-# Sistema Web para la Gestión Académica de Inscripción y Late-Pass (CEIA)
+# CEIA SWGA - Sistema Web de Gestión Académica
 
-[cite_start]Este proyecto es un sistema web integral desarrollado como requisito para optar al título de Licenciado en Computación[cite: 7, 8]. [cite_start]Su objetivo principal es automatizar y optimizar los procesos de inscripción y gestión de pases de llegada tarde (Late-Pass) en el Centro Educativo Internacional Anzoátegui (CEIA) [cite: 37][cite_start], solucionando las ineficiencias, problemas de seguridad y difícil acceso a la información asociados a los sistemas manuales[cite: 36].
-
-[cite_start]**Autor:** Roger R. Carvajal [cite: 9]
+Sistema de gestión para el Centro Educativo Internacional Anzoátegui (CEIA). Esta aplicación web permite administrar información de estudiantes, padres, vehículos y generar reportes en formato PDF, como planillas de inscripción y carnets vehiculares con códigos QR.
 
 ## ✨ Características Principales
 
-El sistema está compuesto por una serie de módulos diseñados para cubrir todo el ciclo de gestión académica requerido por la institución:
+- **Gestión de Estudiantes:** Almacenamiento de datos personales, académicos y de contacto.
+- **Gestión de Familiares:** Registro de información detallada de padres y madres.
+- **Ficha Médica:** Módulo para registrar información de salud relevante del estudiante.
+- **Control Vehicular:** Asociación de vehículos a estudiantes para control de acceso.
+- **Generación de Reportes en PDF:**
+  - Planilla de Inscripción completa.
+  - Carnet de identificación vehicular con código QR.
+- **Seguridad:** Acceso a funcionalidades restringido por sesión de usuario.
 
-* **Módulo de Autenticación y Seguridad:**
-    * [cite_start]Sistema de `login` seguro para validar a los usuarios[cite: 277].
-    * [cite_start]Gestión basada en dos roles: **"Administrador"** (acceso total) y **"Consulta"** (acceso limitado a reportes y al módulo Late-Pass)[cite: 278].
-    * [cite_start]Permite la creación y gestión de cuentas de usuario vinculadas al personal del colegio[cite: 377].
+## 🚀 Tecnologías Utilizadas
 
-* **Módulo de Estudiantes:**
-    * [cite_start]Formulario de inscripción digital para registrar nuevos estudiantes[cite: 280].
-    * [cite_start]Lógica inteligente para buscar y vincular representantes (padres/madres) ya existentes, evitando la duplicidad de datos[cite: 281, 345].
-    * [cite_start]Interfaz para consultar y modificar los expedientes completos de los estudiantes en tiempo real (datos personales, de padres y ficha médica)[cite: 282, 347].
-    * [cite_start]Funcionalidad para asignar estudiantes al período escolar activo y al grado que cursarán[cite: 349].
+- **Backend:** PHP 7.x / 8.x
+- **Base de Datos:** Conexión a través de PDO, compatible con MySQL/MariaDB.
+- **Servidor Web:** Apache (desplegado en un entorno XAMPP).
+- **Librerías PHP:**
+  - **FPDF:** Para la generación dinámica de documentos PDF.
+  - **PHP QR Code:** Para la creación de códigos QR.
 
-* **Módulo de Staff/Profesores:**
-    * [cite_start]Permite el registro del personal docente y administrativo de la institución[cite: 283].
-    * [cite_start]Interfaz para asignar a cada miembro del personal a un período escolar con un rol o posición específica (ej. "Director", "Science Teacher")[cite: 283, 355].
+## 📋 Prerrequisitos
 
-* **Módulo de Late-Pass:**
-    * [cite_start]Generación de un **Código QR** único para cada estudiante, que sirve como su identificación para el control de acceso[cite: 284, 360].
-    * [cite_start]Interfaz de **Control de Acceso Automatizado** que utiliza un lector de códigos QR para registrar la llegada de los estudiantes de forma rápida y precisa[cite: 285, 362].
-    * [cite_start]Sistema de conteo de **"strikes"** semanales por llegadas tarde, con mensajes de alerta configurables[cite: 286, 444, 445, 446, 447].
-    * [cite_start]Panel para la gestión y consulta del historial de llegadas tarde, filtrado por semana y por grado[cite: 364].
+- Un entorno de desarrollo web como XAMPP, WAMP o similar.
+- PHP (versión 7.4 o superior recomendada).
+- Servidor de base de datos (MySQL/MariaDB).
 
-* **Módulo de Reportes:**
-    * [cite_start]Generación de reportes clave en formato **PDF**[cite: 287].
-    * [cite_start]Reporte **"Roster"** del período activo, listando personal y estudiantes por grado[cite: 371].
-    * [cite_start]Generación de la **"Planilla de Inscripción"** individual y completa de cada estudiante[cite: 369].
+## ⚙️ Instalación y Configuración
 
-* **Módulo de Mantenimiento:**
-    * [cite_start]Panel de administrador para crear, activar y desactivar los períodos escolares (ej. "2024-2025", "2025-2026")[cite: 279, 375].
+1.  Clona o descarga este repositorio en el directorio `htdocs` de tu instalación de XAMPP. La carpeta del proyecto debería ser `ceia_swga`.
+2.  Crea una base de datos (ej. `ceia_db`) en phpMyAdmin o el gestor de tu preferencia.
+3.  Importa la estructura y los datos de la base de datos desde el archivo `.sql` del proyecto (si existe).
+4.  Configura la conexión a la base de datos en el archivo `src/config.php`. Asegúrate de que las credenciales (host, usuario, contraseña, nombre de la base de datos) sean correctas.
+5.  Inicia los servicios de Apache y MySQL desde el panel de control de XAMPP.
+6.  Accede a la aplicación desde tu navegador, usualmente en `http://localhost/ceia_swga/`.
 
-## 🛠️ Arquitectura y Tecnologías
+## 📁 Estructura del Proyecto (Parcial)
 
-[cite_start]El sistema fue construido siguiendo una arquitectura de tres capas y prácticas de seguridad modernas para garantizar su escalabilidad y mantenibilidad[cite: 295, 273].
+```
+ceia_swga/
+├── public/
+│   └── img/            # Recursos gráficos (logos, etc.)
+└── src/
+    ├── lib/
+    │   ├── fpdf.php
+    │   └── php-qrcode/
+    ├── reports_generators/ # Scripts para generar PDFs
+    │   ├── generar_planilla_pdf.php
+    │   └── generar_qr_vehiculo_pdf.php
+    └── config.php      # Configuración de la BD
+```
 
-* [cite_start]**Arquitectura:** Tres capas (Presentación, Lógica de Negocio, Datos) con un único punto de acceso (`/public`) para proteger el código fuente[cite: 295, 300].
-* [cite_start]**Backend:** **PHP 8**[cite: 298]. [cite_start]Se encarga de procesar todas las solicitudes, aplicar las reglas de negocio y comunicarse con la base de datos a través de una serie de APIs que responden en formato JSON[cite: 298, 566, 567].
-* [cite_start]**Frontend:** **HTML5, CSS3, y JavaScript (Vanilla JS)**[cite: 296]. [cite_start]Se utiliza para crear interfaces dinámicas que se comunican con el backend sin necesidad de recargar la página, ofreciendo una experiencia de usuario fluida[cite: 297].
-* [cite_start]**Base de Datos:** **PostgreSQL** (Versión 14 o superior)[cite: 299, 472]. [cite_start]Se eligió por ser un sistema gestor de bases de datos relacional robusto que garantiza la integridad y consistencia de la información[cite: 299].
-* **Librerías Externas:**
-    * **FPDF:** Para la generación de reportes en formato PDF.
-    * **PHP-QRCode:** Para la creación de los códigos QR de los estudiantes.
-* [cite_start]**Entorno de Desarrollo:** **XAMPP** con **Apache** como servidor web[cite: 470].
+## 📄 Módulos de Reportes
 
-## 🚀 Guía de Instalación Local
+El sistema cuenta con los siguientes generadores de reportes, accesibles a través de su URL y requiriendo un ID como parámetro.
 
-Para ejecutar este proyecto en un entorno de desarrollo local, sigue estos pasos:
+### 1. Planilla de Inscripción (`generar_planilla_pdf.php`)
 
-1.  **Software Necesario:**
-    * [cite_start]Instala **XAMPP** (con PHP 8.0+) desde [Apache Friends](https://www.apachefriends.org/index.html)[cite: 481, 482].
-    * [cite_start]Instala **PostgreSQL** (versión 14+) desde su [sitio web oficial](https://www.postgresql.org/download/)[cite: 486, 487]. [cite_start]Recuerda guardar la contraseña que establezcas para el usuario `postgres`[cite: 488, 489].
+- **Propósito:** Genera un documento PDF con la información completa de un estudiante, incluyendo datos personales, de sus padres y ficha médica.
+- **Uso:** Se accede pasando el ID del estudiante como parámetro GET.
+  ```
+  http://localhost/ceia_swga/src/reports_generators/generar_planilla_pdf.php?id=123
+  ```
 
-2.  **Clonar el Repositorio:**
-    * [cite_start]Navega hasta el directorio `htdocs` de tu instalación de XAMPP (ej. `C:\xampp\htdocs`)[cite: 507].
-    * [cite_start]Clona este repositorio: `git clone https://github.com/rogerrcarvajal/ceia_swga.git`[cite: 508].
+### 2. Carnet Vehicular QR (`generar_qr_vehiculo_pdf.php`)
 
-3.  **Configurar la Base de Datos:**
-    * [cite_start]Abre **pgAdmin** y conéctate a tu servidor de PostgreSQL[cite: 512].
-    * [cite_start]Crea una nueva base de datos con el nombre `ceia_db`[cite: 515].
-    * [cite_start]Haz clic derecho sobre la nueva base de datos y selecciona la opción **"Restore..."**[cite: 517].
-    * [cite_start]En `Filename`, busca y selecciona el archivo de la base de datos (`.sql` o `.backup`) que se encuentra en el repositorio para crear la estructura de tablas y cargar los datos iniciales[cite: 518].
-
-4.  **Conectar la Aplicación:**
-    * [cite_start]Dentro del proyecto, navega a la carpeta `src/` y abre el archivo `config.php`[cite: 521, 522].
-    * [cite_start]Modifica las credenciales (`$host`, `$port`, `$dbname`, `$user`, `$password`) para que coincidan con tu configuración local de PostgreSQL[cite: 523].
-
-5.  **Ejecutar el Proyecto:**
-    * Inicia los servicios de **Apache** y **PostgreSQL**.
-    * Abre tu navegador web y ve a la siguiente URL: `http://localhost/ceia_swga/public`
-    * ¡Listo! Deberías ver la pantalla de login del sistema.
-
-## 📄 Manual de Usuario Básico
-
-1.  [cite_start]**Crear un Período Escolar:** Antes de cualquier otra operación, ve a `Mantenimiento -> Períodos Escolares` y asegúrate de que exista un período activo[cite: 573].
-2.  **Inscribir un Estudiante:** Ve a `Estudiantes -> Planilla de Inscripción` y rellena todos los datos. [cite_start]El sistema te ayudará a vincular padres ya existentes para no duplicar información[cite: 572, 577].
-3.  [cite_start]**Registrar Personal:** En la sección `Staff`, puedes añadir a los profesores y personal administrativo[cite: 599, 600, 601, 602].
-4.  [cite_start]**Generar QR:** En el módulo `Late-Pass`, selecciona un estudiante para generar su código QR en PDF, el cual puedes imprimir[cite: 609, 610, 611, 612, 613].
-5.  [cite_start]**Control de Acceso:** Utiliza la opción `Control de Acceso` del módulo `Late-Pass` para escanear los QR y registrar las llegadas[cite: 615, 616, 617].
+- **Propósito:** Genera un carnet en PDF para un vehículo asociado a un estudiante. Incluye placa, modelo, propietario y un código QR que contiene el ID del vehículo para una rápida identificación.
+- **Uso:** Se accede pasando el ID del vehículo como parámetro GET.
+  ```
+  http://localhost/ceia_swga/src/reports_generators/generar_qr_vehiculo_pdf.php?id=45
+  ```
