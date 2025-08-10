@@ -139,7 +139,7 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
         <ul class="lista-menu">
 
             <li>
-                <a href="/ceia_swga/pages/seleccionar_qr.php">
+                <a href="/ceia_swga/pages/generar_qr.php">
                     <span class="icono-reporte">📷</span> Generar Códigos QR
                 </a>
                 <p>Permite la selección de un estudiante, staff o vehículo para generar su código QR.</p>
