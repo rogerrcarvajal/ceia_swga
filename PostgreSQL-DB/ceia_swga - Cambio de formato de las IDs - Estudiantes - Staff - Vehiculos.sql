@@ -11,8 +11,8 @@ ALTER TABLE latepass_resumen_semanal DROP CONSTRAINT IF EXISTS fk_latepass_estud
 --ESTUDIANTES
 ALTER TABLE salud_estudiantil DROP CONSTRAINT salud_estudiantil_estudiante_id_fkey;
 
-UPDATE estudiantes SET id = -10000 + id;
-UPDATE salud_estudiantil SET estudiante_id = -10000 + estudiante_id;
+UPDATE estudiantes SET id = 20000 + id;
+UPDATE salud_estudiantil SET estudiante_id = 20000 + estudiante_id;
 
 ALTER TABLE salud_estudiantil ADD CONSTRAINT salud_estudiantil_estudiante_id_fkey FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id);
 
@@ -22,15 +22,14 @@ ALTER TABLE profesor_periodo DROP CONSTRAINT IF EXISTS profesor_periodo_profesor
 ALTER TABLE entrada_salida_staff DROP CONSTRAINT IF EXISTS entrada_salida_staff_profesor_id_fkey;
 -- Agrega aquí cualquier otra tabla que tenga clave foránea a profesores(id)
 
+ALTER TABLE usuarios ADD CONSTRAINT usuarios_profesor_id_fkey FOREIGN KEY (profesor_id) REFERENCES profesores(id);
 
 ALTER TABLE usuarios DROP CONSTRAINT usuarios_profesor_id_fkey;
 
-UPDATE profesores SET id = 100000 + id;
-UPDATE profesor_periodo SET profesor_id = 100000 + profesor_id;
-UPDATE entrada_salida_staff SET profesor_id = 100000 + profesor_id;
-UPDATE usuarios SET profesor_id = 100000 + profesor_id;
-
-ALTER TABLE usuarios ADD CONSTRAINT usuarios_profesor_id_fkey FOREIGN KEY (profesor_id) REFERENCES profesores(id);
+UPDATE profesores SET id = -80000 + id;
+UPDATE profesor_periodo SET profesor_id = -80000 + profesor_id;
+UPDATE entrada_salida_staff SET profesor_id = -80000 + profesor_id;
+UPDATE usuarios SET profesor_id = -80000 + profesor_id;
 
 
 ALTER TABLE profesor_periodo ADD CONSTRAINT profesor_periodo_profesor_id_fkey FOREIGN KEY (profesor_id) REFERENCES profesores(id);
