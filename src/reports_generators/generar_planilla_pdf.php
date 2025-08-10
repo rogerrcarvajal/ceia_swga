@@ -121,34 +121,38 @@ $pdf->Ln(5);
 // Sección 1: Datos del Estudiante
 // ...existing code...
 $pdf->SectionTitle('Datos del Estudiante');
-$pdf->DataRow('Nombre Completo:', utf8_decode($estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']));
-$pdf->DataRow('Fecha de Nacimiento:', utf8_decode($estudiante['fecha_nacimiento']));
-$pdf->DataRow('Lugar de Nacimiento:', utf8_decode($estudiante['lugar_nacimiento']));
-$pdf->DataRow('Nacionalidad:', utf8_decode($estudiante['nacionalidad']));
-$pdf->DataRow('Idioma(s):', utf8_decode($estudiante['idioma']));
-$pdf->DataRow('Dirección:', utf8_decode($estudiante['direccion']));
-$pdf->DataRow('Teléfono de Casa:', utf8_decode($estudiante['telefono_casa']));
-$pdf->DataRow('Activo en Período Escolar:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? utf8_decode('Sí') : 'No');
-$pdf->DataRow('Teléfono de Emergencia:', utf8_decode($estudiante['telefono_emergencia']));
-$pdf->DataRow('Grado para el Periodo Activo:', utf8_decode($asignacion_activa['grado_cursado'] ?? 'No asignado'));
-$pdf->DataRow('Fecha de Inscripción:', utf8_decode($estudiante['fecha_inscripcion']));
-$pdf->DataRow('Recomendado por:', utf8_decode($estudiante['recomendado_por']));
-$pdf->DataRow('Hermanos estudiando en CEIA:', utf8_decode($estudiante['estudiante_hermanos']));
-$pdf->DataRow('Colegio(s) donde estudió antes:', utf8_decode($estudiante['colegios_anteriores']));
-$pdf->DataRow('Edad:', utf8_decode($estudiante['edad_estudiante']));
-$pdf->DataRow('Staff:', $estudiante['staff'] ? utf8_decode('Sí') : 'No');
-$pdf->DataRow('Activo:', $estudiante['activo'] ? utf8_decode('Sí') : 'No');  
+$pdf->DataRow('Nombre Completo:', $estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']);
+$pdf->DataRow('Fecha de Nacimiento:', $estudiante['fecha_nacimiento']);
+$pdf->DataRow('Lugar de Nacimiento:', $estudiante['lugar_nacimiento']);
+$pdf->DataRow('Nacionalidad:', $estudiante['nacionalidad']);
+$pdf->DataRow('Idioma(s):', $estudiante['idioma']);
+$pdf->DataRow('Dirección:', $estudiante['direccion']);
+$pdf->DataRow('Teléfono de Casa:', $estudiante['telefono_casa']);
+$pdf->DataRow('Activo en Período Escolar:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? 'Sí' : 'No');
+$pdf->DataRow('Teléfono de Emergencia:', $estudiante['telefono_emergencia']);
+$pdf->DataRow('Grado para el Periodo Activo:', $asignacion_activa['grado_cursado'] ?? 'No asignado');
+$pdf->DataRow('Fecha de Inscripción:', $estudiante['fecha_inscripcion']);
+$pdf->DataRow('Recomendado por:', $estudiante['recomendado_por']);
+$pdf->DataRow('Hermanos estudiando en CEIA:', $estudiante['estudiante_hermanos']);
+$pdf->DataRow('Colegio(s) donde estudió antes:', $estudiante['colegios_anteriores']);
+$pdf->DataRow('Edad:', $estudiante['edad_estudiante']);
+$pdf->DataRow('Staff:', $estudiante['staff'] ? 'Sí' : 'No');
+$pdf->DataRow('Activo:', $estudiante['activo'] ? 'Sí' : 'No');
 $pdf->Ln(8);
 
 // Sección 2: Datos del Padre
 $pdf->SectionTitle('Datos del Padre');
-$pdf->DataRow('Nombre Completo:', utf8_decode(($padre['padre_nombre'] ?? '') . ' ' . ($padre['padre_apellido'] ?? '')));
-$pdf->DataRow('Fecha de Nacimiento:', utf8_decode($padre['padre_fecha_nacimiento'] ?? 'N/A'));
-$pdf->DataRow('Cédula/Pasaporte:', utf8_decode($padre['padre_cedula_pasaporte'] ?? 'N/A'));
-$pdf->DataRow('Nacionalidad:', utf8_decode($padre['padre_nacionalidad'] ?? 'N/A'));
-$pdf->DataRow('Idiomas:', utf8_decode($padre['padre_idioma'] ?? 'N/A'));
-$pdf->DataRow('Profesión:', utf8_decode($padre['padre
-$pdf->Ln(25);
+$pdf->DataRow('Nombre Completo:', ($padre['padre_nombre'] ?? '') . ' ' . ($padre['padre_apellido'] ?? ''));
+$pdf->DataRow('Fecha de Nacimiento:', $padre['padre_fecha_nacimiento'] ?? 'N/A');
+$pdf->DataRow('Cédula/Pasaporte:', $padre['padre_cedula_pasaporte'] ?? 'N/A');
+$pdf->DataRow('Nacionalidad:', $padre['padre_nacionalidad'] ?? 'N/A');
+$pdf->DataRow('Idiomas:', $padre['padre_idioma'] ?? 'N/A');
+$pdf->DataRow('Profesión:', $padre['padre_profesion'] ?? 'N/A');
+$pdf->DataRow('Empresa:', $padre['padre_empresa'] ?? 'N/A');
+$pdf->DataRow('Teléfono de Trabajo:', $padre['padre_telefono_trabajo'] ?? 'N/A');
+$pdf->DataRow('Celular:', $padre['padre_celular'] ?? 'N/A');
+$pdf->DataRow('Email:', $padre['padre_email'] ?? 'N/A');
+$pdf->Ln(8);
 
 // Sección 3: Datos de la Madre
 $pdf->SectionTitle('Datos de la Madre');

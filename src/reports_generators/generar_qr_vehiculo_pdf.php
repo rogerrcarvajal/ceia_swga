@@ -41,7 +41,7 @@ class PDFVehiculo extends FPDF {
     function Header() {
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
-espuesta se trunco.. continua con las correcciones        $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
+        $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 100, 0);
         $this->Cell(0, 5, utf8_decode('Periodo Escolar Activo: ' . $this->periodo), 0, 1, 'C');
@@ -55,7 +55,7 @@ espuesta se trunco.. continua con las correcciones        $this->Cell(0, 10, utf
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
         $this->Cell(0, 5, utf8_decode('Av. José Antonio Anzoátegui, Km 98 - Anaco, Edo Anzoátegui - +58 282 422 2683'), 0, 1, 'C');
-        $this->Cell(0, 5, 'Página ' . $this->PageNo(), 0, 0, 'C');
+        $this->Cell(0, 5, utf8_decode('Página ') . $this->PageNo(), 0, 0, 'C');
     }
 
     function Section($label, $val) {
@@ -69,7 +69,7 @@ espuesta se trunco.. continua con las correcciones        $this->Cell(0, 10, utf
 $pdf = new PDFVehiculo($nombre_periodo);
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(0, 10, 'CARNET QR VEHICULAR', 0, 1, 'C');
+$pdf->Cell(0, 10, utf8_decode('CARNET QR VEHICULAR'), 0, 1, 'C');
 $pdf->Ln(8);
 $pdf->Section('Placa:', $vehiculo['placa']);
 $pdf->Section('Modelo:', $vehiculo['modelo']);
