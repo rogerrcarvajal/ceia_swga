@@ -1,4 +1,4 @@
-# Sistema Web de Gestión Académica de Inscripcion y Late-Pass (SWGA) - CEIA
+# Sistema Web de Gestión Académica de Inscripción y Late-Pass (SWGA) - CEIA
 
 Desarrollado como Trabajo Especial de Grado para optar al título de Licenciado en Computación. Este sistema web ofrece una solución integral para automatizar y optimizar los procesos de inscripción y control de llegadas tarde (Late-Pass) en el Centro Educativo Internacional Anzoátegui (CEIA), solucionando las ineficiencias, problemas de seguridad y difícil acceso a la información asociados a los sistemas manuales.
 
