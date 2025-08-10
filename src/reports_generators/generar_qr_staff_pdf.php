@@ -40,10 +40,10 @@ class PDFStaff extends FPDF {
     function Header() {
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 10, 'Centro Educativo Internacional Anzoátegui', 0, 1, 'C');
+        $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 100, 0);
-        $this->Cell(0, 5, 'Periodo Escolar Activo: ' . $this->periodo, 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('Periodo Escolar Activo: ' . $this->periodo), 0, 1, 'C');
         $this->SetTextColor(0, 0, 0);
         $this->Ln(10);
     }
@@ -73,6 +73,6 @@ $pdf->Section('Nombre:', $profesor['nombre_completo']);
 $pdf->Section('Posición:', $info['posicion'] ?? 'No Asignada');
 
 $pdf->Image($qr_temp, 65, 100, 80, 80);
-$pdf->Output('I', 'QR_' . str_replace(' ', '_', $profesor['nombre_completo']) . '.pdf');
+$pdf->Output('D', 'QR_' . str_replace(' ', '_', utf8_decode($profesor['nombre_completo'])) . '.pdf');
 unlink($qr_temp);
 ?>

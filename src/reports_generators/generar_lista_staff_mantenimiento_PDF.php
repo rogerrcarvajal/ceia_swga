@@ -23,11 +23,11 @@ class PDF extends FPDF
         $this->Image('c:/xampp/htdocs/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(80);
-        $this->Cell(30, 10, 'Reporte de Staff Mantenimiento', 0, 0, 'C');
+        $this->Cell(30, 10, utf8_decode('Reporte de Staff Mantenimiento'), 0, 0, 'C');
         $this->Ln(5);
         $this->SetFont('Arial', '', 10);
         $this->Cell(80);
-        $this->Cell(30, 10, 'Periodo Activo: ' . $this->periodo_nombre, 0, 0, 'C');
+        $this->Cell(30, 10, utf8_decode('Periodo Activo: ' . $this->periodo_nombre), 0, 0, 'C');
         $this->Ln(20);
     }
 
@@ -35,7 +35,7 @@ class PDF extends FPDF
     {
         $this->SetY(-15);
         $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 10, 'Pagina ' . $this->PageNo() . '/{nb}', 0, 0, 'C');
+        $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo() . '/{nb}', 0, 0, 'C');
     }
 }
 
@@ -43,7 +43,7 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
 $periodo_id = $periodo_activo['id'] ?? 0;
 
 if (!$periodo_id) {
-    die("No hay un período escolar activo.");
+    die(utf8_decode("No hay un período escolar activo."));
 }
 
 $sql_staff = "
@@ -64,9 +64,9 @@ $pdf->SetFont('Arial', 'B', 10);
 $pdf->Ln(5);
 
 // Encabezados
-$pdf->Cell(90, 7, 'Nombre Completo', 1);
-$pdf->Cell(60, 7, 'Posición', 1);
-$pdf->Cell(40, 7, 'Teléfono', 1);
+$pdf->Cell(90, 7, utf8_decode('Nombre Completo'), 1);
+$pdf->Cell(60, 7, utf8_decode('Posición'), 1);
+$pdf->Cell(40, 7, utf8_decode('Teléfono'), 1);
 $pdf->Ln();
 
 $pdf->SetFont('Arial', '', 9);
@@ -77,5 +77,5 @@ foreach ($staff as $s) {
     $pdf->Ln();
 }
 
-$nombre_archivo = "lista_staff_mantenimiento_" . str_replace(' ', '_', $periodo_activo['nombre_periodo']) . ".pdf";
+$nombre_archivo = "lista_staff_mantenimiento_" . str_replace(' ', '_', utf8_decode($periodo_activo['nombre_periodo'])) . ".pdf";
 $pdf->Output('D', $nombre_archivo);

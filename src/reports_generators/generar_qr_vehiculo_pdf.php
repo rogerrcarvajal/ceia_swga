@@ -14,7 +14,15 @@ $nombre_periodo = $periodo['nombre_periodo'] ?? 'Indefinido';
 $vehiculo_id = $_GET['id'] ?? 0;
 if (!$vehiculo_id) die("ID no proporcionado.");
 
-$stmt = $conn->prepare("SELECT placa, tipo, propietario FROM vehiculos WHERE id = :id");
+$stmt = $conn->prepare("
+    SELECT 
+        v.placa, 
+        v.modelo,
+        e.nombre_completo || ' ' || e.apellido_completo AS propietario
+    FROM vehiculos v
+    JOIN estudiantes e ON v.estudiante_id = e.id
+    WHERE v.id = :id
+");
 $stmt->execute([':id' => $vehiculo_id]);
 $vehiculo = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -33,10 +41,10 @@ class PDFVehiculo extends FPDF {
     function Header() {
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 10, 'Centro Educativo Internacional Anzoátegui', 0, 1, 'C');
+espuesta se trunco.. continua con las correcciones        $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 100, 0);
-        $this->Cell(0, 5, 'Periodo Escolar Activo: ' . $this->periodo, 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('Periodo Escolar Activo: ' . $this->periodo), 0, 1, 'C');
         $this->SetTextColor(0, 0, 0);
         $this->Ln(10);
     }
@@ -64,9 +72,9 @@ $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, 'CARNET QR VEHICULAR', 0, 1, 'C');
 $pdf->Ln(8);
 $pdf->Section('Placa:', $vehiculo['placa']);
-$pdf->Section('Tipo:', $vehiculo['tipo']);
-$pdf->Section('Propietario:', $vehiculo['propietario']);
+$pdf->Section('Modelo:', $vehiculo['modelo']);
+$pdf->Section('Asociado a:', $vehiculo['propietario']);
 $pdf->Image($qr_temp, 65, 100, 80, 80);
-$pdf->Output('I', 'QR_VEHICULO_' . $vehiculo['placa'] . '.pdf');
+$pdf->Output('D', 'QR_VEHICULO_' . $vehiculo['placa'] . '.pdf');
 unlink($qr_temp);
 ?>

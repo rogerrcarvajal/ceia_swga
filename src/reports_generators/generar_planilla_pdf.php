@@ -73,10 +73,10 @@ class PlanillaPDF extends FPDF
     function Header() {
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
+        $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
         $this->SetTextColor(0, 100, 0); // Verde oscuro
-        $this->Cell(0, 5, 'Periodo Escolar Activo: ' . $this->nombre_periodo, 0, 1, 'C');
+        $this->Cell(0, 5, utf8_decode('Periodo Escolar Activo: ' . $this->nombre_periodo), 0, 1, 'C');
         $this->SetTextColor(0, 0, 0); // Restaurar a negro
         $this->Ln(10);
     }
@@ -90,13 +90,13 @@ class PlanillaPDF extends FPDF
         $this->SetY(-15); // Posición a 1.5 cm del final
         $this->SetFont('Arial', 'I', 8);
         $this->Cell(0, 5, utf8_decode('Av. José Antonio Anzoátegui, Km 98 - Anaco, Edo Anzoátegui 6003, Venezuela - +58 282 422 2683'), 0, 1, 'C');
-        $this->Cell(0, 5, 'Pagina ' . $this->PageNo(), 0, 0, 'C');
+        $this->Cell(0, 5, utf8_decode('Página ') . $this->PageNo(), 0, 0, 'C');
     }
 
     function SectionTitle($title) {
         $this->SetFont('Arial', 'B', 12);
         $this->SetFillColor(220, 220, 220);
-        $this->Cell(0, 8, $title, 1, 1, 'L', true);
+        $this->Cell(0, 8, utf8_decode($title), 1, 1, 'L', true);
         $this->Ln(2);
     }
 
@@ -113,7 +113,7 @@ class PlanillaPDF extends FPDF
 $pdf = new PlanillaPDF('P', 'mm', 'A4', $nombre_del_periodo);
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 15);
-$pdf->Cell(0, 10, 'PLANILLA DE INSCRIPCION', 0, 1, 'C');
+$pdf->Cell(0, 10, utf8_decode('PLANILLA DE INSCRIPCIÓN'), 0, 1, 'C');
 $pdf->Ln(5);
 
 // ... (El resto del código para las secciones es idéntico)
@@ -121,37 +121,33 @@ $pdf->Ln(5);
 // Sección 1: Datos del Estudiante
 // ...existing code...
 $pdf->SectionTitle('Datos del Estudiante');
-$pdf->DataRow('Nombre Completo:', $estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']);
-$pdf->DataRow('Fecha de Nacimiento:', $estudiante['fecha_nacimiento']);
-$pdf->DataRow('Lugar de Nacimiento:', $estudiante['lugar_nacimiento']);
-$pdf->DataRow('Nacionalidad:', $estudiante['nacionalidad']);
-$pdf->DataRow('Idioma(s):', $estudiante['idioma']);
-$pdf->DataRow('Direccion:', $estudiante['direccion']);
-$pdf->DataRow('Telefono de Casa:', $estudiante['telefono_casa']);
-$pdf->DataRow('Activo en Período Escolar:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? 'Sí' : 'No');
-$pdf->DataRow('Telefono de Emergencia:', $estudiante['telefono_emergencia']);
-$pdf->DataRow('Grado para el Periodo Activo:', $asignacion_activa['grado_cursado'] ?? 'No asignado');
-$pdf->DataRow('Fecha de Inscripcion:', $estudiante['fecha_inscripcion']);
-$pdf->DataRow('Recomendado por:', $estudiante['recomendado_por']);
-$pdf->DataRow('Hermanos estudiando en CEIA:', $estudiante['estudiante_hermanos']);
-$pdf->DataRow('Colegio(s) donde estudio antes:', $estudiante['colegios_anteriores']);
-$pdf->DataRow('Edad:', $estudiante['edad_estudiante']);
-$pdf->DataRow('Staff:', $estudiante['staff'] ? 'Si' : 'No');
-$pdf->DataRow('Activo:', $estudiante['activo'] ? 'Si' : 'No');  
+$pdf->DataRow('Nombre Completo:', utf8_decode($estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']));
+$pdf->DataRow('Fecha de Nacimiento:', utf8_decode($estudiante['fecha_nacimiento']));
+$pdf->DataRow('Lugar de Nacimiento:', utf8_decode($estudiante['lugar_nacimiento']));
+$pdf->DataRow('Nacionalidad:', utf8_decode($estudiante['nacionalidad']));
+$pdf->DataRow('Idioma(s):', utf8_decode($estudiante['idioma']));
+$pdf->DataRow('Dirección:', utf8_decode($estudiante['direccion']));
+$pdf->DataRow('Teléfono de Casa:', utf8_decode($estudiante['telefono_casa']));
+$pdf->DataRow('Activo en Período Escolar:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? utf8_decode('Sí') : 'No');
+$pdf->DataRow('Teléfono de Emergencia:', utf8_decode($estudiante['telefono_emergencia']));
+$pdf->DataRow('Grado para el Periodo Activo:', utf8_decode($asignacion_activa['grado_cursado'] ?? 'No asignado'));
+$pdf->DataRow('Fecha de Inscripción:', utf8_decode($estudiante['fecha_inscripcion']));
+$pdf->DataRow('Recomendado por:', utf8_decode($estudiante['recomendado_por']));
+$pdf->DataRow('Hermanos estudiando en CEIA:', utf8_decode($estudiante['estudiante_hermanos']));
+$pdf->DataRow('Colegio(s) donde estudió antes:', utf8_decode($estudiante['colegios_anteriores']));
+$pdf->DataRow('Edad:', utf8_decode($estudiante['edad_estudiante']));
+$pdf->DataRow('Staff:', $estudiante['staff'] ? utf8_decode('Sí') : 'No');
+$pdf->DataRow('Activo:', $estudiante['activo'] ? utf8_decode('Sí') : 'No');  
 $pdf->Ln(8);
 
 // Sección 2: Datos del Padre
 $pdf->SectionTitle('Datos del Padre');
-$pdf->DataRow('Nombre Completo:', ($padre['padre_nombre'] ?? '') . ' ' . ($padre['padre_apellido'] ?? ''));
-$pdf->DataRow('Fecha de Nacimiento:', $padre['padre_fecha_nacimiento'] ?? 'N/A');
-$pdf->DataRow('Cedula/Pasaporte:', $padre['padre_cedula_pasaporte'] ?? 'N/A');
-$pdf->DataRow('Nacionalidad:', $padre['padre_nacionalidad'] ?? 'N/A');
-$pdf->DataRow('Idiomas:', $padre['padre_idioma'] ?? 'N/A');
-$pdf->DataRow('Profesion:', $padre['padre_profesion'] ?? 'N/A');
-$pdf->DataRow('Empresa:', $padre['padre_empresa'] ?? 'N/A');
-$pdf->DataRow('Telefono de Trabajo:', $padre['padre_telefono_trabajo'] ?? 'N/A');
-$pdf->DataRow('Celular:', $padre['padre_celular'] ?? 'N/A');
-$pdf->DataRow('Email:', $padre['padre_email'] ?? 'N/A');
+$pdf->DataRow('Nombre Completo:', utf8_decode(($padre['padre_nombre'] ?? '') . ' ' . ($padre['padre_apellido'] ?? '')));
+$pdf->DataRow('Fecha de Nacimiento:', utf8_decode($padre['padre_fecha_nacimiento'] ?? 'N/A'));
+$pdf->DataRow('Cédula/Pasaporte:', utf8_decode($padre['padre_cedula_pasaporte'] ?? 'N/A'));
+$pdf->DataRow('Nacionalidad:', utf8_decode($padre['padre_nacionalidad'] ?? 'N/A'));
+$pdf->DataRow('Idiomas:', utf8_decode($padre['padre_idioma'] ?? 'N/A'));
+$pdf->DataRow('Profesión:', utf8_decode($padre['padre
 $pdf->Ln(25);
 
 // Sección 3: Datos de la Madre
