@@ -29,7 +29,7 @@ $stmt2->execute([':pid' => $profesor_id, ':perid' => $periodo_id]);
 $info = $stmt2->fetch(PDO::FETCH_ASSOC);
 
 $qr_temp = __DIR__ . '/temp_qr.png';
-QRcode::png($profesor_id, $qr_temp, 'L', 10, 2);
+QRcode::png('STF-' . $profesor_id, $qr_temp, 'L', 10, 2);
 
 class PDFStaff extends FPDF {
     private $periodo;

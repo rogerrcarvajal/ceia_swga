@@ -29,7 +29,7 @@ $vehiculo = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$vehiculo) die("Vehículo no encontrado.");
 
 $qr_temp = __DIR__ . '/temp_qr.png';
-QRcode::png($vehiculo_id, $qr_temp, 'L', 10, 2);
+QRcode::png('VEH-' . $vehiculo_id, $qr_temp, 'L', 10, 2);
 
 class PDFVehiculo extends FPDF {
     private $periodo;

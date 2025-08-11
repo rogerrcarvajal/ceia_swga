@@ -43,7 +43,7 @@ $asignacion_activa = $stmt_asig->fetch(PDO::FETCH_ASSOC);
 // 4. Generar la imagen del QR temporalmente
 $qr_temp_file = __DIR__ . '/temp_qr.png';
 // El QR solo contendrá el ID del estudiante, que es lo único que necesita el lector
-QRcode::png($estudiante_id, $qr_temp_file, 'L', 10, 2);
+QRcode::png('EST-' . $estudiante_id, $qr_temp_file, 'L', 10, 2);
 
 
 // 5. Clase PDF Personalizada

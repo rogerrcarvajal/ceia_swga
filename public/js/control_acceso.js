@@ -66,27 +66,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function detectarCodigo(codigo) {
-    // Extrae solo los dígitos del código para evitar errores con prefijos/sufijos (ej: "STF-15000")
+    const upperCodigo = codigo.toUpperCase();
+
+    if (upperCodigo.startsWith('EST-')) {
+      const id = parseInt(codigo.substring(4), 10);
+      return !isNaN(id) ? { tipo: 'estudiante', id } : { tipo: null, id: null };
+    }
+    if (upperCodigo.startsWith('STF-')) {
+      const id = parseInt(codigo.substring(4), 10);
+      return !isNaN(id) ? { tipo: 'staff', id } : { tipo: null, id: null };
+    }
+    if (upperCodigo.startsWith('VEH-')) {
+      const id = parseInt(codigo.substring(4), 10);
+      return !isNaN(id) ? { tipo: 'vehiculo', id } : { tipo: null, id: null };
+    }
+    
+    // Fallback to original logic for backwards compatibility
     const soloNumeros = codigo.replace(/\D/g, '');
-    if (!soloNumeros) {
-        return { tipo: null, id: null };
+    if (soloNumeros) {
+        const id = parseInt(soloNumeros, 10);
+        if (!isNaN(id)) {
+            if (id >= 1 && id <= 9999) return { tipo: "estudiante", id: id };
+            if (id >= 10000 && id <= 19999) return { tipo: "staff", id: id };
+            if (id >= 20000) return { tipo: "vehiculo", id: id };
+        }
     }
 
-    const id = parseInt(soloNumeros, 10);
-    if (isNaN(id)) {
-      return { tipo: null, id: null };
-    }
-
-    if (id >= 1 && id <= 9999) {
-      return { tipo: "estudiante", id: id };
-    }
-    if (id >= 10000 && id <= 19999) {
-      return { tipo: "staff", id: id };
-    }
-    if (id >= 20000) {
-      return { tipo: "vehiculo", id: id };
-    }
-    return { tipo: null, id: null }; // El ID numérico está fuera de los rangos definidos
+    return { tipo: null, id: null };
   }
 
   function mostrarAlerta(tipo, data) {
