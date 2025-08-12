@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   qrForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const codigo = qrInput.value.trim();
+    const codigo = qrInput.value.trim().replace(/[\x00-\x1F\x7F-\x9F]/g, "");
     if (!codigo) return;
     
     // Se extrae el tipo y el ID numérico del código leído.
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function detectarCodigo(codigo) {
+    
     const upperCodigo = codigo.toUpperCase();
 
     if (upperCodigo.startsWith('EST-')) {

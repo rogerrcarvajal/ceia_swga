@@ -97,90 +97,13 @@ try {
         exit();
     }
 
-    // 2️⃣ Verificar si es staff
-    if (esStaff($qr_id)) {
-        $conn->commit();
-        procesarStaff($qr_id, $conn);
-        exit();
-    }
-
-    // 3️⃣ Verificar si es vehículo
-    if (esVehiculo($qr_id)) {
-        $conn->commit();
-        procesarVehiculo($qr_id, $conn);
-        exit();
-    }
-
-    // No reconocido
-    throw new Exception("Código no reconocido. Verifique el QR.");
+    // Si no es un estudiante, lanzar excepción
+    throw new Exception("Código QR no corresponde a un estudiante registrado en el período activo.");
 
 } catch (Exception $e) {
-    if ($conn->inTransaction()) $conn->rollBack();
+    if ($conn->inTransaction()) {
+        $conn->rollBack();
+    }
     echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     exit();
-}
-
-function esStaff($id) {
-    global $conn;
-    $stmt = $conn->prepare("SELECT 1 FROM profesores WHERE id = ?");
-    $stmt->execute([$id]);
-    return (bool)$stmt->fetch();
-}
-
-function esVehiculo($id) {
-    global $conn;
-    $stmt = $conn->prepare("SELECT 1 FROM vehiculos WHERE id = ?");
-    $stmt->execute([$id]);
-    return (bool)$stmt->fetch();
-}
-
-function procesarStaff($id, $conn) {
-    $stmt_prof = $conn->prepare("SELECT p.id, p.nombre_completo, pp.posicion FROM profesores p LEFT JOIN profesor_periodo pp ON p.id = pp.profesor_id WHERE p.id = ? ORDER BY pp.id DESC LIMIT 1");
-    $stmt_prof->execute([$id]);
-    $profesor = $stmt_prof->fetch(PDO::FETCH_ASSOC);
-
-    if (!$profesor) {
-        echo json_encode(['status' => 'error', 'message' => 'Profesor no encontrado.']);
-        return;
-    }
-
-    $hora = date('H:i:s');
-    $fecha = date('Y-m-d');
-
-    $conn->prepare("INSERT INTO movimientos_staff (profesor_id, hora_movimiento, fecha_movimiento) VALUES (?, ?, ?)")->execute([$id, $hora, $fecha]);
-
-    echo json_encode([
-        'status' => 'exito',
-        'tipo' => 'staff',
-        'nombre_completo' => $profesor['nombre_completo'],
-        'posicion' => $profesor['posicion'] ?? 'No asignada',
-        'hora' => $hora,
-        'mensaje' => 'Ingreso registrado exitosamente.'
-    ]);
-}
-
-function procesarVehiculo($id, $conn) {
-    $stmt_veh = $conn->prepare("SELECT v.id, v.placa, v.modelo, e.apellido_completo FROM vehiculos v JOIN estudiantes e ON v.estudiante_id = e.id WHERE v.id = ?");
-    $stmt_veh->execute([$id]);
-    $vehiculo = $stmt_veh->fetch(PDO::FETCH_ASSOC);
-
-    if (!$vehiculo) {
-        echo json_encode(['status' => 'error', 'message' => 'Vehículo no encontrado o no autorizado.']);
-        return;
-    }
-
-    $hora = date('H:i:s');
-    $fecha = date('Y-m-d');
-
-    $conn->prepare("INSERT INTO movimientos_vehiculos (vehiculo_id, hora_movimiento, fecha_movimiento) VALUES (?, ?, ?)")->execute([$id, $hora, $fecha]);
-
-    echo json_encode([
-        'status' => 'exito',
-        'tipo' => 'vehiculo',
-        'placa' => $vehiculo['placa'],
-        'modelo' => $vehiculo['modelo'],
-        'familia' => $vehiculo['apellido_completo'],
-        'hora' => $hora,
-        'mensaje' => 'Movimiento vehicular registrado.'
-    ]);
 }
