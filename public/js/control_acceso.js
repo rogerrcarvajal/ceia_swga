@@ -1,20 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
   const qrInput = document.getElementById("qr-input");
-  const mensaje = document.getElementById("mensaje");
+  const qrResult = document.getElementById("qr-result");
   let ultimoCodigo = null;
   let timeoutMensaje = null;
 
   function mostrarMensaje(texto, tipo = "info") {
-    mensaje.textContent = texto;
-    mensaje.className = tipo; // success, error, info
-    mensaje.style.display = "block";
+    qrResult.textContent = texto;
+    qrResult.className = `alerta ${tipo}`; // success, error, info
+    qrResult.style.display = "block";
 
-    // Ocultar después de 3 segundos y limpiar estado
+    // Ocultar después de 3 segundos
     clearTimeout(timeoutMensaje);
     timeoutMensaje = setTimeout(() => {
-      mensaje.style.display = "none";
+      qrResult.style.display = "none";
       qrInput.value = "";
-      ultimoCodigo = null; // 🔹 Limpia el código previo
+      ultimoCodigo = null;
+      qrInput.focus();
     }, 3000);
   }
 
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (codigo === ultimoCodigo) return;
     ultimoCodigo = codigo;
 
-    // Limpia y normaliza el código leído
+    // Limpia y normaliza el código
     codigo = codigo.trim().toUpperCase();
 
     console.log("Código leído:", codigo);
@@ -42,16 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Llamar a la API correspondiente
+    // Enviar como FormData para que PHP lo lea con $_POST
+    const formData = new FormData();
+    formData.append("qr_code", codigo); // 🔹 Clave que espera la API
+
     fetch(urlApi, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ codigo }),
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          mostrarMensaje(data.message || "Registro exitoso", "success");
+          mostrarMensaje(data.message || "Registro exitoso", "exito");
         } else {
           mostrarMensaje(data.message || "Error en el registro", "error");
         }
@@ -62,13 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Detectar cuando se escanee un código
+  // Detectar cambio de valor (lector de códigos normalmente lo hace así)
   qrInput.addEventListener("change", (e) => {
-    const codigoLeido = e.target.value;
-    procesarCodigo(codigoLeido);
+    procesarCodigo(e.target.value);
   });
 
-  // Si el lector manda Enter en vez de change
+  // Si el lector manda Enter
   qrInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -76,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Mantener el foco en el input para el próximo escaneo
+  // Mantener el foco en el input siempre
   setInterval(() => {
     if (document.activeElement !== qrInput) {
       qrInput.focus();
