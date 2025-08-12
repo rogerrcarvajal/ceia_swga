@@ -1,71 +1,82 @@
 <?php
-require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
-date_default_timezone_set('America/Caracas');
-
-$input = json_decode(file_get_contents('php://input'), true);
-$qr_id = $input['qr_id'] ?? null;
-$id = filter_var($qr_id ?? 0, FILTER_VALIDATE_INT);
-
-if (!$id) {
-    echo json_encode(['status' => 'error', 'message' => 'ID inválido de staff.']);
-    exit();
-}
+require_once __DIR__ . '/../src/config.php';
 
 try {
-    // Verificar existencia
-    $stmt_prof = $conn->prepare("
-        SELECT p.id, p.nombre_completo, pp.posicion
-        FROM profesores p
-        LEFT JOIN profesor_periodo pp ON p.id = pp.profesor_id
-        WHERE p.id = :id
-        ORDER BY pp.id DESC
-        LIMIT 1
-    ");
-    $stmt_prof->execute([':id' => $id]);
-    $profesor = $stmt_prof->fetch(PDO::FETCH_ASSOC);
+    $data = json_decode(file_get_contents("php://input"), true);
 
-    if (!$profesor) {
-        throw new Exception("Profesor no encontrado.");
+    if (!isset($data['codigo']) || empty($data['codigo'])) {
+        echo json_encode(["status" => "error", "message" => "Código QR no recibido."]);
+        exit();
     }
 
-    $fecha = date('Y-m-d');
-    $hora_actual = date('H:i:s');
+    $codigo = strtoupper(trim($data['codigo']));
+    if (strpos($codigo, 'STF') !== 0) {
+        echo json_encode(["status" => "error", "message" => "Código no corresponde a un miembro del staff."]);
+        exit();
+    }
 
-    // Buscar si ya tiene registro hoy
-    $check = $conn->prepare("SELECT * FROM entrada_salida_staff WHERE profesor_id = ? AND fecha = ?");
-    $check->execute([$id, $fecha]);
-    $registro = $check->fetch(PDO::FETCH_ASSOC);
+    $staff_id = (int) substr($codigo, 3);
+    if ($staff_id <= 0) {
+        echo json_encode(["status" => "error", "message" => "ID de staff inválido."]);
+        exit();
+    }
 
-    if (!$registro) {
-        // Primera entrada del día
-        $conn->prepare("
-            INSERT INTO entrada_salida_staff (profesor_id, fecha, hora_entrada, ausente)
-            VALUES (?, ?, ?, false)
-        ")->execute([$id, $fecha, $hora_actual]);
-    } else {
-        // Ya tiene entrada, registrar salida si no existe
-        if (!$registro['hora_salida']) {
-            $update = $conn->prepare("
-                UPDATE entrada_salida_staff SET hora_salida = ? WHERE id = ?
-            ");
-            $update->execute([$hora_actual, $registro['id']]);
+    $stmt = $conn->prepare("SELECT id, nombre || ' ' || apellido AS nombre_completo 
+                            FROM staff 
+                            WHERE id = :id");
+    $stmt->execute([':id' => $staff_id]);
+    $staff = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$staff) {
+        echo json_encode(["status" => "error", "message" => "Miembro del staff no encontrado."]);
+        exit();
+    }
+
+    date_default_timezone_set('America/Caracas');
+    $fecha = date("Y-m-d");
+    $hora_actual = date("H:i:s");
+
+    $stmt = $conn->prepare("SELECT id, hora_entrada, hora_salida 
+                            FROM entrada_salida_staff 
+                            WHERE profesor_id = :id AND fecha = :fecha
+                            LIMIT 1");
+    $stmt->execute([':id' => $staff_id, ':fecha' => $fecha]);
+    $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($registro) {
+        if (empty($registro['hora_salida'])) {
+            $upd = $conn->prepare("UPDATE entrada_salida_staff 
+                                   SET hora_salida = :hora 
+                                   WHERE id = :id");
+            $upd->execute([':hora' => $hora_actual, ':id' => $registro['id']]);
+
+            echo json_encode([
+                "status" => "exito",
+                "tipo" => "staff",
+                "mensaje" => "Salida registrada.",
+                "nombre_completo" => $staff['nombre_completo'],
+                "hora" => $hora_actual
+            ]);
+            exit();
+        } else {
+            echo json_encode(["status" => "error", "message" => "Este miembro ya registró entrada y salida hoy."]);
+            exit();
         }
     }
 
+    $ins = $conn->prepare("INSERT INTO entrada_salida_staff (profesor_id, fecha, hora_entrada) 
+                           VALUES (:id, :fecha, :hora)");
+    $ins->execute([':id' => $staff_id, ':fecha' => $fecha, ':hora' => $hora_actual]);
+
     echo json_encode([
-        'status' => 'exito',
-        'registros' => [[
-            'nombre' => $profesor['nombre_completo'],
-            'fecha' => $fecha,
-            'hora_entrada' => $hora_actual,
-            'hora_salida' => $registro['hora_salida'] ?? null,
-            'ausente' => $registro['ausente'] ?? false,
-            'posicion' => $profesor['posicion'] ?? 'No asignada',
-            'mensaje' => 'Movimiento registrado.'
-        ]]
+        "status" => "exito",
+        "tipo" => "staff",
+        "mensaje" => "Entrada registrada.",
+        "nombre_completo" => $staff['nombre_completo'],
+        "hora" => $hora_actual
     ]);
 
 } catch (Exception $e) {
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    echo json_encode(["status" => "error", "message" => "Error en el servidor: " . $e->getMessage()]);
 }

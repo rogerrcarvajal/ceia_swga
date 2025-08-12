@@ -1,62 +1,84 @@
 <?php
-require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
-date_default_timezone_set('America/Caracas');
-
-$input = json_decode(file_get_contents('php://input'), true);
-$qr_id = $input['qr_id'] ?? null;
-$id = filter_var($qr_id ?? 0, FILTER_VALIDATE_INT);
-if (!$id) {
-    echo json_encode(['status' => 'error', 'message' => 'ID inválido de vehículo.']);
-    exit();
-}
+require_once __DIR__ . '/../src/config.php';
 
 try {
-    $stmt_veh = $conn->prepare("
-        SELECT v.id, v.placa, v.modelo, e.apellido_completo
-        FROM vehiculos v
-        JOIN estudiantes e ON v.estudiante_id = e.id
-        WHERE v.id = ?
-    ");
-    $stmt_veh->execute([$id]);
-    $vehiculo = $stmt_veh->fetch(PDO::FETCH_ASSOC);
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    if (!isset($data['codigo']) || empty($data['codigo'])) {
+        echo json_encode(["status" => "error", "message" => "Código QR no recibido."]);
+        exit();
+    }
+
+    $codigo = strtoupper(trim($data['codigo']));
+    if (strpos($codigo, 'VHI') !== 0) {
+        echo json_encode(["status" => "error", "message" => "Código no corresponde a un vehículo."]);
+        exit();
+    }
+
+    $vehiculo_id = (int) substr($codigo, 3);
+    if ($vehiculo_id <= 0) {
+        echo json_encode(["status" => "error", "message" => "ID de vehículo inválido."]);
+        exit();
+    }
+
+    $stmt = $conn->prepare("SELECT id, placa, modelo 
+                            FROM vehiculos 
+                            WHERE id = :id");
+    $stmt->execute([':id' => $vehiculo_id]);
+    $vehiculo = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$vehiculo) {
-        throw new Exception("Vehículo no registrado o no autorizado.");
+        echo json_encode(["status" => "error", "message" => "Vehículo no encontrado."]);
+        exit();
     }
 
-    $fecha = date('Y-m-d');
-    $hora = date('H:i:s');
+    date_default_timezone_set('America/Caracas');
+    $fecha = date("Y-m-d");
+    $hora_actual = date("H:i:s");
 
-    // Verificar si hay entrada registrada
-    $check = $conn->prepare("SELECT * FROM registro_vehiculos WHERE vehiculo_id = ? AND fecha = ?");
-    $check->execute([$id, $fecha]);
-    $registro = $check->fetch(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare("SELECT id, hora_entrada, hora_salida 
+                            FROM registro_vehiculos 
+                            WHERE vehiculo_id = :id AND fecha = :fecha
+                            LIMIT 1");
+    $stmt->execute([':id' => $vehiculo_id, ':fecha' => $fecha]);
+    $registro = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$registro) {
-        $conn->prepare("
-            INSERT INTO registro_vehiculos (vehiculo_id, fecha, hora_entrada, registrado_por, creado_en)
-            VALUES (?, ?, ?, 'QR', NOW())
-        ")->execute([$id, $fecha, $hora]);
-    } elseif (!$registro['hora_salida']) {
-        $conn->prepare("
-            UPDATE registro_vehiculos SET hora_salida = ?, registrado_por = 'QR' WHERE id = ?
-        ")->execute([$hora, $registro['id']]);
+    if ($registro) {
+        if (empty($registro['hora_salida'])) {
+            $upd = $conn->prepare("UPDATE registro_vehiculos 
+                                   SET hora_salida = :hora 
+                                   WHERE id = :id");
+            $upd->execute([':hora' => $hora_actual, ':id' => $registro['id']]);
+
+            echo json_encode([
+                "status" => "exito",
+                "tipo" => "vehiculo",
+                "mensaje" => "Salida registrada.",
+                "placa" => $vehiculo['placa'],
+                "modelo" => $vehiculo['modelo'],
+                "hora" => $hora_actual
+            ]);
+            exit();
+        } else {
+            echo json_encode(["status" => "error", "message" => "Este vehículo ya registró entrada y salida hoy."]);
+            exit();
+        }
     }
+
+    $ins = $conn->prepare("INSERT INTO registro_vehiculos (vehiculo_id, fecha, hora_entrada) 
+                           VALUES (:id, :fecha, :hora)");
+    $ins->execute([':id' => $vehiculo_id, ':fecha' => $fecha, ':hora' => $hora_actual]);
 
     echo json_encode([
-        'status' => 'exito',
-        'registros' => [[
-            'descripcion' => $vehiculo['placa'] . ' - ' . $vehiculo['modelo'] . ' (Familia ' . $vehiculo['apellido_completo'] . ')',
-            'fecha' => $fecha,
-            'hora_entrada' => $hora,
-            'hora_salida' => $registro['hora_salida'] ?? null,
-            'registrado_por' => 'QR',
-            'observaciones' => $registro['observaciones'] ?? '',
-            'mensaje' => 'Movimiento de vehículo registrado.'
-        ]]
+        "status" => "exito",
+        "tipo" => "vehiculo",
+        "mensaje" => "Entrada registrada.",
+        "placa" => $vehiculo['placa'],
+        "modelo" => $vehiculo['modelo'],
+        "hora" => $hora_actual
     ]);
 
 } catch (Exception $e) {
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    echo json_encode(["status" => "error", "message" => "Error en el servidor: " . $e->getMessage()]);
 }

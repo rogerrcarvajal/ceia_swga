@@ -1,176 +1,91 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const qrForm = document.getElementById("qr-form");
-  const qrInput = document.getElementById("qr-input");
+  const form = document.getElementById("qr-form");
+  const input = document.getElementById("qr-input");
   const resultDiv = document.getElementById("qr-result");
-  const logDiv = document.getElementById("log-registros");
 
-  qrInput.focus();
-  iniciarRelojDigital();
+  // Mapeo prefijo → API
+  const apiMap = {
+    STE: "/ceia_swga/api/registrar_llegada.php",
+    STF: "/ceia_swga/api/registrar_movimiento_staff.php",
+    VHI: "/ceia_swga/api/registrar_movimiento_vehiculo.php",
+  };
 
-  qrForm.addEventListener("submit", async (e) => {
+  let mensajeTimeout = null;
+
+  // Función para mostrar mensajes y ocultarlos después de 3 segundos
+  function mostrarMensaje(tipo, mensaje) {
+    clearTimeout(mensajeTimeout);
+    resultDiv.className = "alerta " + (tipo === "exito" ? "exito" : "error");
+    resultDiv.textContent = mensaje;
+
+    // Forzar reflow para reiniciar animación
+    void resultDiv.offsetWidth;
+    resultDiv.classList.add("mostrar");
+
+    mensajeTimeout = setTimeout(() => {
+      resultDiv.classList.remove("mostrar");
+      setTimeout(() => {
+        resultDiv.textContent = "";
+        resultDiv.className = "alerta";
+      }, 400); // Tiempo para que termine la animación de salida
+    }, 3000);
+  }
+
+  // Evento de envío del formulario
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const codigo = qrInput.value.trim().replace(/[\x00-\x1F\x7F-\x9F]/g, "");
-    if (!codigo) return;
-    
-    // Se extrae el tipo y el ID numérico del código leído.
-    const { tipo, id } = detectarCodigo(codigo);
 
-    if (!tipo) {
-      mostrarError("Código no reconocido. Verifique el QR.");
-      limpiarCampo();
+    let codigo = input.value.trim().toUpperCase();
+    if (!codigo) {
+      mostrarMensaje("error", "Debe escanear o ingresar un código QR.");
+      reiniciarFormulario();
       return;
     }
-    
-    let endpoint = "";
-    let payload = {};
 
-    // Seleccionar endpoint y payload por tipo de QR
-    switch (tipo) {
-      case "estudiante":
-        endpoint = "/ceia_swga/api/registrar_llegada.php";
-        payload = { estudiante_id: id };
-        break;
-      case "staff":
-        endpoint = "/ceia_swga/api/registrar_movimiento_staff.php";
-        payload = { qr_id: id };
-        break;
-      case "vehiculo":
-        endpoint = "/ceia_swga/api/registrar_movimiento_vehiculo.php";
-        payload = { qr_id: id };
-        break;
+    let prefijo = codigo.substring(0, 3);
+    let apiURL = apiMap[prefijo];
+
+    if (!apiURL) {
+      mostrarMensaje("error", "Código QR inválido o desconocido.");
+      reiniciarFormulario();
+      return;
     }
 
     try {
-      const response = await fetch(endpoint, {
+      let resp = await fetch(apiURL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ codigo }),
       });
 
-      if (!response.ok) throw new Error("Error del servidor.");
-      const result = await response.json();
+      let data = await resp.json();
 
-      if (result.status === "exito") {
-        // Si el backend devuelve 'registros', usar el primero
-        const data = result.registros ? result.registros[0] : result;
-        mostrarAlerta(tipo, data);
-        agregarAlLog(tipo, data);
+      if (data.status === "exito") {
+        let mensaje = "";
+        if (data.tipo === "estudiante") {
+          mensaje = `${data.mensaje} - ${data.nombre_completo} (${data.hora})`;
+        } else if (data.tipo === "staff") {
+          mensaje = `${data.mensaje} - ${data.nombre_completo} (${data.hora})`;
+        } else if (data.tipo === "vehiculo") {
+          mensaje = `${data.mensaje} - Placa: ${data.placa} (${data.hora})`;
+        }
+        mostrarMensaje("exito", mensaje);
       } else {
-        mostrarError(result.message || "Error inesperado.");
+        mostrarMensaje("error", data.message || "Error desconocido.");
       }
     } catch (error) {
-      mostrarError(error.message);
+      mostrarMensaje("error", "Error en la conexión con el servidor.");
     }
 
-    limpiarCampo();
+    reiniciarFormulario();
   });
 
-  function detectarCodigo(codigo) {
-    const upperCodigo = codigo.toUpperCase();
-
-    if (upperCodigo.startsWith('STE')) {
-      const id = parseInt(upperCodigo.substring(3), 10);
-      return !isNaN(id) ? { tipo: 'estudiante', id } : { tipo: null, id: null };
-    }
-    if (upperCodigo.startsWith('STF')) {
-      const id = parseInt(upperCodigo.substring(3), 10);
-      return !isNaN(id) ? { tipo: 'staff', id } : { tipo: null, id: null };
-    }
-    if (upperCodigo.startsWith('VEH')) {
-      const id = parseInt(upperCodigo.substring(3), 10);
-      return !isNaN(id) ? { tipo: 'vehiculo', id } : { tipo: null, id: null };
-    }
-
-    return { tipo: null, id: null };
+  // Reiniciar y enfocar campo
+  function reiniciarFormulario() {
+    input.value = "";
+    input.focus();
   }
 
-  function mostrarAlerta(tipo, data) {
-    let html = `<div class="reloj-digital" id="reloj"></div>`;
-    let colorClass = "exito";
-    if (tipo === "estudiante") {
-      if (data.es_tarde) {
-        if (data.conteo_tardes === 2) colorClass = "advertencia";
-        if (data.conteo_tardes >= 3) colorClass = "error";
-      }
-      html += `
-        <h4>${data.nombre_completo}</h4>
-        <p>Grado: ${data.grado}</p>
-        <p>Hora de Registro: ${data.hora_llegada}</p>
-        <p><strong>${data.mensaje}</strong></p>
-      `;
-    } else if (tipo === "staff") {
-      html += `
-        <h4>${data.nombre || data.nombre_completo || ""}</h4>
-        <p>Posición: ${data.posicion || "No asignada"}</p>
-        <p>Hora Entrada: ${data.hora || data.hora_entrada || ""}</p>
-        <p><strong>${data.mensaje || "Movimiento registrado."}</strong></p>
-      `;
-    } else if (tipo === "vehiculo") {
-      html += `
-        <h4>${data.descripcion || "Vehículo"}</h4>
-        <p>Fecha: ${data.fecha || ""}</p>
-        <p>Hora Entrada: ${data.hora_entrada || data.hora || ""}</p>
-        <p>Hora Salida: ${data.hora_salida || "-"}</p>
-        <p><strong>${
-          data.mensaje || "Movimiento de vehículo registrado."
-        }</strong></p>
-      `;
-    }
-    resultDiv.className = `alerta ${colorClass}`;
-    resultDiv.innerHTML = html;
-    resultDiv.style.display = "block";
-    setTimeout(() => {
-      resultDiv.style.display = "none";
-    }, 6000);
-  }
-
-  function mostrarError(msg) {
-    resultDiv.className = "alerta error";
-    resultDiv.innerHTML = `<div class="reloj-digital" id="reloj"></div><h4>Error</h4><p>${msg}</p>`;
-    resultDiv.style.display = "block";
-
-    setTimeout(() => {
-      resultDiv.style.display = "none";
-    }, 6000);
-  }
-
-  function agregarAlLog(tipo, data) {
-    const logEntry = document.createElement("div");
-    logEntry.className = "log-entry";
-
-    let nombre = "N/A";
-    let mensaje = "Registro procesado.";
-
-    if (tipo === "estudiante") {
-      nombre = data.nombre_completo || "Estudiante no encontrado";
-      mensaje = data.mensaje || data.observacion || "";
-    } else if (tipo === "staff") {
-      nombre = data.nombre_completo || data.nombre || "Personal no encontrado";
-      mensaje = data.mensaje || "Movimiento registrado";
-    } else if (tipo === "vehiculo") {
-      nombre = data.descripcion || "Vehículo no encontrado";
-      mensaje = data.mensaje || "Movimiento registrado";
-    }
-
-    const hora =
-      data.hora_llegada || data.hora_entrada || data.hora || new Date().toLocaleTimeString("es-VE", { hour12: false });
-
-    let texto = `<span>${hora}</span> - <span>[${tipo.toUpperCase()}] ${nombre}</span> - <span>${mensaje}</span>`;
-    logEntry.innerHTML = texto;
-    logDiv.insertBefore(logEntry, logDiv.firstChild);
-  }
-
-  function limpiarCampo() {
-    qrInput.value = "";
-    qrInput.focus();
-  }
-
-  function iniciarRelojDigital() {
-    setInterval(() => {
-      const now = new Date();
-      const hora = now.toLocaleTimeString("es-VE", { hour12: false });
-      const reloj = document.getElementById("reloj");
-      if (reloj) reloj.textContent = hora;
-    }, 1000);
-  }
+  // Mantener el foco en el input
+  input.focus();
 });
