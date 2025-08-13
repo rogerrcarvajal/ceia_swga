@@ -86,11 +86,11 @@ if (!$periodo_activo) {
         <h3>Escaneo del código QR</h3>
         <p>Coloque el QR frente al dispositivo para escanearlo</p>
         <form id="qr-form" method="POST">
-            <input type="password" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus required>
+            <input type="text" id="qr-input" name="qr_code" placeholder="Escanea el QR aquí..." autofocus autocomplete="off">
         </form>
         <div id="qr-result" class="alerta"></div>
         <div id="qr-code" class="qr-code"></div>
-        <br><br>
+        <br>
         <a href="/ceia_swga/pages/menu_latepass.php" class="btn">Volver</a>
     </div>
 </div>

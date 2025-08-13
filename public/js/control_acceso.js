@@ -1,76 +1,77 @@
 document.addEventListener("DOMContentLoaded", () => {
   const qrInput = document.getElementById("qr-input");
   const qrResult = document.getElementById("qr-result");
-  let ultimoCodigo = null;
-  let timeoutMensaje = null;
+  let procesando = false;
 
-  function mostrarMensaje(texto, tipo = "info") {
+  function mostrarMensaje(texto, tipo) {
     qrResult.textContent = texto;
-    qrResult.className = `alerta ${tipo}`; // success, error, info
+    qrResult.className = `alerta ${tipo}`;
     qrResult.style.display = "block";
 
-    // Ocultar después de 3 segundos
-    clearTimeout(timeoutMensaje);
-    timeoutMensaje = setTimeout(() => {
+    clearTimeout(window.timeoutMensaje);
+    window.timeoutMensaje = setTimeout(() => {
       qrResult.style.display = "none";
       qrInput.value = "";
-      ultimoCodigo = null;
+      procesando = false;
       qrInput.focus();
-    }, 3000);
+    }, 3500);
   }
 
   function procesarCodigo(codigo) {
-    if (!codigo) return;
+    if (!codigo || procesando) return;
 
-    // Evita duplicados inmediatos
-    if (codigo === ultimoCodigo) return;
-    ultimoCodigo = codigo;
-
-    // Limpia y normaliza el código
-    codigo = codigo.trim().toUpperCase();
-
-    console.log("Código leído:", codigo);
+    procesando = true;
+    
+    const codigoNormalizado = codigo.trim().replace("/", "-").toUpperCase();
+    
+    console.log("Código Original Recibido:", codigo.trim());
+    console.log("Código Normalizado para Procesar:", codigoNormalizado);
 
     let urlApi = "";
-    if (codigo.startsWith("STE-")) {
+
+    if (codigoNormalizado.startsWith("EST-")) {
       urlApi = "/ceia_swga/api/registrar_llegada.php";
-    } else if (codigo.startsWith("STF-")) {
+    } else if (codigoNormalizado.startsWith("STF-")) {
       urlApi = "/ceia_swga/api/registrar_movimiento_staff.php";
-    } else if (codigo.startsWith("VHI-")) {
+    } else if (codigoNormalizado.startsWith("VEH-")) {
       urlApi = "/ceia_swga/api/registrar_movimiento_vehiculo.php";
     } else {
-      mostrarMensaje("QR no reconocido", "error");
+      mostrarMensaje("QR no reconocido o inválido.", "error");
+      procesando = false;
       return;
     }
 
-    // Enviar como FormData para que PHP lo lea con $_POST
     const formData = new FormData();
-    formData.append("qr_code", codigo); // 🔹 Clave que espera la API
+    formData.append("codigo", codigoNormalizado);
+    formData.append("timestamp", new Date().toISOString());
 
     fetch(urlApi, {
       method: "POST",
       body: formData,
     })
-      .then((res) => res.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Error del servidor: ${response.statusText}`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        if (data.success) {
-          mostrarMensaje(data.message || "Registro exitoso", "exito");
+        if (data && data.success) {
+          mostrarMensaje(data.message || "Operación exitosa.", "exito");
         } else {
-          mostrarMensaje(data.message || "Error en el registro", "error");
+          mostrarMensaje(data.message || "Error al procesar la solicitud.", "error");
         }
       })
-      .catch((err) => {
-        console.error(err);
-        mostrarMensaje("Error de conexión con el servidor", "error");
+      .catch((error) => {
+        console.error("Error en la función fetch:", error);
+        mostrarMensaje(`Error de comunicación: ${error.message}`, "error");
       });
   }
 
-  // Detectar cambio de valor (lector de códigos normalmente lo hace así)
   qrInput.addEventListener("change", (e) => {
     procesarCodigo(e.target.value);
   });
 
-  // Si el lector manda Enter
   qrInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -78,9 +79,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Mantener el foco en el input siempre
   setInterval(() => {
-    if (document.activeElement !== qrInput) {
+    if (!procesando && document.activeElement !== qrInput) {
       qrInput.focus();
     }
   }, 500);
