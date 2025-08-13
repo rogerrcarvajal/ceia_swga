@@ -2,7 +2,7 @@
 header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
 
-$response = ['success' => false, 'message' => 'Petición inválida.'];
+$response = ['success' => false, 'message' => 'Petición inválida.', 'data' => null];
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['codigo'])) {
     $response['message'] = 'Acceso denegado o código no proporcionado.';
@@ -36,7 +36,7 @@ try {
     }
     $periodo_id = $periodo_activo['id'];
 
-    $stmt_est = $conn->prepare("SELECT e.nombre_completo, e.apellido_completo FROM estudiantes e JOIN estudiante_periodo ep ON e.id = ep.estudiante_id WHERE e.id = :id AND ep.periodo_id = :pid");
+    $stmt_est = $conn->prepare("SELECT e.nombre_completo, e.apellido_completo, ep.grado_cursado FROM estudiantes e JOIN estudiante_periodo ep ON e.id = ep.estudiante_id WHERE e.id = :id AND ep.periodo_id = :pid");
     $stmt_est->execute([':id' => $estudiante_id, ':pid' => $periodo_id]);
     $estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
 
@@ -44,10 +44,9 @@ try {
         throw new Exception("Estudiante no encontrado o no asignado al período activo.");
     }
 
-    // Usar el timestamp del cliente si está disponible, si no, usar la hora del servidor
     if (isset($_POST['timestamp'])) {
         $dt = new DateTime($_POST['timestamp']);
-        $dt->setTimezone(new DateTimeZone('America/Caracas')); // Ajustar a la zona horaria del servidor
+        $dt->setTimezone(new DateTimeZone('America/Caracas'));
     } else {
         $dt = new DateTime('now', new DateTimeZone('America/Caracas'));
     }
@@ -65,6 +64,7 @@ try {
     }
     
     $es_tarde = ($hora_actual > "08:05:59");
+    $strike_count = 0;
 
     $ins = $conn->prepare("INSERT INTO llegadas_tarde (estudiante_id, fecha_registro, hora_llegada, semana_del_anio) VALUES (:est_id, :fecha, :hora, :semana)");
     $ins->execute([':est_id' => $estudiante_id, ':fecha' => $fecha, ':hora' => $hora_actual, ':semana' => $semana_del_anio]);
@@ -76,21 +76,28 @@ try {
         $stmt_strike->execute([':id' => $estudiante_id, ':semana' => $semana_del_anio, ':pid' => $periodo_id]);
         $resumen = $stmt_strike->fetch(PDO::FETCH_ASSOC);
 
-        $nuevo_conteo = 1;
+        $strike_count = 1;
         if ($resumen) {
-            $nuevo_conteo = $resumen['conteo_tardes'] + 1;
+            $strike_count = $resumen['conteo_tardes'] + 1;
             $upd = $conn->prepare("UPDATE latepass_resumen_semanal SET conteo_tardes = :conteo WHERE id = :id");
-            $upd->execute([':conteo' => $nuevo_conteo, ':id' => $resumen['id']]);
+            $upd->execute([':conteo' => $strike_count, ':id' => $resumen['id']]);
         } else {
             $ins_strike = $conn->prepare("INSERT INTO latepass_resumen_semanal (estudiante_id, periodo_id, semana_del_anio, conteo_tardes) VALUES (:est_id, :pid, :semana, 1)");
             $ins_strike->execute([':est_id' => $estudiante_id, ':pid' => $periodo_id, ':semana' => $semana_del_anio]);
         }
-        $mensaje_final = "⚠️ LLEGADA TARDE para {$nombre_completo}. Strike semanal #{$nuevo_conteo}.";
+        $mensaje_final = "⚠️ LLEGADA TARDE para {$nombre_completo}. Strike semanal #{$strike_count}.";
     }
     
     $conn->commit();
     $response['success'] = true;
     $response['message'] = $mensaje_final;
+    $response['data'] = [
+        'tipo' => 'EST',
+        'nombre_completo' => $nombre_completo,
+        'grado' => $estudiante['grado_cursado'],
+        'hora_registrada' => $hora_actual,
+        'strike_count' => $strike_count
+    ];
 
 } catch (Exception $e) {
     if ($conn->inTransaction()) $conn->rollBack();

@@ -1,8 +1,9 @@
 <?php
+error_reporting(0);
 header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
 
-$response = ['success' => false, 'message' => 'Petición inválida.'];
+$response = ['success' => false, 'message' => 'Petición inválida.', 'data' => null];
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['codigo'])) {
     $response['message'] = 'Acceso denegado o código no proporcionado.';
@@ -11,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['codigo'])) {
 }
 
 try {
+    $conn->beginTransaction();
     $codigo = strtoupper(trim($_POST['codigo']));
     
     if (strpos($codigo, 'STF-') !== 0) {
@@ -19,49 +21,64 @@ try {
         exit();
     }
 
-        $staff_id = (int) substr($codigo, 4);
+    $staff_id = (int) substr($codigo, 4);
 
-    // Usar el timestamp del cliente si está disponible, si no, usar la hora del servidor
     if (isset($_POST['timestamp'])) {
         $dt = new DateTime($_POST['timestamp']);
-        $dt->setTimezone(new DateTimeZone('America/Caracas')); // Ajustar a la zona horaria del servidor
+        $dt->setTimezone(new DateTimeZone('America/Caracas'));
     } else {
         $dt = new DateTime('now', new DateTimeZone('America/Caracas'));
     }
     $fecha_actual = $dt->format('Y-m-d');
     $hora_actual = $dt->format('H:i:s');
 
-    // Obtener nombre del profesor para el mensaje
-    $stmt_prof = $conn->prepare("SELECT nombre_completo FROM profesores WHERE id = :id");
+    $sql_prof = "SELECT p.nombre_completo, p.categoria, pp.posicion 
+                 FROM profesores p 
+                 LEFT JOIN profesor_periodo pp ON p.id = pp.profesor_id AND pp.periodo_id = (SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1)
+                 WHERE p.id = :id";
+    $stmt_prof = $conn->prepare($sql_prof);
     $stmt_prof->execute([':id' => $staff_id]);
     $profesor = $stmt_prof->fetch(PDO::FETCH_ASSOC);
-    $nombre_profesor = $profesor ? $profesor['nombre_completo'] : 'Desconocido';
 
-    // Buscar un registro de entrada abierto para hoy
+    if (!$profesor) {
+        throw new Exception("Miembro del staff no encontrado.");
+    }
+
+    $nombre_profesor = $profesor['nombre_completo'];
+    $posicion = $profesor['posicion'] ?: $profesor['categoria'];
+
     $sql_buscar = "SELECT id FROM entrada_salida_staff WHERE profesor_id = :staff_id AND fecha = :fecha AND hora_salida IS NULL";
     $stmt_buscar = $conn->prepare($sql_buscar);
     $stmt_buscar->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual]);
     $registro_abierto = $stmt_buscar->fetch(PDO::FETCH_ASSOC);
 
+    $tipo_movimiento = '';
     if ($registro_abierto) {
-        // Si hay un registro abierto, se marca la salida
         $sql_update = "UPDATE entrada_salida_staff SET hora_salida = :hora_salida WHERE id = :id";
         $stmt_update = $conn->prepare($sql_update);
         $stmt_update->execute([':hora_salida' => $hora_actual, ':id' => $registro_abierto['id']]);
-        $response['message'] = "✅ Salida registrada: {$nombre_profesor} ({$hora_actual})";
+        $tipo_movimiento = 'Salida';
     } else {
-        // Si no hay registro abierto, se marca la entrada
         $sql_insert = "INSERT INTO entrada_salida_staff (profesor_id, fecha, hora_entrada) VALUES (:staff_id, :fecha, :hora_entrada)";
         $stmt_insert = $conn->prepare($sql_insert);
         $stmt_insert->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual, ':hora_entrada' => $hora_actual]);
-        $response['message'] = "✅ Entrada registrada: {$nombre_profesor} ({$hora_actual})";
+        $tipo_movimiento = 'Entrada';
     }
 
-    $response['success'] = true;
+    $conn->commit();
 
-} catch (PDOException $e) {
-    $response['message'] = 'Error de base de datos: ' . $e->getMessage();
+    $response['success'] = true;
+    $response['message'] = "✅ {$tipo_movimiento} registrada para {$nombre_profesor}.";
+    $response['data'] = [
+        'tipo' => 'STF',
+        'nombre_completo' => $nombre_profesor,
+        'posicion' => $posicion,
+        'hora_registrada' => $hora_actual,
+        'tipo_movimiento' => $tipo_movimiento
+    ];
+
 } catch (Exception $e) {
+    if ($conn->inTransaction()) $conn->rollBack();
     $response['message'] = 'Error en el servidor: ' . $e->getMessage();
 }
 

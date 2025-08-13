@@ -32,6 +32,7 @@ if (!$periodo_activo) {
     <meta charset="UTF-8">
     <title>Control de Acceso - CEIA</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
+    <link rel="stylesheet" href="/ceia_swga/public/css/estilo_roster.css">
     <style>
         body {
             margin: 0;

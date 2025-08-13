@@ -171,7 +171,50 @@ body {
 }
 
 .alerta.exito {
-    color: #155724;
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+    /* Se quita el fondo verde por defecto para dar paso a los tags personalizados */
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+}
+
+.info-tag {
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.info-tag p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+.info-tag.est { background-color: rgba(42, 74, 109, 0.8); }
+.info-tag.stf { background-color: rgba(109, 74, 42, 0.8); }
+.info-tag.veh { background-color: rgba(74, 109, 42, 0.8); }
+
+.strike-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.strike-1 { background-color: #28a745; } /* Verde */
+.strike-2 { background-color: #ffc107; color: #212529; } /* Amarillo */
+.strike-3 { background-color: #dc3545; } /* Rojo */
+
+.strike-final-msg {
+    font-weight: bold;
+    color: #f8d7da; /* Un rojo claro para que resalte */
+    margin-top: 10px !important;
+    padding: 8px;
+    background-color: rgba(220, 53, 69, 0.3);
+    border-radius: 4px;
 }
