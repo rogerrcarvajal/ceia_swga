@@ -14,23 +14,17 @@ try {
     $codigo = strtoupper(trim($_POST['codigo']));
     
     if (strpos($codigo, 'EST-') !== 0) {
-        $response['message'] = 'El código QR no corresponde a un estudiante.';
-        echo json_encode($response);
-        exit();
+        throw new Exception('El código QR no corresponde a un estudiante.');
     }
 
     $estudiante_id = (int) substr($codigo, 4);
     if ($estudiante_id <= 0) {
-        $response['message'] = 'ID de estudiante inválido en el QR.';
-        echo json_encode($response);
-        exit();
+        throw new Exception('ID de estudiante inválido en el QR.');
     }
     
-    $conn->beginTransaction();
-
+    // Obtener período activo e información del estudiante
     $periodo_activo_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
     $periodo_activo = $periodo_activo_stmt->fetch(PDO::FETCH_ASSOC);
-
     if (!$periodo_activo) {
         throw new Exception("No hay un período escolar activo configurado.");
     }
@@ -39,56 +33,57 @@ try {
     $stmt_est = $conn->prepare("SELECT e.nombre_completo, e.apellido_completo, ep.grado_cursado FROM estudiantes e JOIN estudiante_periodo ep ON e.id = ep.estudiante_id WHERE e.id = :id AND ep.periodo_id = :pid");
     $stmt_est->execute([':id' => $estudiante_id, ':pid' => $periodo_id]);
     $estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
-
     if (!$estudiante) {
         throw new Exception("Estudiante no encontrado o no asignado al período activo.");
     }
-
-    if (isset($_POST['timestamp'])) {
-        $dt = new DateTime($_POST['timestamp']);
-        $dt->setTimezone(new DateTimeZone('America/Caracas'));
-    } else {
-        $dt = new DateTime('now', new DateTimeZone('America/Caracas'));
-    }
-    $fecha = $dt->format("Y-m-d");
-    $hora_actual = $dt->format("H:i:s");
-    $semana_del_anio = $dt->format("W");
-
     $nombre_completo = $estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo'];
 
-    $stmt_check = $conn->prepare("SELECT id FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro = :fecha");
-    $stmt_check->execute([':id' => $estudiante_id, ':fecha' => $fecha]);
+    // Establecer zona horaria y obtener fecha/hora actual
+    $dt = new DateTime('now', new DateTimeZone('America/Caracas'));
+    $hora_actual = $dt->format("H:i:s");
+    $fecha_actual = $dt->format("Y-m-d");
 
+    // --- LÓGICA DE NEGOCIO CORREGIDA ---
+    $conn->beginTransaction();
+
+    // 1. Verificar si ya tiene un registro de llegada HOY para evitar duplicados
+    $stmt_check = $conn->prepare("SELECT id FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro = :fecha");
+    $stmt_check->execute([':id' => $estudiante_id, ':fecha' => $fecha_actual]);
     if ($stmt_check->fetch()) {
         throw new Exception("{$nombre_completo} ya registró su llegada hoy.");
     }
-    
-    $es_tarde = ($hora_actual > "08:05:59");
-    $strike_count = 0;
 
+    // 2. Insertar el registro de llegada para TODOS los estudiantes
     $ins = $conn->prepare("INSERT INTO llegadas_tarde (estudiante_id, fecha_registro, hora_llegada, semana_del_anio) VALUES (:est_id, :fecha, :hora, :semana)");
-    $ins->execute([':est_id' => $estudiante_id, ':fecha' => $fecha, ':hora' => $hora_actual, ':semana' => $semana_del_anio]);
+    $ins->execute([
+        ':est_id' => $estudiante_id, 
+        ':fecha' => $fecha_actual, 
+        ':hora' => $hora_actual, 
+        ':semana' => $dt->format("W")
+    ]);
 
-    $mensaje_final = "✅ Llegada puntual registrada para {$nombre_completo}.";
+    $strike_count = 0;
+    $mensaje_final = "✅ Llegada a tiempo registrada para {$nombre_completo}.";
 
-    if ($es_tarde) {
-        $stmt_strike = $conn->prepare("SELECT id, conteo_tardes FROM latepass_resumen_semanal WHERE estudiante_id = :id AND semana_del_anio = :semana AND periodo_id = :pid");
-        $stmt_strike->execute([':id' => $estudiante_id, ':semana' => $semana_del_anio, ':pid' => $periodo_id]);
-        $resumen = $stmt_strike->fetch(PDO::FETCH_ASSOC);
+    // 3. Si es tarde, calcular los strikes. Si no, el strike_count se queda en 0.
+    if ($hora_actual > "08:06:00") {
+        // Calcular strikes semanales (de Lunes a Domingo), contando solo las llegadas TARDE
+        $day_of_week = $dt->format('N'); // 1 (Lunes) a 7 (Domingo)
+        $start_of_week_date = (clone $dt)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
+        $end_of_week_date = (clone $dt)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
 
-        $strike_count = 1;
-        if ($resumen) {
-            $strike_count = $resumen['conteo_tardes'] + 1;
-            $upd = $conn->prepare("UPDATE latepass_resumen_semanal SET conteo_tardes = :conteo WHERE id = :id");
-            $upd->execute([':conteo' => $strike_count, ':id' => $resumen['id']]);
-        } else {
-            $ins_strike = $conn->prepare("INSERT INTO latepass_resumen_semanal (estudiante_id, periodo_id, semana_del_anio, conteo_tardes) VALUES (:est_id, :pid, :semana, 1)");
-            $ins_strike->execute([':est_id' => $estudiante_id, ':pid' => $periodo_id, ':semana' => $semana_del_anio]);
-        }
+        $stmt_strikes = $conn->prepare(
+            "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND hora_llegada > '08:06:00'"
+        );
+        $stmt_strikes->execute([':id' => $estudiante_id, ':start_week' => $start_of_week_date, ':end_week' => $end_of_week_date]);
+        $strike_count = (int) $stmt_strikes->fetch(PDO::FETCH_ASSOC)['count'];
+        
         $mensaje_final = "⚠️ LLEGADA TARDE para {$nombre_completo}. Strike semanal #{$strike_count}.";
     }
-    
+
     $conn->commit();
+
+    // 4. Preparar respuesta exitosa
     $response['success'] = true;
     $response['message'] = $mensaje_final;
     $response['data'] = [

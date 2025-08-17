@@ -8,70 +8,78 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("Mostrando mensaje:", tipo, data);
     let html = '';
 
-    // Estilos base para la alerta
-    qrResult.style.padding = '15px';
-    qrResult.style.marginBottom = '20px';
-    qrResult.style.borderRadius = '8px';
-    qrResult.style.textAlign = 'left';
-    qrResult.style.color = 'white';
-    qrResult.style.textShadow = '1px 1px 2px rgba(0,0,0,0.5)';
-    qrResult.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+    try {
+      // Estilos base para la alerta
+      qrResult.style.padding = '15px';
+      qrResult.style.marginBottom = '20px';
+      qrResult.style.borderRadius = '8px';
+      qrResult.style.textAlign = 'left';
+      qrResult.style.color = 'white';
+      qrResult.style.textShadow = '1px 1px 2px rgba(0,0,0,0.5)';
+      qrResult.style.border = '1px solid rgba(255, 255, 255, 0.3)';
 
-    if (tipo === 'exito' && data && data.tipo) {
-        switch (data.tipo) {
-            case 'EST':
-                qrResult.style.backgroundColor = 'rgba(42, 74, 109, 0.9)';
-                let strikeClass = '';
-                let strikeMsg = '';
-                if (data.strike_count > 0) {
-                    let color = '#28a745'; // Verde para strike 1
-                    let textColor = 'white';
-                    if (data.strike_count === 2) { color = '#ffc107'; textColor = '#212529'; } // Amarillo
-                    if (data.strike_count >= 3) color = '#dc3545'; // Rojo
-                    strikeMsg = `<div style="display:inline-block; padding: 5px 12px; border-radius:15px; font-weight:bold; color:${textColor}; background-color:${color}; margin-bottom:10px; font-size:1em; text-transform:uppercase;">STRIKE ${data.strike_count}</div>`;
-                }
-                html = `
-                    ${strikeMsg}
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Estudiante:</strong> ${data.nombre_completo}</p>
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Grado:</strong> ${data.grado}</p>
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Hora:</strong> ${data.hora_registrada}</p>
-                    ${data.strike_count >= 3 ? '<p style="font-weight:bold; color:#f8d7da; margin-top:10px; padding:8px; background-color:rgba(220, 53, 69, 0.3); border-radius:4px;">Pierde la primera hora de clases. Debe comunicarse con su representante.</p>' : ''}
-                `;
-                break;
-            case 'STF':
-                qrResult.style.backgroundColor = 'rgba(109, 74, 42, 0.9)';
-                html = `
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Staff:</strong> ${data.nombre_completo}</p>
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Posición:</strong> ${data.posicion}</p>
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Hora de ${data.tipo_movimiento}:</strong> ${data.hora_registrada}</p>
-                `;
-                break;
-            case 'VEH':
-                qrResult.style.backgroundColor = 'rgba(74, 109, 42, 0.9)';
-                html = `
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Vehículo:</strong> ${data.placa} - ${data.modelo}</p>
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Estudiante:</strong> ${data.nombre_completo} (${data.grado})</p>
-                    <p style="margin:5px 0; font-size:1.1em;"><strong>Hora de ${data.tipo_movimiento}:</strong> ${data.hora_registrada}</p>
-                `;
-                break;
-        }
-    } else {
-        // Mensaje de error
+      if (tipo === 'exito' && data && data.tipo) {
+          switch (data.tipo) {
+              case 'EST':
+                  let strikeMsg = '';
+                  if (data.strike_count > 0) {
+                      let color = '#28a745'; // Verde para strike 1
+                      let textColor = 'white';
+                      if (data.strike_count === 2) { color = '#ffc107'; textColor = '#212529'; } // Amarillo
+                      if (data.strike_count >= 3) { color = '#dc3545'; } // Rojo
+                      
+                      qrResult.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                      strikeMsg = `<div style="padding: 8px 12px; border-radius:15px; font-weight:bold; color:${textColor}; background-color:${color}; margin-bottom:10px; font-size:1em; text-transform:uppercase; text-align:center;">STRIKE SEMANAL #${data.strike_count}</div>`;
+                  } else {
+                      qrResult.style.backgroundColor = 'rgba(42, 74, 109, 0.9)'; // Azul neutro
+                  }
+
+                  html = `
+                      ${strikeMsg}
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Estudiante:</strong> ${data.nombre_completo}</p>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Grado:</strong> ${data.grado}</p>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Hora:</strong> ${data.hora_registrada}</p>
+                      ${data.strike_count >= 3 ? '<p style="font-weight:bold; color:#f8d7da; margin-top:10px; padding:8px; background-color:rgba(220, 53, 69, 0.3); border-radius:4px;">Pierde la primera hora de clases. Debe comunicarse con su representante.</p>' : ''}
+                  `;
+                  break;
+              case 'STF':
+                  qrResult.style.backgroundColor = 'rgba(109, 74, 42, 0.9)'; // Marrón para Staff
+                  html = `
+                      <h4 style="margin:0 0 10px 0; padding:0; font-size:1.2em; text-transform:uppercase;">${data.tipo_movimiento}</h4>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Staff:</strong> ${data.nombre_completo}</p>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Posición:</strong> ${data.posicion}</p>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Hora:</strong> ${data.hora_registrada}</p>
+                  `;
+                  break;
+              case 'VEH':
+                  qrResult.style.backgroundColor = 'rgba(74, 109, 42, 0.9)'; // Verde para Vehículos
+                  html = `
+                      <h4 style="margin:0 0 10px 0; padding:0; font-size:1.2em; text-transform:uppercase;">${data.tipo_movimiento}</h4>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Vehículo:</strong> ${data.placa} - ${data.modelo}</p>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Estudiante:</strong> ${data.nombre_completo} (${data.grado})</p>
+                      <p style="margin:5px 0; font-size:1.1em;"><strong>Hora:</strong> ${data.hora_registrada}</p>
+                  `;
+                  break;
+          }
+      } else {
+          qrResult.style.backgroundColor = 'rgba(231, 76, 60, 0.9)';
+          qrResult.style.textAlign = 'center';
+          html = `<p style="font-weight:bold;">${data}</p>`;
+      }
+    } catch (error) {
+        console.error("Error al mostrar mensaje:", error);
         qrResult.style.backgroundColor = 'rgba(231, 76, 60, 0.9)';
         qrResult.style.textAlign = 'center';
-        html = `<p style="font-weight:bold;">${data}</p>`;
+        html = `<p style="font-weight:bold;">Error al procesar la alerta: ${error.message}</p>`;
     }
 
     qrResult.innerHTML = html;
-    qrResult.className = 'alerta'; // Quitar otras clases para evitar conflictos
+    qrResult.className = 'alerta';
     qrResult.style.display = "block";
 
     clearTimeout(window.timeoutMensaje);
     window.timeoutMensaje = setTimeout(() => {
       qrResult.style.display = "none";
-      qrInput.value = "";
-      procesando = false;
-      qrInput.focus();
     }, 5000);
   }
 
@@ -79,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!codigo || procesando) return;
 
     procesando = true;
+    qrInput.value = ""; 
+    
     console.log(`Procesando código: ${codigo}`);
     
     const codigoNormalizado = codigo.trim().replace("/", "-").toUpperCase();
@@ -92,7 +102,8 @@ document.addEventListener("DOMContentLoaded", () => {
       urlApi = "/ceia_swga/api/registrar_movimiento_vehiculo.php";
     } else {
       mostrarMensaje("error", "QR no reconocido o inválido.");
-      procesando = false;
+      procesando = false; 
+      qrInput.focus();
       return;
     }
 
@@ -124,6 +135,11 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(error => {
         console.error("Error en la función fetch:", error);
         mostrarMensaje("error", `Error de comunicación: ${error.message}`);
+      })
+      .finally(() => {
+        procesando = false;
+        qrInput.focus();
+        console.log("Proceso finalizado. Listo para el siguiente escaneo.");
       });
   }
 
@@ -135,11 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Asegurarse de que el input tenga el foco
   setInterval(() => {
     if (!procesando && document.activeElement !== qrInput) {
       qrInput.focus();
     }
   }, 500);
-  qrInput.focus(); // Foco inicial
+  qrInput.focus();
 });

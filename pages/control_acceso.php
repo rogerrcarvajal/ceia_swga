@@ -46,6 +46,7 @@ if (!$periodo_activo) {
             background-color: rgba(0, 0, 0, 0.3);
             backdrop-filter:blur(10px);
             margin: 70px auto;
+            margin-top: 100px;
             padding: 30px;
             border-radius: 10px;
             max-width: 80%;
