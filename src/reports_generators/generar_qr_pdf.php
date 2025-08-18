@@ -112,7 +112,7 @@ $pdf->Image($qr_temp_file, 65, 100, 80, 80);
 // 7. Enviar el PDF y limpiar
 // Nombre del archivo de salida
 $nombre_archivo = 'QR_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf';
-$pdf->Output('I', $nombre_archivo); // 'I' para mostrar en el navegador
+$pdf->Output('D', $nombre_archivo); // 'D' para forzar la descarga
 unlink($qr_temp_file); // Borrar el archivo de imagen temporal
 
 ?>
