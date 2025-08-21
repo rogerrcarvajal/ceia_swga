@@ -179,7 +179,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                 }
 
                 try {
-                    const response = await fetch(`/api/buscar_representante.php?tipo=${tipo}&cedula=${cedula}`);
+                    const url = `/ceia_swga/api/buscar_representante.php?tipo=${tipo}&cedula=${cedula}`;
+                    const response = await fetch(url);
                     if (!response.ok) throw new Error('Error de red');
                     const data = await response.json();
 
@@ -194,7 +195,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                         resultadoDiv.className = 'resultado-busqueda no-encontrado';
                         resultadoDiv.innerHTML = "Cédula no encontrada. Se creará un nuevo registro.";
                     }
-                } catch (error) { console.error('Error al buscar:', error); }
+                } catch (error) { 
+                    console.error('Error al buscar:', error);
+                    resultadoDiv.className = 'resultado-busqueda no-encontrado';
+                    resultadoDiv.innerHTML = "Error al buscar. Revise la consola para más detalles.";
+                }
             }
 
             window.vincularRepresentante = function(tipo, id, nombre) {
@@ -226,8 +231,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                 });
             }
 
-            document.getElementById('padre_cedula_pasaporte').addEventListener('keyup', () => buscarRepresentante('padre'));
-            document.getElementById('madre_cedula_pasaporte').addEventListener('keyup', () => buscarRepresentante('madre'));
+                        document.getElementById('padre_cedula_pasaporte').addEventListener('blur', () => buscarRepresentante('padre'));
+            document.getElementById('madre_cedula_pasaporte').addEventListener('blur', () => buscarRepresentante('madre'));
         });
     </script>
 </head>

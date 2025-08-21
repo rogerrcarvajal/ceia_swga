@@ -21,25 +21,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (tipo === 'exito' && data && data.tipo) {
           switch (data.tipo) {
               case 'EST':
-                  let strikeMsg = '';
-                  if (data.strike_count > 0) {
-                      let color = '#28a745'; // Verde para strike 1
-                      let textColor = 'white';
-                      if (data.strike_count === 2) { color = '#ffc107'; textColor = '#212529'; } // Amarillo
-                      if (data.strike_count >= 3) { color = '#dc3545'; } // Rojo
-                      
-                      qrResult.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-                      strikeMsg = `<div style="padding: 8px 12px; border-radius:15px; font-weight:bold; color:${textColor}; background-color:${color}; margin-bottom:10px; font-size:1em; text-transform:uppercase; text-align:center;">STRIKE SEMANAL #${data.strike_count}</div>`;
-                  } else {
-                      qrResult.style.backgroundColor = 'rgba(42, 74, 109, 0.9)'; // Azul neutro
-                  }
-
+                  qrResult.style.backgroundColor = 'rgba(42, 74, 109, 0.9)'; // Azul neutro
                   html = `
-                      ${strikeMsg}
+                      <h4 style="margin:0 0 10px 0; padding:0; font-size:1.2em; text-transform:uppercase;">LLEGADA REGISTRADA</h4>
                       <p style="margin:5px 0; font-size:1.1em;"><strong>Estudiante:</strong> ${data.nombre_completo}</p>
                       <p style="margin:5px 0; font-size:1.1em;"><strong>Grado:</strong> ${data.grado}</p>
                       <p style="margin:5px 0; font-size:1.1em;"><strong>Hora:</strong> ${data.hora_registrada}</p>
-                      ${data.strike_count >= 3 ? '<p style="font-weight:bold; color:#f8d7da; margin-top:10px; padding:8px; background-color:rgba(220, 53, 69, 0.3); border-radius:4px;">Pierde la primera hora de clases. Debe comunicarse con su representante.</p>' : ''}
                   `;
                   break;
               case 'STF':
