@@ -15,7 +15,7 @@ try {
     // en la tabla 'estudiante_periodo' para el período seleccionado.
     $sql = "SELECT e.id, e.nombre_completo, e.apellido_completo 
             FROM estudiantes e
-            WHERE e.id NOT IN (
+            WHERE e.activo = TRUE AND e.id NOT IN (
                 SELECT ep.estudiante_id FROM estudiante_periodo ep WHERE ep.periodo_id = :periodo_id
             )
             ORDER BY e.apellido_completo, e.nombre_completo";
