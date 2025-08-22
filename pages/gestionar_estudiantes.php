@@ -20,26 +20,27 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
     exit();
 }
 
-// --- Obtener IDs ---
+// --- Obtener IDs de la URL ---
 $estudiante_id = $_GET['id'] ?? 0;
+$periodo_id = $_GET['periodo_id'] ?? 0;
 
-// --- OBTENER DATOS PARA MOSTRAR ---
+// --- Validar IDs ---
+if (!$estudiante_id || !$periodo_id) {
+    die("Error: Se requiere un ID de estudiante y un ID de período válidos.");
+}
+
+// --- OBTENER DATOS DEL ESTUDIANTE Y DEL PERÍODO ---
 $stmt_est = $conn->prepare("SELECT * FROM estudiantes WHERE id = :id");
 $stmt_est->execute([':id' => $estudiante_id]);
 $estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
 
-// ----> ¡AQUÍ ESTÁ LA CORRECCIÓN IMPORTANTE! <----
-// Si no se encuentra un estudiante con ese ID, detenemos la ejecución con un mensaje claro.
-if (!$estudiante) {
-    die("Error: No se encontró ningún estudiante con el ID proporcionado.");
-}
+$stmt_per = $conn->prepare("SELECT * FROM periodos_escolares WHERE id = :id");
+$stmt_per->execute([':id' => $periodo_id]);
+$periodo = $stmt_per->fetch(PDO::FETCH_ASSOC);
 
-// Obtener el período activo
-$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-if (!$periodo_activo) {
-    die("No hay un período escolar activo. Por favor, active uno.");
+if (!$estudiante || !$periodo) {
+    die("Error: No se encontró el estudiante o el período especificado.");
 }
-$periodo_id_activo = $periodo_activo['id'];
 
 $mensaje = "";
 
@@ -50,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // Busca si ya existe una asignación para este estudiante en este período
     $stmt_check = $conn->prepare("SELECT id FROM estudiante_periodo WHERE estudiante_id = :eid AND periodo_id = :pid");
-    $stmt_check->execute([':eid' => $estudiante_id, ':pid' => $periodo_id_activo]);
+    $stmt_check->execute([':eid' => $estudiante_id, ':pid' => $periodo_id]);
     $asignacion_existente = $stmt_check->fetch();
 
     if ($asignar_periodo) {
@@ -59,40 +60,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             if ($asignacion_existente) {
                 // Ya existía, se ACTUALIZA el grado
-                $sql = "UPDATE estudiante_periodo SET grado_cursado = :grado WHERE estudiante_id = :eid AND periodo_id = :pid";
+                $sql = "UPDATE estudiante_periodo SET grado_cursado = :grado WHERE id = :asig_id";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([':grado' => $grado_cursado, ':eid' => $estudiante_id, ':pid' => $periodo_id_activo]);
+                $stmt->execute([':grado' => $grado_cursado, ':asig_id' => $asignacion_existente['id']]);
             } else {
                 // No existía, se INSERTA la nueva asignación
                 $sql = "INSERT INTO estudiante_periodo (estudiante_id, periodo_id, grado_cursado) VALUES (:eid, :pid, :grado)";
                 $stmt = $conn->prepare($sql);
-                $stmt->execute([':eid' => $estudiante_id, ':pid' => $periodo_id_activo, ':grado' => $grado_cursado]);
+                $stmt->execute([':eid' => $estudiante_id, ':pid' => $periodo_id, ':grado' => $grado_cursado]);
             }
-            $mensaje = "✅ Asignación guardada para el período activo.";
+            $mensaje = "✅ Asignación guardada para el período " . htmlspecialchars($periodo['nombre_periodo']);
         }
     } else {
         // Si el checkbox no está marcado, se ELIMINA la asignación
         if ($asignacion_existente) {
-            $sql = "DELETE FROM estudiante_periodo WHERE estudiante_id = :eid AND periodo_id = :pid";
+            $sql = "DELETE FROM estudiante_periodo WHERE id = :asig_id";
             $stmt = $conn->prepare($sql);
-            $stmt->execute([':eid' => $estudiante_id, ':pid' => $periodo_id_activo]);
-            $mensaje = "✅ Asignación eliminada del período activo.";
+            $stmt->execute([':asig_id' => $asignacion_existente['id']]);
+            $mensaje = "✅ Asignación eliminada del período " . htmlspecialchars($periodo['nombre_periodo']);
         }
     }
 }
 
 // --- Obtener datos FRESCOS para mostrar en el formulario ---
-// Datos del estudiante (CORREGIDO: busca en la tabla 'estudiantes')
-$stmt_est = $conn->prepare("SELECT * FROM estudiantes WHERE id = :id");
-$stmt_est->execute([':id' => $estudiante_id]);
-$estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
-
-// Asignación actual del estudiante en el período activo (para marcar el checkbox y el grado)
+// Asignación actual del estudiante en el período seleccionado (para marcar el checkbox y el grado)
 $stmt_asig = $conn->prepare("SELECT * FROM estudiante_periodo WHERE estudiante_id = :eid AND periodo_id = :pid");
-$stmt_asig->execute([':eid' => $estudiante_id, ':pid' => $periodo_id_activo]);
+$stmt_asig->execute([':eid' => $estudiante_id, ':pid' => $periodo_id]);
 $asignacion_actual = $stmt_asig->fetch(PDO::FETCH_ASSOC);
 
-// Lista de grados disponibles para el formulario
+// Lista de grados disponibles
 $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Kindergarten', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
 ?>
 <!DOCTYPE html>
@@ -125,7 +121,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
         <h1>SWGA - Gestionar Asignación</h1>
-        <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+        <h3 style="color: #a2ff96;">Período: <?= htmlspecialchars($periodo['nombre_periodo']) ?></h3>
     </div>
 
     <div class="formulario-contenedor" style="max-width: 600px; margin: 20px auto;">
@@ -136,7 +132,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
 
         <form method="POST" action="">
             <fieldset>
-                <legend>Asignación para el Período Activo</legend>
+                <legend>Asignación para el Período: <?= htmlspecialchars($periodo['nombre_periodo']) ?></legend>
                 <label>
                     <input type="checkbox" id="asignar_periodo" name="asignar_periodo" <?= $asignacion_actual ? 'checked' : '' ?>>
                     Asignar a este período escolar
@@ -155,7 +151,7 @@ $grados_disponibles = ['Daycare', 'Preschool', 'Prekinder 3', 'Prekinder 4', 'Ki
             </fieldset>
             <br>
             <button type="submit">Guardar Cambios</button>
-            <a href="/ceia_swga/pages/lista_gestion_estudiantes.php" class="btn">Volver y gestionar otro estudiante</a>
+            <a href="/ceia_swga/pages/lista_gestion_estudiantes.php?periodo_id=<?= $periodo_id ?>" class="btn">Volver y gestionar otro estudiante</a>
         </form>
     </div>
 </body>

@@ -34,16 +34,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const periodoId = periodoSelector.value;
         const panelInformativo = document.getElementById('panel_informativo');
         const panelAsignacion = document.getElementById('panel_asignacion');
+        const gestionarBtn = document.getElementById('gestionar_estudiantes_btn');
         
         if (periodoId) {
             panelInformativo.style.display = 'none';
             panelAsignacion.style.display = 'block';
             document.getElementById('periodo_id_hidden').value = periodoId;
+
+            // Actualizar dinámicamente el enlace del botón "Gestionar Estudiantes"
+            gestionarBtn.href = `/ceia_swga/pages/lista_gestion_estudiantes.php?periodo_id=${periodoId}`;
+
             cargarEstudiantesAsignados(periodoId);
             cargarEstudiantesNoAsignados(periodoId);
         } else {
             panelInformativo.style.display = 'block';
             panelAsignacion.style.display = 'none';
+            // Resetear el enlace si no hay período seleccionado
+            gestionarBtn.href = '/ceia_swga/pages/lista_gestion_estudiantes.php';
         }
     });
 

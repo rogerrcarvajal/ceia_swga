@@ -20,16 +20,21 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
     exit();
 }
 
-// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
-// --- Obtener el período escolar activo ---
-$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-
-if (!$periodo_activo) {
-    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
+// --- OBTENER PERIODO ID DE LA URL ---
+$periodo_id = $_GET['periodo_id'] ?? null;
+if (!$periodo_id) {
+    // Si no hay periodo_id, no podemos continuar.
+    // Podríamos redirigir o mostrar un error.
+    // Por ahora, redirigimos a la página principal de asignación.
+    header("Location: /ceia_swga/pages/asignar_estudiante_periodo.php");
+    exit();
 }
 
-// --- 2. OBTENER LISTA DE ESTUDIANTES PARA EL PANEL IZQUIERDO ---
+// --- OBTENER LISTA DE ESTUDIANTES ---
+// La lógica de negocio aquí es mostrar TODOS los estudiantes para que puedan ser gestionados
+// en el contexto del período seleccionado.
 $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM estudiantes ORDER BY apellido_completo, nombre_completo ASC")->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -87,7 +92,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
             <?php foreach ($estudiantes as $e): ?>
                 <li>
                     <span><?= htmlspecialchars($e['apellido_completo'] . ', ' . $e['nombre_completo']) ?></span>
-                    <a href="/ceia_swga/pages/gestionar_estudiantes.php?id=<?= $e['id'] ?>" class="btn-gestionar">Gestionar</a>
+                    <a href="/ceia_swga/pages/gestionar_estudiantes.php?id=<?= $e['id'] ?>&periodo_id=<?= $periodo_id ?>" class="btn-gestionar">Gestionar</a>
                 </li>
             <?php endforeach; ?>
         <?php else: ?>
