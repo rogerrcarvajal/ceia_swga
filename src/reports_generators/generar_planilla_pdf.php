@@ -137,7 +137,6 @@ $pdf->DataRow('Hermanos estudiando en CEIA:', $estudiante['estudiante_hermanos']
 $pdf->DataRow('Colegio(s) donde estudió antes:', $estudiante['colegios_anteriores']);
 $pdf->DataRow('Edad:', $estudiante['edad_estudiante']);
 $pdf->DataRow('Staff:', $estudiante['staff'] ? 'Sí' : 'No');
-$pdf->DataRow('Activo:', $estudiante['activo'] ? 'Sí' : 'No');
 $pdf->Ln(8);
 
 // Sección 2: Datos del Padre
