@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 header('Content-Type: application/json');
 session_start();
 require_once __DIR__ . '/../src/config.php';

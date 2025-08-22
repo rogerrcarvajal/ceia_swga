@@ -32,40 +32,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
         $conn->beginTransaction();
         $periodo_id_activo = $periodo_activo['id'];
 
-        // --- GESTIÓN INTELIGENTE DEL PADRE (CORREGIDA) ---
+        // --- GESTIÓN INTELIGENTE DEL PADRE (A PRUEBA DE ERRORES) ---
         $padre_id = $_POST['padre_id_existente'] ?? null;
         if (empty($padre_id) && !empty($_POST['padre_cedula_pasaporte'])) {
-            // Si no se vinculó un padre existente, se crea uno nuevo, confiando en la decisión del usuario en el frontend.
-            $sql_padre = "INSERT INTO padres (padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
-                          VALUES (:nombre, :apellido, :nac, :ced, :nacd, :idioma, :prof, :emp, :tel_t, :cel, :email)";
-            $stmt_padre = $conn->prepare($sql_padre);
-            $stmt_padre->execute([
-                ':nombre' => $_POST['padre_nombre'], ':apellido' => $_POST['padre_apellido'],
-                ':nac' => $_POST['padre_fecha_nacimiento'], ':ced' => $_POST['padre_cedula_pasaporte'],
-                ':nacd' => $_POST['padre_nacionalidad'], ':idioma' => $_POST['padre_idioma'],
-                ':prof' => $_POST['padre_profesion'], ':emp' => $_POST['padre_empresa'],
-                ':tel_t' => $_POST['padre_telefono_trabajo'], ':cel' => $_POST['padre_celular'],
-                ':email' => $_POST['padre_email']
-            ]);
-            $padre_id = $conn->lastInsertId();
+            // ANTES DE INSERTAR, VERIFICAMOS SI LA CÉDULA YA EXISTE EN LA BD
+            $stmt_check_padre = $conn->prepare("SELECT padre_id FROM padres WHERE padre_cedula_pasaporte = :cedula");
+            $stmt_check_padre->execute([':cedula' => $_POST['padre_cedula_pasaporte']]);
+            $padre_existente = $stmt_check_padre->fetch();
+
+            if ($padre_existente) {
+                // Si ya existe, usamos su ID
+                $padre_id = $padre_existente['padre_id'];
+            } else {
+                // Si NO existe, procedemos a INSERTAR
+                $sql_padre = "INSERT INTO padres (padre_nombre, padre_apellido, padre_fecha_nacimiento, padre_cedula_pasaporte, padre_nacionalidad, padre_idioma, padre_profesion, padre_empresa, padre_telefono_trabajo, padre_celular, padre_email)
+                              VALUES (:nombre, :apellido, :nac, :ced, :nacd, :idioma, :prof, :emp, :tel_t, :cel, :email)";
+                $stmt_padre = $conn->prepare($sql_padre);
+                $stmt_padre->execute([
+                    ':nombre' => $_POST['padre_nombre'], ':apellido' => $_POST['padre_apellido'],
+                    ':nac' => $_POST['padre_fecha_nacimiento'], ':ced' => $_POST['padre_cedula_pasaporte'],
+                    ':nacd' => $_POST['padre_nacionalidad'], ':idioma' => $_POST['padre_idioma'],
+                    ':prof' => $_POST['padre_profesion'], ':emp' => $_POST['padre_empresa'],
+                    ':tel_t' => $_POST['padre_telefono_trabajo'], ':cel' => $_POST['padre_celular'],
+                    ':email' => $_POST['padre_email']
+                ]);
+                $padre_id = $conn->lastInsertId();
+            }
         }
 
-        // --- GESTIÓN INTELIGENTE DE LA MADRE (CORREGIDA) ---
+        // --- GESTIÓN INTELIGENTE DE LA MADRE (A PRUEBA DE ERRORES) ---
         $madre_id = $_POST['madre_id_existente'] ?? null;
         if (empty($madre_id) && !empty($_POST['madre_cedula_pasaporte'])) {
-            // Si no se vinculó una madre existente, se crea una nueva, confiando en la decisión del usuario en el frontend.
-            $sql_madre = "INSERT INTO madres (madre_nombre, madre_apellido, madre_fecha_nacimiento, madre_cedula_pasaporte, madre_nacionalidad, madre_idioma, madre_profesion, madre_empresa, madre_telefono_trabajo, madre_celular, madre_email)
-                          VALUES (:nombre, :apellido, :nac, :ced, :nacd, :idioma, :prof, :emp, :tel_t, :cel, :email)";
-            $stmt_madre = $conn->prepare($sql_madre);
-            $stmt_madre->execute([
-                ':nombre' => $_POST['madre_nombre'], ':apellido' => $_POST['madre_apellido'],
-                ':nac' => $_POST['madre_fecha_nacimiento'], ':ced' => $_POST['madre_cedula_pasaporte'],
-                ':nacd' => $_POST['madre_nacionalidad'], ':idioma' => $_POST['madre_idioma'],
-                ':prof' => $_POST['madre_profesion'], ':emp' => $_POST['madre_empresa'],
-                ':tel_t' => $_POST['madre_telefono_trabajo'], ':cel' => $_POST['madre_celular'],
-                ':email' => $_POST['madre_email']
-            ]);
-            $madre_id = $conn->lastInsertId();
+            // ANTES DE INSERTAR, VERIFICAMOS SI LA CÉDULA YA EXISTE EN LA BD
+            $stmt_check_madre = $conn->prepare("SELECT madre_id FROM madres WHERE madre_cedula_pasaporte = :cedula");
+            $stmt_check_madre->execute([':cedula' => $_POST['madre_cedula_pasaporte']]);
+            $madre_existente = $stmt_check_madre->fetch();
+
+            if ($madre_existente) {
+                // Si ya existe, usamos su ID
+                $madre_id = $madre_existente['madre_id'];
+            } else {
+                // Si NO existe, procedemos a INSERTAR
+                $sql_madre = "INSERT INTO madres (madre_nombre, madre_apellido, madre_fecha_nacimiento, madre_cedula_pasaporte, madre_nacionalidad, madre_idioma, madre_profesion, madre_empresa, madre_telefono_trabajo, madre_celular, madre_email)
+                              VALUES (:nombre, :apellido, :nac, :ced, :nacd, :idioma, :prof, :emp, :tel_t, :cel, :email)";
+                $stmt_madre = $conn->prepare($sql_madre);
+                $stmt_madre->execute([
+                    ':nombre' => $_POST['madre_nombre'], ':apellido' => $_POST['madre_apellido'],
+                    ':nac' => $_POST['madre_fecha_nacimiento'], ':ced' => $_POST['madre_cedula_pasaporte'],
+                    ':nacd' => $_POST['madre_nacionalidad'], ':idioma' => $_POST['madre_idioma'],
+                    ':prof' => $_POST['madre_profesion'], ':emp' => $_POST['madre_empresa'],
+                    ':tel_t' => $_POST['madre_telefono_trabajo'], ':cel' => $_POST['madre_celular'],
+                    ':email' => $_POST['madre_email']
+                ]);
+                $madre_id = $conn->lastInsertId();
+            }
         }
         
         // --- INSERCIÓN DEL ESTUDIANTE (CON LOS IDs CORRECTOS) ---

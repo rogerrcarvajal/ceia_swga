@@ -1,5 +1,4 @@
 <?php
-error_reporting(0);
 header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
 
@@ -41,40 +40,33 @@ try {
 
     $conn->beginTransaction();
 
-    // --- LÓGICA DE REGISTRO POR HORA ---
-    $stmt_buscar = $conn->prepare("SELECT id, hora_entrada, hora_salida FROM entrada_salida_staff WHERE profesor_id = :staff_id AND fecha = :fecha");
+    // --- LÓGICA DE REGISTRO DE ENTRADA/SALIDA (CORREGIDA) ---
+    // Buscar un registro de entrada abierto (sin hora de salida) para hoy.
+    $stmt_buscar = $conn->prepare("SELECT id FROM entrada_salida_staff WHERE profesor_id = :staff_id AND fecha = :fecha AND hora_salida IS NULL");
     $stmt_buscar->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual]);
-    $registros_hoy = $stmt_buscar->fetchAll(PDO::FETCH_ASSOC);
+    $registro_abierto = $stmt_buscar->fetch(PDO::FETCH_ASSOC);
 
     $tipo_movimiento = '';
 
-    if (count($registros_hoy) == 0) {
-        // PRIMER REGISTRO DEL DÍA: Debe ser una ENTRADA antes de las 12 PM
-        if ($hora_actual >= "12:00:00") {
-            throw new Exception("La primera lectura (Entrada) debe realizarse antes de las 12:00 PM.");
+    if ($registro_abierto) {
+        // Si existe un registro abierto, esta es una SALIDA.
+        $sql_update = "UPDATE entrada_salida_staff SET hora_salida = :hora_salida WHERE id = :id";
+        $stmt_update = $conn->prepare($sql_update);
+        $stmt_update->execute([':hora_salida' => $hora_actual, ':id' => $registro_abierto['id']]);
+        $tipo_movimiento = 'Salida';
+    } else {
+        // Si no hay registros abiertos, esta es una ENTRADA.
+        // Opcional: Verificar si ya existe un ciclo completo para hoy para evitar múltiples entradas/salidas.
+        $stmt_check_completo = $conn->prepare("SELECT id FROM entrada_salida_staff WHERE profesor_id = :staff_id AND fecha = :fecha AND hora_salida IS NOT NULL");
+        $stmt_check_completo->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual]);
+        if ($stmt_check_completo->fetch()) {
+             throw new Exception("Ya se ha completado un ciclo de entrada y salida para hoy.");
         }
+
         $sql_insert = "INSERT INTO entrada_salida_staff (profesor_id, fecha, hora_entrada) VALUES (:staff_id, :fecha, :hora_entrada)";
         $stmt_insert = $conn->prepare($sql_insert);
         $stmt_insert->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual, ':hora_entrada' => $hora_actual]);
         $tipo_movimiento = 'Entrada';
-
-    } else if (count($registros_hoy) == 1) {
-        $registro = $registros_hoy[0];
-        // SEGUNDO REGISTRO DEL DÍA: Debe ser una SALIDA después de las 12 PM
-        if ($registro['hora_salida'] !== null) {
-            throw new Exception("Ya se registró una entrada y una salida completa para hoy.");
-        }
-        if ($hora_actual < "12:00:00") {
-            throw new Exception("La segunda lectura (Salida) debe realizarse después de las 12:00 PM.");
-        }
-        $sql_update = "UPDATE entrada_salida_staff SET hora_salida = :hora_salida WHERE id = :id";
-        $stmt_update = $conn->prepare($sql_update);
-        $stmt_update->execute([':hora_salida' => $hora_actual, ':id' => $registro['id']]);
-        $tipo_movimiento = 'Salida';
-
-    } else {
-        // MÁS DE UN REGISTRO: Ya completó el ciclo de hoy
-        throw new Exception("Ya se ha completado el ciclo de entrada y salida para hoy.");
     }
 
     $conn->commit();
