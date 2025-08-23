@@ -87,17 +87,12 @@ $categorias_staff = [
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 30px; border-radius: 10px; max-width: 80%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
         .form-seccion { width: 45%; color: white; min-width: 350px; }
         .form-seccion h3 { text-align: center; border-bottom: 1px solidrgb(42, 42, 42); padding-bottom: 10px; }
-<<<<<<< HEAD
         .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px;}
-=======
-        .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 30px; padding-top: 20px;}
-        .content img { width: 180px; }
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
         .lista-profesores { list-style: none; padding: 0; max-height: 400px; overflow-y: auto; }
         .lista-profesores li { background-color: rgba(255,255,255,0.1); padding: 10px; border-radius: 5px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .lista-profesores a { color: #87cefa; text-decoration: none; margin-left: 10px; }
-    </style>    
+    </style>
 </head>
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
@@ -127,11 +122,7 @@ $categorias_staff = [
                 <br><br>
                 <button type="submit" name="agregar">Agregar Staff</button>
                 <!-- Botón para volver al Home -->
-<<<<<<< HEAD
                 <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
-=======
-            <a href="/ceia_swga/pages/dashboard.php" class="btn">Volver</a> 
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
             </form>
         </div> 
 
@@ -161,4 +152,4 @@ $categorias_staff = [
         </div>
     </div>
 </body>
-</html
+</html>

@@ -55,11 +55,7 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
         .content {
             color: white;
             text-align: center;
-<<<<<<< HEAD
             margin-top: 20px;
-=======
-            margin-top: 1px;
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
             text-shadow: 1px 1px 2px black;
         }
 

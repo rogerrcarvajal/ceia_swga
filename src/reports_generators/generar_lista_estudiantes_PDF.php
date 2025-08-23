@@ -8,7 +8,6 @@ if (!isset($_SESSION['usuario']) || !in_array($_SESSION['usuario']['rol'], ['mas
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 
-<<<<<<< HEAD
 function sanitize_filename($filename) {
     // Convert to ASCII, transliterating accented characters
     $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
@@ -23,8 +22,6 @@ function sanitize_filename($filename) {
     return $filename;
 }
 
-=======
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 class PDF extends FPDF
 {
     private $periodo_nombre;
@@ -113,9 +110,5 @@ foreach ($estudiantes as $e) {
     $pdf->Ln();
 }
 
-<<<<<<< HEAD
 $nombre_archivo = "lista_estudiantes_" . sanitize_filename($periodo_activo['nombre_periodo']) . ".pdf";
-=======
-$nombre_archivo = "lista_estudiantes_" . str_replace(' ', '_', utf8_decode($periodo_activo['nombre_periodo'])) . ".pdf";
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 $pdf->Output('D', $nombre_archivo);

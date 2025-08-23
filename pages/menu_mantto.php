@@ -43,11 +43,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 20px; border-radius: 10px; max-width: 50%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
-<<<<<<< HEAD
         .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black;}
-=======
-        .content { color: white; text-align: center; margin-top: 1px; text-shadow: 1px 1px 2px black;}
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
         .content img { width: 180px;}
         .content h2 { margin-bottom: 25px;}
         /* Estilos para la lista de menu */
@@ -57,7 +53,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
         .lista-menu a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
         .lista-menu p { margin: 0; padding: 0 15px 15px 15px; font-size: 0.9em; color: #ccc;}
         .lista-menu .icono-reporte { margin-right: 12px; font-size: 1.2em;}
-    </style>    
+    </style>
 </head>
 
 <body>
@@ -87,7 +83,6 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Permite laa creación y gestión de usuarios del sistema, vinculando al staff registrado como un usuario en el periodo escolar activo.</p>
                 </li>
 
-<<<<<<< HEAD
                 <li>
                     <a href="/ceia_swga/pages/backup_db.php">
                         <span class="icono-reporte">🗃️</span> Gestion de Backup
@@ -95,8 +90,6 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Permite la creación y restauración de respaldos de la base de datos.</p>
                 </li>
 
-=======
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
             </ul>
 
             <!-- Botón para volver al Home -->

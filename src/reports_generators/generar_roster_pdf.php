@@ -5,7 +5,6 @@ if (!isset($_SESSION['usuario'])) { exit('Acceso denegado.'); }
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 
-<<<<<<< HEAD
 function sanitize_filename($filename) {
     // Convert to ASCII, transliterating accented characters
     $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
@@ -20,8 +19,6 @@ function sanitize_filename($filename) {
     return $filename;
 }
 
-=======
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 // 1. OBTENER DATOS DEL PERÍODO ACTIVO
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 if (!$periodo_activo) { die("Error: No hay un período escolar activo."); }
@@ -176,7 +173,8 @@ $pdf->SetFont('Arial', 'B', 14);
 $pdf->Cell(0, 10, 'Listado de Estudiantes por Grado', 0, 1);
 if (empty($estudiantes_por_grado)) {
     $pdf->Cell(0, 10, 'No hay estudiantes asignados a este periodo.', 1, 1, 'C');
-} else {
+}
+else {
     foreach ($estudiantes_por_grado as $grado => $estudiantes) {
         $pdf->SetFont('Arial','B',12);
         $pdf->SetFillColor(220,220,220);
@@ -226,8 +224,4 @@ $pdf->SetX(10);
 $pdf->Cell(40, 6, 'Secondary (6-12)', 1, 0, 'L');
 $pdf->Cell(20, 6, $total_secondary, 1, 1, 'C');
 
-<<<<<<< HEAD
 $pdf->Output('D', 'Roster_' . sanitize_filename($nombre_del_periodo) . '.pdf');
-=======
-$pdf->Output('D', 'Roster_' . str_replace(' ', '_', $nombre_del_periodo) . '.pdf');
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad

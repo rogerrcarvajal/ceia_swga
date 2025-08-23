@@ -8,7 +8,6 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 require_once __DIR__ . '/../lib/php-qrcode/qrlib.php';
 
-<<<<<<< HEAD
 function sanitize_filename($filename) {
     // Convert to ASCII, transliterating accented characters
     $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
@@ -23,8 +22,6 @@ function sanitize_filename($filename) {
     return $filename;
 }
 
-=======
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 $periodo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_periodo = $periodo['nombre_periodo'] ?? 'Indefinido';
 
@@ -92,10 +89,6 @@ $pdf->Section('Placa:', $vehiculo['placa']);
 $pdf->Section('Modelo:', $vehiculo['modelo']);
 $pdf->Section('Asociado a:', $vehiculo['propietario']);
 $pdf->Image($qr_temp, 65, 100, 80, 80);
-<<<<<<< HEAD
 $pdf->Output('D', 'QR_VEHICULO_' . sanitize_filename($vehiculo['placa']) . '.pdf');
-=======
-$pdf->Output('D', 'QR_VEHICULO_' . $vehiculo['placa'] . '.pdf');
->>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 unlink($qr_temp);
 ?>
