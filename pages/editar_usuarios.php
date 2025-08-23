@@ -76,7 +76,7 @@ $stmt->execute([':id' => $usuario_id]);
 $usuario_a_editar = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$usuario_a_editar) {
-    header("Location: /ceia_swga/pages/usuarios_configurar.php");
+    header("Location: /ceia_swga/pages/configurar_usuarios.php");
     exit();
 }
 ?>

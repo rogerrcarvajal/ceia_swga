@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    let url = `/ceia_swga/src/reports_generators/generar_movimiento_staff_pdf.php?semana=${semana}`;
+    let url = `/ceia_swga/src/reports_generators/pdf_movimiento_staff.php?semana=${semana}`;
     if (staffId !== "todos") {
       url += `&staff_id=${staffId}`;
     }

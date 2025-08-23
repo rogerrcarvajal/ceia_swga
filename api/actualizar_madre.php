@@ -50,6 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':madre_email' => $_POST['madre_email'] ?? ''
             ]);
                        
-    echo json_encode(['success' => 'Datos de la mdre actualizados correctamente']);
+    echo json_encode(['success' => 'Datos de la madre actualizados correctamente']);
 }
 ?>

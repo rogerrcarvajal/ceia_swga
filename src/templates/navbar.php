@@ -8,7 +8,7 @@
         <a href="/ceia_swga/pages/menu_latepass.php">Late-Pass</a>
         <a href="/ceia_swga/pages/menu_reportes.php">📊 Reportes</a>
         <a href="/ceia_swga/pages/menu_mantto.php">Mantenimiento</a>
-        <a href="/ceia_swga/pages/manual_de_usuario.php">Ayuda</a>
+        <a href="/ceia_swga/pages/menu_ayuda.php">Ayuda</a>
         <a href="/ceia_swga/pages/logout.php" class="logout">Salir</a>
     </div>
     </div>

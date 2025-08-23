@@ -48,6 +48,6 @@ if ($profesor_id) {
 }
 
 // Redirigir siempre de vuelta a la página principal de profesores
-header("Location: /ceia_swga/pages/profesores.php");
+header("Location: /ceia_swga/pages/profesores_registro.php");
 exit();
 ?>
