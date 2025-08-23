@@ -1,66 +1,29 @@
-# Manual de Usuario del Sistema Web de Gestión Académica (SWGA)
+# Documentación del Archivo: `Funcionalidad_Modulo_Ayuda_Manua_Usuario.md`
 
-## Introducción
+## 1. Propósito del Archivo
 
-Bienvenido al Manual de Usuario del SWGA. Este documento está diseñado para guiar a los administradores y usuarios del sistema a través de sus diversas funcionalidades, asegurando un manejo eficiente y correcto de la plataforma.
-
----
-
-## Módulo de Control de Acceso
-
-Este módulo es el punto de entrada al sistema y gestiona la seguridad.
-
-*   **Login**: Los usuarios acceden utilizando su cédula y contraseña.
-*   **Roles**: El sistema reconoce diferentes roles (ej. master, admin) que determinan el acceso a los distintos módulos.
-*   **Dashboard**: Una vez dentro, el dashboard (`dashboard.php`) presenta el menú principal, que es la puerta de entrada a todas las demás secciones.
+Este archivo Markdown (`.md`) constituye el **Manual de Usuario principal** del sistema SWGA. Su propósito es proporcionar una guía de alto nivel y fácil comprensión para los administradores y usuarios del sistema, explicando las funcionalidades clave de cada módulo y cómo interactuar con ellas. Sirve como la primera capa de documentación accesible directamente desde la interfaz de usuario.
 
 ---
 
-## Módulo de Estudiantes
+## 2. Estructura y Contenido
 
-Permite la gestión integral de la información de los estudiantes.
+El manual está organizado por módulos principales del sistema, siguiendo una estructura lógica y jerárquica:
 
-*   **Inscripción**: A través de `planilla_inscripcion.php`, se registran nuevos estudiantes junto con los datos de sus padres y su ficha médica.
-*   **Gestión de Expedientes**: En `administrar_planilla_estudiantes.php`, se puede buscar, visualizar y **actualizar** la información de cualquier estudiante, incluyendo datos personales, de los padres y médicos, todo de forma asíncrona gracias a AJAX.
-*   **Asignación a Períodos**: En `gestionar_estudiantes.php`, se vincula a los estudiantes con el período escolar activo y se les asigna un grado.
+*   **Introducción**: Una bienvenida general al manual y al sistema.
+*   **Módulo de Control de Acceso**: Describe la función de login, los roles de usuario y el dashboard como punto de entrada.
+*   **Módulo de Estudiantes**: Detalla las funcionalidades de inscripción, gestión de expedientes y asignación a períodos.
+*   **Módulo de Staff**: Explica el registro, gestión y control de entradas/salidas del personal.
+*   **Módulo de Late-Pass**: Cubre la generación y gestión de pases de llegada tarde.
+*   **Módulo de Reportes**: Describe la centralización de la exportación de información y los tipos de reportes disponibles.
+*   **Módulo de Mantenimiento**: Detalla las herramientas críticas para la administración del sistema, como la gestión de períodos, usuarios y respaldos.
 
----
-
-## Módulo de Staff
-
-Administra al personal de la institución (docentes, administrativos, etc.).
-
-*   **Registro**: `profesores_registro.php` permite crear nuevos perfiles para el personal.
-*   **Gestión**: `gestionar_profesor.php` ofrece una lista del personal para editar su información o eliminar registros.
-*   **Control de Entradas/Salidas**: `gestion_es_staff.php` registra los movimientos del personal mediante la lectura de su código QR o cédula, actualizando su estado (dentro o fuera del plantel).
+Cada sección de módulo proporciona:
+*   Una breve descripción de su propósito general.
+*   Una lista de las funcionalidades clave, a menudo haciendo referencia a las páginas PHP principales involucradas (ej. `planilla_inscripcion.php`, `administrar_planilla_estudiantes.php`).
 
 ---
 
-## Módulo de Late-Pass (Pases de Llegada Tarde)
+## 3. Uso en el Sistema SWGA
 
-Diseñado para el control de retardos de los estudiantes.
-
-*   **Generación de Pase**: En `gestion_latepass.php`, se busca al estudiante por su cédula, se registra el retardo en la base de datos y se genera un pase en formato PDF listo para imprimir.
-
----
-
-## Módulo de Reportes
-
-Centraliza la exportación de información clave del sistema.
-
-*   **Generación de Reportes**: Desde `gestionar_reportes.php`, los administradores pueden generar una variedad de listados en PDF, tales como:
-    *   Listas de estudiantes por grado.
-    *   Listas de personal por departamento.
-    *   Historial de movimientos de personal y vehículos.
-    *   Planillas de inscripción individuales.
-    *   Carnets con códigos QR para estudiantes, personal y vehículos.
-
----
-
-## Módulo de Mantenimiento
-
-Contiene herramientas críticas para la administración del sistema, accesibles solo para el usuario 'master'.
-
-*   **Períodos Escolares**: `periodos_escolares.php` permite crear nuevos períodos y activar el que corresponda al ciclo académico actual.
-*   **Gestión de Usuarios**: `configurar_usuarios.php` se utiliza para crear las cuentas de usuario que podrán acceder al sistema, vinculándolas a un miembro del staff.
-*   **Respaldo de Base de Datos**: `backup_db.php` ofrece la funcionalidad para crear respaldos manuales de la base de datos y descargar respaldos existentes.
+Este documento es el contenido que se muestra cuando el usuario selecciona la opción "Manual de Usuario" en el nuevo "Módulo de Ayuda" (`pages/menu_ayuda.php`). Es renderizado dinámicamente a HTML por el visor de documentos (`pages/view_document.php`), lo que permite que el manual sea actualizado fácilmente editando este archivo Markdown.
