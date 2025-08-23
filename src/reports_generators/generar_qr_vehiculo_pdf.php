@@ -8,20 +8,6 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 require_once __DIR__ . '/../lib/php-qrcode/qrlib.php';
 
-function sanitize_filename($filename) {
-    // Convert to ASCII, transliterating accented characters
-    $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
-    // Replace any character that is not a letter, number, underscore, or hyphen with an underscore
-    $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-    // Replace multiple underscores with a single underscore
-    $filename = preg_replace('/_+/', '_', $filename);
-    // Trim underscores from the beginning and end
-    $filename = trim($filename, '_');
-    // Convert to lowercase
-    $filename = strtolower($filename);
-    return $filename;
-}
-
 $periodo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_periodo = $periodo['nombre_periodo'] ?? 'Indefinido';
 
@@ -89,6 +75,6 @@ $pdf->Section('Placa:', $vehiculo['placa']);
 $pdf->Section('Modelo:', $vehiculo['modelo']);
 $pdf->Section('Asociado a:', $vehiculo['propietario']);
 $pdf->Image($qr_temp, 65, 100, 80, 80);
-$pdf->Output('D', 'QR_VEHICULO_' . sanitize_filename($vehiculo['placa']) . '.pdf');
+$pdf->Output('D', 'QR_VEHICULO_' . $vehiculo['placa'] . '.pdf');
 unlink($qr_temp);
 ?>

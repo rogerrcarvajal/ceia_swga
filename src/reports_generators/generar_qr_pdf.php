@@ -10,20 +10,6 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 require_once __DIR__ . '/../lib/php-qrcode/qrlib.php'; // Ruta a la librería
 
-function sanitize_filename($filename) {
-    // Convert to ASCII, transliterating accented characters
-    $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
-    // Replace any character that is not a letter, number, underscore, or hyphen with an underscore
-    $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-    // Replace multiple underscores with a single underscore
-    $filename = preg_replace('/_+/', '_', $filename);
-    // Trim underscores from the beginning and end
-    $filename = trim($filename, '_');
-    // Convert to lowercase
-    $filename = strtolower($filename);
-    return $filename;
-}
-
 // 3. Obtener datos del período y del estudiante
 $periodo_activo = $conn->query("SELECT nombre_periodo, id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_del_periodo = $periodo_activo['nombre_periodo'] ?? 'No Definido';
@@ -125,8 +111,7 @@ $pdf->Image($qr_temp_file, 65, 100, 80, 80);
 
 // 7. Enviar el PDF y limpiar
 // Nombre del archivo de salida
-$nombre_completo_sanitizado = sanitize_filename($estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']);
-$nombre_archivo = 'QR_' . $nombre_completo_sanitizado . '.pdf';
+$nombre_archivo = 'QR_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf';
 $pdf->Output('D', $nombre_archivo); // 'D' para forzar la descarga
 unlink($qr_temp_file); // Borrar el archivo de imagen temporal
 

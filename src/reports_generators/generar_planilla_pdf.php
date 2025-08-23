@@ -9,21 +9,6 @@ if (!isset($_SESSION['usuario'])) {
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 
-function sanitize_filename($filename) {
-    // Convert to ASCII, transliterating accented characters
-    $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
-    // Replace any character that is not a letter, number, underscore, or hyphen with an underscore
-    $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-    // Replace multiple underscores with a single underscore
-    $filename = preg_replace('/_+/', '_', $filename);
-    // Trim underscores from the beginning and end
-    $filename = trim($filename, '_');
-    // Convert to lowercase
-    $filename = strtolower($filename);
-    return $filename;
-}
-
-
 // Obtener el período escolar activo
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_del_periodo = $periodo_activo['nombre_periodo'] ?? 'No Definido';
@@ -143,7 +128,7 @@ $pdf->DataRow('Nacionalidad:', $estudiante['nacionalidad']);
 $pdf->DataRow('Idioma(s):', $estudiante['idioma']);
 $pdf->DataRow('Dirección:', $estudiante['direccion']);
 $pdf->DataRow('Teléfono de Casa:', $estudiante['telefono_casa']);
-$pdf->DataRow('Activo en Período Escolar:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? 'Sí' : 'No');
+$pdf->DataRow('Activo:', ($asignacion_activa && $asignacion_activa['grado_cursado']) ? 'Sí' : 'No');
 $pdf->DataRow('Teléfono de Emergencia:', $estudiante['telefono_emergencia']);
 $pdf->DataRow('Grado para el Periodo Activo:', $asignacion_activa['grado_cursado'] ?? 'No asignado');
 $pdf->DataRow('Fecha de Inscripción:', $estudiante['fecha_inscripcion']);
@@ -152,7 +137,6 @@ $pdf->DataRow('Hermanos estudiando en CEIA:', $estudiante['estudiante_hermanos']
 $pdf->DataRow('Colegio(s) donde estudió antes:', $estudiante['colegios_anteriores']);
 $pdf->DataRow('Edad:', $estudiante['edad_estudiante']);
 $pdf->DataRow('Staff:', $estudiante['staff'] ? 'Sí' : 'No');
-$pdf->DataRow('Activo:', $estudiante['activo'] ? 'Sí' : 'No');
 $pdf->Ln(8);
 
 // Sección 2: Datos del Padre
@@ -184,9 +168,10 @@ $pdf->DataRow('Email:', $madre['madre_email'] ?? 'N/A');
 $pdf->Ln(8);
 
 // Sección 4: Ficha Médica
+// Sección 4: Ficha Médica
 $pdf->SectionTitle('Ficha Medica');
 $pdf->DataRow('Completado por:', $ficha_medica['completado_por'] ?? 'N/A');
-$pdf->DataRow('Fecha de Salud:', $ficha_medica['fecha_salud'] ?? 'N/A');
+$pdf->DataRow('Fecha de ultima actualizacion:', $ficha_medica['fecha_salud'] ?? 'N/A');
 $pdf->DataRow('Contacto de Emergencia:', $ficha_medica['contacto_emergencia'] ?? 'N/A');
 $pdf->DataRow('Relacion de Emergencia:', $ficha_medica['relacion_emergencia'] ?? 'N/A');
 $pdf->DataRow('Telefono de Emergencia:', $ficha_medica['telefono1'] ?? 'N/A');
@@ -212,7 +197,6 @@ $pdf->Cell(0, 5, utf8_decode('Firma del padre o tutor: _________________________
 
 
 // --- Nombre del archivo de salida ---
-$nombre_completo_sanitizado = sanitize_filename($estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']);
-$pdf->Output('D', 'Planilla_' . $nombre_completo_sanitizado . '.pdf');
+$pdf->Output('D', 'Planilla_' . str_replace(' ', '_', $estudiante['nombre_completo'] . '_' . $estudiante['apellido_completo']) . '.pdf');
 
 ?>

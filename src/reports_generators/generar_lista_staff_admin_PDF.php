@@ -8,20 +8,6 @@ if (!isset($_SESSION['usuario']) || !in_array($_SESSION['usuario']['rol'], ['mas
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 
-function sanitize_filename($filename) {
-    // Convert to ASCII, transliterating accented characters
-    $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
-    // Replace any character that is not a letter, number, underscore, or hyphen with an underscore
-    $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-    // Replace multiple underscores with a single underscore
-    $filename = preg_replace('/_+/', '_', $filename);
-    // Trim underscores from the beginning and end
-    $filename = trim($filename, '_');
-    // Convert to lowercase
-    $filename = strtolower($filename);
-    return $filename;
-}
-
 class PDF extends FPDF
 {
     private $periodo_nombre;
@@ -94,5 +80,5 @@ foreach ($staff as $s) {
     $pdf->Ln();
 }
 
-$nombre_archivo = "lista_staff_admin_" . sanitize_filename($periodo_activo['nombre_periodo']) . ".pdf";
+$nombre_archivo = "lista_staff_admin_" . str_replace(' ', '_', utf8_decode($periodo_activo['nombre_periodo'])) . ".pdf";
 $pdf->Output('D', $nombre_archivo);

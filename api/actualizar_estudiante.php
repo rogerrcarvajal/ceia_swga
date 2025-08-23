@@ -28,8 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     edad_estudiante = :edad_estudiante,
                     estudiante_hermanos = :estudiante_hermanos,
                     colegios_anteriores = :colegios_anteriores,
-                    staff = :staff,
-                    activo = :activo
+                    staff = :staff
                 WHERE id = :id";
         
         $stmt = $conn->prepare($sql);
@@ -51,8 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':edad_estudiante' => (int)($_POST['edad_estudiante'] ?? 0),
             ':estudiante_hermanos' => $_POST['estudiante_hermanos'] ?? '',
             ':colegios_anteriores' => $_POST['colegios_anteriores'] ?? '',
-            ':staff' => isset($_POST['staff']) ? 1 : 0,
-            ':activo' => isset($_POST['activo']) ? 1 : 0
+            ':staff' => isset($_POST['staff']) ? 1 : 0
         ]);
 
         $response['status'] = 'exito';

@@ -8,20 +8,6 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 require_once __DIR__ . '/../lib/php-qrcode/qrlib.php';
 
-function sanitize_filename($filename) {
-    // Convert to ASCII, transliterating accented characters
-    $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
-    // Replace any character that is not a letter, number, underscore, or hyphen with an underscore
-    $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-    // Replace multiple underscores with a single underscore
-    $filename = preg_replace('/_+/', '_', $filename);
-    // Trim underscores from the beginning and end
-    $filename = trim($filename, '_');
-    // Convert to lowercase
-    $filename = strtolower($filename);
-    return $filename;
-}
-
 $periodo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_periodo = $periodo['nombre_periodo'] ?? 'Desconocido';
 $periodo_id = $periodo['id'] ?? 0;
@@ -87,6 +73,6 @@ $pdf->Section('Nombre:', $profesor['nombre_completo']);
 $pdf->Section('Posición:', $info['posicion'] ?? 'No Asignada');
 
 $pdf->Image($qr_temp, 65, 100, 80, 80);
-$pdf->Output('D', 'QR_' . sanitize_filename($profesor['nombre_completo']) . '.pdf');
+$pdf->Output('D', 'QR_' . str_replace(' ', '_', utf8_decode($profesor['nombre_completo'])) . '.pdf');
 unlink($qr_temp);
 ?>
