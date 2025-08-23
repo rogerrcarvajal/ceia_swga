@@ -6968,6 +6968,7 @@
 <b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
 <br />
 <b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+<<<<<<< HEAD
 2025-08-22 19:58:47: <br />
 <b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\frame_1.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrspec.php</b> on line <b>568</b><br />
 <br />
@@ -7002,3 +7003,5 @@
 <b>Warning</b>:  mkdir(): No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>154</b><br />
 <br />
 <b>Warning</b>:  file_put_contents(C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\cache\mask_7\mask_21_7.dat): Failed to open stream: No such file or directory in <b>C:\xampp\htdocs\ceia_swga\src\lib\php-qrcode\qrmask.php</b> on line <b>155</b><br />
+=======
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad

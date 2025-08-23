@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 
+<<<<<<< HEAD
 function sanitize_filename($filename) {
     // Convert to ASCII, transliterating accented characters
     $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
@@ -17,6 +18,8 @@ function sanitize_filename($filename) {
     return $filename;
 }
 
+=======
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 $semana = filter_var($_GET['semana'] ?? 0, FILTER_VALIDATE_INT);
 if (!$semana) {
     die('Semana recibida: ' . htmlspecialchars($_GET['semana'] ?? 'vacía'));
@@ -135,8 +138,12 @@ foreach ($datos as $grado => $alumnos) {
 }
 
 // Nombre del archivo de salida
+<<<<<<< HEAD
 // Sanitize the grade for the filename
 $grado_sanitized = sanitize_filename($grado);
 $pdf->Output('D', "LatePass_Semana_$semana" . ($grado !== 'todos' ? "_$grado_sanitized" : '') . ".pdf");
+=======
+$pdf->Output('D', "LatePass_Semana_$semana" . ($grado !== 'todos' ? "_$grado" : '') . ".pdf");
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 
 ?>

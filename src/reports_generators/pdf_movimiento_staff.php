@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../src/config.php';
 require_once __DIR__ . '/../lib/fpdf/fpdf.php';
 
+<<<<<<< HEAD
 function sanitize_filename($filename) {
     // Convert to ASCII, transliterating accented characters
     $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
@@ -16,6 +17,8 @@ function sanitize_filename($filename) {
     return $filename;
 }
 
+=======
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 date_default_timezone_set('America/Caracas');
 
 $semana = $_GET['semana'] ?? '';
@@ -80,4 +83,8 @@ foreach ($datos as $row) {
     $pdf->Ln();
 }
 
+<<<<<<< HEAD
 $pdf->Output('I', "Movimiento_del_Staff_" . sanitize_filename($nombre_profesor) . ".pdf");
+=======
+$pdf->Output('I', "Movimiento del Staff {$nombre_profesor}.pdf");
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad

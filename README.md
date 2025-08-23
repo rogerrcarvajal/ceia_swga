@@ -6,6 +6,7 @@ Desarrollado como Trabajo Especial de Grado para optar al título de Licenciado 
 
 ## ✨ Características Principales
 
+<<<<<<< HEAD
 El sistema está compuesto por una serie de módulos diseñados para cubrir todo el ciclo de gestión académica requerido por la institución, con las últimas actualizaciones y mejoras:
 
 *   **Autenticación y Sistema de Roles Avanzado:**
@@ -49,6 +50,40 @@ El sistema está compuesto por una serie de módulos diseñados para cubrir todo
 
 *   **Manual de Usuario Integrado (¡Nuevo!):**
     *   Acceso directo a un manual de usuario básico desde la interfaz del sistema, proporcionando guía y ayuda a los colaboradores e interesados sobre el funcionamiento de las principales funcionalidades.
+=======
+El sistema está compuesto por una serie de módulos diseñados para cubrir todo el ciclo de gestión académica requerido por la institución:
+
+* **Autenticación y Sistema de Roles Avanzado:**
+    * Sistema de `login` seguro para validar a los usuarios.
+    * Gestión basada en tres roles: **Superusuario (master)**, **Administrador (admin)** y **Consulta (consulta)**, permitiendo un control de acceso granular y específico según el tipo de personal registrado.
+
+* **Gestión y Clasificación por Categorías:**
+    * El sistema ahora clasifica las entidades principales en tres categorías: **Estudiantes**, **Staff** (con sub-categorías para Administrativo, Docente, Mantenimiento y Vigilancia) y **Vehículos**.
+    * Este enfoque permite una organización superior y sienta las bases para futuros reportes y controles de acceso específicos.
+
+* **Módulo de Estudiantes:**
+    * Formulario de inscripción digital para registrar nuevos estudiantes.
+    * Lógica inteligente para buscar y vincular representantes (padres/madres) ya existentes, evitando la duplicidad de datos.
+    * Interfaz para consultar y modificar los expedientes completos de los estudiantes en tiempo real.
+
+* **Módulo de Staff/Profesores:**
+    * Permite el registro del personal, asignándolo a su categoría y sub-categoría correspondiente.
+    * Interfaz para asignar a cada miembro del personal a un período escolar con un rol o posición específica.
+
+* **Módulo de Late-Pass con QR:**
+    * Generación de un **Código QR** único para cada estudiante, que sirve como su identificación para el control de acceso.
+    * Interfaz de **Control de Acceso Automatizado** que utiliza un lector de códigos QR para registrar las llegadas tarde de forma rápida y precisa.
+    * Sistema de conteo de **"strikes"** semanales por llegadas tarde, con mensajes de alerta configurables.
+
+* **Módulo de Reportes Ampliado:**
+    * Generación de reportes clave en formato **PDF**.
+    * Reporte **"Roster"** del período activo, listando personal y estudiantes por grado.
+    * Generación de la **"Planilla de Inscripción"** individual de cada estudiante.
+    * **Nuevas listas en PDF** para consultar de forma independiente a **Estudiantes**, **todo el Staff** (clasificado por su área) y **Vehículos registrados**.
+
+* **Módulo de Mantenimiento:**
+    * Panel de administrador para crear, activar y desactivar los períodos escolares (ej. "2024-2025", "2025-2026").
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
 
 ## 🛠️ Arquitectura y Tecnologías
 
@@ -98,4 +133,8 @@ Para ejecutar este proyecto en un entorno de desarrollo local, sigue estos pasos
 4.  **Generar QR:** En el módulo `Late-Pass`, selecciona un estudiante para generar su código QR en PDF, el cual puedes imprimir.
 5.  **Control de Acceso:** Utiliza la opción `Control de Acceso` del módulo `Late-Pass` para escanear los QR y registrar las llegadas.
 6.  **Obtener Listas:** En el menú `Reportes`, ahora puedes generar PDFs con las listas completas de Estudiantes, Staff o Vehículos.
+<<<<<<< HEAD
 7.  **Realizar Respaldo de Base de Datos:** Desde el módulo de `Mantenimiento`, selecciona la opción de respaldo para generar una copia de seguridad de la base de datos y acceder al historial de respaldos.
+
+=======
+>>>>>>> 8d1a461c063b6cdee4cbf4e0693b92c4894df3ad
