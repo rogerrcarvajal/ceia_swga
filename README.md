@@ -21,23 +21,38 @@ El sistema está compuesto por una serie de módulos diseñados para cubrir todo
     * Lógica inteligente para buscar y vincular representantes (padres/madres) ya existentes, evitando la duplicidad de datos.
     * Interfaz para consultar y modificar los expedientes completos de los estudiantes en tiempo real.
 
-* **Módulo de Staff/Profesores:**
-    * Permite el registro del personal, asignándolo a su categoría y sub-categoría correspondiente.
-    * Interfaz para asignar a cada miembro del personal a un período escolar con un rol o posición específica.
+* **Módulo de Staff / Profesores:**
+  * Registro de personal por categoría y subcategoría.
+  * Asignación de cargos y períodos escolares.
 
-* **Módulo de Late-Pass con QR:**
-    * Generación de un **Código QR** único para cada estudiante, que sirve como su identificación para el control de acceso.
-    * Interfaz de **Control de Acceso Automatizado** que utiliza un lector de códigos QR para registrar las llegadas tarde de forma rápida y precisa.
-    * Sistema de conteo de **"strikes"** semanales por llegadas tarde, con mensajes de alerta configurables.
+* **Módulo Late-Pass (Control de Acceso con QR):**
+  * Generación de **códigos QR únicos** para estudiantes, staff y vehículos.
+  * Interfaz de control de acceso que valida y registra automáticamente llegadas mediante cámara o lector QR.
+  * Registro en tiempo real con integración a APIs específicas:
+    - `registrar_llegada.php` (estudiantes)
+    - `registrar_movimiento_staff.php` (staff)
+    - `registrar_movimiento_vehiculo.php` (vehículos)
+  * Sistema de conteo de **“strikes” semanales** por llegadas tarde, con alertas en pantalla.
 
-* **Módulo de Reportes Ampliado:**
-    * Generación de reportes clave en formato **PDF**.
-    * Reporte **"Roster"** del período activo, listando personal y estudiantes por grado.
-    * Generación de la **"Planilla de Inscripción"** individual de cada estudiante.
-    * **Nuevas listas en PDF** para consultar de forma independiente a **Estudiantes**, **todo el Staff** (clasificado por su área) y **Vehículos registrados**.
+* **Módulo Vehículos:**
+  * Registro y control de vehículos autorizados.
+  * Generación de códigos QR en PDF para control de acceso vehicular.
+  * Registro automatizado de movimientos en entradas/salidas.
 
-* **Módulo de Mantenimiento:**
-    * Panel de administrador para crear, activar y desactivar los períodos escolares (ej. "2024-2025", "2025-2026").
+* **Módulo Reportes Ampliado:**
+  * Reportes en **PDF** de estudiantes, staff y vehículos.
+  * Reporte “Roster” del período activo.
+  * Listas independientes filtradas por entidad.
+  * Estadísticas de movimientos y control de asistencia.
+
+* **Módulo Mantenimiento:**
+  * Administración de períodos escolares.
+  * Activación y desactivación de períodos académicos.
+
+* **Módulo de Ayuda (Nuevo):**
+  * Documentación interna accesible desde el menú del sistema.
+  * Archivos `.md` organizados en `/funcionality/modulo_ayuda/`, convertidos a HTML mediante `Parsedown.php`.
+  * Incluye FAQs, guías de uso y documentación técnica del sistema.
 
 ## 🛠️ Arquitectura y Tecnologías
 
@@ -87,3 +102,23 @@ Para ejecutar este proyecto en un entorno de desarrollo local, sigue estos pasos
 4.  **Generar QR:** En el módulo `Late-Pass`, selecciona un estudiante para generar su código QR en PDF, el cual puedes imprimir.
 5.  **Control de Acceso:** Utiliza la opción `Control de Acceso` del módulo `Late-Pass` para escanear los QR y registrar las llegadas.
 6.  **Obtener Listas:** En el menú `Reportes`, ahora puedes generar PDFs con las listas completas de Estudiantes, Staff o Vehículos.
+
+## 📚 Documentación Técnica
+
+La documentación modular del sistema se encuentra en la carpeta /funcionality/, organizada en:
+
+/funcionality/
+├─ modulo_estudiante/
+├─ modulo_staff/
+├─ modulo_late-pass/
+├─ modulo_reportes/
+├─ modulo_mantenimiento/
+└─ modulo_ayuda/
+
+Cada carpeta contiene archivos .md que describen la lógica de negocio y funcionalidad de los procesos.
+Se visualizan en el sistema mediante view_document.php.
+
+## ℹ Contacto
+
+Autor: Roger R. Carvajal
+📧 Correo: rogerrcarvajal@gmail.com
