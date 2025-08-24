@@ -1,44 +1,37 @@
-# Documentación del Módulo de Ayuda
+# Documentación General del Módulo de Ayuda
 
 ## 1. Propósito del Módulo
 
-El Módulo de Ayuda, accesible a través de la página `pages/menu_ayuda.php`, ha sido reestructurado para convertirse en el centro de conocimiento centralizado del sistema SWGA. Su objetivo es ofrecer dos niveles de soporte distintos pero complementarios:
+El **Módulo de Ayuda** es un componente central del sistema SWGA, diseñado para proporcionar soporte y documentación tanto a usuarios finales como a desarrolladores. Su objetivo es centralizar el acceso a guías de usuario, manuales técnicos y explicaciones detalladas sobre la funcionalidad y la lógica de negocio de cada módulo del sistema.
 
-1.  **Soporte al Usuario Final**: A través de un manual de usuario claro y conciso que explica cómo realizar las operaciones del día a día.
-2.  **Soporte Técnico y Académico**: Mediante una base de conocimiento detallada que documenta la lógica de negocio, la arquitectura y el funcionamiento de cada componente del sistema, ideal para la formación de nuevos administradores y como material de referencia para la tesis de grado.
+Este módulo actúa como un portal de conocimiento, mejorando la experiencia de usuario al ofrecer respuestas claras a posibles dudas y facilitando el mantenimiento y la futura expansión del sistema al tener la documentación técnica fácilmente accesible.
 
-## 2. Flujo de Trabajo y Componentes
+---
 
-*   **Página Principal**: `pages/menu_ayuda.php`
-*   **Visor de Documentos**: `pages/view_document.php`
-*   **Librería de Soporte**: `src/lib/Parsedown.php`
+## 2. Componentes Principales
 
-El flujo de este módulo es el siguiente:
+El módulo se compone de varios archivos que trabajan en conjunto para ofrecer una experiencia fluida:
 
-1.  **Acceso al Menú**: El usuario accede a `menu_ayuda.php` desde la barra de navegación principal.
-2.  **Selección de Opción**: La página presenta un menú interactivo con dos opciones principales.
-3.  **Visualización de Documentación**: Al hacer clic en cualquier enlace del menú, el usuario es dirigido a la página `view_document.php`. Se pasa como parámetro en la URL (`?file=...`) la ruta al archivo Markdown (`.md`) que se debe mostrar.
-4.  **Renderizado y Presentación**: El visor de documentos utiliza la librería `Parsedown` para convertir el contenido del archivo Markdown a HTML sobre la marcha y lo presenta dentro de la plantilla visual del sistema, asegurando una experiencia de usuario consistente.
+1.  **`pages/menu_ayuda.php`**: Es la página principal y el punto de entrada al módulo. Presenta al usuario un menú organizado desde donde puede navegar hacia el manual de usuario o la documentación técnica de los diferentes módulos del sistema.
 
-## 3. Estructura del Menú de Ayuda
+2.  **`pages/view_document.php`**: Un visor dinámico y seguro encargado de leer archivos de documentación en formato Markdown (`.md`), convertirlos a HTML y presentarlos en pantalla de una manera legible y estilizada. Es el motor que permite renderizar todo el contenido del módulo.
 
-El menú se divide en las siguientes secciones:
+3.  **`src/lib/Parsedown.php`**: Una librería de PHP externa y robusta que se especializa en la conversión de sintaxis Markdown a HTML. Es la dependencia clave que `view_document.php` utiliza para interpretar los archivos `.md`.
 
-### a. Manual de Usuario
+4.  **Directorio `Funcionality/`**: Este directorio es el repositorio central de toda la documentación en formato Markdown. Está estructurado en subcarpetas, una por cada módulo del sistema (`Módulo Estudiante`, `Módulo Staff`, etc.), conteniendo los archivos `.md` que explican en detalle cada proceso y archivo del sistema.
 
-*   **Enlace**: Apunta a la visualización del archivo `Funcionalidad_Modulo_Ayuda_Manua_Usuario.md`.
-*   **Contenido**: Contiene la guía de uso estándar del sistema, explicando las tareas más comunes desde la perspectiva de un usuario administrador (cómo inscribir, cómo generar un pase, etc.).
+---
 
-### b. Documentación y Funcionalidad del Sistema
+## 3. Flujo de Operación
 
-*   **Interfaz**: Es un submenú desplegable para mantener la interfaz limpia y organizada.
-*   **Propósito**: Ofrece acceso a la documentación técnica de alto nivel para cada módulo del sistema.
-*   **Contenido**: Cada enlace de este submenú apunta a un archivo `.md` específico que detalla el propósito, los componentes (archivos involucrados) y el flujo de operación de dicho módulo. Los documentos disponibles son:
-    *   Módulo Estudiante
-    *   Módulo Staff
-    *   Módulo Late-Pass
-    *   Módulo Reportes
-    *   Módulo Mantenimiento
-    *   Módulo Ayuda (este mismo documento)
+El flujo de interacción del usuario con el Módulo de Ayuda es el siguiente:
 
-Esta estructura dual permite que tanto los usuarios operativos como los técnicos o académicos encuentren la información que necesitan de forma rápida y eficiente.
+1.  **Acceso**: El usuario accede al módulo a través del enlace en la barra de navegación principal, que lo dirige a `pages/menu_ayuda.php`.
+2.  **Selección**: En el menú de ayuda, el usuario elige qué documento desea consultar. Las opciones incluyen el "Manual de Usuario" o la documentación técnica de un módulo específico (ej. "Módulo Estudiante").
+3.  **Visualización**: Al hacer clic en un enlace, el navegador realiza una petición a `pages/view_document.php`, pasando la ruta del archivo `.md` a visualizar como un parámetro en la URL (ej. `?file=Módulo Estudiante/Funcionalidad_Modulo_Estudiantes.md`).
+4.  **Procesamiento**:
+    *   `view_document.php` recibe la petición. Por seguridad, verifica que el archivo solicitado se encuentre dentro del directorio `Funcionality/`.
+    *   Lee el contenido del archivo Markdown especificado.
+    *   Utiliza la librería `Parsedown.php` para transformar el contenido Markdown en código HTML.
+    *   Inserta el HTML resultante en una plantilla de página web, que incluye la barra de navegación, estilos CSS y un botón para volver al menú principal.
+5.  **Renderizado**: El servidor devuelve la página HTML completa al navegador del usuario, que la muestra de forma estilizada y fácil de leer.
