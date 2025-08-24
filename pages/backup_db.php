@@ -123,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Respaldo de la Base de Datos</h1>
+        <h1>Gestión de Respaldos de Base de Datos</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>
@@ -131,9 +131,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
     
     <div class="formulario-contenedor">
         <div class="form-seccion">
-            <h3>Respaldo Manual</h3>
+            <h3>Respaldo de la Base de Datos</h3>
             <div class="info-mensaje">
-                <p>Se recomienda configurar respaldos automáticos diarios en el servidor. Si desea realizar un respaldo manual ahora, presione el botón.</p>
+                <p><h3>⚠️ IMPORTANTE: Usted se encuentra en el modulo de respaldos</h3><br>Si desea realizar un respaldo manual ahora, presione el botón.</p>
             </div>
             <?php if ($mensaje): ?>
                 <p class="<?php echo (strpos($mensaje, '❌') !== false) ? 'alerta' : 'exito'; ?>"><?php echo $mensaje; ?></p>
