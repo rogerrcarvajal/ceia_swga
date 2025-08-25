@@ -18,7 +18,7 @@ if (isset($_GET['file'])) {
 
     // --- MEDIDA DE SEGURIDAD ---
     // Construir la ruta base y la ruta real del archivo solicitado
-    $base_dir = realpath(__DIR__ . '/../Funcionality');
+    $base_dir = realpath(__DIR__ . '/../funcionality');
     
     // Decodificar la URL para manejar caracteres especiales en el nombre del archivo/ruta
     $decoded_requested_file = urldecode($requested_file);

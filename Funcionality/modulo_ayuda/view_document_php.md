@@ -2,7 +2,7 @@
 
 ## 1. Propósito del Archivo
 
-Este archivo PHP actúa como el **visor universal de documentos Markdown** para el sistema SWGA. Su propósito es leer dinámicamente cualquier archivo `.md` ubicado dentro del directorio `Funcionality/`, convertir su contenido a HTML y presentarlo de manera segura y estilizada dentro de la plantilla visual estándar del sistema. Es el componente clave que permite que toda la documentación granular sea accesible directamente desde la interfaz de usuario.
+Este archivo PHP actúa como el **visor universal de documentos Markdown** para el sistema SWGA. Su propósito es leer dinámicamente cualquier archivo `.md` ubicado dentro del directorio `funcionality/`, convertir su contenido a HTML y presentarlo de manera segura y estilizada dentro de la plantilla visual estándar del sistema. Es el componente clave que permite que toda la documentación granular sea accesible directamente desde la interfaz de usuario.
 
 ---
 

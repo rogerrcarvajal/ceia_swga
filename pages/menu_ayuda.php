@@ -54,7 +54,7 @@ $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WH
         <div class="content" style="width: 100%;">
             <ul class="lista-menu">
                 <li>
-                    <a href="/ceia_swga/pages/view_document.php?file=Módulo Ayuda/Manual_Usuario.md">
+                    <a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_ayuda/Manual_Usuario.md">
                         <span class="icono-menu">📖</span> Manual de Usuario
                     </a>
                     <p>Guía completa sobre el uso y las funcionalidades del sistema.</p>
@@ -66,12 +66,12 @@ $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WH
                     </a>
                     <p>Explicación técnica detallada de la lógica de negocio de cada módulo y sus componentes.</p>
                     <ul class="submenu">
-                        <li><a href="/ceia_swga/pages/view_document.php?file=Módulo Estudiante/Funcionalidad_Modulo_Estudiantes.md">Módulo Estudiante</a></li>
-                        <li><a href="/ceia_swga/pages/view_document.php?file=Módulo Staff/Funcionalidad_Modulo_Staff.md">Módulo Staff</a></li>
-                        <li><a href="/ceia_swga/pages/view_document.php?file=Módulo Late-Pass/Funcionalidad_Modulo_LatePass.md">Módulo Late-Pass</a></li>
-                        <li><a href="/ceia_swga/pages/view_document.php?file=Módulo Reportes/Funcionalidad_Modulo_Reportes.md">Módulo Reportes</a></li>
-                        <li><a href="/ceia_swga/pages/view_document.php?file=Módulo Mantenimiento/Funcionalidad_Modulo_Mantenimiento.md">Módulo Mantenimiento</a></li>
-                        <li><a href="/ceia_swga/pages/view_document.php?file=Módulo Ayuda/Funcionalidad_Modulo_Ayuda.md">Módulo Ayuda</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_estudiante/Funcionalidad_Modulo_Estudiantes.md">Módulo Estudiante</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_staff/Funcionalidad_Modulo_Staff.md">Módulo Staff</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_late-pass/Funcionalidad_Modulo_LatePass.md">Módulo Late-Pass</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_reportes/Funcionalidad_Modulo_Reportes.md">Módulo Reportes</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_mantenimiento/Funcionalidad_Modulo_Mantenimiento.md">Módulo Mantenimiento</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=funcionality/modulo_ayuda/Funcionalidad_Modulo_Ayuda.md">Módulo Ayuda</a></li>
                     </ul>
                 </li>
             </ul>
