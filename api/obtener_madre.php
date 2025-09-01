@@ -5,7 +5,7 @@ require_once __DIR__ . '/../src/config.php';
 try {
     $id_del_madre_a_buscar = $_GET['id'] ?? null;
     if (!$id_del_madre_a_buscar) {
-        throw new InvalidArgumentException('ID de padre no proporcionado.');
+        throw new InvalidArgumentException('ID de madre no proporcionado.');
     }
     
     $stmt = $conn->prepare("SELECT * FROM madres WHERE madre_id = :id_madre");
@@ -13,7 +13,7 @@ try {
     $madre = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$madre) {
-        echo json_encode(['error' => 'No se encontró información para el padre.']);
+        echo json_encode(['error' => 'No se encontró información para la madre.']);
         exit;
     }
     echo json_encode($madre);

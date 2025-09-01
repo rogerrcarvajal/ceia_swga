@@ -62,6 +62,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response['message'] = 'Error de base de datos: ' . $e->getMessage();
     }
 }
-}
-echo json_encode($response);
+}echo json_encode($response);
 ?>

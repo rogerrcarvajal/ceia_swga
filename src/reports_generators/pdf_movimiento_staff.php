@@ -2,20 +2,6 @@
 require_once __DIR__ . '/../src/config.php';
 require_once __DIR__ . '/../lib/fpdf/fpdf.php';
 
-function sanitize_filename($filename) {
-    // Convert to ASCII, transliterating accented characters
-    $filename = iconv('UTF-8', 'ASCII//TRANSLIT', $filename);
-    // Replace any character that is not a letter, number, underscore, or hyphen with an underscore
-    $filename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $filename);
-    // Replace multiple underscores with a single underscore
-    $filename = preg_replace('/_+/', '_', $filename);
-    // Trim underscores from the beginning and end
-    $filename = trim($filename, '_');
-    // Convert to lowercase
-    $filename = strtolower($filename);
-    return $filename;
-}
-
 date_default_timezone_set('America/Caracas');
 
 $semana = $_GET['semana'] ?? '';
@@ -80,4 +66,4 @@ foreach ($datos as $row) {
     $pdf->Ln();
 }
 
-$pdf->Output('I', "Movimiento_del_Staff_" . sanitize_filename($nombre_profesor) . ".pdf");
+$pdf->Output('I', "Movimiento del Staff {$nombre_profesor}.pdf");

@@ -17,7 +17,7 @@ if (!isset($_SESSION['usuario'])) {
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="main-container">
         <div class="right-panel">
-            <h1>Manual de Usuario Interactivo: Sistema Web de Gestión Académica de Inscripción y Late-Pass (SWGA)</h1>
+            <h1>Manual de Usuario Interactivo: Sistema Web de Gestión Académica de Inscripcion y Late-Pass (SWGA)</h1>
 
             <div class="module">
                 <h2>Introducción</h2>

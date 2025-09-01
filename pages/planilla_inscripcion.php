@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                 $stmt_padre->execute([
                     ':nombre' => $_POST['padre_nombre'], ':apellido' => $_POST['padre_apellido'],
                     ':nac' => $_POST['padre_fecha_nacimiento'], ':ced' => $_POST['padre_cedula_pasaporte'],
-                    ':nacd' => $_POST['padre_nacionalidad'], ':idioma' => $_POST['idioma'],
+                    ':nacd' => $_POST['padre_nacionalidad'], ':idioma' => $_POST['padre_idioma'],
                     ':prof' => $_POST['padre_profesion'], ':emp' => $_POST['padre_empresa'],
                     ':tel_t' => $_POST['padre_telefono_trabajo'], ':cel' => $_POST['padre_celular'],
                     ':email' => $_POST['padre_email']
@@ -292,7 +292,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar_inscripcion'])
                     <input type="text" name="padre_celular" placeholder="Celular" required data-required="true">
                     <input type="email" name="padre_email" placeholder="Correo electrónico" required data-required="true">
                 </div>
-
+                
                 <div class="form-seccion" id="form_madre">
                     <h3>Datos de la Madre</h3>
                     <input type="hidden" name="madre_id_existente" id="madre_id_existente">
