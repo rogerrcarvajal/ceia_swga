@@ -84,13 +84,26 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
 <<<<<<< Updated upstream
                         <textarea name="estudiante_hermanos" id="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                         <input type="text" name="colegios_anteriores" id="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 3dc0718a6d44e666aa42c7e2b08f7c6aa1fbc00e
                         <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
                         <label><input type="checkbox" name="activo" id="activo" checked> Inscribir como Activo en este período</label><br><br>
 =======
                         <textarea name="estudiante_hermanos" id="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s\-_.,'()#]+"></textarea>
                         <input type="text" name="colegios_anteriores" id="colegios_anteriores" placeholder="Colegio(s) donde estudió antes" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s\-_.,'()#]+">
+<<<<<<< HEAD
                                                 <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
 >>>>>>> Stashed changes
+=======
+                        <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
+                        <label><input type="checkbox" name="activo" id="activo" checked> Inscribir como Activo en este período</label><br><br>
+>>>>>>> Stashed changes
+=======
+                                                <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
+>>>>>>> 4789dff647aba573fa97aaade0ff9f10b9e225cd
+>>>>>>> 3dc0718a6d44e666aa42c7e2b08f7c6aa1fbc00e
                         
                         <button type="submit">Actualizar Estudiante</button>
                     </form>  

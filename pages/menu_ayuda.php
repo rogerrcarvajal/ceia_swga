@@ -12,7 +12,10 @@ $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WH
 
 // Obtener el rol del usuario
 $rol = isset($_SESSION['usuario']['rol']) ? $_SESSION['usuario']['rol'] : '';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 3dc0718a6d44e666aa42c7e2b08f7c6aa1fbc00e
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +60,11 @@ $rol = isset($_SESSION['usuario']['rol']) ? $_SESSION['usuario']['rol'] : '';
         <div class="content" style="width: 100%;">
             <ul class="lista-menu">
                 <li>
+<<<<<<< HEAD
                     <a href="/ceia_swga/pages/doc_manual_usuario.php">
+=======
+                    <a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_ayuda/Manual_Usuario.md">
+>>>>>>> 3dc0718a6d44e666aa42c7e2b08f7c6aa1fbc00e
                         <span class="icono-menu">📖</span> Manual de Usuario
                     </a>
                     <p>Guía completa sobre el uso y las funcionalidades del sistema.</p>
@@ -70,12 +77,21 @@ $rol = isset($_SESSION['usuario']['rol']) ? $_SESSION['usuario']['rol'] : '';
                     </a>
                     <p>Explicación técnica detallada de la lógica de negocio de cada módulo y sus componentes.</p>
                     <ul class="submenu">
+<<<<<<< HEAD
                         <li><a href="/ceia_swga/pages/doc_modulo_estudiantes.php">Módulo Estudiante</a></li>
                         <li><a href="/ceia_swga/pages/doc_modulo_staff.php">Módulo Staff</a></li>
                         <li><a href="/ceia_swga/pages/doc_modulo_latepass.php">Módulo Late-Pass</a></li>
                         <li><a href="/ceia_swga/pages/doc_modulo_reportes.php">Módulo Reportes</a></li>
                         <li><a href="/ceia_swga/pages/doc_modulo_mantenimiento.php">Módulo Mantenimiento</a></li>
                         <li><a href="/ceia_swga/pages/doc_modulo_ayuda.php">Módulo Ayuda</a></li>
+=======
+                        <li><a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_estudiante/Funcionalidad_Modulo_Estudiantes.md">Módulo Estudiante</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_staff/Funcionalidad_Modulo_Staff.md">Módulo Staff</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_late-pass/Funcionalidad_Modulo_LatePass.md">Módulo Late-Pass</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_reportes/Funcionalidad_Modulo_Reportes.md">Módulo Reportes</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_mantenimiento/Funcionalidad_Modulo_Mantenimiento.md">Módulo Mantenimiento</a></li>
+                        <li><a href="/ceia_swga/pages/view_document.php?file=Funcionality/modulo_ayuda/Funcionalidad_Modulo_Ayuda.md">Módulo Ayuda</a></li>
+>>>>>>> 3dc0718a6d44e666aa42c7e2b08f7c6aa1fbc00e
                     </ul>
                 </li>
                 <?php endif; ?>
