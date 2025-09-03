@@ -26,7 +26,7 @@ try {
     $sql = "
         SELECT
             p.nombre_completo,
-            es.fecha,
+            TO_CHAR(es.fecha, 'YYYY-MM-DD') as fecha,
             es.hora_entrada,
             es.hora_salida,
             es.ausente

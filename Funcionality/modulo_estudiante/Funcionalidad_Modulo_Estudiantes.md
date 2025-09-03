@@ -5,6 +5,8 @@
 
 El Módulo de Estudiantes es el núcleo del sistema de gestión académica. Permite administrar de forma integral toda la información relacionada con los estudiantes, desde su inscripción inicial hasta la gestión de sus datos personales, familiares, médicos y su vinculación con los períodos escolares.
 
+**Nota sobre Control de Acceso:** Las funcionalidades de gestión de estudiantes (inscripción y administración de expedientes) están restringidas a usuarios con rol `master` o `admin`. Los usuarios con otros roles no podrán acceder a estas secciones.
+
 ## 2. Flujo de Trabajo y Componentes
 
 El módulo se compone de varias páginas y APIs que trabajan en conjunto. El punto de entrada es el **Menú de Gestión de Estudiantes** (`pages/menu_estudiantes.php`).
@@ -14,6 +16,7 @@ El módulo se compone de varias páginas y APIs que trabajan en conjunto. El pun
 *   **Página**: `pages/planilla_inscripcion.php`
 *   **Propósito**: Ofrece un formulario completo para registrar a un nuevo estudiante en el sistema. Este formulario captura no solo los datos del estudiante, sino también la información de sus padres y su ficha médica básica.
 *   **Lógica**: Al enviar el formulario, los datos son procesados por un script (no visible en el análisis actual, pero probablemente una API dedicada) que crea los registros correspondientes en las tablas `estudiantes`, `padres`, `madres` y `fichas_medicas` de la base de datos.
+*   **Validación de Entrada**: El formulario implementa validación tanto en el lado del cliente (mediante atributos `pattern` en los campos HTML) como en el lado del servidor (utilizando funciones de sanitización y validación en PHP). Esto asegura la integridad de los datos y previene la inserción de caracteres no permitidos o maliciosos.
 
 ### b. Gestión Integral de Expedientes
 
@@ -27,6 +30,7 @@ Esta es la funcionalidad principal del módulo, donde los administradores pasan 
     *   `api/obtener_madre.php` (API para obtener datos de la madre)
     *   `api/obtener_ficha_medica.php` (API para obtener datos de la ficha médica)
     *   `api/actualizar_estudiante.php` y las APIs de actualización correspondientes para padre, madre y ficha.
+*   **Validación de Entrada**: Los formularios de actualización de datos (estudiante, padre, madre, ficha médica) implementan validación en el lado del cliente (mediante atributos `pattern` en los campos HTML) y en el lado del servidor (utilizando funciones de sanitización y validación en PHP). Esto asegura la integridad de los datos y previene la inserción de caracteres no permitidos o maliciosos.
 
 *   **Flujo de Operación**:
     1.  **Visualización**: La página muestra una lista de todos los estudiantes registrados. Un campo de búsqueda permite filtrar la lista dinámicamente para encontrar a un estudiante específico rápidamente.

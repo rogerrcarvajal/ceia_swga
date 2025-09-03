@@ -20,7 +20,7 @@ class PDF extends FPDF
 
     function Header()
     {
-        $this->Image('c:/xampp/htdocs/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
+                $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(80);
         $this->Cell(110, 10, utf8_decode('Reporte de Estudiantes'), 0, 0, 'C');
@@ -43,7 +43,12 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
 $periodo_id = $periodo_activo['id'] ?? 0;
 
 if (!$periodo_id) {
-    die(utf8_decode("No hay un período escolar activo."));
+    $pdf = new PDF('P', 'mm', 'A4');
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, utf8_decode('Error: No hay un período escolar activo.'), 0, 1, 'C');
+    $pdf->Output('D', 'error_no_periodo_activo.pdf');
+    exit();
 }
 
 $stmt_est = $conn->prepare("

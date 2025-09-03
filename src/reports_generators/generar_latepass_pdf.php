@@ -15,7 +15,7 @@ if (!$semana) die('Semana no válida');
 // Obtener datos
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $sql = "
-    SELECT e.nombre_completo, e.apellido_completo, ep.grado_cursado, lt.fecha_registro, lt.hora_llegada, COALESCE(rs.conteo_tardes,0) AS strikes, rs.ultimo_mensaje
+    SELECT e.nombre_completo, e.apellido_completo, ep.grado_cursado, TO_CHAR(lt.fecha_registro, 'YYYY-MM-DD') as fecha_registro, lt.hora_llegada, COALESCE(rs.conteo_tardes,0) AS strikes, rs.ultimo_mensaje
     FROM llegadas_tarde lt
     JOIN estudiantes e ON lt.estudiante_id = e.id
     JOIN estudiante_periodo ep ON e.id = ep.estudiante_id AND ep.periodo_id = :pid

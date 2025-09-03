@@ -30,6 +30,29 @@ document.addEventListener('DOMContentLoaded', () => {
     //document.getElementById('form_asignar_estudiante').addEventListener('submit', (e) => handleFormSubmit(e, '/api/asignar_estudiante.php'));
 
     
+    const gestionarBtn = document.getElementById('gestionar_estudiantes_btn');
+
+    // --- Event Listeners ---
+    if (listaUI) {
+        listaUI.addEventListener('click', (e) => {
+            if (e.target && e.target.tagName === 'LI') {
+                const estudianteId = e.target.dataset.id;
+                if (panelInformativo) panelInformativo.style.display = 'none';
+                if (panelDatos) panelDatos.style.display = 'block';
+                cargarExpedienteCompleto(estudianteId);
+            }
+        });
+    }
+
+    if (filtro) {
+        filtro.addEventListener('keyup', () => {
+            const texto = filtro.value.toLowerCase();
+            document.querySelectorAll('#lista_estudiantes li').forEach(item => {
+                item.style.display = item.textContent.toLowerCase().includes(texto) ? '' : 'none';
+            });
+        });
+    }
+
     periodoSelector.addEventListener('change', () => {
         const periodoId = periodoSelector.value;
         const panelInformativo = document.getElementById('panel_informativo');
@@ -41,9 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('periodo_id_hidden').value = periodoId;
             cargarEstudiantesAsignados(periodoId);
             cargarEstudiantesNoAsignados(periodoId);
+
+            // Actualizar y mostrar el botón de gestionar
+            gestionarBtn.href = `/ceia_swga/pages/lista_gestion_estudiantes.php?periodo_id=${periodoId}`;
+            gestionarBtn.style.display = 'inline-block'; // o 'block'
+
         } else {
             panelInformativo.style.display = 'block';
             panelAsignacion.style.display = 'none';
+            gestionarBtn.style.display = 'none';
         }
     });
 

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf/fpdf.php';
 
 date_default_timezone_set('America/Caracas');
@@ -25,7 +25,7 @@ if ($staff_id > 0) {
 }
 
 $sql = "
-    SELECT p.nombre_completo, es.fecha, es.hora_entrada, es.hora_salida, es.ausente
+    SELECT p.nombre_completo, TO_CHAR(es.fecha, 'YYYY-MM-DD') as fecha, es.hora_entrada, es.hora_salida, es.ausente
     FROM entrada_salida_staff es
     JOIN profesores p ON es.profesor_id = p.id
 ";
@@ -41,7 +41,10 @@ $stmt->execute($params);
 $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Nombre del profesor para título
-$nombre_profesor = $datos[0]['nombre_completo'] ?? 'Personal';
+$nombre_profesor = 'Personal';
+if (!empty($datos)) {
+    $nombre_profesor = $datos[0]['nombre_completo'];
+}
 
 $pdf = new FPDF('P', 'mm', 'A4');
 $pdf->AddPage();

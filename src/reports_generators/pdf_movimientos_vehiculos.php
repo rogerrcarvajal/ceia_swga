@@ -26,10 +26,27 @@ if ($vehiculo_id > 0) {
 
 $sql = "
     SELECT v.placa, v.modelo, e.nombre_completo, e.apellido_completo,
-           rv.fecha, rv.hora_entrada, rv.hora_salida, rv.registrado_por
+           TO_CHAR(rv.fecha, 'YYYY-MM-DD') as fecha, rv.hora_entrada, rv.hora_salida, rv.registrado_por
     FROM registro_vehiculos rv
     JOIN vehiculos v ON rv.vehiculo_id = v.id
     JOIN estudiantes e ON v.estudiante_id = e.id
+";
+
+if (!empty($where)) {
+    $sql .= " WHERE " . implode(" AND ", $where);
+}
+
+$sql .= " ORDER BY rv.fecha DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute($params);
+$datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Nombre estudiante para título
+$nombre_estudiante = 'Todos';
+if ($vehiculo_id > 0 && !empty($datos)) {
+    $nombre_estudiante = $datos[0]['nombre_completo'] . ' ' . $datos[0]['apellido_completo'];
+}
 ";
 
 if (!empty($where)) {

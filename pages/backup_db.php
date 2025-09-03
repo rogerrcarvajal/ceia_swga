@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
     if (!is_dir($backup_dir)) {
         mkdir($backup_dir, 0777, true);
     }
-    $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.sql';
+    $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.backup';
     $backup_filepath = $backup_dir . $backup_filename;
 
     putenv('PGPASSWORD=' . DB_PASSWORD);
@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
                 <ul>
                     <?php
                     $backup_dir = __DIR__ . '/../PostgreSQL-DB/';
-                    $backup_files = glob($backup_dir . 'ceia_db_backup_*.sql');
+                    $backup_files = glob($backup_dir . 'ceia_db_backup_*.backup');
                     rsort($backup_files); // Ordenar archivos del más nuevo al más antiguo
 
                     if (count($backup_files) > 0) {

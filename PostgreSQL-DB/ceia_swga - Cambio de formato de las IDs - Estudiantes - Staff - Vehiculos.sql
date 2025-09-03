@@ -9,6 +9,8 @@ ALTER TABLE latepass_resumen_semanal DROP CONSTRAINT IF EXISTS fk_latepass_estud
 
 
 --ESTUDIANTES
+ALTER TABLE estudiante_periodo DROP CONSTRAINT IF EXISTS fk_estudiante;
+ALTER TABLE estudiante_periodo ADD CONSTRAINT fk_estudiante FOREIGN KEY (estudiante_id) REFERENCES estudiantes(id);
 ALTER TABLE salud_estudiantil DROP CONSTRAINT salud_estudiantil_estudiante_id_fkey;
 
 UPDATE estudiantes SET id = 20000 + id;
