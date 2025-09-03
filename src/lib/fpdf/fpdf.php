@@ -1,7 +1,7 @@
 <?php
 /*******************************************************************************
 * FPDF                                                                         *
-*                                                                              *
+*
 * Version: 1.86                                                                *
 * Date:    2023-06-25                                                          *
 * Author:  Olivier PLATHEY                                                     *
@@ -65,7 +65,7 @@ protected $AliasNbPages;       // alias for total number of pages
 protected $ZoomMode;           // zoom display mode
 protected $LayoutMode;         // layout display mode
 protected $metadata;           // document properties
-protected $CreationDate;       // document creation date
+protected $CreationDate;       // document date
 protected $PDFVersion;         // PDF version number
 
 /*******************************************************************************
@@ -105,7 +105,7 @@ function __construct($orientation='P', $unit='mm', $size='A4')
 	if(defined('FPDF_FONTPATH'))
     $this->fontpath = 'FPDF_FONTPATH';
 else
-    $this->fontpath = __DIR__.'/../lib/font/';
+    $this->fontpath = __DIR__."/../lib/font/";
 	if(substr($this->fontpath,-1)!='/')
 		$this->fontpath .= '/';
 	// Page sizesfont/'; // Path to the font directory
@@ -459,7 +459,7 @@ function AddFont($family, $style='', $file='', $dir='')
 		$this->Error('Incorrect font definition file name: '.$file);
 	if($dir=='')
 		$dir = $this->fontpath;
-	if(substr($dir,-1)!='/' && substr($dir,-1)!='\\')
+	if(substr($dir,-1)!='/' && substr($dir,-1)!='\')
 		$dir .= '/';
 	$info = $this->_loadfont($dir.$file);
 	$info['i'] = count($this->fonts)+1;
@@ -504,6 +504,7 @@ function SetFont($family, $style='', $size=0)
 		// Test if one of the core fonts
 		if($family=='arial')
 			$family = 'helvetica';
+		$this->CoreFonts = array('courier', 'helvetica', 'times', 'symbol', 'zapfdingbats');
 		if(in_array($family,$this->CoreFonts))
 		{
 			if($family=='symbol' || $family=='zapfdingbats')
@@ -611,7 +612,7 @@ function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link
 			$op = ($border==1) ? 'B' : 'f';
 		else
 			$op = 'S';
-		$s = sprintf('%.2F %.2F %.2F %.2F re %s ',$this->x*$k,($this->h-$this->y)*$k,$w*$k,-$h*$k,$op);
+		$s = sprintf('%.2F %.2F %.2F %.2F re %s ',$this->x*$k,($this->h-$this->y)*$k,$w*$k,-$h*$k,$op); 
 	}
 	if(is_string($border))
 	{
@@ -641,7 +642,7 @@ function Cell($w, $h=0, $txt='', $border=0, $ln=0, $align='', $fill=false, $link
 			$s .= 'q '.$this->TextColor.' ';
 		$s .= sprintf('BT %.2F %.2F Td (%s) Tj ET',($this->x+$dx)*$k,($this->h-($this->y+.5*$h+.3*$this->FontSize))*$k,$this->_escape($txt));
 		if($this->underline)
-			$s .= ' '.$this->_dounderline($this->x+$dx,$this->y+.5*$h+.3*$this->FontSize,$txt);
+			$s .= ' '.$this->_dounderline($x,$y,$txt);
 		if($this->ColorFlag)
 			$s .= ' Q';
 		if($link)
@@ -1052,9 +1053,9 @@ protected function _checkoutput()
 	if(ob_get_length())
 	{
 		// The output buffer is not empty
-		if(preg_match('/^(\xEF\xBB\xBF)?\s*$/',ob_get_contents()))
+		$s = ob_get_contents();
+		if(preg_match('/^(\xEF\xBB\xBF)?\s*$/',$s))
 		{
-			// It contains only a UTF-8 BOM and/or whitespace, let's clean it
 			ob_clean();
 		}
 		else
@@ -1229,8 +1230,8 @@ protected function _UTF8toUTF16($s)
 protected function _escape($s)
 {
 	// Escape special characters
-	if(strpos($s,'(')!==false || strpos($s,')')!==false || strpos($s,'\\')!==false || strpos($s,"\r")!==false)
-		return str_replace(array('\\','(',')',"\r"), array('\\\\','\\(','\\)','\\r'), $s);
+	if(strpos($s,'(')!==false || strpos($s,')')!==false || strpos($s,'\')!==false || strpos($s,"")!==false)
+		return str_replace(array('\\','\(','\)','\r'), array('\\\\','\(','\)','\r'), $s);
 	else
 		return $s;
 }
@@ -1593,12 +1594,12 @@ protected function _putpages()
 	{
 		$w = $this->DefPageSize[0];
 		$h = $this->DefPageSize[1];
-	}
+		}
 	else
 	{
 		$w = $this->DefPageSize[1];
 		$h = $this->DefPageSize[0];
-	}
+		}
 	$this->_put(sprintf('/MediaBox [0 0 %.2F %.2F]',$w*$this->k,$h*$this->k));
 	$this->_put('>>');
 	$this->_put('endobj');
@@ -1731,12 +1732,12 @@ protected function _tounicodecmap($uv)
 	{
 		if(is_array($v))
 		{
-			$ranges .= sprintf("<%02X> <%02X> <%04X>\n",$c,$c+$v[1]-1,$v[0]);
+			$ranges .= sprintf("<%%02X> <%%02X> <%%04X>\n",$c,$c+$v[1]-1,$v[0]);
 			$nbr++;
 		}
 		else
 		{
-			$chars .= sprintf("<%02X> <%04X>\n",$c,$v);
+			$chars .= sprintf("<%%02X> <%%04X>\n",$c,$v);
 			$nbc++;
 		}
 	}
@@ -1860,7 +1861,7 @@ protected function _putresources()
 protected function _putinfo()
 {
 	$date = @date('YmdHisO',$this->CreationDate);
-	$this->metadata['CreationDate'] = 'D:'.substr($date,0,-2)."'".substr($date,-2)."'";
+	$this->metadata['CreationDate'] = 'D:'.substr($date,0,-2)."'" . substr($date,-2)."'";
 	foreach($this->metadata as $key=>$value)
 		$this->_put('/'.$key.' '.$this->_textstring($value));
 }

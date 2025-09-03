@@ -34,39 +34,52 @@ if (!empty($where)) {
     $sql .= " WHERE " . implode(" AND ", $where);
 }
 
-$sql .= " ORDER BY es.fecha DESC";
+$sql .= " ORDER BY p.nombre_completo, es.fecha DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute($params);
 $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Nombre del profesor para título
-$nombre_profesor = 'Personal';
-if (!empty($datos)) {
-    $nombre_profesor = $datos[0]['nombre_completo'];
+// Definir el título del PDF
+$titulo = "Reporte de Movimiento del Staff";
+if ($staff_id > 0 && !empty($datos)) {
+    $titulo .= ": " . $datos[0]['nombre_completo'];
+} elseif ($semana) {
+    $titulo .= " - Semana del " . date('d/m/Y', strtotime($semana));
+} else {
+    $titulo .= " (General)";
 }
 
 $pdf = new FPDF('P', 'mm', 'A4');
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 14);
-$pdf->Cell(0, 10, utf8_decode("Reporte de Movimiento del Staff: {$nombre_profesor}"), 0, 1, 'C');
-
+$pdf->Cell(0, 10, $titulo, 0, 1, 'C');
 $pdf->Ln(5);
-$pdf->SetFont('Arial', 'B', 10);
-$pdf->Cell(40, 8, 'Fecha', 1);
-$pdf->Cell(35, 8, 'Hora Entrada', 1);
-$pdf->Cell(35, 8, 'Hora Salida', 1);
-$pdf->Cell(30, 8, 'Ausente', 1);
-$pdf->Ln();
 
-$pdf->SetFont('Arial', '', 10);
-
-foreach ($datos as $row) {
-    $pdf->Cell(40, 8, $row['fecha'], 1);
-    $pdf->Cell(35, 8, $row['hora_entrada'] ?? '-', 1);
-    $pdf->Cell(35, 8, $row['hora_salida'] ?? '-', 1);
-    $pdf->Cell(30, 8, $row['ausente'] ? 'Sí' : 'No', 1);
+if (empty($datos)) {
+    $pdf->SetFont('Arial', 'I', 12);
+    $pdf->Cell(0, 10, "No se encontraron registros para los filtros seleccionados.", 0, 1, 'C');
+} else {
+    $pdf->SetFont('Arial', 'B', 10);
+    $pdf->Cell(60, 8, 'Nombre Completo', 1);
+    $pdf->Cell(30, 8, 'Fecha', 1);
+    $pdf->Cell(30, 8, 'Hora Entrada', 1);
+    $pdf->Cell(30, 8, 'Hora Salida', 1);
+    $pdf->Cell(20, 8, 'Ausente', 1);
     $pdf->Ln();
+
+    $pdf->SetFont('Arial', '', 9);
+    foreach ($datos as $row) {
+        // Para evitar problemas de codificación, se intenta convertir a ISO-8859-1 si es necesario
+        $nombre = iconv('UTF-8', 'ISO-8859-1//TRANSLIT', $row['nombre_completo']);
+
+        $pdf->Cell(60, 8, $nombre, 1);
+        $pdf->Cell(30, 8, $row['fecha'], 1);
+        $pdf->Cell(30, 8, $row['hora_entrada'] ?? '-', 1);
+        $pdf->Cell(30, 8, $row['hora_salida'] ?? '-', 1);
+        $pdf->Cell(20, 8, $row['ausente'] ? 'Si' : 'No', 1);
+        $pdf->Ln();
+    }
 }
 
-$pdf->Output('I', "Movimiento del Staff {$nombre_profesor}.pdf");
+$pdf->Output('I', "Movimiento_Staff.pdf");
