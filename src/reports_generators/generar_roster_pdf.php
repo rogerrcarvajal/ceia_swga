@@ -3,54 +3,18 @@ session_start();
 if (!isset($_SESSION['usuario'])) { exit('Acceso denegado.'); }
 
 require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/fpdf.php';
-
-<<<<<<< HEAD
-// 1. OBTENER DATOS DEL PERÍODO ACTIVO
-$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-if (!$periodo_activo) { die("Error: No hay un período escolar activo."); }
-=======
-class PDF_Roster extends FPDF
-{
-    private $nombre_periodo;
-
-    function __construct($orientation, $unit, $size, $periodo_nombre) {
-        parent::__construct($orientation, $unit, $size);
-        $this->nombre_periodo = $periodo_nombre;
-    }
-
-    function Header() {
-        $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
-        $this->SetFont('Arial', 'B', 10);
-        $this->SetTextColor(0, 100, 0);
-        $this->Cell(0, 5, 'Periodo Escolar Activo: ' . $this->nombre_periodo, 0, 1, 'C');
-        $this->SetTextColor(0, 0, 0);
-        $this->Ln(10);
-    }
-
-    function Footer() {
-        $this->SetY(-20);
-        $this->Image(__DIR__ . '/../../public/img/color_line.png', 10, $this->GetY(), 190);
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 5, utf8_decode('Av. José Antonio Anzoátegui, Km 98 - Anaco, Edo Anzoátegui 6003, Venezuela - +58 282 422 2683'), 0, 1, 'C');
-        $this->Cell(0, 5, 'Pagina ' . $this->PageNo(), 0, 0, 'C');
-    }
-}
+require_once __DIR__ . '/pdf_base.php';
 
 // 1. OBTENER DATOS DEL PERÍODO ACTIVO
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 if (!$periodo_activo) { 
-    $pdf = new PDF_Roster('P', 'mm', 'A4', 'N/A');
+    $pdf = new LatePassPDF('P', 'mm', 'A4', 'N/A');
     $pdf->AddPage();
     $pdf->SetFont('Arial', 'B', 16);
     $pdf->Cell(0, 10, utf8_decode('Error: No hay un período escolar activo.'), 0, 1, 'C');
     $pdf->Output('D', 'error_no_periodo_activo.pdf');
     exit();
 }
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 $periodo_id = $periodo_activo['id'];
 $nombre_del_periodo = $periodo_activo['nombre_periodo'];
 
@@ -126,40 +90,7 @@ foreach ($estudiantes_result as $estudiante) {
 }
 $total_estudiantes_regulares = count($estudiantes_result) - $total_estudiantes_staff;
 
-<<<<<<< HEAD
-class PDF_Roster extends FPDF
-{
-    private $nombre_periodo;
-
-    function __construct($orientation, $unit, $size, $periodo_nombre) {
-        parent::__construct($orientation, $unit, $size);
-        $this->nombre_periodo = $periodo_nombre;
-    }
-
-    function Header() {
-        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
-        $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
-        $this->SetFont('Arial', 'B', 10);
-        $this->SetTextColor(0, 100, 0);
-        $this->Cell(0, 5, 'Periodo Escolar Activo: ' . $this->nombre_periodo, 0, 1, 'C');
-        $this->SetTextColor(0, 0, 0);
-        $this->Ln(10);
-    }
-
-    function Footer() {
-        $this->SetY(-20);
-        $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/color_line.png', 10, $this->GetY(), 190);
-        $this->SetY(-15);
-        $this->SetFont('Arial', 'I', 8);
-        $this->Cell(0, 5, utf8_decode('Av. José Antonio Anzoátegui, Km 98 - Anaco, Edo Anzoátegui 6003, Venezuela - +58 282 422 2683'), 0, 1, 'C');
-        $this->Cell(0, 5, 'Pagina ' . $this->PageNo(), 0, 0, 'C');
-    }
-}
-
-=======
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
-$pdf = new PDF_Roster('P', 'mm', 'A4', $nombre_del_periodo);
+$pdf = new LatePassPDF('P', 'mm', 'A4', $nombre_del_periodo);
 $pdf->AddPage();
 $pdf->SetFont('Arial', 'B', 18);
 $pdf->Cell(0, 10, 'Roster ' . $nombre_del_periodo, 0, 1, 'C');

@@ -58,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
         mkdir($backup_dir, 0777, true);
     }
 <<<<<<< HEAD
-    $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.sql';
+        $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.sql';
 =======
     $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.backup';
 >>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
                     <?php
                     $backup_dir = __DIR__ . '/../PostgreSQL-DB/';
 <<<<<<< HEAD
-                    $backup_files = glob($backup_dir . 'ceia_db_backup_*.sql');
+                                        $backup_files = glob($backup_dir . 'ceia_db_backup_*.sql');
 =======
                     $backup_files = glob($backup_dir . 'ceia_db_backup_*.backup');
 >>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec

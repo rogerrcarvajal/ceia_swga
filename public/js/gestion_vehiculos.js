@@ -61,11 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-<<<<<<< HEAD
-    let url = `/ceia_swga/src/reports_generators/generar_movimiento_vehiculos_pdf.php?semana=${semana}`;
-=======
     let url = `/ceia_swga/src/reports_generators/pdf_movimientos_vehiculos.php?semana=${semana}`;
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
     if (vehiculoId !== "todos") {
       url += `&vehiculo_id=${vehiculoId}`;
     }

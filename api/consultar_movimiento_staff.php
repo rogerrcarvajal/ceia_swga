@@ -29,7 +29,7 @@ try {
 <<<<<<< HEAD
             es.fecha,
 =======
-            TO_CHAR(es.fecha, 'YYYY-MM-DD') as fecha,
+            TO_CHAR(es.fecha, 'MM-DD-YYYY') as fecha,
 >>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
             es.hora_entrada,
             es.hora_salida,

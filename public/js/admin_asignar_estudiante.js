@@ -4,34 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const panelDatos = document.getElementById('panel_datos_estudiante');
     const periodoSelector = document.getElementById('periodo_selector');
     const filtro = document.getElementById('filtro_estudiantes');
-
-    // --- Event Listeners ---
-    if (listaUI) {
-        listaUI.addEventListener('click', (e) => {
-            if (e.target && e.target.tagName === 'LI') {
-                const estudianteId = e.target.dataset.id;
-                if (panelInformativo) panelInformativo.style.display = 'none';
-                if (panelDatos) panelDatos.style.display = 'block';
-                cargarExpedienteCompleto(estudianteId);
-            }
-        });
-    }
-
-    if (filtro) {
-        filtro.addEventListener('keyup', () => {
-            const texto = filtro.value.toLowerCase();
-            document.querySelectorAll('#lista_estudiantes li').forEach(item => {
-                item.style.display = item.textContent.toLowerCase().includes(texto) ? '' : 'none';
-            });
-        });
-    }
-
-    // Vinculamos el formulario a la misma función genérica de envío
-    //document.getElementById('form_asignar_estudiante').addEventListener('submit', (e) => handleFormSubmit(e, '/api/asignar_estudiante.php'));
-
-    
-<<<<<<< HEAD
-=======
     const gestionarBtn = document.getElementById('gestionar_estudiantes_btn');
 
     // --- Event Listeners ---
@@ -55,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
     periodoSelector.addEventListener('change', () => {
         const periodoId = periodoSelector.value;
         const panelInformativo = document.getElementById('panel_informativo');
@@ -67,11 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('periodo_id_hidden').value = periodoId;
             cargarEstudiantesAsignados(periodoId);
             cargarEstudiantesNoAsignados(periodoId);
-<<<<<<< HEAD
-        } else {
-            panelInformativo.style.display = 'block';
-            panelAsignacion.style.display = 'none';
-=======
 
             // Actualizar y mostrar el botón de gestionar
             gestionarBtn.href = `/ceia_swga/pages/lista_gestion_estudiantes.php?periodo_id=${periodoId}`;
@@ -81,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             panelInformativo.style.display = 'block';
             panelAsignacion.style.display = 'none';
             gestionarBtn.style.display = 'none';
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
         }
     });
 

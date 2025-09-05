@@ -23,12 +23,8 @@ if ($semana) {
 
         $sql = "SELECT 
                     e.nombre_completo, e.apellido_completo, ep.grado_cursado,
-<<<<<<< HEAD
                     TO_CHAR(lt.fecha_registro, 'MM-DD-YYYY') as fecha_registro, 
                     lt.hora_llegada,
-=======
-                    TO_CHAR(lt.fecha_registro, 'YYYY-MM-DD') as fecha_registro, lt.hora_llegada,
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
                     COALESCE(rs.conteo_tardes, 0) as conteo_tardes,
                     rs.ultimo_mensaje
                 FROM llegadas_tarde lt
