@@ -12,11 +12,7 @@ require_once __DIR__ . '/../src/config.php';
 // Declaración de variables
 $mensaje = "";
 
-if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin'])) {
-    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master y Admin pueden gestionar el módulo Staff.";
-    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master y Admin pueden gestionar el módulo Staff."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
-    exit();
-}
+
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 // --- Obtener el período escolar activo ---
@@ -85,10 +81,16 @@ $estudiantes = $conn->query("SELECT id, nombre_completo, apellido_completo FROM 
                         <input type="date" name="fecha_inscripcion" id="fecha_inscripcion" required>
                         <input type="text" name="recomendado_por" id="recomendado_por" placeholder="Recomendado por" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s\-_.,'()#]+">
                         <input type="number" name="edad_estudiante" id="edad_estudiante" placeholder="Edad" required>
+<<<<<<< Updated upstream
                         <textarea name="estudiante_hermanos" id="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA"></textarea>
                         <input type="text" name="colegios_anteriores" id="colegios_anteriores" placeholder="Colegio(s) donde estudió antes">
                         <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
                         <label><input type="checkbox" name="activo" id="activo" checked> Inscribir como Activo en este período</label><br><br>
+=======
+                        <textarea name="estudiante_hermanos" id="estudiante_hermanos" placeholder="Hermanos estudiando en el CEIA" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s\-_.,'()#]+"></textarea>
+                        <input type="text" name="colegios_anteriores" id="colegios_anteriores" placeholder="Colegio(s) donde estudió antes" pattern="[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ\s\-_.,'()#]+">
+                                                <label><input type="checkbox" name="staff" id="staff"> Estudiante Staff</label><br><br>
+>>>>>>> Stashed changes
                         
                         <button type="submit">Actualizar Estudiante</button>
                     </form>  
