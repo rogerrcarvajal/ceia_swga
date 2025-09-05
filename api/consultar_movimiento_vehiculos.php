@@ -30,11 +30,7 @@ try {
             v.modelo,
             e.nombre_completo,
             e.apellido_completo,
-<<<<<<< HEAD
             r.fecha,
-=======
-            TO_CHAR(r.fecha, 'MM-DD-YYYY') as fecha,
->>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
             r.hora_entrada,
             r.hora_salida,
             r.registrado_por
