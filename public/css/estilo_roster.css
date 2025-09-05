@@ -1,0 +1,220 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("/ceia_swga/public/img/fondo.jpg");
+    background-size: cover;
+    background-position: top;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 10px rgba(227, 228, 237, 0.37);
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    color: rgb(255, 255, 255);
+    margin: 0;
+    font-size: 1.8em;
+}
+
+.content {
+    text-align: center;
+    margin-top: 30px;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.content img {
+    width: 180px;
+    margin-bottom: 0px;
+}
+
+.form button {
+    margin-top: 20px;
+    text-decoration: none;
+    padding: 10px 18px;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button {
+    background-color: rgb(48, 48, 48);
+    color: white;
+    padding: 10px 18px;
+    margin-top: 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-agregar {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    padding: 10px 18px;
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: rgb(48, 48, 48);
+    color: white;
+    padding: 10px 18px;
+    margin-top: 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.section-title {
+    color: rgb(255, 255, 255);
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 8px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.staff-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.staff-table th,
+.staff-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.staff-table thead {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    color: white;
+    text-align: center;
+}
+
+.grades-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.grade-section {
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+}
+
+.grade-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+}
+
+.student-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.student-list li {
+    padding: 5px 0;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.50);
+    border: 1px solidrgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
+}
+
+.alerta {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.alerta.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alerta.exito {
+    /* Se quita el fondo verde por defecto para dar paso a los tags personalizados */
+    background-color: transparent;
+    border-color: transparent;
+    color: white;
+}
+
+.info-tag {
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+    text-align: left;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.info-tag p {
+    margin: 5px 0;
+    font-size: 1.1em;
+}
+
+.info-tag.est { background-color: rgba(42, 74, 109, 0.8); }
+.info-tag.stf { background-color: rgba(109, 74, 42, 0.8); }
+.info-tag.veh { background-color: rgba(74, 109, 42, 0.8); }
+
+.strike-tag {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 1em;
+    text-transform: uppercase;
+}
+
+.strike-1 { background-color: #28a745; } /* Verde */
+.strike-2 { background-color: #ffc107; color: #212529; } /* Amarillo */
+.strike-3 { background-color: #dc3545; } /* Rojo */
+
+.strike-final-msg {
+    font-weight: bold;
+    color: #f8d7da; /* Un rojo claro para que resalte */
+    margin-top: 10px !important;
+    padding: 8px;
+    background-color: rgba(220, 53, 69, 0.3);
+    border-radius: 4px;
+}
