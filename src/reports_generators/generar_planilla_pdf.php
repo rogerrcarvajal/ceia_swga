@@ -9,6 +9,7 @@ if (!isset($_SESSION['usuario'])) {
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../lib/fpdf.php';
 
+<<<<<<< HEAD
 // Obtener el período escolar activo
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_del_periodo = $periodo_activo['nombre_periodo'] ?? 'No Definido';
@@ -60,6 +61,8 @@ $stmt_asig->execute([':eid' => $estudiante_id]);
 $asignacion_activa = $stmt_asig->fetch(PDO::FETCH_ASSOC);
 
 
+=======
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 // --- CLASE PDF PERSONALIZADA ---
 class PlanillaPDF extends FPDF
 {
@@ -71,7 +74,11 @@ class PlanillaPDF extends FPDF
     }
 
     function Header() {
+<<<<<<< HEAD
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
+=======
+        $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
@@ -82,12 +89,18 @@ class PlanillaPDF extends FPDF
     }
 
     function Footer() {
+<<<<<<< HEAD
         // Posición a 2 cm del final
         $this->SetY(-20);
         // Imagen de línea de colores
         $this->Image($_SERVER['DOCUMENT_ROOT'] . '/ceia_swga/public/img/color_line.png', 10, $this->GetY(), 190);
         
         $this->SetY(-15); // Posición a 1.5 cm del final
+=======
+        $this->SetY(-20);
+        $this->Image(__DIR__ . '/../../public/img/color_line.png', 10, $this->GetY(), 190);
+        $this->SetY(-15);
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
         $this->SetFont('Arial', 'I', 8);
         $this->Cell(0, 5, utf8_decode('Av. José Antonio Anzoátegui, Km 98 - Anaco, Edo Anzoátegui 6003, Venezuela - +58 282 422 2683'), 0, 1, 'C');
         $this->Cell(0, 5, utf8_decode('Página ') . $this->PageNo(), 0, 0, 'C');
@@ -108,6 +121,69 @@ class PlanillaPDF extends FPDF
     }
 }
 
+<<<<<<< HEAD
+=======
+// Obtener el período escolar activo
+$periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+$nombre_del_periodo = $periodo_activo['nombre_periodo'] ?? 'No Definido';
+
+// 3. Obtener el ID del estudiante desde la URL.
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    $pdf = new PlanillaPDF('P', 'mm', 'A4', $nombre_del_periodo);
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, utf8_decode('Error: No se ha seleccionado ningún estudiante.'), 0, 1, 'C');
+    $pdf->Output('D', 'error_no_estudiante.pdf');
+    exit();
+}
+$estudiante_id = $_GET['id'];
+
+// --- BLOQUE DE OBTENCIÓN DE DATOS ---
+
+// CONSULTA 1: Estudiante
+$stmt_est = $conn->prepare("SELECT *, TO_CHAR(fecha_nacimiento, 'YYYY-MM-DD') as fecha_nacimiento, TO_CHAR(fecha_inscripcion, 'YYYY-MM-DD') as fecha_inscripcion FROM estudiantes WHERE id = :id");
+$stmt_est->execute([':id' => $estudiante_id]);
+$estudiante = $stmt_est->fetch(PDO::FETCH_ASSOC);
+
+if (!$estudiante) {
+    $pdf = new PlanillaPDF('P', 'mm', 'A4', $nombre_del_periodo);
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, utf8_decode('Error: Estudiante no encontrado.'), 0, 1, 'C');
+    $pdf->Output('D', 'error_estudiante_no_encontrado.pdf');
+    exit();
+}
+
+// CONSULTA 2: Padre
+$padre = [];
+if (!empty($estudiante['padre_id'])) {
+    $stmt_padre = $conn->prepare("SELECT *, TO_CHAR(padre_fecha_nacimiento, 'YYYY-MM-DD') as padre_fecha_nacimiento FROM padres WHERE padre_id = :id");
+    $stmt_padre->execute([':id' => $estudiante['padre_id']]);
+    $padre = $stmt_padre->fetch(PDO::FETCH_ASSOC);
+}
+
+// CONSULTA 3: Madre
+$madre = [];
+if (!empty($estudiante['madre_id'])) {
+    $stmt_madre = $conn->prepare("SELECT *, TO_CHAR(madre_fecha_nacimiento, 'YYYY-MM-DD') as madre_fecha_nacimiento FROM madres WHERE madre_id = :id");
+    $stmt_madre->execute([':id' => $estudiante['madre_id']]);
+    $madre = $stmt_madre->fetch(PDO::FETCH_ASSOC);
+}
+
+// CONSULTA 4: Ficha Médica
+$stmt_ficha = $conn->prepare("SELECT *, TO_CHAR(fecha_salud, 'YYYY-MM-DD') as fecha_salud, TO_CHAR(fecha_examen, 'YYYY-MM-DD') as fecha_examen FROM salud_estudiantil WHERE estudiante_id = :id");
+$stmt_ficha->execute([':id' => $estudiante_id]);
+$ficha_medica = $stmt_ficha->fetch(PDO::FETCH_ASSOC);
+
+// ---> NUEVA CONSULTA 5: PARA OBTENER EL GRADO DEL PERÍODO ACTIVO <---
+$stmt_asig = $conn->prepare(
+    "SELECT grado_cursado FROM estudiante_periodo 
+     WHERE estudiante_id = :eid AND periodo_id = (SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1)"
+);
+$stmt_asig->execute([':eid' => $estudiante_id]);
+$asignacion_activa = $stmt_asig->fetch(PDO::FETCH_ASSOC);
+
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 
 // --- GENERACIÓN DEL DOCUMENTO PDF ---
 $pdf = new PlanillaPDF('P', 'mm', 'A4', $nombre_del_periodo);
@@ -116,10 +192,14 @@ $pdf->SetFont('Arial', 'B', 15);
 $pdf->Cell(0, 10, utf8_decode('PLANILLA DE INSCRIPCIÓN'), 0, 1, 'C');
 $pdf->Ln(5);
 
+<<<<<<< HEAD
 // ... (El resto del código para las secciones es idéntico)
 
 // Sección 1: Datos del Estudiante
 // ...existing code...
+=======
+// Sección 1: Datos del Estudiante
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 $pdf->SectionTitle('Datos del Estudiante');
 $pdf->DataRow('Nombre Completo:', $estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo']);
 $pdf->DataRow('Fecha de Nacimiento:', $estudiante['fecha_nacimiento']);
@@ -168,7 +248,10 @@ $pdf->DataRow('Email:', $madre['madre_email'] ?? 'N/A');
 $pdf->Ln(8);
 
 // Sección 4: Ficha Médica
+<<<<<<< HEAD
 // Sección 4: Ficha Médica
+=======
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 $pdf->SectionTitle('Ficha Medica');
 $pdf->DataRow('Completado por:', $ficha_medica['completado_por'] ?? 'N/A');
 $pdf->DataRow('Fecha de ultima actualizacion:', $ficha_medica['fecha_salud'] ?? 'N/A');

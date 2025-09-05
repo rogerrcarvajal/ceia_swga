@@ -1,6 +1,11 @@
 <?php
+<<<<<<< HEAD
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/pdf_base.php';
+=======
+require_once __DIR__ . '/../src/config.php';
+require_once __DIR__ . '/../lib/fpdf/fpdf.php';
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 
 date_default_timezone_set('America/Caracas');
 
@@ -44,6 +49,7 @@ $datos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Nombre estudiante para título
 $nombre_estudiante = isset($datos[0]) ? $datos[0]['nombre_completo'] . ' ' . $datos[0]['apellido_completo'] : 'Estudiante';
+<<<<<<< HEAD
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $nombre_del_periodo = $periodo_activo['nombre_periodo'] ?? 'No Definido';
 
@@ -55,6 +61,15 @@ $pdf->SetFont('Arial', 'B', 12);
 $pdf->Cell(0, 10, utf8_decode($nombre_estudiante), 0, 1, 'C');
 $pdf->Ln(5);
 
+=======
+
+$pdf = new FPDF('L', 'mm', 'A4');
+$pdf->AddPage();
+$pdf->SetFont('Arial', 'B', 14);
+$pdf->Cell(0, 10, utf8_decode("Movimiento de Vehículo del Estudiante: {$nombre_estudiante}"), 0, 1, 'C');
+
+$pdf->Ln(5);
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(35, 8, 'Fecha', 1);
 $pdf->Cell(40, 8, 'Placa', 1);
@@ -67,7 +82,11 @@ $pdf->Ln();
 $pdf->SetFont('Arial', '', 10);
 
 foreach ($datos as $row) {
+<<<<<<< HEAD
     $pdf->Cell(35, 8, date("m-d-Y", strtotime($row['fecha'])), 1);
+=======
+    $pdf->Cell(35, 8, $row['fecha'], 1);
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
     $pdf->Cell(40, 8, $row['placa'], 1);
     $pdf->Cell(45, 8, $row['modelo'], 1);
     $pdf->Cell(45, 8, $row['hora_entrada'] ?? '-', 1);
@@ -76,4 +95,8 @@ foreach ($datos as $row) {
     $pdf->Ln();
 }
 
+<<<<<<< HEAD
 $pdf->Output('D', "Movimiento del Vehículo del Estudiante {$nombre_estudiante}.pdf");
+=======
+$pdf->Output('I', "Movimiento del Vehículo del Estudiante {$nombre_estudiante}.pdf");
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec

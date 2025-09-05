@@ -26,7 +26,11 @@ try {
     $sql = "
         SELECT
             p.nombre_completo,
+<<<<<<< HEAD
             es.fecha,
+=======
+            TO_CHAR(es.fecha, 'YYYY-MM-DD') as fecha,
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
             es.hora_entrada,
             es.hora_salida,
             es.ausente

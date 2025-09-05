@@ -20,7 +20,11 @@ class PDF extends FPDF
 
     function Header()
     {
+<<<<<<< HEAD
         $this->Image('c:/xampp/htdocs/ceia_swga/public/img/logo_ceia.png', 10, 8, 25);
+=======
+                $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(80);
         $this->Cell(30, 10, utf8_decode('Reporte de Vehículos Autorizados'), 0, 0, 'C');
@@ -41,7 +45,16 @@ class PDF extends FPDF
 
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 if (!$periodo_activo) {
+<<<<<<< HEAD
     die(utf8_decode("No hay un período escolar activo para generar el reporte."));
+=======
+    $pdf = new PDF('P', 'mm', 'A4');
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 16);
+    $pdf->Cell(0, 10, utf8_decode('Error: No hay un período escolar activo.'), 0, 1, 'C');
+    $pdf->Output('D', 'error_no_periodo_activo.pdf');
+    exit();
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
 }
 
 $stmt_veh = $conn->query("

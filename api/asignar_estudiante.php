@@ -4,7 +4,11 @@ require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
 
 // Medidas de seguridad
+<<<<<<< HEAD
 if (!isset($_SESSION['usuario']) || $_SESSION['usuario']['rol'] !== 'admin') {
+=======
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master', 'admin'])) {
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
     echo json_encode(['status' => 'error', 'message' => 'Acceso no autorizado.']);
     exit();
 }
