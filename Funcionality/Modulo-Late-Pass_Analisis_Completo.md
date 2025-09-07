@@ -1,9 +1,3 @@
-<?php
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Late-Pass";
-
-$markdown_content = <<<'MARKDOWN'
 # Análisis Completo de Funcionalidad: Módulo Late-Pass
 
 Este documento consolida el análisis exhaustivo de todos los componentes del Módulo Late-Pass, desde la generación de códigos QR hasta la consulta de registros. El módulo es una pieza central del sistema, caracterizado por una arquitectura consistente y una clara separación de responsabilidades.
@@ -97,6 +91,3 @@ El Módulo Late-Pass es una pieza de ingeniería de software sólida, bien plani
 
 - **Punto Menor de Mejora Sugerido**:
     - Las APIs de consulta para Staff y Vehículos podrían mejorarse para manejar la opción de "Todos", que actualmente se ofrece en la interfaz pero no está implementada en el backend. Habilitar esta funcionalidad proporcionaría una visión general valiosa para los administradores.
-MARKDOWN;
-
-require_once __DIR__ . '/view_document.php';

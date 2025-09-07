@@ -1,9 +1,3 @@
-<?php
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Reportes";
-
-$markdown_content = <<<'MARKDOWN'
 # Análisis de Funcionalidad: Módulo de Reportes
 
 Este documento describe el flujo de trabajo y los componentes técnicos del "Módulo de Reportes", cuya función principal es la extracción de datos y su presentación en formato PDF.
@@ -39,7 +33,7 @@ A diferencia de otros módulos interactivos del sistema, el Módulo de Reportes 
 
 ### 3. Gestionar Reportes (`gestionar_reportes.php`)
 
--   **Funcionalidad:** Serve como un panel centralizado para previsualizar y generar múltiples reportes de listas categorizadas.
+-   **Funcionalidad:** Sirve como un panel centralizado para previsualizar y generar múltiples reportes de listas categorizadas.
 -   **Flujo de Trabajo:**
     1.  **Carga Inicial:** Al cargar la página, el backend ejecuta todas las consultas necesarias para cada categoría de reporte (Estudiantes, Staff Administrativo, Staff Docente, etc.) y las renderiza en tablas HTML que permanecen ocultas inicialmente.
     2.  **Interacción del Usuario:** El usuario hace clic en una categoría en el menú lateral (ej. "Vehículos Autorizados").
@@ -57,6 +51,3 @@ El "Módulo de Reportes" es robusto y cumple su propósito de manera efectiva y 
     -   **Claridad y Sencillez:** La lógica es directa y fácil de mantener.
     -   **Modularidad:** El uso de un script generador de PDF dedicado para cada reporte es una excelente práctica de diseño que aísla la lógica de cada uno.
     -   **Eficiencia:** En `gestionar_reportes.php`, la precarga de datos permite una navegación fluida entre las diferentes vistas previas sin esperas adicionales.
-MARKDOWN;
-
-require_once __DIR__ . '/view_document.php';

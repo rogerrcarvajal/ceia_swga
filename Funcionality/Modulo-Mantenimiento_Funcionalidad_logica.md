@@ -1,9 +1,3 @@
-<?php
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Mantenimiento";
-
-$markdown_content = <<<'MARKDOWN'
 # Análisis de Funcionalidad: Módulo de Mantenimiento
 
 Este documento describe el flujo de trabajo y los componentes técnicos del "Módulo de Mantenimiento", una sección crítica para la configuración global y la seguridad de los datos del sistema.
@@ -57,6 +51,3 @@ El "Módulo de Mantenimiento" es una sección crítica, bien protegida y con una
     -   **Seguridad:** El acceso está correctamente restringido por rol y las contraseñas y descargas se manejan de forma segura.
     -   **Integridad de Datos:** Las reglas de negocio, como las transacciones en la activación de períodos y el uso de `pg_dump` para respaldos consistentes, son puntos muy fuertes.
     -   **Flujo de Trabajo Claro:** La separación de las funciones en diferentes scripts hace que la lógica sea fácil de seguir y mantener.
-MARKDOWN;
-
-require_once __DIR__ . '/view_document.php';

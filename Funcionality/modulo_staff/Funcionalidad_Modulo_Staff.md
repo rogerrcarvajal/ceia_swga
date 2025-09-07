@@ -1,4 +1,3 @@
-
 # Documentación del Módulo de Staff
 
 ## 1. Propósito del Módulo
@@ -28,7 +27,6 @@ El módulo se articula a través de varias páginas, APIs y scripts que cubren t
     *   `api/obtener_profesores.php` (API para listar todos los profesores).
     *   `api/actualizar_profesores.php` (API para guardar cambios).
     *   `pages/eliminar_profesor.php` (Script para eliminar un registro).
-
 *   **Flujo de Operación**:
     1.  **Visualización y Búsqueda**: La página muestra una lista de todo el personal registrado. Un campo de búsqueda permite filtrar los resultados para una localización rápida.
     2.  **Selección y Edición**: El administrador puede seleccionar un miembro del personal para ver sus detalles y activar el modo de edición.
@@ -44,7 +42,6 @@ Esta es una funcionalidad clave para la seguridad y el registro de asistencia de
     *   `public/js/gestion_es_staff.js` (Lógica del Frontend).
     *   `api/registrar_movimiento_staff.php` (API para guardar la entrada/salida).
     *   `api/consultar_movimiento_staff.php` (API para verificar el último estado de un miembro).
-
 *   **Flujo de Operación**:
     1.  **Interfaz de Registro**: La página presenta una interfaz simple, probablemente con una cámara para escanear códigos QR o un campo para introducir la cédula.
     2.  **Escaneo/Entrada de Cédula**: El administrador escanea el QR del miembro del staff o introduce su cédula.

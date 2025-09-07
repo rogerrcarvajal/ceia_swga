@@ -1,9 +1,3 @@
-<?php
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Estudiantes";
-
-$markdown_content = <<<'MARKDOWN'
 # Análisis de Funcionalidad y Lógica: Módulo Estudiante
 
 Este documento detalla el análisis del flujo de trabajo, las interacciones de frontend/backend y la lógica de negocio para el Módulo de Estudiantes.
@@ -86,6 +80,3 @@ Esta funcionalidad es el puente entre el registro de un estudiante y su particip
     2.  **Asignación** a un período y grado (`asignar_estudiante_periodo.php`).
     3.  **Gestión y Actualización** continua (`administrar_planilla_estudiantes.php`).
 *   **Arquitectura Moderna:** El módulo combina de forma efectiva páginas clásicas renderizadas por el servidor con paneles dinámicos que consumen APIs y se actualizan en tiempo real, ofreciendo una experiencia de usuario fluida y eficiente.
-MARKDOWN;
-
-require_once __DIR__ . '/view_document.php';
