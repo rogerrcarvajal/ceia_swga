@@ -63,6 +63,19 @@ El "Módulo de Reportes" es robusto y cumple su propósito de manera efectiva y 
     -   **Claridad y Sencillez:** La lógica es directa y fácil de mantener.
     -   **Modularidad:** El uso de un script generador de PDF dedicado para cada reporte es una excelente práctica de diseño que aísla la lógica de cada uno.
     -   **Eficiencia:** En `gestionar_reportes.php`, la precarga de datos permite una navegación fluida entre las diferentes vistas previas sin esperas adicionales.
+
+---
+
+### 3. Reportes Asociados al Módulo
+
+El módulo de Staff está vinculado a varios reportes importantes que se generan desde el Módulo de Reportes.
+
+- **`generar_lista_staff_admin_PDF.php`**: Genera un listado en PDF del personal administrativo.
+- **`generar_lista_staff_docente_PDF.php`**: Genera un listado en PDF del personal docente.
+- **`generar_lista_staff_mantenimiento_PDF.php`**: Genera un listado en PDF del personal de mantenimiento.
+- **`pdf_movimiento_staff.php`**: Genera un reporte detallado de los movimientos (entradas y salidas) del personal en un rango de fechas específico.
+
+Estos scripts consultan las tablas `staff` y `movimientos_staff` y utilizan la librería `FPDF` para formatear y presentar los datos en documentos PDF.
 MARKDOWN;
 
 

@@ -103,6 +103,31 @@ El Módulo Late-Pass es una pieza de ingeniería de software sólida, bien plani
 
 - **Punto Menor de Mejora Sugerido**:
     - Las APIs de consulta para Staff y Vehículos podrían mejorarse para manejar la opción de "Todos", que actualmente se ofrece en la interfaz pero no está implementada en el backend. Habilitar esta funcionalidad proporcionaría una visión general valiosa para los administradores.
+
+---
+
+### c. Control de Acceso y Movimientos (E/S)
+
+Esta es una funcionalidad clave para la seguridad y el registro de asistencia del personal.
+
+**Página:** `pages/gestion_es_staff.php`
+**Archivos Involucrados:**
+- `public/js/gestion_es_staff.js` (Lógica del Frontend).
+- `api/registrar_movimiento_staff.php` (API para guardar la entrada/salida).
+- `api/consultar_movimiento_staff.php` (API para verificar el último estado de un miembro).
+
+**Flujo de Operación:**
+1. **Interfaz de Registro:** La página presenta una interfaz simple, probablemente con una cámara para escanear códigos QR o un campo para introducir la cédula.
+2. **Escaneo/Entrada de Cédula:** El administrador escanea el QR del miembro del staff o introduce su cédula.
+3. **Verificación de Estado (AJAX):** `gestion_es_staff.js` envía la cédula a `api/consultar_movimiento_staff.php`. Esta API revisa la tabla `movimientos_staff` para determinar si el último movimiento registrado fue una entrada o una salida.
+4. **Registro de Movimiento (AJAX):** Basado en el estado actual, el sistema propone la acción contraria (si está "Adentro", propone "Registrar Salida" y viceversa). Al confirmar, `gestion_es_staff.js` llama a `api/registrar_movimiento_staff.php` para insertar el nuevo evento (entrada o salida) en la base de datos con la fecha y hora actual.
+5. **Feedback Visual:** La interfaz se actualiza en tiempo real para mostrar el resultado de la operación y el estado actual del miembro del personal.
+
+### d. Generación de Códigos QR
+
+**Página/Reporte:** `src/reports_generators/generar_qr_staff_pdf.php`
+**Propósito:** Generar un documento PDF que contiene el código QR de un miembro del staff, listo para ser impreso y utilizado como identificación.
+**Lógica:** Este script toma la cédula de un miembro del personal, utiliza la librería `phpqrcode` para generar la imagen del código QR y luego usa la librería `FPDF` para incrustar esa imagen en un archivo PDF con un formato predefinido.
 MARKDOWN;
 
 
