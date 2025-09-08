@@ -5,67 +5,6 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Mantenimiento";
-
-$markdown_content = <<<'MARKDOWN'
-# Análisis de Funcionalidad: Módulo de Mantenimiento
-
-Este documento describe el flujo de trabajo y los componentes técnicos del "Módulo de Mantenimiento", una sección crítica para la configuración global y la seguridad de los datos del sistema.
-
----
-
-### Arquitectura General
-
-El módulo sigue una arquitectura clásica de PHP, donde las acciones se procesan en el backend a través del envío de formularios y recargas de página. El acceso a todas sus funcionalidades está correctamente restringido al rol de `master`, asegurando que solo los administradores con los más altos privilegios puedan realizar cambios en la configuración y los datos del sistema.
-
----
-
-### 1. Gestión de Períodos Escolares (`periodos_escolares.php`)
-
--   **Funcionalidad:** Permite al usuario `master` crear, activar y desactivar los períodos escolares que rigen el funcionamiento de todo el sistema.
--   **Lógica de Negocio Clave:**
-    -   Solo se puede crear un nuevo período si no hay otro activo, previniendo inconsistencias.
-    -   La activación de un período se realiza dentro de una **transacción de base de datos** para garantizar que solo un período pueda estar activo a la vez.
--   **Componentes Técnicos:** Es una página PHP auto-contenida que procesa sus propios formularios (`POST`).
-
----
-
-### 2. Gestión de Usuarios del Sistema (`configurar_usuarios.php` y asociados)
-
--   **Funcionalidad:** Permite al usuario `master` gestionar las cuentas de usuario (`master`, `admin`, `consulta`).
--   **Lógica de Negocio Clave:**
-    -   Permite vincular cuentas a miembros del personal existentes.
-    -   Las contraseñas se encriptan de forma segura con `password_hash()`.
-    -   Un usuario no puede eliminarse a sí mismo.
--   **Componentes Técnicos:** Utiliza un flujo de trabajo de múltiples páginas (`configurar`, `editar`, `eliminar`) para separar las responsabilidades.
-
----
-
-### 3. Gestión de Backups (`backup_db.php`)
-
--   **Funcionalidad:** Proporciona una interfaz para crear respaldos manuales de la base de datos y para descargar respaldos existentes.
--   **Flujo de Trabajo y Lógica de Negocio:**
-    1.  **Creación:** Un botón "Realizar Respaldo Ahora" ejecuta un script PHP que invoca la utilidad de línea de comandos `pg_dump` del sistema. Esto crea un volcado completo de la base de datos en un archivo `.sql` con fecha y hora en el nombre, guardándolo en la carpeta `/PostgreSQL-DB/`.
-    2.  **Listado y Descarga:** La página escanea el directorio de respaldos y muestra una lista de los archivos existentes. Cada archivo tiene un enlace de descarga que, de forma segura, fuerza la descarga del archivo de respaldo solicitado en el navegador del usuario.
--   **Componentes Técnicos:**
-    -   Utiliza `exec()` de PHP para interactuar con la utilidad `pg_dump` de PostgreSQL.
-    -   Manipula cabeceras HTTP para gestionar las descargas de archivos de forma segura.
-
----
-
-### Conclusión General del Módulo
-
-El "Módulo de Mantenimiento" es una sección crítica, bien protegida y con una lógica de negocio sólida.
-
--   **Fortalezas:**
-    -   **Seguridad:** El acceso está correctamente restringido por rol y las contraseñas y descargas se manejan de forma segura.
-    -   **Integridad de Datos:** Las reglas de negocio, como las transacciones en la activación de períodos y el uso de `pg_dump` para respaldos consistentes, son puntos muy fuertes.
-    -   **Flujo de Trabajo Claro:** La separación de las funciones en diferentes scripts hace que la lógica sea fácil de seguir y mantener.
-MARKDOWN;
-
-
 require_once __DIR__ . '/../src/config.php';
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -107,7 +46,68 @@ $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WH
     </div>
 
     <div class="document-container">
-        <?php echo $Parsedown->text($markdown_content); ?>
+        <?php echo <<<HTML
+<h1>Análisis de Funcionalidad: Módulo de Mantenimiento</h1>
+<p>Este documento describe el flujo de trabajo y los componentes técnicos del "Módulo de Mantenimiento", una sección crítica para la configuración global y la seguridad de los datos del sistema.</p>
+<hr>
+<h3>Arquitectura General</h3>
+<p>El módulo sigue una arquitectura clásica de PHP, donde las acciones se procesan en el backend a través del envío de formularios y recargas de página. El acceso a todas sus funcionalidades está correctamente restringido al rol de <code>master</code>, asegurando que solo los administradores con los más altos privilegios puedan realizar cambios en la configuración y los datos del sistema.</p>
+<hr>
+<h3>1. Gestión de Períodos Escolares (<code>periodos_escolares.php</code>)</h3>
+<ul>
+<li><strong>Funcionalidad:</strong> Permite al usuario <code>master</code> crear, activar y desactivar los períodos escolares que rigen el funcionamiento de todo el sistema.</li>
+<li><strong>Lógica de Negocio Clave:</strong>
+<ul>
+<li>Solo se puede crear un nuevo período si no hay otro activo, previniendo inconsistencias.</li>
+<li>La activación de un período se realiza dentro de una <strong>transacción de base de datos</strong> para garantizar que solo un período pueda estar activo a la vez.</li>
+</ul>
+</li>
+<li><strong>Componentes Técnicos:</strong> Es una página PHP auto-contenida que procesa sus propios formularios (<code>POST</code>).</li>
+</ul>
+<hr>
+<h3>2. Gestión de Usuarios del Sistema (<code>configurar_usuarios.php</code> y asociados)</h3>
+<ul>
+<li><strong>Funcionalidad:</strong> Permite al usuario <code>master</code> gestionar las cuentas de usuario (<code>master</code>, <code>admin</code>, <code>consulta</code>).</li>
+<li><strong>Lógica de Negocio Clave:</strong>
+<ul>
+<li>Permite vincular cuentas a miembros del personal existentes.</li>
+<li>Las contraseñas se encriptan de forma segura con <code>password_hash()</code>.</li>
+<li>Un usuario no puede eliminarse a sí mismo.</li>
+</ul>
+</li>
+<li><strong>Componentes Técnicos:</strong> Utiliza un flujo de trabajo de múltiples páginas (<code>configurar</code>, <code>editar</code>, <code>eliminar</code>) para separar las responsabilidades.</li>
+</ul>
+<hr>
+<h3>3. Gestión de Backups (<code>backup_db.php</code>)</h3>
+<ul>
+<li><strong>Funcionalidad:</strong> Proporciona una interfaz para crear respaldos manuales de la base de datos y para descargar respaldos existentes.</li>
+<li><strong>Flujo de Trabajo y Lógica de Negocio:</strong>
+<ol>
+<li><strong>Creación:</strong> Un botón "Realizar Respaldo Ahora" ejecuta un script PHP que invoca la utilidad de línea de comandos <code>pg_dump</code> del sistema. Esto crea un volcado completo de la base de datos en un archivo <code>.sql</code> con fecha y hora en el nombre, guardándolo en la carpeta <code>/PostgreSQL-DB/</code>.</li>
+<li><strong>Listado y Descarga:</strong> La página escanea el directorio de respaldos y muestra una lista de los archivos existentes. Cada archivo tiene un enlace de descarga que, de forma segura, fuerza la descarga del archivo de respaldo solicitado en el navegador del usuario.</li>
+</ol>
+</li>
+<li><strong>Componentes Técnicos:</strong>
+<ul>
+<li>Utiliza <code>exec()</code> de PHP para interactuar con la utilidad <code>pg_dump</code> de PostgreSQL.</li>
+<li>Manipula cabeceras HTTP para gestionar las descargas de archivos de forma segura.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>Conclusión General del Módulo</h3>
+<p>El "Módulo de Mantenimiento" es una sección crítica, bien protegida y con una lógica de negocio sólida.</p>
+<ul>
+<li><strong>Fortalezas:</strong>
+<ul>
+<li><strong>Seguridad:</strong> El acceso está correctamente restringido por rol y las contraseñas y descargas se manejan de forma segura.</li>
+<li><strong>Integridad de Datos:</strong> Las reglas de negocio, como las transacciones en la activación de períodos y el uso de <code>pg_dump</code> para respaldos consistentes, son puntos muy fuertes.</li>
+<li><strong>Flujo de Trabajo Claro:</strong> La separación de las funciones en diferentes scripts hace que la lógica sea fácil de seguir y mantener.</li>
+</ul>
+</li>
+</ul>
+HTML;
+        ?>
         <div style="text-align: center; margin-top: 30px;">
             <a href="/ceia_swga/pages/menu_ayuda.php" class="btn-back">Volver al Menú de Ayuda</a>
         </div>

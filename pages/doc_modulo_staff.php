@@ -5,61 +5,6 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Staff";
-
-$markdown_content = <<<'MARKDOWN'
-# Análisis de Funcionalidad: Módulo Staff
-
-Este documento detalla el flujo de trabajo y la lógica de negocio exclusivos del Módulo de Staff, cuya responsabilidad es el registro y la gestión de la información del personal de la institución.
-
----
-
-### Arquitectura y Propósito
-
-El propósito de este módulo es manejar el ciclo de vida de los datos del personal (docentes, administrativos, etc.). Su arquitectura se basa en un modelo clásico de PHP, donde las acciones se procesan en el backend mediante la recarga de páginas.
-
-**Nota Importante:** Funcionalidades como la generación de códigos QR, el registro de entradas/salidas y la creación de reportes de asistencia para el personal **no residen en este módulo**, sino en los módulos de **Late-Pass** y **Reportes**, respectivamente.
-
----
-
-### 1. `profesores_registro.php` (Registro y Listado General)
-
-Esta página funciona como el panel de control principal para la administración del personal.
-
-#### Doble Funcionalidad
-
-1.  **Formulario de Registro:** Proporciona una interfaz para crear un nuevo registro de personal, capturando sus datos básicos como nombre, cédula, teléfono, email y categoría (ej. "Staff Docente"). En este paso, el personal solo se crea en el sistema, pero aún no está vinculado a un período escolar.
-2.  **Lista Maestra:** Muestra una lista de **todo** el personal registrado en la base de datos. Gracias a una consulta `LEFT JOIN`, la lista indica de forma clara si cada persona ya ha sido asignada al período escolar activo, proporcionando un resumen visual del estado de la plantilla.
-
-#### Flujo de Trabajo
-
-El flujo es directo: un administrador crea un nuevo registro de personal. Una vez creado, el miembro del personal aparece en la "Lista Maestra". Junto a su nombre, un enlace de **"Gestionar"** permite pasar a la siguiente etapa del ciclo de vida.
-
----
-
-### 2. `gestionar_profesor.php` (Edición y Asignación a Período)
-
-Esta página se dedica a la gestión detallada de un único miembro del personal, seleccionado desde la lista anterior.
-
-#### Funcionalidad
-
-1.  **Edición de Datos:** Permite modificar la información básica del individuo (nombre, cédula, etc.).
-2.  **Asignación al Período Activo:** Esta es la funcionalidad clave del módulo. Un formulario permite vincular al miembro del personal con el período escolar activo, especificando su `posición` (ej. "Grade 5 Teacher", "Director") y su rol de `homeroom_teacher`, si aplica. También permite desvincularlo.
-
-#### Lógica de Negocio
-
-Al guardar los cambios, el script PHP actualiza los datos del profesor y gestiona su vínculo con el período escolar en la tabla `profesor_periodo`. Si se desmarca la casilla de asignación, el vínculo se elimina, pero el registro del profesor permanece en el sistema para futuras asignaciones.
-
----
-
-### Conclusión General del Módulo
-
-El Módulo Staff cumple de manera efectiva y robusta con sus dos responsabilidades principales: **registrar al personal y asignarlo a un período escolar**. Su lógica es clara y se centra exclusivamente en la gestión de los datos maestros del personal, dejando que otros módulos consuman esta información para sus propios fines.
-MARKDOWN;
-
-
 require_once __DIR__ . '/../src/config.php';
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -101,7 +46,38 @@ $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WH
     </div>
 
     <div class="document-container">
-        <?php echo $Parsedown->text($markdown_content); ?>
+        <?php echo <<<HTML
+<h1>Análisis de Funcionalidad: Módulo Staff</h1>
+<p>Este documento detalla el flujo de trabajo y la lógica de negocio exclusivos del Módulo de Staff, cuya responsabilidad es el registro y la gestión de la información del personal de la institución.</p>
+<hr>
+<h3>Arquitectura y Propósito</h3>
+<p>El propósito de este módulo es manejar el ciclo de vida de los datos del personal (docentes, administrativos, etc.). Su arquitectura se basa en un modelo clásico de PHP, donde las acciones se procesan en el backend mediante la recarga de páginas.</p>
+<p><strong>Nota Importante:</strong> Funcionalidades como la generación de códigos QR, el registro de entradas/salidas y la creación de reportes de asistencia para el personal <strong>no residen en este módulo</strong>, sino en los módulos de <strong>Late-Pass</strong> y <strong>Reportes</strong>, respectivamente.</p>
+<hr>
+<h3>1. <code>profesores_registro.php</code> (Registro y Listado General)</h3>
+<p>Esta página funciona como el panel de control principal para la administración del personal.</p>
+<h4>Doble Funcionalidad</h4>
+<ol>
+<li><strong>Formulario de Registro:</strong> Proporciona una interfaz para crear un nuevo registro de personal, capturando sus datos básicos como nombre, cédula, teléfono, email y categoría (ej. "Staff Docente"). En este paso, el personal solo se crea en el sistema, pero aún no está vinculado a un período escolar.</li>
+<li><strong>Lista Maestra:</strong> Muestra una lista de <strong>todo</strong> el personal registrado en la base de datos. Gracias a una consulta <code>LEFT JOIN</code>, la lista indica de forma clara si cada persona ya ha sido asignada al período escolar activo, proporcionando un resumen visual del estado de la plantilla.</li>
+</ol>
+<h4>Flujo de Trabajo</h4>
+<p>El flujo es directo: un administrador crea un nuevo registro de personal. Una vez creado, el miembro del personal aparece en la "Lista Maestra". Junto a su nombre, un enlace de <strong>"Gestionar"</strong> permite pasar a la siguiente etapa del ciclo de vida.</p>
+<hr>
+<h3>2. <code>gestionar_profesor.php</code> (Edición y Asignación a Período)</h3>
+<p>Esta página se dedica a la gestión detallada de un único miembro del personal, seleccionado desde la lista anterior.</p>
+<h4>Funcionalidad</h4>
+<ol>
+<li><strong>Edición de Datos:</strong> Permite modificar la información básica del individuo (nombre, cédula, etc.).</li>
+<li><strong>Asignación al Período Activo:</strong> Esta es la funcionalidad clave del módulo. Un formulario permite vincular al miembro del personal con el período escolar activo, especificando su <code>posición</code> (ej. "Grade 5 Teacher", "Director") y su rol de <code>homeroom_teacher</code>, si aplica. También permite desvincularlo.</li>
+</ol>
+<h4>Lógica de Negocio</h4>
+<p>Al guardar los cambios, el script PHP actualiza los datos del profesor y gestiona su vínculo con el período escolar en la tabla <code>profesor_periodo</code>. Si se desmarca la casilla de asignación, el vínculo se elimina, pero el registro del profesor permanece en el sistema para futuras asignaciones.</p>
+<hr>
+<h3>Conclusión General del Módulo</h3>
+<p>El Módulo Staff cumple de manera efectiva y robusta con sus dos responsabilidades principales: <strong>registrar al personal y asignarlo a un período escolar</strong>. Su lógica es clara y se centra exclusivamente en la gestión de los datos maestros del personal, dejando que otros módulos consuman esta información para sus propios fines.</p>
+HTML;
+        ?>
         <div style="text-align: center; margin-top: 30px;">
             <a href="/ceia_swga/pages/menu_ayuda.php" class="btn-back">Volver al Menú de Ayuda</a>
         </div>

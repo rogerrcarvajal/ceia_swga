@@ -5,96 +5,6 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
-require_once __DIR__ . '/../src/lib/Parsedown.php';
-$Parsedown = new Parsedown();
-$page_title = "Documentación Técnica: Módulo Estudiantes";
-
-$markdown_content = <<<'MARKDOWN'
-# Análisis de Funcionalidad y Lógica: Módulo Estudiante
-
-Este documento detalla el análisis del flujo de trabajo, las interacciones de frontend/backend y la lógica de negocio para el Módulo de Estudiantes.
-
-## Componentes Principales
-
--   **`pages/planilla_inscripcion.php`**: Formulario para el ingreso de nuevos estudiantes.
--   **`pages/administrar_planilla_estudiantes.php`**: Panel para la consulta y modificación de expedientes de estudiantes existentes.
--   **`pages/asignar_estudiante_periodo.php`**: Panel para vincular estudiantes a un período escolar y asignarles un grado.
-
----
-
-### 1. `planilla_inscripcion.php` (Creación de Expedientes)
-
-Este componente gestiona el registro inicial de un estudiante, incluyendo sus datos personales, la información de sus padres y la ficha médica.
-
-#### Flujo de Usuario
-
-1.  El administrador completa los datos del estudiante.
-2.  Al llegar a la sección "Datos del Padre/Madre", introduce el número de cédula o pasaporte.
-3.  El sistema, de forma automática, busca si el representante ya existe en la base de datos.
-4.  **Si el representante existe:** La interfaz muestra la opción **"Vincular"**. Al seleccionarla, los campos de datos de esa persona se bloquean y el sistema se prepara para usar el ID del registro existente.
-5.  **Si el representante no existe:** El administrador procede a llenar todos los campos para crear un nuevo registro para el padre/madre.
-6.  Al hacer clic en "Guardar Planilla", el backend procesa la solicitud en una transacción segura.
-
-#### Componentes Técnicos
-
-*   **Frontend:** JavaScript integrado (`inline`) en el propio archivo `.php`.
-*   **API Involucrada:** `GET /api/buscar_representante.php` para verificar la existencia de los padres/madres.
-*   **Lógica de Backend:** El script PHP gestiona todo el proceso como una **transacción de base de datos**, garantizando la integridad de los datos.
-
----
-
-### 2. `administrar_planilla_estudiantes.php` (Gestión de Expedientes)
-
-Este panel permite la visualización y actualización de la información de cualquier estudiante registrado en el sistema.
-
-#### Flujo de Usuario
-
-1.  El administrador visualiza una lista completa de estudiantes y selecciona uno.
-2.  El sistema carga dinámicamente su expediente completo en cuatro formularios independientes (Estudiante, Padre, Madre, Ficha Médica).
-3.  El administrador puede modificar y guardar los cambios de forma individual para cada sección.
-
-#### Componentes Técnicos
-
-*   **Frontend:** La lógica reside en el archivo externo `/public/js/admin_estudiantes.js`.
-*   **APIs de Lectura (GET):** Se usan múltiples APIs para obtener los datos por separado: `obtener_estudiante.php`, `obtener_padre.php`, `obtener_madre.php`, `obtener_ficha_medica.php`.
-*   **APIs de Escritura (POST):** Cada formulario tiene su propio endpoint para las actualizaciones: `actualizar_estudiante.php`, `actualizar_padre.php`, etc.
-
----
-
-### 3. `asignar_estudiante_periodo.php` (Asignación a Período)
-
-Esta funcionalidad es el puente entre el registro de un estudiante y su participación activa en la vida académica.
-
-#### Flujo de Usuario
-
-1.  El administrador selecciona un período escolar de una lista.
-2.  La interfaz se actualiza dinámicamente, mostrando dos listas:
-    *   A la izquierda, los estudiantes **ya asignados** a ese período.
-    *   A la derecha, en un formulario, los estudiantes **disponibles para asignar** (aquellos que no están en ningún período).
-3.  El administrador elige un estudiante disponible, le asigna un grado y hace clic en "Asignar".
-4.  La asignación se procesa en segundo plano, y las listas se actualizan automáticamente sin recargar la página.
-
-#### Componentes Técnicos
-
-*   **Frontend:** La lógica reside en `/public/js/admin_asignar_estudiante.js` (inferido), que orquesta las llamadas a las APIs.
-*   **APIs Involucradas:**
-    *   `GET /api/obtener_estudiantes_asignados.php` (inferido): Para poblar la lista del panel izquierdo.
-    *   `GET /api/obtener_estudiantes_no_asignados.php`: Para poblar el menú de estudiantes disponibles.
-    *   `POST /api/asignar_estudiante.php`: Para crear el vínculo en la tabla `estudiante_periodo`, registrando la asignación.
-
----
-
-### Conclusión sobre la Lógica de Negocio
-
-*   **Relación 1-a-Muchos (Representantes):** La implementación de la relación "un representante a muchos estudiantes" es un punto fuerte del sistema. Se maneja de forma robusta tanto en la creación (evitando duplicados) como en la gestión (los cambios en un padre se reflejan en todos sus representados).
-*   **Ciclo de Vida del Estudiante:** El módulo gestiona el ciclo de vida completo:
-    1.  **Creación** (`planilla_inscripcion.php`).
-    2.  **Asignación** a un período y grado (`asignar_estudiante_periodo.php`).
-    3.  **Gestión y Actualización** continua (`administrar_planilla_estudiantes.php`).
-*   **Arquitectura Moderna:** El módulo combina de forma efectiva páginas clásicas renderizadas por el servidor con paneles dinámicos que consumen APIs y se actualizan en tiempo real, ofreciendo una experiencia de usuario fluida y eficiente.
-MARKDOWN;
-
-
 require_once __DIR__ . '/../src/config.php';
 $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 ?>
@@ -136,7 +46,89 @@ $periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WH
     </div>
 
     <div class="document-container">
-        <?php echo $Parsedown->text($markdown_content); ?>
+        <?php echo <<<HTML
+<h1>Análisis de Funcionalidad y Lógica: Módulo Estudiante</h1>
+<p>Este documento detalla el análisis del flujo de trabajo, las interacciones de frontend/backend y la lógica de negocio para el Módulo de Estudiantes.</p>
+<h2>Componentes Principales</h2>
+<ul>
+<li><strong><code>pages/planilla_inscripcion.php</code></strong>: Formulario para el ingreso de nuevos estudiantes.</li>
+<li><strong><code>pages/administrar_planilla_estudiantes.php</code></strong>: Panel para la consulta y modificación de expedientes de estudiantes existentes.</li>
+<li><strong><code>pages/asignar_estudiante_periodo.php</code></strong>: Panel para vincular estudiantes a un período escolar y asignarles un grado.</li>
+</ul>
+<hr>
+<h3>1. <code>planilla_inscripcion.php</code> (Creación de Expedientes)</h3>
+<p>Este componente gestiona el registro inicial de un estudiante, incluyendo sus datos personales, la información de sus padres y la ficha médica.</p>
+<h4>Flujo de Usuario</h4>
+<ol>
+<li>El administrador completa los datos del estudiante.</li>
+<li>Al llegar a la sección "Datos del Padre/Madre", introduce el número de cédula o pasaporte.</li>
+<li>El sistema, de forma automática, busca si el representante ya existe en la base de datos.</li>
+<li><strong>Si el representante existe:</strong> La interfaz muestra la opción <strong>"Vincular"</strong>. Al seleccionarla, los campos de datos de esa persona se bloquean y el sistema se prepara para usar el ID del registro existente.</li>
+<li><strong>Si el representante no existe:</strong> El administrador procede a llenar todos los campos para crear un nuevo registro para el padre/madre.</li>
+<li>Al hacer clic en "Guardar Planilla", el backend procesa la solicitud en una transacción segura.</li>
+</ol>
+<h4>Componentes Técnicos</h4>
+<ul>
+<li><strong>Frontend:</strong> JavaScript integrado (<code>inline</code>) en el propio archivo <code>.php</code>.</li>
+<li><strong>API Involucrada:</strong> <code>GET /api/buscar_representante.php</code> para verificar la existencia de los padres/madres.</li>
+<li><strong>Lógica de Backend:</strong> El script PHP gestiona todo el proceso como una <strong>transacción de base de datos</strong>, garantizando la integridad de los datos.</li>
+</ul>
+<hr>
+<h3>2. <code>administrar_planilla_estudiantes.php</code> (Gestión de Expedientes)</h3>
+<p>Este panel permite la visualización y actualización de la información de cualquier estudiante registrado en el sistema.</p>
+<h4>Flujo de Usuario</h4>
+<ol>
+<li>El administrador visualiza una lista completa de estudiantes y selecciona uno.</li>
+<li>El sistema carga dinámicamente su expediente completo en cuatro formularios independientes (Estudiante, Padre, Madre, Ficha Médica).</li>
+<li>El administrador puede modificar y guardar los cambios de forma individual para cada sección.</li>
+</ol>
+<h4>Componentes Técnicos</h4>
+<ul>
+<li><strong>Frontend:</strong> La lógica reside en el archivo externo <code>/public/js/admin_estudiantes.js</code>.</li>
+<li><strong>APIs de Lectura (GET):</strong> Se usan múltiples APIs para obtener los datos por separado: <code>obtener_estudiante.php</code>, <code>obtener_padre.php</code>, <code>obtener_madre.php</code>, <code>obtener_ficha_medica.php</code>.</li>
+<li><strong>APIs de Escritura (POST):</strong> Cada formulario tiene su propio endpoint para las actualizaciones: <code>actualizar_estudiante.php</code>, <code>actualizar_padre.php</code>, etc.</li>
+</ul>
+<hr>
+<h3>3. <code>asignar_estudiante_periodo.php</code> (Asignación a Período)</h3>
+<p>Esta funcionalidad es el puente entre el registro de un estudiante y su participación activa en la vida académica.</p>
+<h4>Flujo de Usuario</h4>
+<ol>
+<li>El administrador selecciona un período escolar de una lista.</li>
+<li>La interfaz se actualiza dinámicamente, mostrando dos listas:
+<ul>
+<li>A la izquierda, los estudiantes <strong>ya asignados</strong> a ese período.</li>
+<li>A la derecha, en un formulario, los estudiantes <strong>disponibles para asignar</strong> (aquellos que no están en ningún período).</li>
+</ul>
+</li>
+<li>El administrador elige un estudiante disponible, le asigna un grado y hace clic en "Asignar".</li>
+<li>La asignación se procesa en segundo plano, y las listas se actualizan automáticamente sin recargar la página.</li>
+</ol>
+<h4>Componentes Técnicos</h4>
+<ul>
+<li><strong>Frontend:</strong> La lógica reside en <code>/public/js/admin_asignar_estudiante.js</code> (inferido), que orquesta las llamadas a las APIs.</li>
+<li><strong>APIs Involucradas:</strong>
+<ul>
+<li><code>GET /api/obtener_estudiantes_asignados.php</code> (inferido): Para poblar la lista del panel izquierdo.</li>
+<li><code>GET /api/obtener_estudiantes_no_asignados.php</code>: Para poblar el menú de estudiantes disponibles.</li>
+<li><code>POST /api/asignar_estudiante.php</code>: Para crear el vínculo en la tabla <code>estudiante_periodo</code>, registrando la asignación.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3>Conclusión sobre la Lógica de Negocio</h3>
+<ul>
+<li><strong>Relación 1-a-Muchos (Representantes):</strong> La implementación de la relación "un representante a muchos estudiantes" es un punto fuerte del sistema. Se maneja de forma robusta tanto en la creación (evitando duplicados) como en la gestión (los cambios en un padre se reflejan en todos sus representados).</li>
+<li><strong>Ciclo de Vida del Estudiante:</strong> El módulo gestiona el ciclo de vida completo:
+<ol>
+<li><strong>Creación</strong> (<code>planilla_inscripcion.php</code>).</li>
+<li><strong>Asignación</strong> a un período y grado (<code>asignar_estudiante_periodo.php</code>).</li>
+<li><strong>Gestión y Actualización</strong> continua (<code>administrar_planilla_estudiantes.php</code>).</li>
+</ol>
+</li>
+<li><strong>Arquitectura Moderna:</strong> El módulo combina de forma efectiva páginas clásicas renderizadas por el servidor con paneles dinámicos que consumen APIs y se actualizan en tiempo real, ofreciendo una experiencia de usuario fluida y eficiente.</li>
+</ul>
+HTML;
+        ?>
         <div style="text-align: center; margin-top: 30px;">
             <a href="/ceia_swga/pages/menu_ayuda.php" class="btn-back">Volver al Menú de Ayuda</a>
         </div>
