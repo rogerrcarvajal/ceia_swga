@@ -16,7 +16,7 @@ if (isset($_GET['download_file'])) {
     $filepath = __DIR__ . '/../PostgreSQL-DB/' . $filename;
 
     // Medida de seguridad: solo permitir la descarga de archivos que coincidan con el patrón esperado
-    if (preg_match('/^ceia_db_backup_(\d{8})_(\d{6})\.sql$/', $filename) && file_exists($filepath)) {
+    if (preg_match('/^ceia_db_backup_(\d{8})_(\d{6})\.(sql|backup)$/', $filename) && file_exists($filepath)) {
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
         header('Content-Disposition: attachment; filename="' . $filename . '"');
@@ -51,42 +51,54 @@ if (!$periodo_activo) {
 }
 
 // --- LÓGICA DE RESPALDO MANUAL ---
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
-    $pg_dump_path = PG_DUMP_PATH;
-    $backup_dir = __DIR__ . '/../PostgreSQL-DB/';
-    if (!is_dir($backup_dir)) {
-        mkdir($backup_dir, 0777, true);
-    }
-    $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.sql';
-    $backup_filepath = $backup_dir . $backup_filename;
-
-    putenv('PGPASSWORD=' . DB_PASSWORD);
-
-    $command = sprintf(
-        '"%s" -U "%s" -h "%s" -d "%s" -F p -E UTF-8 -f "%s" 2>&1',
-        $pg_dump_path,
-        DB_USER,
-        DB_HOST,
-        DB_NAME,
-        $backup_filepath
-    );
-
-    $output = [];
-    $return_var = -1;
-    exec($command, $output, $return_var);
-
-    if ($return_var !== 0) {
-        $error_details = htmlspecialchars(implode("\n", $output));
-        $mensaje = "❌ Error al realizar el respaldo. Verifique la configuración y permisos.<br>";
-        $mensaje .= "Código de retorno: " . $return_var . "<br>";
-        $mensaje .= "Detalles: <pre>" . $error_details . "</pre>";
-        $mensaje .= "Comando ejecutado: <pre>" . htmlspecialchars($command) . "</pre>";
-    } else {
-        $mensaje = "✅ Respaldo realizado con éxito: " . htmlspecialchars($backup_filename);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $format = null;
+    if (isset($_POST['backup_sql'])) {
+        $format = 'p'; // plain text
+        $file_ext = 'sql';
+    } elseif (isset($_POST['backup_custom'])) {
+        $format = 'c'; // custom format
+        $file_ext = 'backup';
     }
 
-    putenv('PGPASSWORD=');
+    if ($format) {
+        $backup_dir = __DIR__ . '/../PostgreSQL-DB/';
+        if (!is_dir($backup_dir)) {
+            mkdir($backup_dir, 0777, true);
+        }
+        $backup_filename = 'ceia_db_backup_' . date('Ymd_His') . '.' . $file_ext;
+        $backup_filepath = $backup_dir . $backup_filename;
+
+        putenv('PGPASSWORD=' . DB_PASSWORD);
+
+        // Comando pg_dump sin ruta fija para compatibilidad con Linux
+        $command = sprintf(
+            'pg_dump -U "%s" -h "%s" -d "%s" -F %s -E UTF-8 -f "%s" 2>&1',
+            DB_USER,
+            DB_HOST,
+            DB_NAME,
+            $format,
+            $backup_filepath
+        );
+
+        $output = [];
+        $return_var = -1;
+        exec($command, $output, $return_var);
+
+        if ($return_var !== 0) {
+            $error_details = htmlspecialchars(implode("\n", $output));
+            $mensaje = "❌ Error al realizar el respaldo. Verifique la configuración y permisos.<br>";
+            $mensaje .= "Código de retorno: " . $return_var . "<br>";
+            $mensaje .= "Detalles: <pre>" . $error_details . "</pre>";
+            $mensaje .= "Comando ejecutado: <pre>" . htmlspecialchars($command) . "</pre>";
+        } else {
+            $mensaje = "✅ Respaldo realizado con éxito: " . htmlspecialchars($backup_filename);
+        }
+
+        putenv('PGPASSWORD=');
+    }
 }
+
 
 ?>
 
@@ -133,15 +145,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
         <div class="form-seccion">
             <h3>Respaldo de la Base de Datos</h3>
             <div class="info-mensaje">
-                <p><h3>⚠️ IMPORTANTE: Usted se encuentra en el modulo de respaldos</h3><br>Si desea realizar un respaldo manual ahora, presione el botón.</p>
+                <p><strong>Formato SQL (.sql):</strong> Un archivo de texto. Ideal para inspección y portabilidad.</p>
+                <p><strong>Formato Custom (.backup):</strong> Un archivo binario comprimido. Es la opción más flexible y recomendada para restauraciones en PostgreSQL.</p>
             </div>
-            <?php if ($mensaje): ?>
-                <p class="<?php echo (strpos($mensaje, '❌') !== false) ? 'alerta' : 'exito'; ?>"><?php echo $mensaje; ?></p>
-            <?php endif; ?>
-            <form method="POST" action="backup_db.php">
-            <button type="submit" name="backup_db" class="button">Realizar Respaldo Ahora</button>
-            <!-- Botón para volver al Menu Mantenimiento -->
-             <a href="/ceia_swga/pages/menu_mantto.php" class="btn">Volver al Menú de Mantenimiento</a>
+            <form method="POST" action="backup_db.php" style="text-align: center;">
+                <button type="submit" name="backup_sql" class="button">Generar Respaldo (.sql)</button>
+                <button type="submit" name="backup_custom" class="button" style="background-color: #008CBA;">Generar Respaldo (.backup)</button>
+                <br>
+                <a href="/ceia_swga/pages/menu_mantto.php" class="btn">Volver al Menú de Mantenimiento</a>
             </form>
         </div>
 
@@ -151,7 +162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['backup_db'])) {
                 <ul>
                     <?php
                     $backup_dir = __DIR__ . '/../PostgreSQL-DB/';
-                    $backup_files = glob($backup_dir . 'ceia_db_backup_*.sql');
+                    $backup_files = glob($backup_dir . 'ceia_db_backup_*.{sql,backup}', GLOB_BRACE);
                     rsort($backup_files); // Ordenar archivos del más nuevo al más antiguo
 
                     if (count($backup_files) > 0) {

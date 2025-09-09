@@ -4,7 +4,7 @@
 // Esta ruta es necesaria para que la funcionalidad de respaldo de la base de datos funcione correctamente.
 // Asegúrate de que la ruta sea correcta para tu entorno de sistema.
 // Se utiliza str_replace para asegurar la compatibilidad de las barras invertidas en diferentes sistemas operativos.
-define('PG_DUMP_PATH', str_replace('\\', '/', 'C:\\Program Files\\PostgreSQL\\17\\bin\\pg_dump.exe'));
+// define('PG_DUMP_PATH', str_replace('\', '/', 'C:\Program Files\PostgreSQL\17\bin\pg_dump.exe'));
 
 // --- CONFIGURACIÓN DE LA BASE DE DATOS ---
 // Define las constantes para la conexión a la base de datos.
