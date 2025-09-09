@@ -20,7 +20,7 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $staff_members = [];
 if ($periodo_activo) {
-    $sql_staff = "SELECT id, nombre_completo, apellido_completo FROM staff ORDER BY nombre_completo, apellido_completo";
+    $sql_staff = "SELECT id, nombre_completo, apellido_completo FROM profesores ORDER BY nombre_completo, apellido_completo";
     $stmt_staff = $conn->prepare($sql_staff);
     $stmt_staff->execute();
     $staff_members = $stmt_staff->fetchAll(PDO::FETCH_ASSOC);
