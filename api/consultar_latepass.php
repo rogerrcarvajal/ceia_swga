@@ -27,10 +27,10 @@ if ($semana) {
                     lt.hora_llegada,
                     COALESCE(rs.conteo_tardes, 0) as conteo_tardes,
                     rs.ultimo_mensaje
-                FROM estudiantes e
-                JOIN estudiante_periodo ep ON e.id = ep.estudiante_id AND ep.periodo_id = :pid
-                LEFT JOIN llegadas_tarde lt ON e.id = lt.estudiante_id AND lt.semana_del_anio = :semana
-                LEFT JOIN latepass_resumen_semanal rs ON e.id = rs.estudiante_id AND rs.semana_del_anio = lt.semana_del_anio AND rs.periodo_id = :pid
+                FROM estudiante_periodo ep
+                JOIN estudiantes e ON ep.estudiante_id = e.id
+                LEFT JOIN llegadas_tarde lt ON ep.estudiante_id = lt.estudiante_id AND lt.semana_del_anio = :semana
+                LEFT JOIN latepass_resumen_semanal rs ON ep.estudiante_id = rs.estudiante_id AND rs.semana_del_anio = :semana AND rs.periodo_id = ep.periodo_id
                 WHERE ep.periodo_id = :pid";
         
         $params = [':semana' => $semana, ':pid' => $periodo_id];
