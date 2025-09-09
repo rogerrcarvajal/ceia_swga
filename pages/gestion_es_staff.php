@@ -18,12 +18,12 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
 
 // --- Obtener datos para los filtros ---
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
-$profesores = [];
+$staff_members = [];
 if ($periodo_activo) {
-    $sql_prof = "SELECT p.id, p.nombre_completo FROM profesor_periodo pp JOIN profesores p ON pp.profesor_id = p.id WHERE pp.periodo_id = :pid ORDER BY p.nombre_completo";
-    $stmt_prof = $conn->prepare($sql_prof);
-    $stmt_prof->execute([':pid' => $periodo_activo['id']]);
-    $profesores = $stmt_prof->fetchAll(PDO::FETCH_ASSOC);
+    $sql_staff = "SELECT id, nombre_completo, apellido_completo FROM staff ORDER BY nombre_completo, apellido_completo";
+    $stmt_staff = $conn->prepare($sql_staff);
+    $stmt_staff->execute();
+    $staff_members = $stmt_staff->fetchAll(PDO::FETCH_ASSOC);
 }
 
 ?>
@@ -60,8 +60,8 @@ if ($periodo_activo) {
                 <label for="filtro_staff">Seleccionar Personal:</label>
                 <select id="filtro_staff">
                     <option value="todos">Todo el Personal</option>
-                    <?php foreach ($profesores as $p): ?>
-                        <option value="<?= $p['id'] ?>"><?= htmlspecialchars($p['nombre_completo']) ?></option>
+                    <?php foreach ($staff_members as $s): ?>
+                        <option value="<?= $s['id'] ?>"><?= htmlspecialchars($s['nombre_completo'] . ' ' . $s['apellido_completo']) ?></option>
                     <?php endforeach; ?>
                 </select>
             </div>

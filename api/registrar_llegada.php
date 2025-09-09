@@ -43,17 +43,57 @@ try {
     $hora_actual = $dt->format("H:i:s");
     $fecha_actual = $dt->format("Y-m-d");
 
-    // --- LÓGICA DE NEGOCIO CORREGIDA ---
     $conn->beginTransaction();
 
-    // 1. Verificar si ya tiene un registro de llegada HOY para evitar duplicados
-    $stmt_check = $conn->prepare("SELECT id FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro = :fecha");
+    // 1. Verificar si ya tiene un registro de llegada HOY
+    $stmt_check = $conn->prepare("SELECT hora_llegada FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro = :fecha");
     $stmt_check->execute([':id' => $estudiante_id, ':fecha' => $fecha_actual]);
-    if ($stmt_check->fetch()) {
-        throw new Exception("{$nombre_completo} ya registró su llegada hoy.");
+    $registro_existente = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+    if ($registro_existente) {
+        $hora_registrada = $registro_existente['hora_llegada'];
+        $strike_count = 0;
+        $strike_level = 0;
+        $mensaje_especial = '';
+        $mensaje_duplicado = "✅ LLEGADA YA REGISTRADA a las {$hora_registrada} para {$nombre_completo}.";
+
+        if ($hora_registrada > "08:05:59") {
+            $day_of_week = $dt->format('N');
+            $start_of_week_date = (clone $dt)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
+            $end_of_week_date = (clone $dt)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
+
+            $stmt_strikes = $conn->prepare(
+                "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND hora_llegada > '08:05:59'"
+            );
+            $stmt_strikes->execute([':id' => $estudiante_id, ':start_week' => $start_of_week_date, ':end_week' => $end_of_week_date]);
+            $strike_count = (int) $stmt_strikes->fetch(PDO::FETCH_ASSOC)['count'];
+            
+            if ($strike_count == 1) $strike_level = 1;
+            elseif ($strike_count == 2) $strike_level = 2;
+            elseif ($strike_count >= 3) $strike_level = 3;
+
+            if ($strike_level >= 3) {
+                $mensaje_especial = 'El Estudiante ha acumulado 3 o más strikes, por ende pierde la primera hora de clase y debe contactar a su representante.';
+            }
+            $mensaje_duplicado = "⚠️ LLEGADA TARDE (ya registrada a las {$hora_registrada}). Strike semanal #{$strike_count} para {$nombre_completo}.";
+        }
+
+        $response['success'] = true;
+        $response['message'] = $mensaje_duplicado;
+        $response['data'] = [
+            'tipo' => 'EST',
+            'nombre_completo' => $nombre_completo,
+            'grado' => $estudiante['grado_cursado'],
+            'hora_registrada' => $hora_registrada,
+            'strike_count' => $strike_count,
+            'strike_level' => $strike_level,
+            'mensaje_especial' => $mensaje_especial
+        ];
+        echo json_encode($response);
+        exit();
     }
 
-    // 2. Insertar el registro de llegada para TODOS los estudiantes
+    // 2. Insertar el nuevo registro de llegada
     $ins = $conn->prepare("INSERT INTO llegadas_tarde (estudiante_id, fecha_registro, hora_llegada, semana_del_anio) VALUES (:est_id, :fecha, :hora, :semana)");
     $ins->execute([
         ':est_id' => $estudiante_id, 
@@ -63,20 +103,29 @@ try {
     ]);
 
     $strike_count = 0;
+    $strike_level = 0;
+    $mensaje_especial = '';
     $mensaje_final = "✅ Llegada a tiempo registrada para {$nombre_completo}.";
 
-    // 3. Si es tarde, calcular los strikes. Si no, el strike_count se queda en 0.
-    if ($hora_actual > "08:06:00") {
-        // Calcular strikes semanales (de Lunes a Domingo), contando solo las llegadas TARDE
-        $day_of_week = $dt->format('N'); // 1 (Lunes) a 7 (Domingo)
+    // 3. Si es tarde, calcular strikes y determinar nivel/mensaje
+    if ($hora_actual > "08:05:59") {
+        $day_of_week = $dt->format('N');
         $start_of_week_date = (clone $dt)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
         $end_of_week_date = (clone $dt)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
 
         $stmt_strikes = $conn->prepare(
-            "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND hora_llegada > '08:06:00'"
+            "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND hora_llegada > '08:05:59'"
         );
         $stmt_strikes->execute([':id' => $estudiante_id, ':start_week' => $start_of_week_date, ':end_week' => $end_of_week_date]);
         $strike_count = (int) $stmt_strikes->fetch(PDO::FETCH_ASSOC)['count'];
+        
+        if ($strike_count == 1) $strike_level = 1;
+        elseif ($strike_count == 2) $strike_level = 2;
+        elseif ($strike_count >= 3) $strike_level = 3;
+
+        if ($strike_level >= 3) {
+            $mensaje_especial = 'El Estudiante ha acumulado 3 o más strikes, por ende pierde la primera hora de clase y debe contactar a su representante.';
+        }
         
         $mensaje_final = "⚠️ LLEGADA TARDE para {$nombre_completo}. Strike semanal #{$strike_count}.";
     }
@@ -91,7 +140,9 @@ try {
         'nombre_completo' => $nombre_completo,
         'grado' => $estudiante['grado_cursado'],
         'hora_registrada' => $hora_actual,
-        'strike_count' => $strike_count
+        'strike_count' => $strike_count,
+        'strike_level' => $strike_level,
+        'mensaje_especial' => $mensaje_especial
     ];
 
 } catch (Exception $e) {

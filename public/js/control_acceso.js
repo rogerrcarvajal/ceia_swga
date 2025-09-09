@@ -21,13 +21,41 @@ document.addEventListener("DOMContentLoaded", () => {
       if (tipo === 'exito' && data && data.tipo) {
           switch (data.tipo) {
               case 'EST':
-                  qrResult.style.backgroundColor = 'rgba(42, 74, 109, 0.9)'; // Azul neutro
+                  let strikeInfo = '';
+                  // Determinar color y mensaje basado en el nivel de strike
+                  switch (data.strike_level) {
+                      case 0: // A tiempo
+                          qrResult.style.backgroundColor = 'rgba(42, 74, 109, 0.9)'; // Azul neutro
+                          break;
+                      case 1: // 1er Strike
+                          qrResult.style.backgroundColor = 'rgba(46, 204, 113, 0.9)'; // Verde
+                          strikeInfo = `<p style="margin:5px 0; font-size:1.1em; font-weight:bold;">STRIKE SEMANAL: ${data.strike_count}</p>`;
+                          break;
+                      case 2: // 2do Strike
+                          qrResult.style.backgroundColor = 'rgba(241, 196, 15, 0.9)'; // Amarillo
+                          qrResult.style.color = '#111';
+                          qrResult.style.textShadow = 'none';
+                          strikeInfo = `<p style="margin:5px 0; font-size:1.1em; font-weight:bold;">STRIKE SEMANAL: ${data.strike_count}</p>`;
+                          break;
+                      default: // 3er Strike o más
+                          qrResult.style.backgroundColor = 'rgba(231, 76, 60, 0.9)'; // Rojo
+                          strikeInfo = `<p style="margin:5px 0; font-size:1.1em; font-weight:bold;">STRIKE SEMANAL: ${data.strike_count}</p>`;
+                          break;
+                  }
+
+                  // Construir el HTML
                   html = `
-                      <h4 style="margin:0 0 10px 0; padding:0; font-size:1.2em; text-transform:uppercase;">LLEGADA REGISTRADA</h4>
+                      <h4 style="margin:0 0 10px 0; padding:0; font-size:1.2em; text-transform:uppercase;">${data.strike_level > 0 ? 'LLEGADA TARDE' : 'LLEGADA REGISTRADA'}</h4>
                       <p style="margin:5px 0; font-size:1.1em;"><strong>Estudiante:</strong> ${data.nombre_completo}</p>
                       <p style="margin:5px 0; font-size:1.1em;"><strong>Grado:</strong> ${data.grado}</p>
                       <p style="margin:5px 0; font-size:1.1em;"><strong>Hora:</strong> ${data.hora_registrada}</p>
+                      ${strikeInfo}
                   `;
+
+                  // Añadir mensaje especial si existe
+                  if (data.mensaje_especial) {
+                      html += `<p style="margin-top:15px; padding:10px; background-color:rgba(0,0,0,0.2); border-radius:5px; font-weight:bold;">${data.mensaje_especial}</p>`;
+                  }
                   break;
               case 'STF':
                   qrResult.style.backgroundColor = 'rgba(109, 74, 42, 0.9)'; // Marrón para Staff
