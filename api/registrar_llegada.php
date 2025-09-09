@@ -22,7 +22,6 @@ try {
         throw new Exception('ID de estudiante inválido en el QR.');
     }
     
-    // Obtener período activo e información del estudiante
     $periodo_activo_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
     $periodo_activo = $periodo_activo_stmt->fetch(PDO::FETCH_ASSOC);
     if (!$periodo_activo) {
@@ -38,17 +37,20 @@ try {
     }
     $nombre_completo = $estudiante['nombre_completo'] . ' ' . $estudiante['apellido_completo'];
 
-    // Establecer zona horaria y obtener fecha/hora actual
-    $dt = new DateTime('now', new DateTimeZone('America/Caracas'));
-    $hora_actual = $dt->format("H:i:s");
-    $fecha_actual = $dt->format("Y-m-d");
+    $dt_zone = new DateTimeZone('America/Caracas');
+    $dt_now = new DateTime('now', $dt_zone);
+    $late_threshold_time = '08:05:59';
+    
+    $fecha_actual = $dt_now->format("Y-m-d");
+    $hora_actual = $dt_now->format("H:i:s");
 
     $conn->beginTransaction();
 
-    // 1. Verificar si ya tiene un registro de llegada HOY
     $stmt_check = $conn->prepare("SELECT hora_llegada FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro = :fecha");
     $stmt_check->execute([':id' => $estudiante_id, ':fecha' => $fecha_actual]);
     $registro_existente = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+    $late_query_string = "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND CAST(hora_llegada AS TIME) > '{$late_threshold_time}'";
 
     if ($registro_existente) {
         $hora_registrada = $registro_existente['hora_llegada'];
@@ -57,14 +59,12 @@ try {
         $mensaje_especial = '';
         $mensaje_duplicado = "✅ LLEGADA YA REGISTRADA a las {$hora_registrada} para {$nombre_completo}.";
 
-        if ($hora_registrada > "08:05:59") {
-            $day_of_week = $dt->format('N');
-            $start_of_week_date = (clone $dt)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
-            $end_of_week_date = (clone $dt)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
+        if (strtotime($hora_registrada) > strtotime($late_threshold_time)) {
+            $day_of_week = $dt_now->format('N');
+            $start_of_week_date = (clone $dt_now)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
+            $end_of_week_date = (clone $dt_now)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
 
-            $stmt_strikes = $conn->prepare(
-                "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND hora_llegada > '08:05:59'"
-            );
+            $stmt_strikes = $conn->prepare($late_query_string);
             $stmt_strikes->execute([':id' => $estudiante_id, ':start_week' => $start_of_week_date, ':end_week' => $end_of_week_date]);
             $strike_count = (int) $stmt_strikes->fetch(PDO::FETCH_ASSOC)['count'];
             
@@ -93,13 +93,12 @@ try {
         exit();
     }
 
-    // 2. Insertar el nuevo registro de llegada
     $ins = $conn->prepare("INSERT INTO llegadas_tarde (estudiante_id, fecha_registro, hora_llegada, semana_del_anio) VALUES (:est_id, :fecha, :hora, :semana)");
     $ins->execute([
         ':est_id' => $estudiante_id, 
         ':fecha' => $fecha_actual, 
         ':hora' => $hora_actual, 
-        ':semana' => $dt->format("W")
+        ':semana' => $dt_now->format("W")
     ]);
 
     $strike_count = 0;
@@ -107,15 +106,12 @@ try {
     $mensaje_especial = '';
     $mensaje_final = "✅ Llegada a tiempo registrada para {$nombre_completo}.";
 
-    // 3. Si es tarde, calcular strikes y determinar nivel/mensaje
-    if ($hora_actual > "08:05:59") {
-        $day_of_week = $dt->format('N');
-        $start_of_week_date = (clone $dt)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
-        $end_of_week_date = (clone $dt)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
+    if (strtotime($hora_actual) > strtotime($late_threshold_time)) {
+        $day_of_week = $dt_now->format('N');
+        $start_of_week_date = (clone $dt_now)->modify('-' . ($day_of_week - 1) . ' days')->format('Y-m-d');
+        $end_of_week_date = (clone $dt_now)->modify('+' . (7 - $day_of_week) . ' days')->format('Y-m-d');
 
-        $stmt_strikes = $conn->prepare(
-            "SELECT COUNT(*) as count FROM llegadas_tarde WHERE estudiante_id = :id AND fecha_registro BETWEEN :start_week AND :end_week AND hora_llegada > '08:05:59'"
-        );
+        $stmt_strikes = $conn->prepare($late_query_string);
         $stmt_strikes->execute([':id' => $estudiante_id, ':start_week' => $start_of_week_date, ':end_week' => $end_of_week_date]);
         $strike_count = (int) $stmt_strikes->fetch(PDO::FETCH_ASSOC)['count'];
         
@@ -132,7 +128,6 @@ try {
 
     $conn->commit();
 
-    // 4. Preparar respuesta exitosa
     $response['success'] = true;
     $response['message'] = $mensaje_final;
     $response['data'] = [
