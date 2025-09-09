@@ -126,6 +126,30 @@ try {
         $mensaje_final = "⚠️ LLEGADA TARDE para {$nombre_completo}. Strike semanal #{$strike_count}.";
     }
 
+    // Prepara el mensaje final que se guardará en el resumen
+    $mensaje_resumen = $mensaje_especial ?: $mensaje_final;
+
+    // Sentencia SQL para insertar o actualizar el resumen semanal
+    $sql_resumen = "INSERT INTO latepass_resumen_semanal (estudiante_id, periodo_id, semana_del_anio, anio, conteo_tardes, ultimo_mensaje, fecha_actualizacion)
+                    VALUES (:est_id, :pid, :semana, :anio, :conteo, :mensaje, :fecha_act)
+                    ON CONFLICT (estudiante_id, periodo_id, semana_del_anio, anio) 
+                    DO UPDATE SET 
+                        conteo_tardes = EXCLUDED.conteo_tardes,
+                        ultimo_mensaje = EXCLUDED.ultimo_mensaje,
+                        fecha_actualizacion = EXCLUDED.fecha_actualizacion";
+    
+    $stmt_resumen = $conn->prepare($sql_resumen);
+    $stmt_resumen->execute([
+        ':est_id' => $estudiante_id,
+        ':pid' => $periodo_id,
+        ':semana' => $dt_now->format("W"),
+        ':anio' => $dt_now->format("Y"),
+        ':conteo' => $strike_count,
+        ':mensaje' => $mensaje_resumen,
+        ':fecha_act' => $dt_now->format('Y-m-d H:i:s')
+    ]);
+
+
     $conn->commit();
 
     $response['success'] = true;
