@@ -104,7 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -265,7 +264,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>
     </div>
-
     <div class="formulario-contenedor">
         <div class="form-seccion">
             <h3>Respaldo de la Base de Datos</h3>
