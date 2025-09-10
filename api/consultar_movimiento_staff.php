@@ -21,14 +21,14 @@ try {
     // It correctly finds the first entry and last exit, and if both are NULL, the person is marked absent.
     $sql = "
         WITH staff_list AS (
-            SELECT id, nombre_completo, apellido_completo FROM staff
+            SELECT id, nombre_completo FROM profesores
             WHERE (:staff_id = 0 OR id = :staff_id)
         ),
         date_series AS (
             SELECT generate_series(:week_start::date, :week_end::date, '1 day'::interval) as fecha
         )
         SELECT
-            s.nombre_completo || ' ' || s.apellido_completo as nombre_completo,
+            s.nombre_completo as nombre_completo,
             ds.fecha::date as fecha,
             MIN(CASE WHEN m.tipo_movimiento = 'ENTRADA' THEN m.hora_registro END) as hora_entrada,
             MAX(CASE WHEN m.tipo_movimiento = 'SALIDA' THEN m.hora_registro END) as hora_salida,
@@ -39,7 +39,7 @@ try {
         FROM date_series ds
         CROSS JOIN staff_list s
         LEFT JOIN movimientos_staff m ON s.id = m.staff_id AND ds.fecha = m.fecha_registro
-        GROUP BY s.nombre_completo, s.apellido_completo, ds.fecha
+        GROUP BY s.nombre_completo, ds.fecha
         ORDER BY ds.fecha DESC, nombre_completo ASC
     ";
 
