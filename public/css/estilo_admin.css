@@ -1,0 +1,193 @@
+/* --- Estilo General --- */
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("/ceia_swga/public/img/fondo.jpg");
+    background-size: cover;
+    background-position: top;
+    font-family: 'Arial', sans-serif;
+    color: white;
+}
+
+.content {
+    text-align: center;
+    margin-top: 30px;
+    color: white;
+    text-shadow: 1px 1px 2px black;
+}
+
+.content img {
+    width: 180px;
+    margin-bottom: 0px;
+}
+
+.content h1 {
+    text-shadow: 1px 1px 2px black;
+}
+
+/* --- Contenedor Principal de Dos Paneles --- */
+.main-container {
+    backdrop-filter: blur(10px);
+    box-shadow: 0px 0px 10px rgba(227, 228, 237, 0.37);
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    display: flex;
+    max-width: 98%;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.left-panel {
+    width: 20%;
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.right-panel {
+    flex: 3;
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* --- Estilos de Paneles --- */
+.left-panel h3 {
+    text-align: center;
+    margin-top: 0;
+}
+
+#filtro_estudiantes,
+#filtro_representantes {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+#lista_estudiantes,
+#lista_representantes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+#lista_estudiantes li,
+#lista_representantes li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#lista_estudiantes li:hover,
+#lista_representantes li:hover {
+    background-color: rgba(227, 228, 237, 0.37)
+}
+
+/* --- Panel Derecho --- */
+#panel_informativo {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2em;
+    color: #ccc;
+}
+
+.form-grid-quad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Crea 4 columnas de igual tamaño */
+    gap: 20px;
+    /* Espacio entre los formularios */
+}
+
+form h3,
+.related-section h3 {
+    text-align: center;
+    padding-bottom: 8px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+form button {
+    margin-top: 20px;
+    text-decoration: none;
+    padding: 10px 18px;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button {
+    background-color: rgb(48, 48, 48);
+    color: white;
+    padding: 10px 18px;
+    margin-top: 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-agregar {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    padding: 10px 18px;
+    background-color: rgb(48, 48, 48);
+    color: white;
+    border-radius: 5px;
+}
+
+.btn {
+    background-color: rgb(48, 48, 48);
+    color: white;
+    padding: 10px 18px;
+    margin-top: 20px;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mensaje {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    color: black;
+}
+
+.mensaje.exito {
+    background-color: #d4edda;
+}
+
+.mensaje.error {
+    background-color: #f8d7da;
+}
+
+/* --- Sección de Vinculados --- */
+.related-section {
+    margin-top: 30px;
+}
+
+.related-section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.related-section li a {
+    margin-left: 15px;
+    color: #87ceeb;
+    text-decoration: none;
+}
+
