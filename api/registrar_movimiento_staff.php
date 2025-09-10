@@ -41,41 +41,32 @@ try {
 
     $conn->beginTransaction();
 
-    // --- LÓGICA DE REGISTRO POR HORA ---
-    $stmt_buscar = $conn->prepare("SELECT id, hora_entrada, hora_salida FROM entrada_salida_staff WHERE profesor_id = :staff_id AND fecha = :fecha");
-    $stmt_buscar->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual]);
-    $registros_hoy = $stmt_buscar->fetchAll(PDO::FETCH_ASSOC);
+    // --- LÓGICA DE REGISTRO EN movimientos_staff ---
+    $stmt_last_mov = $conn->prepare("SELECT tipo_movimiento FROM movimientos_staff WHERE staff_id = :staff_id AND fecha_registro = :fecha ORDER BY hora_registro DESC LIMIT 1");
+    $stmt_last_mov->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual]);
+    $last_mov = $stmt_last_mov->fetch(PDO::FETCH_ASSOC);
 
     $tipo_movimiento = '';
 
-    if (count($registros_hoy) == 0) {
-        // PRIMER REGISTRO DEL DÍA: Debe ser una ENTRADA antes de las 12 PM
-        if ($hora_actual >= "12:00:00") {
-            throw new Exception("La primera lectura (Entrada) debe realizarse antes de las 12:00 PM.");
-        }
-        $sql_insert = "INSERT INTO entrada_salida_staff (profesor_id, fecha, hora_entrada) VALUES (:staff_id, :fecha, :hora_entrada)";
-        $stmt_insert = $conn->prepare($sql_insert);
-        $stmt_insert->execute([':staff_id' => $staff_id, ':fecha' => $fecha_actual, ':hora_entrada' => $hora_actual]);
-        $tipo_movimiento = 'Entrada';
-
-    } else if (count($registros_hoy) == 1) {
-        $registro = $registros_hoy[0];
-        // SEGUNDO REGISTRO DEL DÍA: Debe ser una SALIDA después de las 12 PM
-        if ($registro['hora_salida'] !== null) {
-            throw new Exception("Ya se registró una entrada y una salida completa para hoy.");
-        }
-        if ($hora_actual < "12:00:00") {
-            throw new Exception("La segunda lectura (Salida) debe realizarse después de las 12:00 PM.");
-        }
-        $sql_update = "UPDATE entrada_salida_staff SET hora_salida = :hora_salida WHERE id = :id";
-        $stmt_update = $conn->prepare($sql_update);
-        $stmt_update->execute([':hora_salida' => $hora_actual, ':id' => $registro['id']]);
-        $tipo_movimiento = 'Salida';
-
+    if (!$last_mov) {
+        // PRIMER REGISTRO DEL DÍA: ENTRADA
+        $tipo_movimiento = 'ENTRADA';
+    } else if ($last_mov['tipo_movimiento'] == 'ENTRADA') {
+        // SEGUNDO REGISTRO DEL DÍA: SALIDA
+        $tipo_movimiento = 'SALIDA';
     } else {
-        // MÁS DE UN REGISTRO: Ya completó el ciclo de hoy
+        // YA REGISTRÓ ENTRADA Y SALIDA
         throw new Exception("Ya se ha completado el ciclo de entrada y salida para hoy.");
     }
+
+    $sql_insert = "INSERT INTO movimientos_staff (staff_id, fecha_registro, hora_registro, tipo_movimiento) VALUES (:staff_id, :fecha, :hora, :tipo)";
+    $stmt_insert = $conn->prepare($sql_insert);
+    $stmt_insert->execute([
+        ':staff_id' => $staff_id,
+        ':fecha' => $fecha_actual,
+        ':hora' => $hora_actual,
+        ':tipo' => $tipo_movimiento
+    ]);
 
     $conn->commit();
 
