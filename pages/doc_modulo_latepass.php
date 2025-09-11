@@ -88,7 +88,7 @@ $page_title = "Módulo de Late-Pass - Documentación Técnica del Sistema";
 <li><strong>Procesamiento (JS)</strong>: El script <code>control_acceso.js</code> captura la entrada, identifica el prefijo del código y determina a qué API debe enviar la solicitud.</li>
 <li><strong>Lógica de Negocio (API)</strong>: Cada API de registro ejecuta reglas de negocio específicas:
 <ul>
-<li><strong>Estudiantes</strong>: Siempre registra la llegada. Si es después de las 08:06:00, cuenta un "strike" de tardanza para la semana.</li>
+<li><strong>Estudiantes</strong>: Siempre registra la llegada. Si es después de las 08:05:59, cuenta un "strike" de tardanza para la semana. El sistema lleva un conteo de strikes semanales. Al alcanzar los 3 strikes, se muestra una observación especial indicando que el estudiante pierde la primera hora de clases y debe ser remitido a la administración.</li>
 <li><strong>Personal</strong>: Gestiona un ciclo de trabajo diario (una entrada antes de las 12 PM, una salida después de las 12 PM).</li>
 <li><strong>Vehículos</strong>: Gestiona un ciclo simple de entrada/salida.</li>
 </ul>
@@ -111,7 +111,7 @@ $page_title = "Módulo de Late-Pass - Documentación Técnica del Sistema";
 <li><strong>Interfaz</strong>: Cada página ofrece un conjunto de filtros (siempre por semana, y luego por estudiante, personal o vehículo).</li>
 <li><strong>Lógica de Cliente (JS)</strong>: Al cargar la página, el script establece la semana actual por defecto y carga los datos iniciales. Cada vez que un filtro cambia, se realiza una nueva petición <code>fetch</code> a la API correspondiente.</li>
 <li><strong>API de Datos</strong>: La API recibe los filtros, construye una consulta SQL para obtener los datos relevantes de la base de datos y los devuelve en formato JSON.</li>
-<li><strong>Visualización</strong>: El script de JavaScript procesa la respuesta JSON y actualiza dinámicamente el contenido de la tabla HTML sin necesidad de recargar la página.</li>
+<li><strong>Visualización</strong>: El script de JavaScript procesa la respuesta JSON y actualiza dinámicamente el contenido de la tabla HTML sin necesidad de recargar la página. En el caso de la gestión de Late-Pass, la tabla solo muestra los estudiantes que tienen al menos una llegada tarde registrada en la semana seleccionada.</li>
 <li><strong>Exportación a PDF</strong>: Un botón permite abrir una nueva pestaña que apunta a un script generador de PDF, pasándole los mismos filtros para que el reporte impreso coincida con la vista en pantalla.</li>
 </ol>
 <h3>Conclusión (Parte 3, 4 y 5)</h3>

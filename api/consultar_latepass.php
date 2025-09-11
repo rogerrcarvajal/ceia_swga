@@ -25,11 +25,11 @@ if ($semana) {
                     e.nombre_completo, e.apellido_completo, ep.grado_cursado,
                     TO_CHAR(lt.fecha_registro, 'MM-DD-YYYY') as fecha_registro, 
                     lt.hora_llegada,
-                    COALESCE(rs.conteo_tardes, 0) as conteo_tardes,
+                    CAST((SELECT COUNT(*) FROM llegadas_tarde WHERE estudiante_id = lt.estudiante_id AND semana_del_anio = :semana AND CAST(hora_llegada AS TIME) > '08:05:59') AS INTEGER) as conteo_tardes,
                     rs.ultimo_mensaje
                 FROM estudiante_periodo ep
                 JOIN estudiantes e ON ep.estudiante_id = e.id
-                LEFT JOIN llegadas_tarde lt ON ep.estudiante_id = lt.estudiante_id AND lt.semana_del_anio = :semana
+                INNER JOIN llegadas_tarde lt ON ep.estudiante_id = lt.estudiante_id AND lt.semana_del_anio = :semana
                 LEFT JOIN latepass_resumen_semanal rs ON ep.estudiante_id = rs.estudiante_id AND rs.semana_del_anio = :semana AND rs.periodo_id = ep.periodo_id
                 WHERE ep.periodo_id = :pid";
         
@@ -46,6 +46,12 @@ if ($semana) {
         $stmt->execute($params);
         $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
+        foreach ($registros as &$reg) {
+            if ($reg['conteo_tardes'] >= 3) {
+                $reg['ultimo_mensaje'] = 'Limite de Strike alcanzado. Pierde la 1era. Hora de clases. Contactar a su representante';
+            }
+        }
+
         $response = ['status' => 'exito', 'registros' => $registros];
 
     } catch (Exception $e) {

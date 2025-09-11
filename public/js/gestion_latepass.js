@@ -24,12 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (data.status === 'exito' && data.registros.length > 0) {
                 data.registros.forEach(reg => {
                     const tr = document.createElement('tr');
-                    
+
                     // Lógica de colores para la fila
                     if(reg.conteo_tardes == 2) tr.style.backgroundColor = 'rgba(255, 255, 0, 0.2)'; // Amarillo
                     if(reg.conteo_tardes >= 3) tr.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; // Rojo
 
-                    // Se corrige el colspan a 6 en el mensaje de "no encontrados"
                     tr.innerHTML = `
                         <td>${reg.nombre_completo} ${reg.apellido_completo}</td>
                         <td>${reg.grado_cursado}</td>

@@ -15,11 +15,20 @@ if (!$semana) die('Semana no válida');
 // Obtener datos
 $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $sql = "
-    SELECT e.nombre_completo, e.apellido_completo, ep.grado_cursado, TO_CHAR(lt.fecha_registro, 'MM-DD-YYYY') as fecha_registro, lt.hora_llegada, COALESCE(rs.conteo_tardes,0) AS strikes, rs.ultimo_mensaje
+    SELECT
+        e.nombre_completo, e.apellido_completo, ep.grado_cursado,
+        TO_CHAR(lt.fecha_registro, 'MM-DD-YYYY') as fecha_registro,
+        lt.hora_llegada,
+        CAST((SELECT COUNT(*) FROM llegadas_tarde WHERE estudiante_id = lt.estudiante_id AND semana_del_anio = :semana AND CAST(hora_llegada AS TIME) > '08:05:59') AS INTEGER) as strikes,
+        (CASE
+            WHEN CAST((SELECT COUNT(*) FROM llegadas_tarde WHERE estudiante_id = lt.estudiante_id AND semana_del_anio = :semana AND CAST(hora_llegada AS TIME) > '08:05:59') AS INTEGER) >= 3
+            THEN 'Visite SWGA para mayor informacion'
+            ELSE COALESCE(rs.ultimo_mensaje, '')
+        END) as ultimo_mensaje
     FROM llegadas_tarde lt
     JOIN estudiantes e ON lt.estudiante_id = e.id
     JOIN estudiante_periodo ep ON e.id = ep.estudiante_id AND ep.periodo_id = :pid
-    LEFT JOIN latepass_resumen_semanal rs ON lt.estudiante_id = rs.estudiante_id AND rs.semana_del_anio = lt.semana_del_anio
+    LEFT JOIN latepass_resumen_semanal rs ON lt.estudiante_id = rs.estudiante_id AND rs.semana_del_anio = lt.semana_del_anio AND rs.periodo_id = ep.periodo_id
     WHERE lt.semana_del_anio = :semana AND ep.periodo_id = :pid";
 $params = [':semana' => $semana, ':pid' => $periodo_activo['id']];
 
@@ -62,14 +71,51 @@ foreach ($datos as $grado => $alumnos) {
     $pdf->Ln();
 
     foreach ($alumnos as $a) {
-        $pdf->Cell(60, 6, utf8_decode($a['nombre_completo'] . ' ' . $a['apellido_completo']), 1);
-        $pdf->Cell(30, 6, $a['fecha_registro'], 1);
-        $pdf->Cell(25, 6, $a['hora_llegada'], 1);
-        $pdf->Cell(20, 6, $a['strikes'], 1);
-        $pdf->Cell(50, 6, utf8_decode($a['ultimo_mensaje'] ?? ''), 1);
-        $pdf->Ln();
+        $estudiante_text = utf8_decode($a['nombre_completo'] . ' ' . $a['apellido_completo']);
+        $fecha_text = $a['fecha_registro'];
+        $hora_text = $a['hora_llegada'];
+        $strikes_text = $a['strikes'];
+        $observacion_text = utf8_decode(str_replace('<br>', "\n", $a['ultimo_mensaje'] ?? ''));
+
+        // Store current X and Y
+        $x_start = $pdf->GetX();
+        $y_start = $pdf->GetY();
+
+        // Calculate height for MultiCell
+        $nb = $pdf->NbLines(50, $observacion_text); // 50 is the width of the cell
+        $row_height = $nb * 6; // 6 is the line height
+
+        // Draw Estudiante
+        $pdf->SetXY($x_start, $y_start);
+        $pdf->MultiCell(60, 6, $estudiante_text, 1, 'L', 0); // Use 6 as line height, not row_height
+
+        // Draw Fecha
+        $pdf->SetXY($x_start + 60, $y_start);
+        $pdf->MultiCell(30, 6, $fecha_text, 1, 'L', 0);
+
+        // Draw Hora
+        $pdf->SetXY($x_start + 60 + 30, $y_start);
+        $pdf->MultiCell(25, 6, $hora_text, 1, 'L', 0);
+
+        // Draw Strikes
+        $pdf->SetXY($x_start + 60 + 30 + 25, $y_start);
+        $pdf->MultiCell(20, 6, $strikes_text, 1, 'C', 0);
+
+        // Draw Observación
+        $pdf->SetXY($x_start + 60 + 30 + 25 + 20, $y_start);
+        $pdf->MultiCell(50, 6, $observacion_text, 1, 'L', 0);
+
+        // Move to the next line, considering the maximum height of the current row
+        $pdf->SetY($y_start + $row_height);
+        $pdf->SetX(10); // Reset X to the left margin (assuming 10mm left margin)
     }
     $pdf->Ln(5);
+}
+
+// Nombre del archivo de salida
+$pdf->Output('D', "LatePass_Semana_$semana" . ($grado !== 'todos' ? "_$grado" : '') . ".pdf");
+
+?>
 }
 
 // Nombre del archivo de salida

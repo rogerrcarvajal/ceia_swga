@@ -46,5 +46,61 @@ class LatePassPDF extends FPDF
         $this->SetFont('Arial', '', 10);
         $this->Cell(0, 7, utf8_decode($value ?? 'N/A'), 'B', 1);
     }
+
+    // Function to compute the number of lines a MultiCell of width w will take
+    function NbLines($w, $txt)
+    {
+        $cw = &$this->CurrentFont["cw"];
+        if ($w == 0)
+            $w = $this->w - $this->rMargin - $this->x;
+        $wmax = ($w - 2 * $this->cMargin) * 1000 / $this->FontSize;
+        $s = str_replace("\r", '', $txt);
+        $nb = strlen($s);
+        if ($nb == 0)
+            return 1;
+        $i = 0;
+        $j = 0;
+        $l = 0;
+        $nl = 1;
+        while ($i < $nb) {
+            $c = $s[$i];
+            if ($c == "\n") {
+                $i++;
+                $j = $i;
+                $l = 0;
+                $nl++;
+                continue;
+            }
+            if ($c == " ") {
+                $k = $i;
+                $lold = $l;
+                $wtemp = 0;
+                while ($k < $nb && $s[$k] != ' ' && $s[$k] != "\n") {
+                    $wtemp += $cw[$s[$k]];
+                    $k++;
+                }
+                if ($wtemp > $wmax) {
+                    $l = 0;
+                    $nl++;
+                    continue;
+                }
+                $l += $cw[$c];
+                if ($l > $wmax) {
+                    $l = $lold;
+                    $i = $j;
+                    $nl++;
+                } else
+                    $l += $cw[$c];
+            } else {
+                $l += $cw[$c];
+                if ($l > $wmax) {
+                    $l = $cw[$c];
+                    $nl++;
+                }
+            }
+            $i++;
+        }
+        return $nl;
+    }
 }
 ?>
