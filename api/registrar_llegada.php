@@ -129,17 +129,21 @@ try {
     // Prepara el mensaje final que se guardará en el resumen
     $mensaje_resumen = $mensaje_especial ?: $mensaje_final;
 
-    // Sentencia SQL para insertar o actualizar el resumen semanal
-    $sql_resumen = "INSERT INTO latepass_resumen_semanal (estudiante_id, periodo_id, semana_del_anio, anio, conteo_tardes, ultimo_mensaje, fecha_actualizacion)
-                    VALUES (:est_id, :pid, :semana, :anio, :conteo, :mensaje, :fecha_act)
-                    ON CONFLICT (estudiante_id, periodo_id, semana_del_anio, anio) 
-                    DO UPDATE SET 
-                        conteo_tardes = EXCLUDED.conteo_tardes,
-                        ultimo_mensaje = EXCLUDED.ultimo_mensaje,
-                        fecha_actualizacion = EXCLUDED.fecha_actualizacion";
-    
-    $stmt_resumen = $conn->prepare($sql_resumen);
-    $stmt_resumen->execute([
+    // Eliminar el resumen semanal existente para este estudiante y semana para evitar duplicados.
+    $sql_delete_resumen = "DELETE FROM latepass_resumen_semanal WHERE estudiante_id = :est_id AND periodo_id = :pid AND semana_del_anio = :semana AND anio = :anio";
+    $stmt_delete = $conn->prepare($sql_delete_resumen);
+    $stmt_delete->execute([
+        ':est_id' => $estudiante_id,
+        ':pid' => $periodo_id,
+        ':semana' => $dt_now->format("W"),
+        ':anio' => $dt_now->format("Y")
+    ]);
+
+    // Insertar el nuevo resumen semanal actualizado.
+    $sql_insert_resumen = "INSERT INTO latepass_resumen_semanal (estudiante_id, periodo_id, semana_del_anio, anio, conteo_tardes, ultimo_mensaje, fecha_actualizacion)
+                           VALUES (:est_id, :pid, :semana, :anio, :conteo, :mensaje, :fecha_act)";
+    $stmt_insert = $conn->prepare($sql_insert_resumen);
+    $stmt_insert->execute([
         ':est_id' => $estudiante_id,
         ':pid' => $periodo_id,
         ':semana' => $dt_now->format("W"),
