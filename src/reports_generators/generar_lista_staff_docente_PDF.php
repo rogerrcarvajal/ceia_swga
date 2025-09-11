@@ -53,7 +53,7 @@ if (!$periodo_id) {
 
 $sql_staff = "
     SELECT p.nombre_completo, pp.posicion, p.telefono AS telefono_celular,
-           (SELECT COUNT(est.id) FROM estudiantes est WHERE est.staff = TRUE AND (est.padre_id = (SELECT padre_id FROM padres WHERE padre_cedula_pasaporte = p.cedula LIMIT 1) OR est.madre_id = (SELECT madre_id FROM madres WHERE madre_cedula_pasaporte = p.cedula LIMIT 1))) AS numero_hijos_staff
+           (SELECT COUNT(est.id) FROM estudiantes est WHERE (est.padre_id = (SELECT padre_id FROM padres WHERE padre_cedula_pasaporte = p.cedula LIMIT 1) OR est.madre_id = (SELECT madre_id FROM madres WHERE madre_cedula_pasaporte = p.cedula LIMIT 1))) AS numero_hijos_staff
     FROM profesor_periodo pp
     JOIN profesores p ON pp.profesor_id = p.id
     WHERE pp.periodo_id = :pid AND p.categoria = :categoria

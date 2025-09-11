@@ -91,7 +91,11 @@ $grados_disponibles = [
                     </select>
                     
                     <button type="submit">Asignar Estudiante</button>
+<<<<<<< HEAD
                     <a id="gestionar_estudiantes_btn" class="btn" style="display: none;">Gestionar Estudiantes</a>
+=======
+                    <a id="gestionar_estudiantes_btn" class="btn" style="display: none;">Gestionar Estudiantes</a>
+>>>>>>> 85c59c242e1db61a1192d67acb07197833c6eeec
                     <!-- Botón para volver al Home -->
                     <a href="/ceia_swga/pages/menu_estudiantes.php" class="btn">Volver</a>
                 </form>
