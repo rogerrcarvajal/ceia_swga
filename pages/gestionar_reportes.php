@@ -50,11 +50,12 @@ if ($periodo_id) {
             p.nombre_completo,
             pp.posicion,
             p.telefono AS telefono_celular,
-            (SELECT COUNT(est.id)
-             FROM estudiantes est
-             WHERE est.staff = TRUE AND
-                   (est.padre_id = (SELECT padre_id FROM padres WHERE padre_cedula_pasaporte = p.cedula LIMIT 1) OR
-                    est.madre_id = (SELECT madre_id FROM madres WHERE madre_cedula_pasaporte = p.cedula LIMIT 1))
+            (SELECT COUNT(e.id)
+             FROM estudiantes e
+             LEFT JOIN padres pa ON e.padre_id = pa.padre_id
+             LEFT JOIN madres ma ON e.madre_id = ma.madre_id
+             WHERE e.staff = TRUE AND
+                   (pa.padre_cedula_pasaporte = p.cedula OR ma.madre_cedula_pasaporte = p.cedula)
             ) AS numero_hijos_staff
         FROM profesor_periodo pp
         JOIN profesores p ON pp.profesor_id = p.id
