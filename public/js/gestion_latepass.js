@@ -26,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const tr = document.createElement('tr');
 
                     // Lógica de colores para la fila
+                    if(reg.conteo_tardes == 1) tr.style.backgroundColor = 'rgba(0, 185, 74, 0.29)'; // Verde
                     if(reg.conteo_tardes == 2) tr.style.backgroundColor = 'rgba(255, 255, 0, 0.2)'; // Amarillo
                     if(reg.conteo_tardes >= 3) tr.style.backgroundColor = 'rgba(255, 0, 0, 0.2)'; // Rojo
 

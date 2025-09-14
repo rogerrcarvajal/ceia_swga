@@ -21,24 +21,6 @@ if (!isset($_SESSION['usuario']['rol']) || $_SESSION['usuario']['rol'] !== 'mast
 }
 
 // --- LÓGICA DE NEGOCIO ---
-// Desactivar período escolar (NUEVA FUNCIONALIDAD)
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['desactivar'])) {
-    $periodo_id = $_POST['periodo_id'];
-    $stmt = $conn->prepare("UPDATE periodos_escolares SET activo = FALSE WHERE id = :id");
-    $stmt->execute([':id' => $periodo_id]);
-    $mensaje = "✅ Período escolar desactivado.";
-}
-
-// Activar período escolar
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['activar'])) {
-    $periodo_id = $_POST['periodo_id'];
-    $conn->beginTransaction();
-    $conn->query("UPDATE periodos_escolares SET activo = FALSE");
-    $stmt = $conn->prepare("UPDATE periodos_escolares SET activo = TRUE WHERE id = :id");
-    $stmt->execute([':id' => $periodo_id]);
-    $conn->commit();
-    $mensaje = "✅ Período escolar activado correctamente.";
-}
 
 // Verificar si existe un período activo para la lógica de la vista
 $check_active_stmt = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1");
@@ -57,6 +39,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['crear'])) {
         $stmt->execute([':nombre' => $nombre, ':inicio' => $fecha_inicio, ':fin' => $fecha_fin]);
         $mensaje = "✅ Período escolar creado correctamente. Ahora puede activarlo.";
     }
+}
+
+// Activar período escolar
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['activar'])) {
+    $periodo_id = $_POST['periodo_id'];
+    $conn->beginTransaction();
+    $conn->query("UPDATE periodos_escolares SET activo = FALSE");
+    $stmt = $conn->prepare("UPDATE periodos_escolares SET activo = TRUE WHERE id = :id");
+    $stmt->execute([':id' => $periodo_id]);
+    $conn->commit();
+    $mensaje = "✅ Período escolar activado correctamente.";
+}
+
+// Desactivar período escolar
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['desactivar'])) {
+    $periodo_id = $_POST['periodo_id'];
+    $stmt = $conn->prepare("UPDATE periodos_escolares SET activo = FALSE WHERE id = :id");
+    $stmt->execute([':id' => $periodo_id]);
+    $mensaje = "✅ Período escolar desactivado.";
 }
 
 // Obtener el período escolar activo
@@ -88,7 +89,7 @@ $periodos = $conn->query("SELECT * FROM periodos_escolares ORDER BY fecha_inicio
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/public/img/logo_ceia.png" alt="Logo CEIA">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
         <h1>Gestión de Períodos Escolares</h1>
     </div>
     

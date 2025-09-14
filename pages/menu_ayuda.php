@@ -25,7 +25,7 @@ $rol = isset($_SESSION['usuario']['rol']) ? $_SESSION['usuario']['rol'] : '';
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .formulario-contenedor { background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); box-shadow: 0px 0px 10px rgba(227,228,237,0.37); border:2px solid rgba(255,255,255,0.18); margin: 20px auto; padding: 20px; border-radius: 10px; max-width: 60%; display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;}
-        .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black;}
+        .content { color: white; text-align: center; margin-top: 30px; text-shadow: 1px 1px 2px black;}
         .content img { width: 180px;}
         .content h2 { margin-bottom: 25px;}
         .lista-menu { list-style: none; padding: 0; text-align: left; width: 100%;}
