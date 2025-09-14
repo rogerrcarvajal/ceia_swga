@@ -104,7 +104,7 @@ $page_title = "Módulo de Late-Pass - Documentación Técnica del Sistema";
 <ul>
 <li><strong>Páginas de Interfaz</strong>: <code>gestion_latepass.php</code>, <code>gestion_es_staff.php</code>, <code>gestion_vehiculos.php</code>.</li>
 <li><strong>Scripts de Lógica</strong>: <code>gestion_latepass.js</code>, <code>gestion_es_staff.js</code>, <code>gestion_vehiculos.js</code>.</li>
-<li><strong>APIs de Consulta</strong>: <code>consultar_latepass.php</code>, <code>consulta_movimientos_staff.php</code>, <code>consulta_movimientos_vehiculos.php</code>.</li>
+<li><strong>APIs de Consulta</strong>: <code>consultar_latepass.php</code>, <code>consultar_movimiento_staff.php</code>, <code>consultar_movimiento_vehiculos.php</code>.</li>
 </ul>
 <h3>Flujo de Trabajo Común</h3>
 <ol>
@@ -134,26 +134,7 @@ $page_title = "Módulo de Late-Pass - Documentación Técnica del Sistema";
 </ul>
 </li>
 </ul>
-<hr>
-<h3>c. Control de Acceso y Movimientos (E/S)</h3>
-<p>Esta es una funcionalidad clave para la seguridad y el registro de asistencia del personal.</p>
-<p><strong>Página:</strong> <code>pages/gestion_es_staff.php</code><br>
-<strong>Archivos Involucrados:</strong><br>
-- <code>public/js/gestion_es_staff.js</code> (Lógica del Frontend).<br>
-- <code>api/registrar_movimiento_staff.php</code> (API para guardar la entrada/salida).<br>
-- <code>api/consultar_movimiento_staff.php</code> (API para verificar el último estado de un miembro).</p>
-<p><strong>Flujo de Operación:</strong></p>
-<ol>
-<li><strong>Interfaz de Registro:</strong> La página presenta una interfaz simple, probablemente con una cámara para escanear códigos QR o un campo para introducir la cédula.</li>
-<li><strong>Escaneo/Entrada de Cédula:</strong> El administrador escanea el QR del miembro del staff o introduce su cédula.</li>
-<li><strong>Verificación de Estado (AJAX):</strong> <code>gestion_es_staff.js</code> envía la cédula a <code>api/consultar_movimiento_staff.php</code>. Esta API revisa la tabla <code>movimientos_staff</code> para determinar si el último movimiento registrado fue una entrada o una salida.</li>
-<li><strong>Registro de Movimiento (AJAX):</strong> Basado en el estado actual, el sistema propone la acción contraria (si está "Adentro", propone "Registrar Salida" y viceversa). Al confirmar, <code>gestion_es_staff.js</code> llama a <code>api/registrar_movimiento_staff.php</code> para insertar el nuevo evento (entrada o salida) en la base de datos con la fecha y hora actual.</li>
-<li><strong>Feedback Visual:</strong> La interfaz se actualiza en tiempo real para mostrar el resultado de la operación y el estado actual del miembro del personal.</li>
-</ol>
-<h3>d. Generación de Códigos QR</h3>
-<p><strong>Página/Reporte:</strong> <code>src/reports_generators/generar_qr_staff_pdf.php</code><br>
-<strong>Propósito:</strong> Generar un documento PDF que contiene el código QR de un miembro del staff, listo para ser impreso y utilizado como identificación.<br>
-<strong>Lógica:</strong> Este script toma la cédula de un miembro del personal, utiliza la librería <code>phpqrcode</code> para generar la imagen del código QR y luego usa la librería <code>FPDF</code> para incrustar esa imagen en un archivo PDF con un formato predefinido.</p>
+
 HTML;
         ?>
         <div style="text-align: center; margin-top: 30px;">

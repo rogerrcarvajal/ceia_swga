@@ -109,7 +109,7 @@ $page_title = "Módulo de Estudiantes - Documentación Técnica del Sistema";
 <li><strong>Frontend:</strong> La lógica reside en <code>/public/js/admin_asignar_estudiante.js</code> (inferido), que orquesta las llamadas a las APIs.</li>
 <li><strong>APIs Involucradas:</strong>
 <ul>
-<li><code>GET /api/obtener_estudiantes_asignados.php</code> (inferido): Para poblar la lista del panel izquierdo.</li>
+<li><code>GET /api/obtener_estudiantes_por_periodo.php</code>: Para poblar la lista del panel izquierdo.</li>
 <li><code>GET /api/obtener_estudiantes_no_asignados.php</code>: Para poblar el menú de estudiantes disponibles.</li>
 <li><code>POST /api/asignar_estudiante.php</code>: Para crear el vínculo en la tabla <code>estudiante_periodo</code>, registrando la asignación.</li>
 </ul>
