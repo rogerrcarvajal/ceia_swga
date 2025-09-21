@@ -26,7 +26,7 @@ if (!$periodo_activo) {
     <style>
        body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .content { text-align: center; margin-top: 100px; color: white; text-shadow: 1px 1px 2px black;}
-        .content img { width: 200px; margin-bottom: 20px;}
+        .content img { width: 250px; margin-bottom: 20px;}
         .content h1 { font-size: 50px; margin-bottom: 20px;}
         .content p { font-size: 15px;}
     </style>

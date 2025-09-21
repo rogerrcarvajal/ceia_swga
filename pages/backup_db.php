@@ -156,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .content img {
-            width: 180px;
+            width: 250px;
         }
 
         .alerta {
@@ -273,7 +273,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <form method="POST" action="backup_db.php" style="text-align: center;">
                 <button type="submit" name="backup_sql" class="button">Generar Respaldo (.sql)</button>
-                <button type="submit" name="backup_custom" class="button" style="background-color: #008CBA;">Generar Respaldo (.backup)</button>
+                <button type="submit" name="backup_custom" class="button" style="background-color: rgb(48, 48, 48);">Generar Respaldo (.backup)</button>
                 <br>
                 <a href="/ceia_swga/pages/menu_mantto.php" class="btn">Volver al Menú de Mantenimiento</a>
             </form>

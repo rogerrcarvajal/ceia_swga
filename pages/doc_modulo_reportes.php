@@ -19,7 +19,7 @@ $page_title = "Módulo de Reportes - Documentación Técnica del Sistema";
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
-        .content img { width: 180px; }
+        .content img { width: 250px; }
         .document-container { background-color: rgba(0, 0, 0, 0.3); color: white; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); margin: 20px auto; padding: 20px 40px; border-radius: 10px; max-width: 80%; text-align: left; }
         .document-container h1, .document-container h2, .document-container h3 { color: #a2ff96; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; }
         .document-container h1 { font-size: 2em; }
@@ -54,44 +54,26 @@ $page_title = "Módulo de Reportes - Documentación Técnica del Sistema";
 <h3>Arquitectura General</h3>
 <p>A diferencia de otros módulos interactivos del sistema, el Módulo de Reportes sigue una arquitectura clásica basada en PHP. La lógica principal reside en el backend, que se encarga de consultar la base de datos y renderizar la información. El uso de JavaScript es mínimo y se limita a mejorar la usabilidad de la interfaz, sin realizar llamadas a APIs para la obtención de datos.</p>
 <hr>
-<h3>1. Generar Planilla de Inscripción (<code>seleccionar_planilla.php</code>)</h3>
+<h3>Componentes Principales</h3>
 <ul>
-<li><strong>Funcionalidad:</strong> Permite al administrador generar un PDF con la planilla de inscripción completa de un estudiante específico.</li>
-<li><strong>Flujo de Trabajo:</strong>
-<ol>
-<li>La página carga una lista desplegable con todos los estudiantes inscritos en el período escolar activo.</li>
-<li>El administrador selecciona un estudiante.</li>
-<li>Al hacer clic en "Generar PDF", el ID del estudiante seleccionado se envía mediante un formulario GET al script <code>src/reports_generators/generar_planilla_pdf.php</code>.</li>
-</ol>
-</li>
-<li><strong>Lógica Técnica:</strong> El script generador de PDF (inferido) recibe el ID, consulta toda la información asociada al estudiante (datos personales, padres, ficha médica) y la maqueta en un documento PDF detallado.</li>
+<li><strong><code>pages/menu_reportes.php</code></strong>: Menú principal para la selección de los diferentes tipos de reportes.</li>
+<li><strong><code>pages/seleccionar_planilla.php</code></strong>: Interfaz para seleccionar un estudiante y generar su planilla de inscripción en PDF.</li>
+<li><strong><code>src/reports_generators/roster_actual.php</code></strong>: Página que muestra el roster actual de estudiantes y staff, con opción a generar PDF.</li>
+<li><strong><code>pages/gestionar_reportes.php</code></strong>: Panel para previsualizar y generar diversos reportes dinámicos en PDF.</li>
 </ul>
 <hr>
-<h3>2. Roster Actualizado (<code>roster_actual.php</code>)</h3>
-<ul>
-<li><strong>Funcionalidad:</strong> Ofrece una vista consolidada de todo el personal y los estudiantes activos en el período actual, con la opción de exportar esta vista a PDF.</li>
-<li><strong>Flujo de Trabajo:</strong>
+<h3>Flujo de Trabajo General</h3>
 <ol>
-<li>Al cargar la página, el backend consulta y muestra en dos tablas separadas las listas de "Staff" y "Estudiantes" activos.</li>
-<li>Un botón "Generar PDF del Roster" envía un formulario (sin necesidad de parámetros adicionales) al script <code>src/reports_generators/generar_roster_pdf.php</code>.</li>
-</ol>
+<li>El administrador accede a <code>pages/menu_reportes.php</code>.</li>
+<li>Desde el menú, selecciona el tipo de reporte deseado:
+    <ul>
+        <li>Para la planilla de inscripción de un estudiante, se dirige a <code>pages/seleccionar_planilla.php</code>, elige al estudiante y genera el PDF.</li>
+        <li>Para el roster actual de estudiantes y staff, accede a <code>src/reports_generators/roster_actual.php</code> y desde allí puede generar el PDF.</li>
+        <li>Para otros reportes dinámicos, navega a <code>pages/gestionar_reportes.php</code>, donde puede previsualizar y aplicar filtros antes de generar el PDF correspondiente.</li>
+    </ul>
 </li>
-<li><strong>Lógica Técnica:</strong> El script generador de PDF replica la misma consulta de la página principal para obtener las listas de personal y estudiantes activos y las formatea en un documento PDF.</li>
-</ul>
-<hr>
-<h3>3. Gestionar Reportes (<code>gestionar_reportes.php</code>)</h3>
-<ul>
-<li><strong>Funcionalidad:</strong> Serve como un panel centralizado para previsualizar y generar múltiples reportes de listas categorizadas.</li>
-<li><strong>Flujo de Trabajo:</strong>
-<ol>
-<li><strong>Carga Inicial:</strong> Al cargar la página, el backend ejecuta todas las consultas necesarias para cada categoría de reporte (Estudiantes, Staff Administrativo, Staff Docente, etc.) y las renderiza en tablas HTML que permanecen ocultas inicialmente.</li>
-<li><strong>Interacción del Usuario:</strong> El usuario hace clic en una categoría en el menú lateral (ej. "Vehículos Autorizados").</li>
-<li><strong>Visualización:</strong> Un script de JavaScript simple se activa para mostrar la sección de vista previa correspondiente a la categoría seleccionada.</li>
-<li><strong>Generación de PDF:</strong> Cada sección de vista previa tiene su propio botón "Generar PDF", que apunta a un script generador de PDF específico para esa categoría (ej. <code>generar_lista_vehiculos_autorizados_PDF.php</code>).</li>
+<li>Cada opción de reporte conduce a un script generador de PDF específico (ubicados en <code>src/reports_generators/</code>) que procesa los datos y envía el documento al navegador.</li>
 </ol>
-</li>
-<li><strong>Lógica Técnica:</strong> Este enfoque precarga todos los datos, haciendo que la experiencia de usuario para cambiar entre vistas previas sea instantánea. La modularidad es alta, ya que cada reporte tiene su propio script generador de PDF, facilitando el mantenimiento.</li>
-</ul>
 <hr>
 <h3>Conclusión General del Módulo</h3>
 <p>El "Módulo de Reportes" es robusto y cumple su propósito de manera efectiva y directa. Su arquitectura basada en PHP es adecuada para la tarea de generar vistas de datos estáticas.</p>
@@ -104,16 +86,6 @@ $page_title = "Módulo de Reportes - Documentación Técnica del Sistema";
 </ul>
 </li>
 </ul>
-<hr>
-<h3>3. Reportes Asociados al Módulo</h3>
-<p>El módulo de Staff está vinculado a varios reportes importantes que se generan desde el Módulo de Reportes.</p>
-<ul>
-<li><strong><code>generar_lista_staff_admin_PDF.php</code></strong>: Genera un listado en PDF del personal administrativo.</li>
-<li><strong><code>generar_lista_staff_docente_PDF.php</code></strong>: Genera un listado en PDF del personal docente.</li>
-<li><strong><code>generar_lista_staff_mantenimiento_PDF.php</code></strong>: Genera un listado en PDF del personal de mantenimiento.</li>
-<li><strong><code>pdf_movimiento_staff.php</code></strong>: Genera un reporte detallado de los movimientos (entradas y salidas) del personal en un rango de fechas específico.</li>
-</ul>
-<p>Estos scripts consultan las tablas <code>staff</code> y <code>movimientos_staff</code> y utilizan la librería <code>FPDF</code> para formatear y presentar los datos en documentos PDF.</p>
 HTML;
         ?>
         <div style="text-align: center; margin-top: 30px;">

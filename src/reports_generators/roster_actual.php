@@ -91,6 +91,10 @@ if ($periodo_activo) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roster Actual - <?php echo htmlspecialchars($nombre_periodo ?? ''); ?></title>
     <link rel="stylesheet" href="/ceia_swga/public/css/estilo_roster.css">
+    <style>
+       body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
+       .content img { width: 250px; margin-bottom: 30px;}
+    </style>
 </head>
 <body>
     <?php require_once __DIR__ . '/../templates/navbar.php'; ?>

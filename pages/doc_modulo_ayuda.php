@@ -19,7 +19,7 @@ $page_title = "Módulo de Ayuda - Documentación Técnica del Sistema";
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
-        .content img { width: 180px; }
+        .content img { width: 250px; }
         .document-container { background-color: rgba(0, 0, 0, 0.3); color: white; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); margin: 20px auto; padding: 20px 40px; border-radius: 10px; max-width: 80%; text-align: left; }
         .document-container h1, .document-container h2, .document-container h3 { color: #a2ff96; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; }
         .document-container h1 { font-size: 2em; }
@@ -62,8 +62,8 @@ $page_title = "Módulo de Ayuda - Documentación Técnica del Sistema";
 <li><strong><code>menu_ayuda.php</code></strong>: La página principal del módulo, que contiene los enlaces a toda la documentación.</li>
 <li><strong><code>doc_manual_usuario.php</code></strong>: El manual de usuario general.</li>
 <li><strong><code>doc_modulo_....php</code></strong>: Una página dedicada para la documentación técnica de cada módulo principal del sistema (Estudiantes, Staff, Late-Pass, Reportes, Mantenimiento y este mismo módulo de Ayuda).</li>
-<li><strong><code>view_document.php</code></strong>: Un script de plantilla que se reutiliza para renderizar el contenido Markdown de manera consistente en todas las páginas de documentación, promoviendo la reutilización de código (principio DRY - Don't Repeat Yourself).</li>
-<li><strong><code>Parsedown.php</code></strong>: Una librería de PHP de terceros que se utiliza para convertir el texto escrito en formato Markdown a HTML, permitiendo que la documentación sea fácil de escribir y mantener.</li>
+
+
 </ul>
 <h3>Conclusión</h3>
 <p>El Módulo de Ayuda es un componente fundamental para la sostenibilidad y mantenibilidad a largo plazo del sistema. Al centralizar tanto la documentación de usuario como la técnica, se asegura que todo el conocimiento sobre el sistema esté accesible y organizado, reduciendo la dependencia de desarrolladores individuales y facilitando la capacitación de nuevo personal.</p>

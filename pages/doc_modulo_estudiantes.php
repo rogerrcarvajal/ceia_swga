@@ -19,7 +19,7 @@ $page_title = "Módulo de Estudiantes - Documentación Técnica del Sistema";
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
-        .content img { width: 180px; }
+        .content img { width: 250px; }
         .document-container { background-color: rgba(0, 0, 0, 0.3); color: white; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); margin: 20px auto; padding: 20px 40px; border-radius: 10px; max-width: 80%; text-align: left; }
         .document-container h1, .document-container h2, .document-container h3 { color: #a2ff96; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; }
         .document-container h1 { font-size: 2em; }
@@ -109,7 +109,7 @@ $page_title = "Módulo de Estudiantes - Documentación Técnica del Sistema";
 <li><strong>Frontend:</strong> La lógica reside en <code>/public/js/admin_asignar_estudiante.js</code> (inferido), que orquesta las llamadas a las APIs.</li>
 <li><strong>APIs Involucradas:</strong>
 <ul>
-<li><code>GET /api/obtener_estudiantes_asignados.php</code> (inferido): Para poblar la lista del panel izquierdo.</li>
+<li><code>GET /api/obtener_estudiantes_por_periodo.php</code>: Para poblar la lista del panel izquierdo.</li>
 <li><code>GET /api/obtener_estudiantes_no_asignados.php</code>: Para poblar el menú de estudiantes disponibles.</li>
 <li><code>POST /api/asignar_estudiante.php</code>: Para crear el vínculo en la tabla <code>estudiante_periodo</code>, registrando la asignación.</li>
 </ul>

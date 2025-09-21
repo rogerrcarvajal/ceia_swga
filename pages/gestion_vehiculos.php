@@ -42,7 +42,7 @@ if ($periodo_activo) {
 <body>
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
-        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
+        <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:250px;">
         <h1>Gestión de Entrada/Salida de Vehículos</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>

@@ -50,11 +50,12 @@ if ($periodo_id) {
             p.nombre_completo,
             pp.posicion,
             p.telefono AS telefono_celular,
-            (SELECT COUNT(est.id)
-             FROM estudiantes est
-             WHERE est.staff = TRUE AND
-                   (est.padre_id = (SELECT padre_id FROM padres WHERE padre_cedula_pasaporte = p.cedula LIMIT 1) OR
-                    est.madre_id = (SELECT madre_id FROM madres WHERE madre_cedula_pasaporte = p.cedula LIMIT 1))
+            (SELECT COUNT(e.id)
+             FROM estudiantes e
+             LEFT JOIN padres pa ON e.padre_id = pa.padre_id
+             LEFT JOIN madres ma ON e.madre_id = ma.madre_id
+             WHERE e.staff = TRUE AND
+                   (pa.padre_cedula_pasaporte = p.cedula OR ma.madre_cedula_pasaporte = p.cedula)
             ) AS numero_hijos_staff
         FROM profesor_periodo pp
         JOIN profesores p ON pp.profesor_id = p.id
@@ -97,7 +98,7 @@ if ($periodo_id) {
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
         .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 30px; padding-top: 20px;}
-        .content img { width: 180px; }
+        .content img { width: 250px; }
         .main-container { display: flex; max-width: 1400px; margin: 20px auto; gap: 20px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); padding: 20px; border-radius: 10px; }
         .menu-lateral { flex: 1; }
         .panel-seleccion { flex: 4; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
