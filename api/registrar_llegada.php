@@ -62,8 +62,8 @@ try {
             'nombre_completo' => $nombre_completo,
             'grado' => $estudiante['grado_cursado'],
             'hora_registrada' => $hora_registrada,
-            'strike_count' => 0, // Simplificado
-            'strike_level' => 0, // Simplificado
+            'strike_count' => 0, 
+            'strike_level' => 0, 
             'mensaje_especial' => 'Registro duplicado.'
         ];
         echo json_encode($response);
@@ -79,7 +79,7 @@ try {
         ':semana' => $dt_now->format("W")
     ]);
 
-    $mensaje_final = "✅ Llegada registrada (versión de prueba simplificada).";
+    $mensaje_final = "✅ Llegada registrada (versión simplificada).";
 
     $conn->commit();
 
