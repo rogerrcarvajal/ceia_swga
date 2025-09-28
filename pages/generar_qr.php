@@ -14,8 +14,13 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
     exit();
 }
 
-$periodo_activo = $conn->query("SELECT id FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+// Obtener el período escolar activo
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder inscribir estudiantes.";
+}
 $periodo_id = $periodo_activo['id'] ?? 0;
+
 
 $estudiantes = $vehiculos = [];
 $staff_administrativo = $staff_docente = $staff_mantenimiento = $staff_vigilancia = [];
@@ -68,6 +73,9 @@ if ($periodo_id) {
 <div class="content">
     <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA";>
     <h1>Generar Códigos QR</h1>
+    <?php if ($periodo_activo): ?>
+        <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
+    <?php endif; ?>
 </div>
 
 <div class="main-container">
