@@ -20,7 +20,7 @@ $page_title = "Módulo de Mantenimiento - Documentación Técnica del Sistema";
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .content { color: white; text-align: center; margin-top: 20px; text-shadow: 1px 1px 2px black; }
         .content img { width: 250px; }
-        .document-container { background-color: rgba(0, 0, 0, 0.3); color: white; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2); margin: 20px auto; padding: 20px 40px; border-radius: 10px; max-width: 80%; text-align: left; }
+        .document-container { background-color: rgba(0, 0, 0, 0.3); color: white; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); margin: 20px auto; padding: 20px 40px; border-radius: 10px; max-width: 80%; text-align: left; }
         .document-container h1, .document-container h2, .document-container h3 { color: #a2ff96; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px; }
         .document-container h1 { font-size: 2em; }
         .document-container h2 { font-size: 1.75em; }
