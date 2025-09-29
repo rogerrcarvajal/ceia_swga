@@ -57,8 +57,8 @@ if ($periodo_id) {
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
-        .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 30px; padding-top: 20px;}
-        .content img { width: 250px; margin-bottom: 30px;}
+        .content { text-align: center; color: white; text-shadow: 1px 1px 2px black; margin-top: 20px; padding-top: 10px;}
+        .content img { width: 250px; }
         .main-container { display: flex; max-width: 1200px; margin: 20px auto; gap: 20px; background-color: rgba(0, 0, 0, 0.3); backdrop-filter:blur(10px); padding: 20px; border-radius: 10px; }
         .menu-lateral { flex: 1; }
         .panel-seleccion { flex: 2; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
