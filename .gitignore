@@ -1,3 +1,4 @@
 # Archivos de cache y log de php-qrcode
 src/lib/php-qrcode/cache/
 src/lib/php-qrcode/*-errors.txt
+.mcp.json
