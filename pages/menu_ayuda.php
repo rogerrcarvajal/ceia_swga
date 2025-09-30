@@ -63,7 +63,7 @@ $rol = isset($_SESSION['usuario']['rol']) ? $_SESSION['usuario']['rol'] : '';
                     <p>Guía completa sobre el uso y las funcionalidades del sistema.</p>
                 </li>
 
-                <?php if ($rol === 'master' || $rol === 'admin'): ?>
+                <?php if ($rol === 'master'): ?>
                 <li class="has-submenu">
                     <a onclick="toggleSubmenu(this)">
                         <span class="icono-menu">📄</span> Documentación y Funcionalidad del Sistema
