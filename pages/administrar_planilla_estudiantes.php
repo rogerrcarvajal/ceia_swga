@@ -12,7 +12,13 @@ require_once __DIR__ . '/../src/config.php';
 // Declaración de variables
 $mensaje = "";
 
-
+// --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
+// Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin'])) {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados tienen acceso a éste módulo.";;
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios autorizados tienen acceso a éste módulo."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    exit();
+}
 
 // --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
 // --- Obtener el período escolar activo ---
