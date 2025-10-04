@@ -17,14 +17,23 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
 $estudiante_id = $input['estudiante_id'] ?? null;
 $fecha_salida = $input['fecha_salida'] ?? null;
 $hora_salida = $input['hora_salida'] ?? null;
-$retirado_por_nombre = $input['retirado_por_nombre'] ?? null;
-$retirado_por_parentesco = $input['retirado_por_parentesco'] ?? null;
-$motivo = $input['motivo'] ?? null;
+$retirado_por_nombre = htmlspecialchars($input['retirado_por_nombre'] ?? null, ENT_QUOTES, 'UTF-8');
+$retirado_por_parentesco = htmlspecialchars($input['retirado_por_parentesco'] ?? null, ENT_QUOTES, 'UTF-8');
+$motivo = htmlspecialchars($input['motivo'] ?? null, ENT_QUOTES, 'UTF-8');
 $registrado_por_usuario_id = $_SESSION['usuario']['id'] ?? null;
 
 // Validar datos básicos
 if (!$estudiante_id || !$fecha_salida || !$hora_salida || !$retirado_por_nombre || !$registrado_por_usuario_id) {
     echo json_encode(['success' => false, 'message' => 'Datos incompletos.']);
+    exit();
+}
+
+// Validar que la fecha de salida no sea en el pasado
+$fecha_salida_dt = new DateTime($fecha_salida);
+$hoy = new DateTime('today');
+
+if ($fecha_salida_dt < $hoy) {
+    echo json_encode(['success' => false, 'message' => 'La fecha de salida no puede ser una fecha pasada.']);
     exit();
 }
 
