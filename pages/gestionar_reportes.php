@@ -93,7 +93,7 @@ if ($periodo_id) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>SWGA - Gestionar Reportes</title>
+    <title>SWGA - Gestión de Reportes - Estudiantes/Staff</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white;}
@@ -115,7 +115,7 @@ if ($periodo_id) {
 <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
 <div class="content">
     <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA" style="width:150px;">
-    <h1>Gestionar Reportes</h1>
+    <h1>Gestión de Reportes - Estudiantes/Staff</h1>
     <?php if ($periodo_activo): ?>
         <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
     <?php endif; ?>

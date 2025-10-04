@@ -70,9 +70,9 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
                 </li>
                 <div class="collapse" id="collapseMisc">
                     <div class="card card-body" style="background-color: rgba(0,0,0,0.5); border: none;">
-                        <a href="https://www.thinkwave.com/secure/login/" target="_blank">1- Thinkwave</a>
-                        <a href="https://www.khanacademy.org/login" target="_blank">2- Khan Academy</a>
-                        <a href="https://la.ixl.com/?partner=google&campaign=71585968&adGroup=127340411978&gad_source=1&gad_campaignid=71585968&gbraid=0AAAAADrr3Aoxof4aLGixlBgWG-gNefkcQ&gclid=CjwKCAjwi4PHBhA-EiwAnjTHuRzmWUrXTe4xr7ZS0h7VzeF3SMmBED1sbuGmAquyPDbRwoQ6wczduBoCOwMQAvD_BwE" target="_blank">3- IXL</a>
+                        <a href="https://www.thinkwave.com/secure/login/" target="_blank">Thinkwave</a>
+                        <a href="https://www.khanacademy.org/login" target="_blank">Khan Academy</a>
+                        <a href="https://la.ixl.com/?partner=google&campaign=71585968&adGroup=127340411978&gad_source=1&gad_campaignid=71585968&gbraid=0AAAAADrr3Aoxof4aLGixlBgWG-gNefkcQ&gclid=CjwKCAjwi4PHBhA-EiwAnjTHuRzmWUrXTe4xr7ZS0h7VzeF3SMmBED1sbuGmAquyPDbRwoQ6wczduBoCOwMQAvD_BwE" target="_blank">IXL</a>
                     </div>
                 </div>
             </ul>

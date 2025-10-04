@@ -86,7 +86,7 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                 
                 <li>
                     <a href="/ceia_swga/pages/gestionar_reportes.php">
-                        <span class="icono-reporte">📊</span> Gestionar Reportes de Estudiantes/Staff
+                        <span class="icono-reporte">📊</span> Gestión de Reportes - Estudiantes/Staff
                     </a>
                     <p>Genera reportes detallados en PDF para estudiantes, diferentes categorías de staff y vehículos autorizados.</p>
                 </li>
