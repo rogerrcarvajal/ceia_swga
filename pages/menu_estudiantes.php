@@ -90,6 +90,11 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Permite gestionar y asignar/vincular a un estudiante con el Período Escolar activo</p>
                 </li>
                 
+                <a href="/ceia_swga/pages/planilla_salida.php" class="opcion-menu">
+    <i class="fas fa-file-signature"></i> <span>Gestionar Autorización de Salida</span>
+    <small>Permite generar y consultar permisos de salida temprana.</small>
+</a>
+
                 <li>
                     <a href="/ceia_swga/pages/registro_vehiculos.php">
                         <span class="icono-reporte">📋</span> Gestionar Vehículos Autorizados
