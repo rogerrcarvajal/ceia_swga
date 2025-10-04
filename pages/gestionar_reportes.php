@@ -8,7 +8,7 @@ require_once __DIR__ . '/../src/config.php';
 
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 if (!in_array($_SESSION['usuario']['rol'], ['master','admin', 'consulta'])) {
-    $_SESSION['error_acceso'] = "Acceso denegado.";
+    $_SESSION['error_acceso'] = "Acceso deneg ado. Solo usuarios autorizados tienen acceso a éste módulo.";
     header("Location: /ceia_swga/pages/dashboard.php");
     exit();
 }

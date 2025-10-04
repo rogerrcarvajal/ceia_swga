@@ -7,7 +7,7 @@ if (!isset($_SESSION['usuario'])) {
 
 // Roles permitidos
 if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master', 'consulta'])) {
-    $_SESSION['error_acceso'] = "Acceso denegado.";
+    $_SESSION['error_acceso'] = "Acceso deneg ado. Solo usuarios autorizados tienen acceso a éste módulo.";
     header("Location: /ceia_swga/pages/dashboard.php");
     exit();
 }

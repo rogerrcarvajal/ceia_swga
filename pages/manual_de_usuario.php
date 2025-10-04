@@ -1,9 +1,33 @@
 <?php
 session_start();
+// Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /ceia_swga/public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
+
+// Incluir configuración y conexión a la base de datos
+require_once __DIR__ . '/../src/config.php';
+
+//Declaracion de variables
+$mensaje = "";
+
+// Roles permitidos
+if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master', 'consulta'])) {
+    $_SESSION['error_acceso'] = "Acceso deneg ado. Solo usuarios autorizados tienen acceso a éste módulo.";
+    header("Location: /ceia_swga/pages/dashboard.php");
+    exit();
+}
+
+
+// --- BLOQUE DE VERIFICACIÓN DE PERÍODO ESCOLAR ACTIVO ---
+// --- Obtener el período escolar activo ---
+$periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+
+if (!$periodo_activo) {
+    $_SESSION['error_periodo_inactivo'] = "No hay ningún período escolar activo. Es necesario activar uno para poder asignar personal.";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,21 +1,30 @@
 <?php
 session_start();
+// Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header("Location: /ceia_swga/public/index.php");
+    header(header: "Location: /ceia_swga/public/index.php");
     exit();
 }
 
+// Incluir configuración y conexión a la base de datos
+require_once __DIR__ . '/../src/config.php';
+
+// Declaración de variables
+$mensaje = "";
+
 // Roles permitidos
-if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master', 'consulta'])) {
-    $_SESSION['error_acceso'] = "Acceso denegado.";
+if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master'])) {
+    $_SESSION['error_acceso'] = "Acceso deneg ado. Solo usuarios autorizados tienen acceso a éste módulo.";
     header("Location: /ceia_swga/pages/dashboard.php");
     exit();
 }
 
-require_once __DIR__ . '/../src/config.php';
+// Obtener el período escolar activo
+$periodoActivo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+$periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
 
-$periodo_activo = $conn->query("SELECT nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
