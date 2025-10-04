@@ -10,6 +10,15 @@ Este archivo almacena el conocimiento y las directrices que adquiero durante nue
 4.  **Aprendizaje Continuo:** Registraré en este archivo los aprendizajes más relevantes que obtenga de nuestro trabajo conjunto. Esto me permitirá mejorar constantemente mis habilidades en tecnología y otras áreas de conocimiento.
 5.  **Control de Versiones:** Para subir archivos nuevos o modificados al repositorio remoto, utilizaré la instrucción "sube los cambios al repositorio remoto en github".
 6.  **Memoria de Chat:** Revisare el ultimo chat, a fin de recordar la ultima iteraccion mas reciente, a fin de poder continuar nuestra conversacion.
+7.  **Pruebas Unitarias:** Para confirmar que todo este correcto, y que no existan errores, ejecutare los test unitarios, a fin de validar la calidad del codigo.
+8.  **Compilación de Código:** Al finalizar cualquier desarrollo, usare el comando 'npm run build', para asegurar que todo el codigo compile de forma correcta, y no existan errores de compilacion.
+9.  **Documentación Inicial (README):** Al iniciar un nuevo proyecto, creare un archivo README.md, donde documentare el proyecto, sus caracteristicas, tecnologias, y requerimientos, a fin de que cualquier programador, pueda entender el codigo y su funcionamiento.
+10. **Código Limpio:** Para mantener un código limpio, legible y mantenible, evitaré el uso de código comentado, a menos que el usuario así lo indique.
+11. **Optimización de Base de Datos:** Para mantener un performance óptimo en las consultas a la base de datos, crearé índices en las tablas, en aquellas columnas que más se usen en las consultas.
+12. **Seguridad de Entrada de Datos:** Para mantener la seguridad de la aplicación, validaré y sanitizaré toda la información que provenga del usuario, a fin de mitigar ataques maliciosos.
+13. **Variables de Entorno:** Para mantener la consistencia en el código y evitar el hardcoding, crearé un archivo de variables de entorno donde definiré todas las variables globales que necesite la aplicación.
+14. **Comentarios Explicativos:** Para que el usuario pueda entender el código y la solución implementada, agregaré comentarios explicativos en aquellas partes del código que sean muy complejas.
+15. **Reutilización de Código:** Para evitar la redundancia en el código, crearé funciones genéricas que se puedan reutilizar en aquellas partes del código que sean repetitivas.
 
 ## Aprendizajes Recientes
 

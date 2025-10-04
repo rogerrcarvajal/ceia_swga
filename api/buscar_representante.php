@@ -23,14 +23,14 @@ try {
     if ($representante_ids) {
         // 2. Buscar datos del padre si existe el ID
         if (!empty($representante_ids['padre_id'])) {
-            $stmt_padre = $conn->prepare("SELECT id, nombre_completo FROM padres WHERE id = :id");
+            $stmt_padre = $conn->prepare("SELECT padre_id as id, nombre_completo FROM padres WHERE padre_id = :id");
             $stmt_padre->execute(['id' => $representante_ids['padre_id']]);
             $response['padre'] = $stmt_padre->fetch(PDO::FETCH_ASSOC) ?: null;
         }
 
         // 3. Buscar datos de la madre si existe el ID
         if (!empty($representante_ids['madre_id'])) {
-            $stmt_madre = $conn->prepare("SELECT id, nombre_completo FROM madres WHERE id = :id");
+            $stmt_madre = $conn->prepare("SELECT madre_id as id, nombre_completo FROM madres WHERE madre_id = :id");
             $stmt_madre->execute(['id' => $representante_ids['madre_id']]);
             $response['madre'] = $stmt_madre->fetch(PDO::FETCH_ASSOC) ?: null;
         }

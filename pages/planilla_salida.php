@@ -118,23 +118,23 @@ if ($periodoActivoId) {
 
                     <div class="campo">
                         <label>Autorizado para Retirar:</label>
-                        <div class="checkbox-group">
-                            <label><input type="checkbox" id="chk_padre" name="autorizado_chk" value="padre"> Padre</label>
-                            <label><input type="checkbox" id="chk_madre" name="autorizado_chk" value="madre"> Madre</label>
-                            <label><input type="checkbox" id="chk_otro" name="autorizado_chk" value="otro"> Otro</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="autorizado_por" value="padre" id="radio_padre" disabled> Padre</label>
+                            <label><input type="radio" name="autorizado_por" value="madre" id="radio_madre" disabled> Madre</label>
+                            <label><input type="radio" name="autorizado_por" value="otro" id="radio_otro"> Otro</label>
                         </div>
                     </div>
 
                     <!-- Contenedor para la información del Padre -->
                     <div id="padre_info" class="autorizado-info" style="display:none;">
                         <p><strong>Padre:</strong> <span id="padre_nombre"></span></p>
-                        <input type="hidden" id="retirado_por_padre_id" name="retirado_por_padre_id">
+                        <input type="hidden" id="padre_id" name="padre_id">
                     </div>
 
                     <!-- Contenedor para la información de la Madre -->
                     <div id="madre_info" class="autorizado-info" style="display:none;">
                         <p><strong>Madre:</strong> <span id="madre_nombre"></span></p>
-                        <input type="hidden" id="retirado_por_madre_id" name="retirado_por_madre_id">
+                        <input type="hidden" id="madre_id" name="madre_id">
                     </div>
 
                     <!-- Contenedor para Otro Autorizado -->
