@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // --- BLOQUE DE SEGURIDAD AÑADIDO ---
 if (!isset($_SESSION['usuario'])) {
     header('Content-Type: application/json');

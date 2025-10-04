@@ -1,14 +1,16 @@
 <?php
 // api/consultar_salidas.php
 
-header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
+header('Content-Type: application/json');
+date_default_timezone_set('America/Caracas');
 
 $response = ['status' => 'error', 'mensaje' => 'Petición inválida'];
 
 if (isset($_GET['semana']) && !empty($_GET['semana'])) {
     $semana = $_GET['semana'];
-    // Formato esperado: YYYY-Www, por ejemplo: 2025-W41
+    $estudiante_id = $_GET['estudiante_id'] ?? 'todos';
+
     $parts = explode('-W', $semana);
     
     if (count($parts) === 2) {
@@ -22,23 +24,31 @@ if (isset($_GET['semana']) && !empty($_GET['semana'])) {
             $date->modify('+6 days');
             $fecha_fin = $date->format('Y-m-d');
 
-            $stmt = $conn->prepare(
-                "SELECT 
-                    to_char(a.fecha_salida, 'DD/MM/YYYY') as fecha_salida,
-                    to_char(a.hora_salida, 'HH12:MI AM') as hora_salida,
-                    e.nombre_completo || ' ' || e.apellido_completo as nombre_estudiante,
-                    a.retirado_por_nombre,
-                    a.retirado_por_parentesco,
-                    a.motivo
-                 FROM autorizaciones_salida a
-                 JOIN estudiantes e ON a.estudiante_id = e.id
-                 WHERE a.fecha_salida BETWEEN :fecha_inicio AND :fecha_fin
-                 ORDER BY a.fecha_salida, a.hora_salida"
-            );
-            $stmt->execute([
+            $sql = "SELECT 
+                        to_char(a.fecha_salida, 'DD/MM/YYYY') as fecha_salida,
+                        to_char(a.hora_salida, 'HH12:MI AM') as hora_salida,
+                        e.nombre_completo || ' ' || e.apellido_completo as nombre_estudiante,
+                        a.retirado_por_nombre,
+                        a.retirado_por_parentesco,
+                        a.motivo
+                    FROM autorizaciones_salida a
+                    JOIN estudiantes e ON a.estudiante_id = e.id
+                    WHERE a.fecha_salida BETWEEN :fecha_inicio AND :fecha_fin";
+
+            $params = [
                 ':fecha_inicio' => $fecha_inicio,
                 ':fecha_fin' => $fecha_fin
-            ]);
+            ];
+
+            if ($estudiante_id !== 'todos' && !empty($estudiante_id)) {
+                $sql .= " AND a.estudiante_id = :estudiante_id";
+                $params[':estudiante_id'] = $estudiante_id;
+            }
+
+            $sql .= " ORDER BY a.fecha_salida, a.hora_salida";
+
+            $stmt = $conn->prepare($sql);
+            $stmt->execute($params);
             
             $registros = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
