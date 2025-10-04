@@ -1,56 +1,46 @@
 <?php
-session_start();
 header('Content-Type: application/json');
-
-// Medida de seguridad básica
-if (!isset($_SESSION['usuario'])) {
-    echo json_encode(['encontrado' => false, 'error' => 'No autenticado']);
-    exit();
-}
-
 require_once __DIR__ . '/../src/config.php';
 
-$tipo = $_GET['tipo'] ?? ''; // 'padre' o 'madre'
-$cedula = $_GET['cedula'] ?? '';
+$response = [
+    'padre' => null,
+    'madre' => null
+];
 
-if (empty($tipo) || empty($cedula)) {
-    echo json_encode(['encontrado' => false, 'error' => 'Faltan parámetros']);
-    exit();
-}
+$estudiante_id = $_GET['estudiante_id'] ?? null;
 
-// Validar que el tipo sea uno de los esperados para evitar inyección SQL
-if ($tipo !== 'padre' && $tipo !== 'madre') {
-    echo json_encode(['encontrado' => false, 'error' => 'Tipo de representante no válido']);
+if (!$estudiante_id) {
+    echo json_encode($response);
     exit();
 }
 
 try {
-    $tabla = ($tipo === 'padre') ? 'padres' : 'madres';
-    $columna_cedula = "{$tipo}_cedula_pasaporte";
-    $columna_id = "{$tipo}_id";
-    $columna_nombre = "{$tipo}_nombre";
-    $columna_apellido = "{$tipo}_apellido";
+    // 1. Obtener los IDs de los representantes desde la tabla estudiantes
+    $stmt_est = $conn->prepare("SELECT padre_id, madre_id FROM estudiantes WHERE id = :id");
+    $stmt_est->execute(['id' => $estudiante_id]);
+    $representante_ids = $stmt_est->fetch(PDO::FETCH_ASSOC);
 
-    $sql = "SELECT {$columna_id}, {$columna_nombre}, {$columna_apellido} FROM {$tabla} WHERE {$columna_cedula} = :cedula LIMIT 1";
-    
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([':cedula' => $cedula]);
-    $representante = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($representante_ids) {
+        // 2. Buscar datos del padre si existe el ID
+        if (!empty($representante_ids['padre_id'])) {
+            $stmt_padre = $conn->prepare("SELECT id, nombre_completo FROM padres WHERE id = :id");
+            $stmt_padre->execute(['id' => $representante_ids['padre_id']]);
+            $response['padre'] = $stmt_padre->fetch(PDO::FETCH_ASSOC) ?: null;
+        }
 
-    if ($representante) {
-        echo json_encode([
-            'encontrado' => true,
-            'id' => $representante[$columna_id],
-            'nombre' => htmlspecialchars($representante[$columna_nombre] . ' ' . $representante[$columna_apellido])
-        ]);
-    } else {
-        echo json_encode(['encontrado' => false]);
+        // 3. Buscar datos de la madre si existe el ID
+        if (!empty($representante_ids['madre_id'])) {
+            $stmt_madre = $conn->prepare("SELECT id, nombre_completo FROM madres WHERE id = :id");
+            $stmt_madre->execute(['id' => $representante_ids['madre_id']]);
+            $response['madre'] = $stmt_madre->fetch(PDO::FETCH_ASSOC) ?: null;
+        }
     }
 
 } catch (PDOException $e) {
-    // En un entorno de producción, sería mejor loguear el error que mostrarlo.
-    echo json_encode(['encontrado' => false, 'error' => 'Error de base de datos']);
-} catch (Exception $e) {
-    echo json_encode(['encontrado' => false, 'error' => 'Error inesperado']);
+    // En un entorno de producción, sería mejor loguear este error
+    // y no exponer detalles al cliente.
+    $response['error'] = 'Error de base de datos: ' . $e->getMessage();
+    http_response_code(500);
 }
-?>
+
+echo json_encode($response);

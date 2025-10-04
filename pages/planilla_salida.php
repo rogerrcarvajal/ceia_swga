@@ -117,13 +117,36 @@ if ($periodoActivoId) {
                     </div>
 
                     <div class="campo">
-                        <label for="retirado_por_nombre">Retirado por:</label>
-                        <input type="text" id="retirado_por_nombre" name="retirado_por_nombre" placeholder="Nombre completo de quien retira" required>
+                        <label>Autorizado para Retirar:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="chk_padre" name="autorizado_chk" value="padre"> Padre</label>
+                            <label><input type="checkbox" id="chk_madre" name="autorizado_chk" value="madre"> Madre</label>
+                            <label><input type="checkbox" id="chk_otro" name="autorizado_chk" value="otro"> Otro</label>
+                        </div>
                     </div>
 
-                    <div class="campo">
-                        <label for="retirado_por_parentesco">Parentesco:</label>
-                        <input type="text" id="retirado_por_parentesco" name="retirado_por_parentesco" placeholder="Ej: Madre, Padre, Tío, etc.">
+                    <!-- Contenedor para la información del Padre -->
+                    <div id="padre_info" class="autorizado-info" style="display:none;">
+                        <p><strong>Padre:</strong> <span id="padre_nombre"></span></p>
+                        <input type="hidden" id="retirado_por_padre_id" name="retirado_por_padre_id">
+                    </div>
+
+                    <!-- Contenedor para la información de la Madre -->
+                    <div id="madre_info" class="autorizado-info" style="display:none;">
+                        <p><strong>Madre:</strong> <span id="madre_nombre"></span></p>
+                        <input type="hidden" id="retirado_por_madre_id" name="retirado_por_madre_id">
+                    </div>
+
+                    <!-- Contenedor para Otro Autorizado -->
+                    <div id="otro_autorizado_info" class="autorizado-info" style="display:none;">
+                        <div class="campo">
+                            <label for="retirado_por_nombre">Retirado por:</label>
+                            <input type="text" id="retirado_por_nombre" name="retirado_por_nombre" placeholder="Nombre completo de quien retira">
+                        </div>
+                        <div class="campo">
+                            <label for="retirado_por_parentesco">Parentesco:</label>
+                            <input type="text" id="retirado_por_parentesco" name="retirado_por_parentesco" placeholder="Ej: Tío, Abuela, etc.">
+                        </div>
                     </div>
 
                     <div class="campo">
@@ -141,6 +164,6 @@ if ($periodoActivoId) {
         <?php endif; ?>
     </main>
 
-    <script src="/ceia_swga/public/js/planilla_salida.js" defer></script>
+    <script src="/ceia_swga/public/js/gestion_salidas.js" defer></script>
 </body>
 </html>
