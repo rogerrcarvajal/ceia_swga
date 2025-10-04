@@ -9,6 +9,15 @@ if (!isset($_SESSION['usuario'])) {
 // Incluir configuración y conexión a la base de datos
 require_once __DIR__ . '/../src/config.php';
 
+
+// --- Lógica de acceso para el usuario master (superusuario) ---
+if (!isset($_SESSION['usuario']['rol']) || $_SESSION['usuario']['rol'] !== 'master') {
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    exit();
+}
+
+
 // --- GESTOR DE DESCARGAS ---
 // Maneja las solicitudes de descarga de archivos de respaldo
 if (isset($_GET['download_file'])) {

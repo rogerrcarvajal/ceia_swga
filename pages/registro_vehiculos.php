@@ -15,8 +15,8 @@ if (isset($_SESSION['mensaje_vehiculo'])) {
 // --- ESTE ES EL BLOQUE DE CONTROL DE ACCESO ---
 // Consulta a la base de datos para verificar si hay algún usuario con rol 'admin'
 if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master','admin'])) {
-    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de reportes.";
-    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios autorizados pueden gestionar el módulo de reportes."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados tienen acceso a éste módulo.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo usuarios autorizados tienen acceso a éste módulo."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
     exit();
 }
 

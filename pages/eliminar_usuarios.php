@@ -17,8 +17,8 @@ $mensaje = "";
 
 // --- Lógica de acceso para el usuario master (superusuario) ---
 if (!isset($_SESSION['usuario']['username']) || $_SESSION['usuario']['username'] !== 'superusuario') {
-    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento.";
-    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar el módulo de mantenimiento."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo el Usuario Master puede gestionar los usuarios del sistema.";
+    echo '<script>window.onload = function() { alert("Acceso denegado. Solo el Usuario Master puede gestionar los usuarios del sistema."); window.location.href = "/ceia_swga/pages/dashboard.php"; };</script>';
     exit();
 }
 
