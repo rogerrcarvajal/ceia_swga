@@ -14,6 +14,7 @@ Este archivo almacena el conocimiento y las directrices que adquiero durante nue
 ## Aprendizajes Recientes
 
 -   **Flujo de Trabajo del Usuario:** Después de subir los cambios al repositorio remoto, el usuario los descarga en su entorno local para probarlos y confirmar que todo funciona correctamente.
--   **Configuración de Git del Usuario:** La configuración de Git del usuario presenta problemas con la firma GPG. Para evitar errores, realizaré los commits con la bandera `--no-gpg-sign`.
+-   **Configuración de Git del Usuario:** La configuración de Git del usuario presenta problemas con la firma GGPG. Para evitar errores, realizaré los commits con la bandera `--no-gpg-sign`.
 -   **Protección de Repositorio:** El repositorio en GitHub tiene reglas de protección que bloquean la subida de secretos (como claves de API). Debo asegurarme de no incluir información sensible en los commits.
 -   **Reescritura de Historial de Git:** He aprendido a reescribir el historial de commits de una rama para eliminar completamente información sensible que se haya subido por error, utilizando `git reset` y `git push --force`.
+-   **Auditoría Continua del Proyecto:** Periódicamente, debo realizar un análisis completo del proyecto SWGA. Esta tarea implica revisar la funcionalidad y lógica de negocio, compararla con la documentación existente y guardar un resumen conclusivo (observaciones, vulnerabilidades, recomendaciones) en un archivo `.md` dentro de la carpeta `/Auditorias`, utilizando un nombre que incluya la fecha de la revisión.
