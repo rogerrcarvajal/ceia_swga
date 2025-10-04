@@ -56,3 +56,9 @@ Esta funcionalidad permite vincular a un estudiante con un período escolar acti
 
 *   **Página**: `pages/registro_vehiculos.php`
 *   **Propósito**: Aunque es una entidad separada, se gestiona desde el menú de estudiantes, ya que los vehículos están directamente relacionados con ellos. Esta sección permite registrar los vehículos autorizados para recoger a un estudiante.
+
+### e. Gestión de Autorización de Salida de Estudiantes
+
+*   **Páginas**: `pages/planilla_salida.php`, `pages/gestion_planilla_salida.php`
+*   **Propósito**: Permite registrar y controlar las salidas tempranas de los estudiantes, generando un comprobante en PDF y permitiendo la consulta de historiales por semana.
+*   **Documentación Detallada**: Para un análisis completo de su funcionamiento, consulte el documento [Autorización de salida de estudiantes.md](./Autorizacion%20de%20salida%20de%20estudiantes.md).

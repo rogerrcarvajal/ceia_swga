@@ -1,9 +1,15 @@
 <?php
 // api/consultar_salidas.php
-
+session_start();
 require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
 date_default_timezone_set('America/Caracas');
+
+// Validar rol de usuario
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['admin', 'master', 'consulta'])) {
+    echo json_encode(['status' => 'error', 'mensaje' => 'Acceso denegado.']);
+    exit();
+}
 
 $response = ['status' => 'error', 'mensaje' => 'Petición inválida'];
 

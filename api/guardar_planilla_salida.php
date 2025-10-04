@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . '/../src/config.php';
 header('Content-Type: application/json');
 date_default_timezone_set('America/Caracas');

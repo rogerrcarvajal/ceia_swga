@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const result = await response.json();
 
                 if (result.success) {
-                    window.location.href = `/ceia_swga/reports/generar_planilla_salida_pdf.php?id=${result.salida_id}`;
+                    window.location.href = `/ceia_swga/src/reports_generators/generar_pdf_salida.php?id=${result.salida_id}`;
                 } else {
                     displayMessage('Error: ' + (result.message || 'No se pudo procesar la solicitud.'), 'error');
                 }

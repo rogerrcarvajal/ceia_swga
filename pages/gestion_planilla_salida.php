@@ -111,7 +111,7 @@ if ($periodo_activo) {
                 return;
             }
             // Se asume la existencia de un script generador de reportes
-            window.open(`/ceia_swga/reports/generar_reporte_salidas.php?semana=${semana}&estudiante_id=${estudianteId}`, '_blank');
+            window.open(`/ceia_swga/src/reports_generators/generar_reporte_salidas.php?semana=${semana}&estudiante_id=${estudianteId}`, '_blank');
         });
     </script>
 </body>
