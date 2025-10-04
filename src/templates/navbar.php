@@ -4,7 +4,7 @@
     <div class="navbar-links" id="navLinks">
         <a href="/ceia_swga/pages/dashboard.php">🏠 Home</a>
         <a href="/ceia_swga/pages/menu_estudiantes.php">📊 Estudiantes</a>
-        <a href="/ceia_swga/pages/profesores_registro.php">Staff</a>
+        <a href="/ceia_swga/pages/menu_staff.php">Staff</a>
         <a href="/ceia_swga/pages/menu_latepass.php">Late-Pass</a>
         <a href="/ceia_swga/pages/menu_reportes.php">📊 Reportes</a>
         <a href="/ceia_swga/pages/menu_mantto.php">Mantenimiento</a>
