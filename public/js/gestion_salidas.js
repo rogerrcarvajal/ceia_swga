@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 submitButton.textContent = 'Generando PDF...';
                 alert('Autorización guardada con éxito. Ahora se generará el PDF.');
                 
-                const pdfUrl = `/ceia_swga/api/generar_planilla_pdf.php?salida_id=${result.salida_id}`;
+                                const pdfUrl = `/ceia_swga/src/reports_generators/generar_plantilla_salida_pdf.php?id=${result.salida_id}`;
                 window.open(pdfUrl, '_blank');
 
             } else {
