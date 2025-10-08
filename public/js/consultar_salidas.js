@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>';
 
         try {
-            const response = await fetch(`/ceia_swga/api/consultar_salidas.php?semana=${semana}&estudiante_id=${estudianteId}`);
+            const response = await fetch(`/ceia_swga/api/consultar_salidas.php?semana=${semana}&estudiante_id=${estudianteId}&_=${new Date().getTime()}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }

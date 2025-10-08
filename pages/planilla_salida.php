@@ -87,7 +87,7 @@ $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
 
                     <div class="campo">
                         <label for="estudiante_id">Estudiante:</label>
-                        <select id="estudiante_id" name="estudiante_id" required>
+                        <select id="estudiante_id" name="estudiante_id" required >
                             <option value="">-- Seleccione un estudiante --</option>
                         </select>
                     </div>
@@ -95,20 +95,20 @@ $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
                     <div class="campo-inline">
                         <div class="campo">
                             <label for="fecha_salida">Fecha de Salida:</label>
-                            <input type="date" id="fecha_salida" name="fecha_salida" required>
+                            <input type="date" id="fecha_salida" name="fecha_salida" required >
                         </div>
                         <div class="campo">
                             <label for="hora_salida">Hora de Salida:</label>
-                            <input type="time" id="hora_salida" name="hora_salida" required>
+                            <input type="time" id="hora_salida" name="hora_salida" required >
                         </div>
                     </div>
 
                     <div class="campo">
                         <label>Autorizado para Retirar:</label>
                         <div class="radio-group">
-                            <label><input type="radio" name="autorizado_por" value="padre" id="radio_padre" disabled> Padre</label>
-                            <label><input type="radio" name="autorizado_por" value="madre" id="radio_madre" disabled> Madre</label>
-                            <label><input type="radio" name="autorizado_por" value="otro" id="radio_otro" disabled> Otro</label>
+                            <label><input type="radio" name="autorizado_por" value="padre" id="radio_padre" disabled >Padre</label>
+                            <label><input type="radio" name="autorizado_por" value="madre" id="radio_madre" disabled >Madre</label>
+                            <label><input type="radio" name="autorizado_por" value="otro" id="radio_otro" disabled >Otro</label>
                         </div>
                     </div>
 
@@ -130,18 +130,18 @@ $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
                     <div id="otro_autorizado_info" class="autorizado-info" style="display:none;">
                         <div class="campo">
                             <label for="retirado_por_nombre">Retirado por:</label>
-                            <input type="text" id="retirado_por_nombre" name="retirado_por_nombre" placeholder="Nombre completo de quien retira">
+                            <input type="text" id="retirado_por_nombre" name="retirado_por_nombre" placeholder="Nombre completo de quien retira" >
                         </div>
                         <div class="campo">
                             <label for="retirado_por_parentesco">Parentesco:</label>
-                            <input type="text" id="retirado_por_parentesco" name="retirado_por_parentesco" placeholder="Ej: Tío, Abuela, etc.">
+                            <input type="text" id="retirado_por_parentesco" name="retirado_por_parentesco" placeholder="Ej: Tío, Abuela, etc." >
                         </div>
                     </div>
 
                     <div class="campo">
                         <br>
                         <label for="motivo">Motivo de la Salida:</label>
-                        <textarea id="motivo" name="motivo" rows="3" placeholder="Especifique el motivo de la salida..."></textarea>
+                        <textarea id="motivo" name="motivo" rows="3" placeholder="Especifique el motivo de la salida..." ></textarea>
                     </div>
 
                 </fieldset>

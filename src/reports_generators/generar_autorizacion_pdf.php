@@ -43,9 +43,9 @@ class PDF extends FPDF
     function Header()
     {
         $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 8, 20);
-        $this->SetFont('Arial', 'B', 10);
+        $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 8, utf8_decode('Planilla de Autorización de Salida de Estudiantes'), 0, 1, 'C');
-        $this->SetFont('Arial', 'B', 8);
+        $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 5, utf8_decode('Período Escolar: ' . $this->periodo_activo), 0, 1, 'C');
         $this->Ln(5);
     }
@@ -60,56 +60,56 @@ class PDF extends FPDF
 }
 
 // 4. Crear instancia de PDF y generar contenido
-// Media página carta: 139.7mm de ancho x 215.9mm de alto
-$pdf = new PDF('P', 'mm', array(139.7, 215.9));
+// Tamaño carta
+$pdf = new PDF('P', 'mm', 'Letter');
 $pdf->setPeriodoActivo($nombre_periodo);
 $pdf->AddPage();
 $pdf->SetFont('Arial', '', 9);
 
 // --- Contenido de la Planilla ---
 
-$pdf->SetFont('Arial', 'B', 8);
-$pdf->Cell(30, 15, 'Estudiante:', 0);
-$pdf->SetFont('Arial', '', 8);
-$pdf->MultiCell(0, 15, utf8_decode($data['apellido_completo'] . ', ' . $data['nombre_completo']), 0, 'L');
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 10);
+$pdf->Cell(30, 20, 'Estudiante:', 0);
+$pdf->SetFont('Arial', '', 10);
+$pdf->MultiCell(0, 20, utf8_decode($data['apellido_completo'] . ', ' . $data['nombre_completo']), 0, 'L');
+$pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(30, 1, 'Grado:', 0);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 0, utf8_decode($data['grado']), 0, 0, 'L');
 $pdf->Ln(5);
 
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(30, 7, 'Retirado por:', 0);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Arial', '', 10);
 $pdf->MultiCell(0, 5, utf8_decode($data['retirado_por_nombre']), 0, 'L');
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(30, 7, 'Parentesco:', 0);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 5, utf8_decode($data['retirado_por_parentesco']), 0, 1);
 $pdf->Ln(4);
 
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(0, 7, 'Motivo de la Salida:', 0, 1);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Arial', '', 10);
 $pdf->MultiCell(0, 5, utf8_decode($data['motivo']), 0, 'L');
 $pdf->Ln(4);
 
 // Fecha y Hora de salida movidas aquí
-$pdf->SetFont('Arial', 'B', 8);
+$pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(30, 7, 'Fecha y Hora:', 0);
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 7, date("d/m/Y", strtotime($data['fecha_salida'])) . '  -  ' . date("g:i A", strtotime($data['hora_salida'])), 0, 1);
-$pdf->Ln(8);
+$pdf->Ln(10);
 
 // --- Firmas 0---
-$pdf->SetFont('Arial', '', 8);
+$pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 7, '___________________________', 0, 1, 'L') . '    ' . $pdf->Cell(0, 0, '___________________________', 0, 1, 'R');
 $pdf->Cell(0, 5, utf8_decode('Firma del Representante que Retira'), 0, 1, 'L') . '    ' . $pdf->Cell(0, 3, utf8_decode('Firma del Personal Autorizado (CEIA)'), 0, 1, 'R');
-$pdf->Ln(7);
+$pdf->Ln(6);
 
 // --- Imagen de pie de página ---
 $pageWidth = $pdf->GetPageWidth();
-$imageWidth = 50; // Ancho deseado para la imagen
+$imageWidth = 100; // Ancho deseado para la imagen
 $x = ($pageWidth - $imageWidth) / 2;
 $pdf->Image(__DIR__.'/../../public/img/pie_pag.png', $x, $pdf->GetY(), $imageWidth);
 
