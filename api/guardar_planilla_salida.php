@@ -1,11 +1,9 @@
 <?php
 session_start();
 require_once __DIR__ . '/../src/config.php';
+
 header('Content-Type: application/json');
 date_default_timezone_set('America/Caracas');
-
-// Leer el cuerpo de la solicitud
-$input = json_decode(file_get_contents('php://input'), true);
 
 // Validar rol de usuario
 if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['admin', 'master'])) {
@@ -15,38 +13,38 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
 }
 
 try {
-    // Recoger datos comunes
-    $estudiante_id = $input['estudiante_id'] ?? null;
-    $fecha_salida = $input['fecha_salida'] ?? null;
-    $hora_salida = $input['hora_salida'] ?? null;
-    $motivo = htmlspecialchars($input['motivo'] ?? '', ENT_QUOTES, 'UTF-8');
+    // Recoger datos del formulario vía POST
+    $estudiante_id = $_POST['estudiante_id'] ?? null;
+    $fecha_salida = $_POST['fecha_salida'] ?? null;
+    $hora_salida = $_POST['hora_salida'] ?? null;
+    $motivo = htmlspecialchars($_POST['motivo'] ?? '', ENT_QUOTES, 'UTF-8');
     $registrado_por_usuario_id = $_SESSION['usuario']['id'] ?? null;
-    $autorizado_por = $input['autorizado_por'] ?? null;
+    $autorizado_por = $_POST['autorizado_por'] ?? null;
 
     $retirado_por_nombre = null;
     $retirado_por_parentesco = null;
 
     if ($autorizado_por === 'padre') {
-        $padre_id = $input['padre_id'] ?? null;
+        $padre_id = $_POST['padre_id'] ?? null;
         if (!$padre_id) throw new Exception('ID del padre no proporcionado.');
-        $stmt = $conn->prepare("SELECT nombre_completo FROM padres WHERE padre_id = :id");
+        $stmt = $conn->prepare("SELECT padre_nombre, padre_apellido FROM padres WHERE padre_id = :id");
         $stmt->execute(['id' => $padre_id]);
-        $representante = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$representante) throw new Exception('Padre no encontrado.');
-        $retirado_por_nombre = $representante['nombre_completo'];
+        $padre = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$padre) throw new Exception('Padre no encontrado.');
+        $retirado_por_nombre = $padre['padre_nombre'] . ' ' . $padre['padre_apellido'];
         $retirado_por_parentesco = 'Padre';
     } elseif ($autorizado_por === 'madre') {
-        $madre_id = $input['madre_id'] ?? null;
+        $madre_id = $_POST['madre_id'] ?? null;
         if (!$madre_id) throw new Exception('ID de la madre no proporcionado.');
-        $stmt = $conn->prepare("SELECT nombre_completo FROM madres WHERE madre_id = :id");
+        $stmt = $conn->prepare("SELECT madre_nombre, madre_apellido FROM madres WHERE madre_id = :id");
         $stmt->execute(['id' => $madre_id]);
-        $representante = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!$representante) throw new Exception('Madre no encontrada.');
-        $retirado_por_nombre = $representante['nombre_completo'];
+        $madre = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$madre) throw new Exception('Madre no encontrada.');
+        $retirado_por_nombre = $madre['madre_nombre'] . ' ' . $madre['madre_apellido'];
         $retirado_por_parentesco = 'Madre';
     } elseif ($autorizado_por === 'otro') {
-        $retirado_por_nombre = htmlspecialchars($input['retirado_por_nombre'] ?? null, ENT_QUOTES, 'UTF-8');
-        $retirado_por_parentesco = htmlspecialchars($input['retirado_por_parentesco'] ?? null, ENT_QUOTES, 'UTF-8');
+        $retirado_por_nombre = htmlspecialchars($_POST['retirado_por_nombre'] ?? null, ENT_QUOTES, 'UTF-8');
+        $retirado_por_parentesco = htmlspecialchars($_POST['retirado_por_parentesco'] ?? null, ENT_QUOTES, 'UTF-8');
     } else {
         throw new Exception('Debe seleccionar un tipo de persona autorizada.');
     }

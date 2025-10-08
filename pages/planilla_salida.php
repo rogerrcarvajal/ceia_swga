@@ -2,7 +2,7 @@
 session_start();
 // Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header(header: "Location: /ceia_swga/public/index.php");
+    header("Location: /ceia_swga/public/index.php");
     exit();
 }
 
@@ -14,7 +14,7 @@ $mensaje = "";
 
 // Roles permitidos
 if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master'])) {
-    $_SESSION['error_acceso'] = "Acceso deneg ado. Solo usuarios autorizados tienen acceso a éste módulo.";
+    $_SESSION['error_acceso'] = "Acceso denegado. Solo usuarios autorizados tienen acceso a éste módulo.";
     header("Location: /ceia_swga/pages/dashboard.php");
     exit();
 }
@@ -22,20 +22,6 @@ if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master'])) {
 // Obtener el período escolar activo
 $periodoActivo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolares WHERE activo = TRUE LIMIT 1")->fetch(PDO::FETCH_ASSOC);
 $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
-
-$estudiantes = [];
-if ($periodoActivoId) {
-    // Obtener estudiantes asignados al período activo
-    $stmt = $conn->prepare(
-        "SELECT e.id, e.nombre_completo, e.apellido_completo
-         FROM estudiantes e
-         JOIN estudiante_periodo ep ON e.id = ep.estudiante_id
-         WHERE ep.periodo_id = :periodo_id ORDER BY e.apellido_completo, e.nombre_completo"
-    );
-    $stmt->execute([':periodo_id' => $periodoActivoId]);
-    $estudiantes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -68,6 +54,12 @@ if ($periodoActivoId) {
        .alerta { text-align: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
        .alerta.error { background-color: #dc3545; color: white; }
        .alerta.success { background-color: #28a745; color: white; }
+       .campo-inline { display: flex; align-items: center; gap: 20px; }
+       .campo-inline .campo { flex: 1; }
+       .radio-group { display: flex; gap: 20px; align-items: center; }
+       .radio-group label { display: flex; align-items: center; gap: 5px; }
+       .autorizado-info { padding: 10px; border: 1px dashed rgba(255,255,255,0.5); border-radius: 5px; margin-top: 10px; }
+       .campo select option { color: black; }
     </style>
 </head>
 <body>
@@ -77,6 +69,7 @@ if ($periodoActivoId) {
         <h1>Gestión de Autorización de Salida de Estudiantes</h1>
         <?php if ($periodoActivo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodoActivo['nombre_periodo']) ?></h3>
+            <input type="hidden" id="periodo_activo_id" value="<?= htmlspecialchars($periodoActivoId) ?>">
         <?php else: ?>
             <h3 style="color: #ffc107;">No hay período escolar activo.</h3>
         <?php endif; ?>
@@ -87,33 +80,27 @@ if ($periodoActivoId) {
 
         <?php if (!$periodoActivo): ?>
             <p class="alerta error">No se pueden generar autorizaciones porque no hay un período escolar activo.</p>
-        <?php elseif (empty($estudiantes)): ?>
-            <p class="alerta">No hay estudiantes asignados al período escolar activo.</p>
         <?php else: ?>
             <form id="form-salida">
                 <fieldset>
                     <legend>Información de la Salida</legend>
 
                     <div class="campo">
-                        <label for="estudiante_search">Estudiante:</label>
-                        <input type="text" id="estudiante_search" list="estudiantes_datalist" placeholder="Escriba para buscar un estudiante..." required>
-                        <datalist id="estudiantes_datalist">
-                            <?php foreach ($estudiantes as $estudiante): ?>
-                                <option data-value="<?= htmlspecialchars($estudiante['id']) ?>" value="<?= htmlspecialchars($estudiante['apellido_completo'] . ', ' . $estudiante['nombre_completo']) ?>">
-                                </option>
-                            <?php endforeach; ?>
-                        </datalist>
-                        <input type="hidden" id="estudiante_id" name="estudiante_id">
+                        <label for="estudiante_id">Estudiante:</label>
+                        <select id="estudiante_id" name="estudiante_id" required>
+                            <option value="">-- Seleccione un estudiante --</option>
+                        </select>
                     </div>
 
-                    <div class="campo">
-                        <label for="fecha_salida">Fecha de Salida:</label>
-                        <input type="date" id="fecha_salida" name="fecha_salida" required>
-                    </div>
-
-                    <div class="campo">
-                        <label for="hora_salida">Hora de Salida:</label>
-                        <input type="time" id="hora_salida" name="hora_salida" required>
+                    <div class="campo-inline">
+                        <div class="campo">
+                            <label for="fecha_salida">Fecha de Salida:</label>
+                            <input type="date" id="fecha_salida" name="fecha_salida" required>
+                        </div>
+                        <div class="campo">
+                            <label for="hora_salida">Hora de Salida:</label>
+                            <input type="time" id="hora_salida" name="hora_salida" required>
+                        </div>
                     </div>
 
                     <div class="campo">
@@ -121,19 +108,21 @@ if ($periodoActivoId) {
                         <div class="radio-group">
                             <label><input type="radio" name="autorizado_por" value="padre" id="radio_padre" disabled> Padre</label>
                             <label><input type="radio" name="autorizado_por" value="madre" id="radio_madre" disabled> Madre</label>
-                            <label><input type="radio" name="autorizado_por" value="otro" id="radio_otro"> Otro</label>
+                            <label><input type="radio" name="autorizado_por" value="otro" id="radio_otro" disabled> Otro</label>
                         </div>
                     </div>
 
                     <!-- Contenedor para la información del Padre -->
                     <div id="padre_info" class="autorizado-info" style="display:none;">
                         <p><strong>Padre:</strong> <span id="padre_nombre"></span></p>
+                        <p><strong>Cédula:</strong> <span id="padre_cedula_pasaporte"></span></p>
                         <input type="hidden" id="padre_id" name="padre_id">
                     </div>
 
                     <!-- Contenedor para la información de la Madre -->
                     <div id="madre_info" class="autorizado-info" style="display:none;">
                         <p><strong>Madre:</strong> <span id="madre_nombre"></span></p>
+                        <p><strong>Cédula:</strong> <span id="madre_cedula_pasaporte"></span></p>
                         <input type="hidden" id="madre_id" name="madre_id">
                     </div>
 
@@ -150,6 +139,7 @@ if ($periodoActivoId) {
                     </div>
 
                     <div class="campo">
+                        <br>
                         <label for="motivo">Motivo de la Salida:</label>
                         <textarea id="motivo" name="motivo" rows="3" placeholder="Especifique el motivo de la salida..."></textarea>
                     </div>
@@ -157,13 +147,15 @@ if ($periodoActivoId) {
                 </fieldset>
 
                 <div class="acciones">
-                    <button type="submit" class="boton">Guardar y Generar PDF</button>
+                    <button type="submit" id="btn-guardar" class="boton">Guardar Autorización</button>
+                    <button type="button" id="btn-generar-pdf" class="boton" disabled>Generar PDF</button>
                     <a href="/ceia_swga/pages/gestion_planilla_salida.php" class="boton-secundario">Gestionar Salidas</a>
                 </div>
+                <input type="hidden" id="salida_id_guardada">
             </form>
         <?php endif; ?>
     </main>
 
-    <script src="/ceia_swga/public/js/gestion_salidas.js" defer></script>
+    <script src="/ceia_swga/public/js/gestion_salidas.js"></script>
 </body>
 </html>

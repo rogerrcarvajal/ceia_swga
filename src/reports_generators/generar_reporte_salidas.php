@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../config.php';
-require_once __DIR__ . '/../lib/fpdf/fpdf.php';
+require_once __DIR__ . '/../lib/fpdf.php';
 
 class PDF extends FPDF
 {
@@ -12,7 +12,7 @@ class PDF extends FPDF
 
     function Header()
     {
-        $this->Image(__DIR__.'/../../public/img/logo.png', 10, 8, 20);
+        $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 8, 20);
         $this->SetFont('Arial', 'B', 13);
         $this->Cell(80);
         $this->Cell(30, 10, utf8_decode('Reporte de Salidas de Estudiantes'), 0, 0, 'C');

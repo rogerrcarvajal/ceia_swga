@@ -1,163 +1,145 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // --- Elementos del DOM ---
-    const form = document.getElementById('form-salida');
-    const studentSearchInput = document.getElementById('estudiante_search');
-    const studentIdInput = document.getElementById('estudiante_id');
-    const datalist = document.getElementById('estudiantes_datalist');
-    const submitButton = form.querySelector('button[type="submit"]');
-
-    // Radios y contenedores de información
-    const radioPadre = document.getElementById('radio_padre');
-    const radioMadre = document.getElementById('radio_madre');
-    const radioOtro = document.getElementById('radio_otro');
-    const radios = [radioPadre, radioMadre, radioOtro];
-
-    const padreInfo = document.getElementById('padre_info');
-    const madreInfo = document.getElementById('madre_info');
-    const otroInfo = document.getElementById('otro_autorizado_info');
-
-    const padreNombreSpan = document.getElementById('padre_nombre');
-    const madreNombreSpan = document.getElementById('madre_nombre');
-    const padreIdInput = document.getElementById('padre_id');
-    const madreIdInput = document.getElementById('madre_id');
-
+document.addEventListener('DOMContentLoaded', function() {
+    const periodoActivoId = document.getElementById('periodo_activo_id')?.value;
+    const estudianteSelect = document.getElementById('estudiante_id');
     const fechaSalidaInput = document.getElementById('fecha_salida');
     const horaSalidaInput = document.getElementById('hora_salida');
 
-    // --- 1. Lógica de selección de estudiante ---
-    studentSearchInput.addEventListener('input', function() {
-        // Limpiar todo al empezar a escribir
-        resetAutorizadoFields();
-        studentIdInput.value = '';
+    const radioPadre = document.getElementById('radio_padre');
+    const radioMadre = document.getElementById('radio_madre');
+    const radioOtro = document.getElementById('radio_otro');
 
-        const selectedOption = Array.from(datalist.options).find(option => option.value === studentSearchInput.value);
-        if (selectedOption) {
-            const studentId = selectedOption.getAttribute('data-value');
-            studentIdInput.value = studentId;
-            fetchRepresentantes(studentId);
-        } 
-    });
+    const padreInfoDiv = document.getElementById('padre_info');
+    const madreInfoDiv = document.getElementById('madre_info');
+    const otroAutorizadoInfoDiv = document.getElementById('otro_autorizado_info');
 
-    function resetAutorizadoFields() {
-        radios.forEach(radio => {
-            radio.checked = false;
-            if(radio.id !== 'radio_otro') radio.disabled = true;
-        });
-        padreInfo.style.display = 'none';
-        madreInfo.style.display = 'none';
-        otroInfo.style.display = 'none';
-        padreNombreSpan.textContent = '';
-        madreNombreSpan.textContent = '';
-        padreIdInput.value = '';
-        madreIdInput.value = '';
-    }
+    const btnGuardar = document.getElementById('btn-guardar');
+    const btnGenerarPdf = document.getElementById('btn-generar-pdf');
+    const salidaIdGuardadaInput = document.getElementById('salida_id_guardada');
 
-    // --- 2. Lógica para obtener representantes ---
-    function fetchRepresentantes(studentId) {
-        if (!studentId) return;
+    // Set current date and time
+    const now = new Date();
+    const today = now.toISOString().split('T')[0];
+    const currentTime = now.toTimeString().split(' ')[0].substring(0, 5);
+    fechaSalidaInput.value = today;
+    horaSalidaInput.value = currentTime;
 
-        fetch(`/ceia_swga/api/buscar_representante.php?estudiante_id=${studentId}`)
+    // Fetch students if a period is active
+    if (periodoActivoId && estudianteSelect) {
+        fetch(`../api/obtener_estudiantes_por_periodo.php?periodo_id=${periodoActivoId}`)
             .then(response => response.json())
             .then(data => {
-                if (data.padre && data.padre.id && data.padre.nombre_completo) {
-                    padreNombreSpan.textContent = data.padre.nombre_completo;
-                    padreIdInput.value = data.padre.id;
-                    radioPadre.disabled = false;
+                if (data.length > 0) {
+                    data.forEach(estudiante => {
+                        const option = document.createElement('option');
+                        option.value = estudiante.id;
+                        option.textContent = `${estudiante.nombre_completo} ${estudiante.apellido_completo}`;
+                        estudianteSelect.appendChild(option);
+                    });
                 } else {
-                    padreNombreSpan.textContent = 'No registrado';
-                }
-
-                if (data.madre && data.madre.id && data.madre.nombre_completo) {
-                    madreNombreSpan.textContent = data.madre.nombre_completo;
-                    madreIdInput.value = data.madre.id;
-                    radioMadre.disabled = false;
-                } else {
-                    madreNombreSpan.textContent = 'No registrada';
+                    const option = document.createElement('option');
+                    option.textContent = 'No hay estudiantes asignados a este período';
+                    option.disabled = true;
+                    estudianteSelect.appendChild(option);
                 }
             })
-            .catch(error => {
-                console.error('Error al buscar representantes:', error);
-                padreNombreSpan.textContent = 'Error al cargar';
-                madreNombreSpan.textContent = 'Error al cargar';
-            });
+            .catch(error => console.error('Error al cargar estudiantes:', error));
     }
 
-    // --- 3. Lógica de visibilidad de secciones del autorizado ---
-    radios.forEach(radio => {
-        radio.addEventListener('change', function() {
-            padreInfo.style.display = radioPadre.checked ? 'block' : 'none';
-            madreInfo.style.display = radioMadre.checked ? 'block' : 'none';
-            otroInfo.style.display = radioOtro.checked ? 'block' : 'none';
+    // Event listener for student selection
+    estudianteSelect.addEventListener('change', function() {
+        const studentId = this.value;
+        // Reset and disable radios and hide info divs
+        [radioPadre, radioMadre, radioOtro].forEach(radio => {
+            radio.checked = false;
+            radio.disabled = !studentId;
         });
+        [padreInfoDiv, madreInfoDiv, otroAutorizadoInfoDiv].forEach(div => div.style.display = 'none');
+        // Disable PDF button when student changes
+        btnGenerarPdf.disabled = true;
+        salidaIdGuardadaInput.value = '';
     });
 
-    // --- 4. Lógica para la fecha y hora automáticas ---
-    function actualizarFechaHora() {
-        const ahora = new Date();
-        const anio = ahora.getFullYear();
-        const mes = (ahora.getMonth() + 1).toString().padStart(2, '0');
-        const dia = ahora.getDate().toString().padStart(2, '0');
-        const horas = ahora.getHours().toString().padStart(2, '0');
-        const minutos = ahora.getMinutes().toString().padStart(2, '0');
+    // Event listener for authorized person radio buttons
+    document.querySelectorAll('input[name="autorizado_por"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const studentId = estudianteSelect.value;
+            if (!studentId) return;
 
-        if (!fechaSalidaInput.value) fechaSalidaInput.value = `${anio}-${mes}-${dia}`;
-        if (!horaSalidaInput.value) horaSalidaInput.value = `${horas}:${minutos}`;
-    }
-    actualizarFechaHora();
+            [padreInfoDiv, madreInfoDiv, otroAutorizadoInfoDiv].forEach(div => div.style.display = 'none');
 
-    // --- 5. Lógica de envío de formulario ---
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        if (!studentIdInput.value) {
+            if (this.value === 'padre') {
+                fetch(`../api/obtener_padre.php?estudiante_id=${studentId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && !data.error) {
+                            document.getElementById('padre_nombre').textContent = `${data.padre_nombre} ${data.padre_apellido}`;
+                            document.getElementById('padre_cedula_pasaporte').textContent = data.padre_cedula_pasaporte;
+                            document.getElementById('padre_id').value = data.padre_id;
+                            padreInfoDiv.style.display = 'block';
+                        } else {
+                            alert('No se encontró información del padre para este estudiante.');
+                        }
+                    });
+            } else if (this.value === 'madre') {
+                fetch(`../api/obtener_madre.php?estudiante_id=${studentId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data && !data.error) {
+                            document.getElementById('madre_nombre').textContent = `${data.madre_nombre} ${data.madre_apellido}`;
+                            document.getElementById('madre_cedula_pasaporte').textContent = data.madre_cedula_pasaporte;
+                            document.getElementById('madre_id').value = data.madre_id;
+                            madreInfoDiv.style.display = 'block';
+                        } else {
+                            alert('No se encontró información de la madre para este estudiante.');
+                        }
+                    });
+            } else if (this.value === 'otro') {
+                otroAutorizadoInfoDiv.style.display = 'block';
+            }
+        });
+    });
+    
+    // Form submission for saving authorization
+    document.getElementById('form-salida').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        const estudianteId = formData.get('estudiante_id');
+        if (!estudianteId) {
             alert('Por favor, seleccione un estudiante.');
             return;
         }
 
-        if (!radioPadre.checked && !radioMadre.checked && !radioOtro.checked) {
-            alert('Por favor, seleccione una persona autorizada para retirar.');
-            return;
-        }
-
-        const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
-        guardarYGenerarPdf(data);
-    });
-
-    function guardarYGenerarPdf(data) {
-        submitButton.textContent = 'Guardando...';
-        submitButton.disabled = true;
-
-        fetch('/ceia_swga/api/guardar_planilla_salida.php', {
+        fetch('../api/guardar_planilla_salida.php', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+            body: formData
         })
         .then(response => response.json())
-        .then(result => {
-            if (result.success && result.salida_id) {
-                submitButton.textContent = 'Generando PDF...';
-                alert('Autorización guardada con éxito. Ahora se generará el PDF.');
-                
-                const pdfUrl = `/ceia_swga/api/generar_planilla_pdf.php?salida_id=${result.salida_id}`;
-                window.open(pdfUrl, '_blank');
-
+        .then(data => {
+            if(data.success && data.salida_id) {
+                salidaIdGuardadaInput.value = data.salida_id;
+                btnGenerarPdf.disabled = false;
+                alert('Autorización guardada exitosamente. Ahora puede generar el PDF.');
             } else {
-                throw new Error(result.message || 'No se pudo guardar la autorización.');
+                alert('Error al guardar la autorización: ' + (data.message || 'Error desconocido.'));
             }
         })
         .catch(error => {
-            console.error('Error en el proceso:', error);
-            alert(`Hubo un error: ${error.message}`);
-        })
-        .finally(() => {
-            submitButton.textContent = 'Guardar y Generar PDF';
-            submitButton.disabled = false;
-            form.reset();
-            resetAutorizadoFields();
-            studentSearchInput.value = '';
-            actualizarFechaHora();
+            console.error('Error en la solicitud:', error);
+            alert('Ocurrió un error de comunicación con el servidor.');
         });
-    }
+    });
+
+    // PDF Generation
+    btnGenerarPdf.addEventListener('click', function() {
+        const salidaId = salidaIdGuardadaInput.value;
+        if (!salidaId) {
+            alert('Debe guardar la autorización antes de generar el PDF.');
+            return;
+        }
+        // Abre el PDF en una nueva pestaña.
+        // El script PHP se encarga de generar el PDF y mostrarlo.
+        const url = `../src/reports_generators/generar_autorizacion_pdf.php?id=${salidaId}`;
+        window.open(url, '_blank');
+    });
 });

@@ -55,11 +55,11 @@ if ($periodo_activo) {
        .filtros-container input, .filtros-container select { padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
        .staff-table { width: 100%; border-collapse: collapse; }
        .staff-table th, .staff-table td { padding: 12px 15px; border: 1px solid rgba(255,255,255,0.2); text-align: left; }
-       .staff-table thead th { background-color: rgba(0,123,255,0.3); font-weight: bold; }
+       .staff-table thead th { background-color: rgba(0,0,0,0.3); }
        .staff-table tbody tr:nth-child(even) { background-color: rgba(255,255,255,0.05); }
-       .staff-table tbody tr:hover { background-color: rgba(0,123,255,0.2); }
-       .btn { display: inline-block; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; cursor: pointer; border: none; background-color: #007bff; margin-top: 20px; margin-right: 10px;}
-       .btn-pdf { background-color: #dc3545; }
+       .staff-table tbody tr:hover { background-color: rgba(0,0,0,0.3); }
+       .btn { display: inline-block; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; cursor: pointer; border: none; background-color: #6c757d; margin-top: 20px; margin-right: 10px;}
+       .btn-pdf { background-color: #6c757d; }
     </style>
 </head>
 <body>
