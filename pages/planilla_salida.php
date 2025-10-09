@@ -49,8 +49,8 @@ $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
        .campo input::placeholder, .campo textarea::placeholder { color: rgba(255,255,255,0.7); }
        .acciones { text-align: center; }
        .boton, .boton-secundario { display: inline-block; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; cursor: pointer; border: none; }
-       .boton { background-color: #6c757d; }
-       .boton-secundario { background-color: #6c757d; }
+       .boton { background-color: rgb(48, 48, 48); }
+       .boton-secundario { background-color: rgb(48, 48, 48); }
        .alerta { text-align: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
        .alerta.error { background-color: #dc3545; color: white; }
        .alerta.success { background-color: #28a745; color: white; }

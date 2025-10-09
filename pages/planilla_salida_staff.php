@@ -40,9 +40,9 @@ $categorias = $conn->query("SELECT DISTINCT categoria FROM profesores ORDER BY c
         .form-group input, .form-group select, .form-group textarea { padding: 10px; border-radius: 5px; border: 1px solid #ccc; background-color: rgba(255,255,255,0.9); color: #333; }
         .btn-container { grid-column: span 2; text-align: center; margin-top: 20px; }
         .btn { display: inline-block; padding: 10px 20px; border-radius: 5px; text-decoration: none; color: white; font-weight: bold; cursor: pointer; border: none; margin: 5px; }
-        .btn-primary { background-color: #007bff; }
-        .btn-secondary { background-color: #6c757d; }
-        .btn-pdf { background-color: #dc3545; }
+        .btn-primary { background-color: rgb(48, 48, 48); }
+        .btn-secondary { background-color: rgb(48, 48, 48); }
+        .btn-pdf { background-color: rgb(48, 48, 48); }
         .alert { padding: 1rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: .25rem; }
         .alert-success { color: #0f5132; background-color: #d1e7dd; border-color: #badbcc; }
         .alert-danger { color: #842029; background-color: #f8d7da; border-color: #f5c2c7; }
@@ -115,7 +115,7 @@ $categorias = $conn->query("SELECT DISTINCT categoria FROM profesores ORDER BY c
                 <div class="btn-container">
                     <button type="submit" id="btnGuardar" class="btn btn-primary">Guardar Autorización</button>
                     <button type="button" id="btnGenerarPDF" class="btn btn-pdf" disabled>📄 Generar PDF</button>
-                    <a href="/ceia_swga/pages/gestion_autorizacion_staff.php" class="btn btn-info">Consultar Autorizaciones</a>
+                    <a href="/ceia_swga/pages/gestion_autorizacion_staff.php" class="btn">Consultar Autorizaciones</a>
                     <a href="/ceia_swga/pages/menu_staff.php" class="btn btn-secondary">Volver</a>
                 </div>
             </div>
