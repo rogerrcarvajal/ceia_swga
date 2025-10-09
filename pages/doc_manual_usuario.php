@@ -82,6 +82,12 @@ if (!$periodo_activo) {
   <li><strong>Registrar Planilla de Inscripción</strong> (<code>planilla_inscripcion.php</code>): Se crean los nuevos estudiantes. El sistema permite buscar y vincular representantes (padres/madres) existentes para evitar duplicar información.</li>
   <li><strong>Gestionar Expedientes</strong> (<code>administrar_planilla_estudiantes.php</code>): Permite buscar a cualquier estudiante y modificar en detalle sus datos personales, la información de sus padres y su ficha médica a través de una interfaz dinámica.</li>
   <li><strong>Asignar a Período Escolar</strong> (<code>asignar_estudiante_periodo.php</code>): Vincula a un estudiante ya registrado con el período escolar activo y le asigna el grado que va a cursar. Este paso es crucial para que el estudiante aparezca en los rosters y reportes.</li>
+  <li><strong>Autorización de Salida de Estudiantes</strong>:
+      <ul>
+          <li><strong>Generar Planilla de Salida</strong> (<code>planilla_salida.php</code>): Permite registrar una nueva autorización de salida para un estudiante, especificando quién lo retira (padre, madre u otro) y el motivo. Una vez guardada, se puede generar un comprobante en PDF.</li>
+          <li><strong>Gestionar Planillas de Salida</strong> (<code>gestion_planilla_salida.php</code>): Ofrece una vista para buscar y consultar el historial de autorizaciones de salida, con filtros por semana y estudiante.</li>
+      </ul>
+  </li>
 </ol>
 <hr>
 <h2>Módulo Staff</h2>
@@ -89,6 +95,12 @@ if (!$periodo_activo) {
 <ol>
   <li><strong>Registrar y Gestionar Personal</strong> (<code>profesores_registro.php</code>): Esta pantalla central permite registrar nuevos miembros del personal y muestra una lista de todos los existentes.</li>
   <li><strong>Asignar a Período y Editar</strong> (<code>gestionar_profesor.php</code>): Desde la lista anterior, se puede acceder a esta pantalla para editar los datos de un miembro del personal y, fundamentalmente, para asignarlo a un puesto y al período escolar activo.</li>
+  <li><strong>Autorización de Salida de Personal</strong>:
+      <ul>
+          <li><strong>Generar Planilla de Salida</strong> (<code>planilla_salida_staff.php</code>): Permite registrar un permiso de salida para un miembro del personal, detallando el motivo, fecha, hora y duración. Al guardar, se puede generar el PDF del permiso.</li>
+          <li><strong>Gestionar Autorizaciones de Salida</strong> (<code>gestion_autorizacion_staff.php</code>): Permite consultar el historial de permisos de salida del personal, con filtros por semana, categoría y empleado.</li>
+      </ul>
+  </li>
 </ol>
 <hr>
 <h2>Módulo Late-Pass y Control de Acceso</h2>
