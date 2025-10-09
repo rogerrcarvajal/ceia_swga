@@ -45,7 +45,7 @@ class PDF extends FPDF
         $this->Ln(5);
         $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 13, 25);
         $this->SetFont('Arial', 'B', 15);
-        $this->Cell(0, 8, utf8_decode('Planilla de Autorización de Salida de Estudiantes'), 0, 1, 'C');
+        $this->Cell(0, 8, utf8_decode('Planilla de Autorización de Salida de Personal/Staff'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
         $this->Cell(0, 5, utf8_decode('Período Escolar: ' . $this->periodo_activo), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 12);
