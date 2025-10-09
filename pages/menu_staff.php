@@ -63,6 +63,13 @@ if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol']
                 </li>
 
                 <li>
+                    <a href="/ceia_swga/pages/planilla_salida_staff.php">
+                        <span class="icono-reporte">📝</span> Gestión de Autorización de Salida de Personal
+                    </a>
+                    <p>Permite registrar y consultar las autorizaciones de salida para el personal.</p>
+                </li>
+
+                <li>
                     <a data-bs-toggle="collapse" href="#collapseMisc" role="button" aria-expanded="false" aria-controls="collapseMisc">
                         <span class="icono-reporte">🔗</span> Misceláneos
                     </a>
