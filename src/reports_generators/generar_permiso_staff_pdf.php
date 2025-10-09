@@ -62,7 +62,7 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->SetFont('Arial', 'B', 10);
 $pdf->Cell(40, 7, utf8_decode('Fecha de Solicitud:'));
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(0, 7, date("d/m/Y", strtotime($data['fecha_solicitud'])), 0, 1);
+$pdf->Cell(0, 7, date("d/m/Y", strtotime($data['fecha_permiso'])), 0, 1);
 
 // Nombre y Apellido
 $pdf->SetFont('Arial', 'B', 10);

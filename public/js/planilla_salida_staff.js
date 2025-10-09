@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         btnGuardar.textContent = 'Guardando...';
 
         try {
-            const response = await fetch(form.action, {
+            const response = await fetch('../api/guardar_autorizacion_staff.php', {
                 method: 'POST',
                 body: formData
             });

@@ -101,10 +101,21 @@ $pdf->SetFont('Arial', '', 10);
 $pdf->Cell(0, 7, date("d/m/Y", strtotime($data['fecha_salida'])) . '  -  ' . date("g:i A", strtotime($data['hora_salida'])), 0, 1);
 $pdf->Ln(10);
 
-// --- Firmas 0---
+// --- Firmas ---
 $pdf->SetFont('Arial', '', 10);
-$pdf->Cell(0, 7, '___________________________', 0, 1, 'L') . '    ' . $pdf->Cell(0, 0, '___________________________', 0, 1, 'R');
-$pdf->Cell(0, 5, utf8_decode('Firma del Representante que Retira'), 0, 1, 'L') . '    ' . $pdf->Cell(0, 3, utf8_decode('Firma del Personal Autorizado (CEIA)'), 0, 1, 'R');
+
+// Líneas de firma
+$line_width = 80; // Ancho de la línea de firma
+$y_position = $pdf->GetY();
+$pdf->Cell($line_width, 7, '___________________________', 0, 0, 'L');
+$pdf->SetX($pdf->GetPageWidth() - $line_width - 10); // Posicionar para la segunda firma
+$pdf->Cell($line_width, 7, '___________________________', 0, 1, 'R');
+
+// Textos de firma
+$pdf->SetFont('Arial', '', 8);
+$pdf->Cell($line_width, 5, utf8_decode('Firma del Representante que Retira'), 0, 0, 'C');
+$pdf->SetX($pdf->GetPageWidth() - $line_width - 10);
+$pdf->Cell($line_width, 5, utf8_decode('Firma del Personal Autorizado (CEIA)'), 0, 1, 'C');
 $pdf->Ln(6);
 
 // --- Imagen de pie de página ---

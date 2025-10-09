@@ -25,19 +25,39 @@ try {
     $retirado_por_parentesco = null;
 
     if ($autorizado_por === 'padre') {
-        $padre_id = $_POST['padre_id'] ?? null;
-        if (!$padre_id) throw new Exception('ID del padre no proporcionado.');
+        $padre_id_form = $_POST['padre_id'] ?? null;
+        if (!$padre_id_form) throw new Exception('ID del padre no proporcionado.');
+
+        // Verificación de consistencia: que el padre pertenezca al estudiante
+        $stmt_verif = $conn->prepare("SELECT padre_id FROM estudiantes WHERE id = :estudiante_id");
+        $stmt_verif->execute([':estudiante_id' => $estudiante_id]);
+        $estudiante_data = $stmt_verif->fetch(PDO::FETCH_ASSOC);
+
+        if (!$estudiante_data || $estudiante_data['padre_id'] != $padre_id_form) {
+            throw new Exception('El padre seleccionado no corresponde al estudiante.');
+        }
+
         $stmt = $conn->prepare("SELECT padre_nombre, padre_apellido FROM padres WHERE padre_id = :id");
-        $stmt->execute(['id' => $padre_id]);
+        $stmt->execute(['id' => $padre_id_form]);
         $padre = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$padre) throw new Exception('Padre no encontrado.');
         $retirado_por_nombre = $padre['padre_nombre'] . ' ' . $padre['padre_apellido'];
         $retirado_por_parentesco = 'Padre';
     } elseif ($autorizado_por === 'madre') {
-        $madre_id = $_POST['madre_id'] ?? null;
-        if (!$madre_id) throw new Exception('ID de la madre no proporcionado.');
+        $madre_id_form = $_POST['madre_id'] ?? null;
+        if (!$madre_id_form) throw new Exception('ID de la madre no proporcionado.');
+
+        // Verificación de consistencia: que la madre pertenezca al estudiante
+        $stmt_verif = $conn->prepare("SELECT madre_id FROM estudiantes WHERE id = :estudiante_id");
+        $stmt_verif->execute([':estudiante_id' => $estudiante_id]);
+        $estudiante_data = $stmt_verif->fetch(PDO::FETCH_ASSOC);
+
+        if (!$estudiante_data || $estudiante_data['madre_id'] != $madre_id_form) {
+            throw new Exception('La madre seleccionada no corresponde al estudiante.');
+        }
+
         $stmt = $conn->prepare("SELECT madre_nombre, madre_apellido FROM madres WHERE madre_id = :id");
-        $stmt->execute(['id' => $madre_id]);
+        $stmt->execute(['id' => $madre_id_form]);
         $madre = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$madre) throw new Exception('Madre no encontrada.');
         $retirado_por_nombre = $madre['madre_nombre'] . ' ' . $madre['madre_apellido'];

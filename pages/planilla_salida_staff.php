@@ -116,6 +116,7 @@ $categorias = $conn->query("SELECT DISTINCT categoria FROM profesores ORDER BY c
                 <div class="btn-container">
                     <button type="submit" id="btnGuardar" class="btn btn-primary">Guardar Autorización</button>
                     <button type="button" id="btnGenerarPDF" class="btn btn-pdf" disabled>📄 Generar PDF</button>
+                    <a href="/ceia_swga/pages/gestion_autorizacion_staff.php" class="btn btn-info">Consultar Autorizaciones</a>
                     <a href="/ceia_swga/pages/menu_staff.php" class="btn btn-secondary">Volver</a>
                 </div>
             </div>

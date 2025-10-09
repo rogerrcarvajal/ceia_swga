@@ -1,78 +1,69 @@
 <?php
-// api/guardar_autorizacion_staff.php
 session_start();
-header('Content-Type: application/json');
 require_once __DIR__ . '/../src/config.php';
+header('Content-Type: application/json');
+date_default_timezone_set('America/Caracas');
 
-// --- DEBUG: Verificar conexión a la BD ---
-if (!isset($conn) || !$conn instanceof PDO) {
-    echo json_encode(['status' => 'error', 'mensaje' => 'Error crítico: La conexión con la base de datos no se pudo establecer.']);
+// --- CONTROL DE ACCESO Y VALIDACIÓN INICIAL ---
+if (!isset($_SESSION['usuario']['rol']) || !in_array($_SESSION['usuario']['rol'], ['master', 'admin'])) {
+    http_response_code(403);
+    echo json_encode(['status' => 'error', 'mensaje' => 'Acceso denegado.']);
     exit();
 }
 
-$response = ['status' => 'error', 'mensaje' => 'Petición inválida.'];
-
-// --- Validación de Sesión y Rol ---
-if (!isset($_SESSION['usuario']['id']) || !in_array($_SESSION['usuario']['rol'], ['master', 'admin'])) {
-    $response['mensaje'] = 'Acceso denegado. Se requiere autenticación y permisos adecuados.';
-    echo json_encode($response);
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo json_encode(['status' => 'error', 'mensaje' => 'Método no permitido.']);
     exit();
 }
 
-// --- Validación de Método y Datos ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Recoger y validar datos
+// --- LÓGICA PARA GUARDAR LA AUTORIZACIÓN ---
+try {
+    // Recoger y sanitizar datos del formulario
     $profesor_id = filter_input(INPUT_POST, 'profesor_id', FILTER_VALIDATE_INT);
     $periodo_id = filter_input(INPUT_POST, 'periodo_id', FILTER_VALIDATE_INT);
+    $registrado_por_usuario_id = filter_input(INPUT_POST, 'registrado_por_usuario_id', FILTER_VALIDATE_INT);
     $fecha_permiso = $_POST['fecha_permiso'] ?? null;
     $hora_salida = $_POST['hora_salida'] ?? null;
     $duracion_horas = filter_input(INPUT_POST, 'duracion_horas', FILTER_VALIDATE_FLOAT);
-    $motivo = filter_input(INPUT_POST, 'motivo', FILTER_SANITIZE_STRING);
-    $registrado_por_usuario_id = filter_input(INPUT_POST, 'registrado_por_usuario_id', FILTER_VALIDATE_INT);
+    $motivo = htmlspecialchars($_POST['motivo'] ?? '', ENT_QUOTES, 'UTF-8');
 
-    if (!$profesor_id || !$periodo_id || !$fecha_permiso || !$hora_salida || !$duracion_horas || !$registrado_por_usuario_id) {
-        $response['mensaje'] = 'Datos incompletos. Por favor, complete todos los campos requeridos.';
-        echo json_encode($response);
-        exit();
+    // Validar datos obligatorios
+    if (!$profesor_id || !$periodo_id || !$registrado_por_usuario_id || !$fecha_permiso || !$hora_salida || !$duracion_horas) {
+        throw new Exception('Todos los campos obligatorios deben ser completados.');
     }
 
-    // --- Inserción en la Base de Datos ---
-    try {
-        $sql = "INSERT INTO autorizaciones_salida_staff 
-                    (profesor_id, periodo_id, fecha_permiso, hora_salida, duracion_horas, motivo, registrado_por_usuario_id)
-                VALUES 
-                    (:profesor_id, :periodo_id, :fecha_permiso, :hora_salida, :duracion_horas, :motivo, :registrado_por_usuario_id)";
-        
-        $stmt = $conn->prepare($sql);
-        
-        $stmt->execute([
-            ':profesor_id' => $profesor_id,
-            ':periodo_id' => $periodo_id,
-            ':fecha_permiso' => $fecha_permiso,
-            ':hora_salida' => $hora_salida,
-            ':duracion_horas' => $duracion_horas,
-            ':motivo' => $motivo,
-            ':registrado_por_usuario_id' => $registrado_por_usuario_id
+    // Insertar en la base de datos
+    $sql = "INSERT INTO autorizaciones_salida_staff 
+                (profesor_id, periodo_id, registrado_por_usuario_id, fecha_permiso, hora_salida, duracion_horas, motivo) 
+            VALUES 
+                (:profesor_id, :periodo_id, :registrado_por_usuario_id, :fecha_permiso, :hora_salida, :duracion_horas, :motivo)";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([
+        ':profesor_id' => $profesor_id,
+        ':periodo_id' => $periodo_id,
+        ':registrado_por_usuario_id' => $registrado_por_usuario_id,
+        ':fecha_permiso' => $fecha_permiso,
+        ':hora_salida' => $hora_salida,
+        ':duracion_horas' => $duracion_horas,
+        ':motivo' => $motivo
+    ]);
+
+    $nuevaAutorizacionId = $conn->lastInsertId();
+
+    if ($nuevaAutorizacionId) {
+        echo json_encode([
+            'status' => 'exito',
+            'mensaje' => 'Autorización de salida para el personal guardada exitosamente.',
+            'id' => $nuevaAutorizacionId
         ]);
-
-        if ($stmt->rowCount() > 0) {
-            $lastId = $conn->lastInsertId();
-            $response = [
-                'status' => 'exito',
-                'mensaje' => 'Autorización de salida para el personal guardada correctamente.',
-                'id' => $lastId // Devolver el ID del nuevo registro
-            ];
-        } else {
-            $response['mensaje'] = 'No se pudo guardar la autorización. No se afectaron filas.';
-        }
-
-    } catch (Exception $e) {
-        $response['mensaje'] = 'Error al guardar en la base de datos: ' . $e->getMessage();
+    } else {
+        throw new Exception('No se pudo guardar el registro en la base de datos.');
     }
 
-} else {
-    $response['mensaje'] = 'Método de petición no soportado.';
+} catch (Exception $e) {
+    http_response_code(400);
+    echo json_encode(['status' => 'error', 'mensaje' => $e->getMessage()]);
 }
-
-echo json_encode($response);
 ?>
