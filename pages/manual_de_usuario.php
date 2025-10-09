@@ -86,6 +86,22 @@ if (!$periodo_activo) {
                     <li>Elige el período escolar activo.</li>
                     <li>Selecciona al estudiante de la lista de "No asignados" y asígnale el grado correspondiente.</li>
                 </ol>
+
+                <h3>2.4. Autorización de Salida de Estudiantes</h3>
+                <p>Este sub-módulo permite registrar y formalizar la salida de un estudiante durante el horario escolar.</p>
+                <h4>Generar una Autorización:</h4>
+                <ol>
+                    <li>En el menú de Estudiantes, selecciona "Planilla de Salida".</li>
+                    <li>Busca y selecciona al estudiante que se retira.</li>
+                    <li>Indica si lo retira su Padre, Madre u otra persona autorizada.</li>
+                    <li>Completa la fecha, hora y motivo de la salida.</li>
+                    <li>Haz clic en "Guardar Autorización". Una vez guardado, podrás generar el comprobante en PDF.</li>
+                </ol>
+                <h4>Consultar Autorizaciones:</h4>
+                <ol>
+                    <li>En el menú de Estudiantes, selecciona "Gestionar Planilla de Salida".</li>
+                    <li>Utiliza los filtros por semana o estudiante para encontrar registros anteriores.</li>
+                </ol>
             </div>
 
             <div class="module">
@@ -95,6 +111,21 @@ if (!$periodo_activo) {
                     <li>Ve a la sección "Staff".</li>
                     <li>Para un nuevo ingreso, completa el formulario y haz clic en "Agregar Staff".</li>
                     <li>Para asignar o editar un miembro del personal, búscalo en la lista y haz clic en "Gestionar". Podrás asignarle una posición y vincularlo al período escolar activo.</li>
+                </ol>
+
+                <h3>3.1. Autorización de Salida de Personal</h3>
+                <p>Permite registrar y autorizar las salidas temporales del personal durante la jornada laboral.</p>
+                <h4>Generar una Autorización:</h4>
+                <ol>
+                    <li>En el menú de Staff, selecciona "Planilla de Salida de Staff".</li>
+                    <li>Elige la categoría (Docente, Administrativo, etc.) y selecciona al empleado.</li>
+                    <li>Completa los detalles del permiso: fecha, hora de salida, duración y motivo.</li>
+                    <li>Haz clic en "Guardar Autorización" para registrar el permiso y habilitar la generación del PDF.</li>
+                </ol>
+                <h4>Consultar Autorizaciones:</h4>
+                <ol>
+                    <li>En el menú de Staff, selecciona "Gestionar Salidas de Staff".</li>
+                    <li>Filtra por semana, categoría o empleado para ver el historial de permisos.</li>
                 </ol>
             </div>
 
