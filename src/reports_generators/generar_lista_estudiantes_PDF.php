@@ -20,7 +20,8 @@ class PDF extends FPDF
 
     function Header()
     {
-        $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
+        $this->Ln(5);
+        $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 12, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(80);
         $this->Cell(110, 10, utf8_decode('Reporte de Estudiantes'), 0, 0, 'C');

@@ -28,7 +28,6 @@ $categorias = $conn->query("SELECT DISTINCT categoria FROM profesores ORDER BY c
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SWGA - Autorización de Salida de Staff</title>
     <link rel="stylesheet" href="/ceia_swga/public/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { margin: 0; padding: 0; background-image: url("/ceia_swga/public/img/fondo.jpg"); background-size: cover; background-position: top; font-family: 'Arial', sans-serif; color: white; }
         .container { max-width: 800px; margin: 20px auto; padding: 20px; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-radius: 8px; }
@@ -53,7 +52,7 @@ $categorias = $conn->query("SELECT DISTINCT categoria FROM profesores ORDER BY c
     <?php require_once __DIR__ . '/../src/templates/navbar.php'; ?>
     <div class="content">
         <img src="/ceia_swga/public/img/logo_ceia.png" alt="Logo CEIA">
-        <h1>Planilla de Autorización de Salida de Personal</h1>
+        <h1>Gestión de Autorizaciones de Salida de Staff</h1>
         <?php if ($periodo_activo): ?>
             <h3 style="color: #a2ff96;">Período Activo: <?= htmlspecialchars($periodo_activo['nombre_periodo']) ?></h3>
         <?php endif; ?>

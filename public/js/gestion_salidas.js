@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     data.forEach(estudiante => {
                         const option = document.createElement('option');
                         option.value = estudiante.id;
-                        option.textContent = `${estudiante.nombre_completo} ${estudiante.apellido_completo}`;
+                        option.textContent = `${estudiante.apellido_completo}, ${estudiante.nombre_completo}`;
                         estudianteSelect.appendChild(option);
                     });
                 } else {

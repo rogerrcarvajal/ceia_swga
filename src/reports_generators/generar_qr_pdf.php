@@ -61,7 +61,8 @@ class Generar_qr_pdf extends FPDF {
     }
 
     function Header() {
-        $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
+        $this->Ln(5);
+        $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 12, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, 'Centro Educativo Internacional Anzoategui', 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);

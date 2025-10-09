@@ -42,7 +42,8 @@ class PDF extends FPDF
 
     function Header()
     {
-        $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 8, 20);
+        $this->Ln(5);
+        $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 12, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 8, utf8_decode('Planilla de Autorización de Salida de Estudiantes'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
@@ -113,9 +114,9 @@ $pdf->Cell($line_width, 7, '___________________________', 0, 1, 'R');
 
 // Textos de firma
 $pdf->SetFont('Arial', '', 8);
-$pdf->Cell($line_width, 5, utf8_decode('Firma del Representante que Retira'), 0, 0, 'C');
+$pdf->Cell($line_width, 5, utf8_decode('Firma del Representante que Retira'), 0, 0, 'L');
 $pdf->SetX($pdf->GetPageWidth() - $line_width - 10);
-$pdf->Cell($line_width, 5, utf8_decode('Firma del Personal Autorizado (CEIA)'), 0, 1, 'C');
+$pdf->Cell($line_width, 5, utf8_decode('Firma del Personal Autorizado (CEIA)'), 0, 1, 'R');
 $pdf->Ln(6);
 
 // --- Imagen de pie de página ---

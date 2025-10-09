@@ -48,7 +48,8 @@ class PDFStaff extends FPDF {
         $this->periodo = $p;
     }
     function Header() {
-        $this->Image(__DIR__ . '/../../public/img/logo_ceia.png', 10, 8, 25);
+        $this->Ln(5);
+        $this->Image(__DIR__.'/../../public/img/logo_ceia.png', 10, 12, 25);
         $this->SetFont('Arial', 'B', 15);
         $this->Cell(0, 10, utf8_decode('Centro Educativo Internacional Anzoátegui'), 0, 1, 'C');
         $this->SetFont('Arial', 'B', 10);
