@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos Oficiales UACH - ROGER R. CARVAJAL</title>
+    <style>
+        @page {
+            margin: 0.5in;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            color: #333;
+        }
+        .page {
+            width: 8.5in;
+            height: 11in;
+            padding: 0.5in;
+            box-sizing: border-box;
+            position: relative;
+            break-after: page;
+        }
+        .logo-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-header img {
+            height: 60px;
+        }
+        .official-title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: #003366;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+        .student-info-box {
+            background-color: #f9f9f9;
+            border: 2px solid #003366;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #003366;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #003366;
+            color: white;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-weight: bold;
+            color: #003366;
+            font-size: 14px;
+        }
+        .signature-area {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .signature-line {
+            width: 300px;
+            border-top: 1px solid #003366;
+            margin: 20px auto;
+        }
+        .watermark {
+            position: absolute;
+            opacity: 0.1;
+            transform: rotate(-30deg);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            z-index: 0;
+        }
+        /* CREDENCIAL ESTILOS */
+        .credential-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        .credential-card {
+            width: 3.375in;
+            height: 2.125in;
+            background: linear-gradient(to bottom, #003366, #002244);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            color: white;
+            padding: 8px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+        .student-photo {
+            width: 1in;
+            height: 1.25in;
+            border: 2px solid #003366;
+            background-color: white;
+            margin: 5px;
+            float: left;
+        }
+        .student-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .student-name {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 0 5px 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        .student-id {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .student-details {
+            text-align: left;
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+        .credential-dates {
+            text-align: right;
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+        .barcode-container {
+            text-align: center;
+            margin-top: 5px;
+        }
+        .barcode-container img {
+            height: 30px;
+        }
+        .barcode-text {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 3px;
+        }
+        .security-microtext {
+            position: absolute;
+            bottom: 3px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 4pt;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .nfc-chip {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 15px;
+            height: 15px;
+            background-color: #D4AF37;
+            border-radius: 3px;
+            display: grid;
+            grid-template: 1fr 1fr / 1fr 1fr;
+        }
+        .nfc-chip div {
+            border: 0.5px solid #8B6D26;
+        }
+        .security-text {
+            position: absolute;
+            bottom: 5px;
+            right: 10px;
+            font-size: 8px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .hologram {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 70%, transparent 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(30deg);
+            pointer-events: none;
+            z-index: 2;
+        }
+        .qr-code {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+        }
+        .stamp {
+            position: absolute;
+            opacity: 0.2;
+            transform: rotate(15deg);
+            right: 50%;
+            bottom: 100px;
+            transform: translateX(50%) rotate(15deg);
+            z-index: 0;
+        }
+        .total-amount {
+            font-weight: bold;
+            color: #003366;
+        }
+        .negative-amount {
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="credential-container">
+            <div class="credential-card">
+                <img src="https://uach.mx/assets/media/snippet/62/escudo-web-header-black.svg" class="watermark" alt="UACH">
+                <div class="hologram"></div>
+                
+                <div class="student-photo">
+                    <img src="https://via.placeholder.com/100x125/ffffff/003366?text=R.CARVAJAL" alt="Foto del estudiante">
+                </div>
+                
+                <div class="nfc-chip">
+                    <div></div><div></div><div></div><div></div>
+                </div>
+                
+                <div class="student-name">ROGER R. CARVAJAL</div>
+                <div class="student-id">91201986</div>
+                
+                <div class="student-details">
+                    Administración del Deporte<br>
+                    Pregrado – 5º Semestre
+                </div>
+                
+                <div class="credential-dates">
+                    Emisión: 15 ago 2025<br>
+                    Vence: 31 dic 2026
+                </div>
+                
+                <div class="barcode-container">
+                    <img src="https://barcode.tec-it.com/barcode.ashx?data=987123479&code=Code128&dpi=96&dataseparator=" alt="Código de barras">
+                    <div class="barcode-text">ID: 987123479</div>
+                </div>
+                
+                <div class="security-microtext">UACH ID • NO VÁLIDA SIN FOTO • DUPLICADO EN ARCHIVO</div>
+                <div class="security-text">SEGURIDAD UACH • 2025</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="logo-header">
+            <img src="https://uach.mx/assets/media/snippet/62/escudo-web-header-black.svg" alt="Logo UACH">
+        </div>
+        
+        <h2 class="official-title">Cronograma Oficial de Clases – Otoño 2025</h2>
+        
+        <div class="student-info-box">
+            <strong>Estudiante:</strong> ROGER R. CARVAJAL<br>
+            <strong>Matrícula:</strong> 91201986<br>
+            <strong>Carrera:</strong> Administración del Deporte<br>
+            <strong>Nivel:</strong> Pregrado – 5º Semestre<br>
+            <strong>Campus:</strong> Chihuahua, Chih.
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Curso</th>
+                    <th>Días</th>
+                    <th>Horario</th>
+                    <th>Salón</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>AD 301 – Gestión Deportiva</td>
+                    <td>Lunes, Miércoles</td>
+                    <td>8:00 - 9:30</td>
+                    <td>Salón D101</td>
+                </tr>
+                <tr>
+                    <td>AD 222 – Marketing Deportivo</td>
+                    <td>Martes, Jueves</td>
+                    <td>9:45 - 11:15</td>
+                    <td>Salón D105</td>
+                </tr>
+                <tr>
+                    <td>AD 310 – Legislación en el Deporte</td>
+                    <td>Lunes, Miércoles</td>
+                    <td>11:30 - 13:00</td>
+                    <td>Salón D202</td>
+                </tr>
+                <tr>
+                    <td>AD 305L – Taller de Organización de Eventos Deportivos</td>
+                    <td>Martes</td>
+                    <td>14:00 - 15:50</td>
+                    <td>Aula 3B</td>
+                </tr>
+                <tr>
+                    <td>AD 230 – Psicología del Deporte</td>
+                    <td>Jueves</td>
+                    <td>16:00 - 17:50</td>
+                    <td>Salón D210</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div style="margin: 20px 0; padding: 10px; background-color: #f0f0f0; border-left: 4px solid #003366;">
+            <strong>Notas:</strong><br>
+            • Los talleres son obligatorios y cuentan para la calificación final.<br>
+            • Fecha de inicio: 18 de agosto de 2025 | Fecha de finalización: 12 de diciembre de 2025<br>
+            • Vigencia académica de las materias: hasta diciembre de 2026
+        </div>
+        
+        <div class="footer">REGISTRO OFICIAL</div>
+    </div>
+
+    <div class="page">
+        <div class="logo-header">
+            <img src="https://uach.mx/assets/media/snippet/62/escudo-web-header-black.svg" alt="Logo UACH">
+        </div>
+        
+        <h2 class="official-title">Recibo Oficial de Matrícula – Otoño 2025</h2>
+        
+        <div style="text-align: right; margin-bottom: 20px;">
+            <strong>Fecha:</strong> 10 de agosto de 2025<br>
+            <strong>Folio:</strong> UACH-2025-91201986
+        </div>
+        
+        <div class="student-info-box">
+            <strong>Estudiante:</strong> ROGER R. CARVAJAL<br>
+            <strong>Matrícula:</strong> 91201986<br>
+            <strong>Carrera:</strong> Administración del Deporte<br>
+            <strong>Semestre:</strong> 5º Semestre<br>
+            <strong>Periodo:</strong> Otoño 2025
+        </div>
+        
+        <h3 style="color: #003366; border-bottom: 2px solid #003366; padding-bottom: 5px;">Cargos</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Matrícula (12 créditos)</td>
+                    <td style="text-align: right;">$6,240.00</td>
+                </tr>
+                <tr>
+                    <td>Tarifa Tecnológica</td>
+                    <td style="text-align: right;">$85.00</td>
+                </tr>
+                <tr>
+                    <td>Tarifa de Servicios</td>
+                    <td style="text-align: right;">$120.00</td>
+                </tr>
+                <tr>
+                    <td>Tarifa de Salud</td>
+                    <td style="text-align: right;">$75.00</td>
+                </tr>
+                <tr>
+                    <td><strong>Total de cargos</strong></td>
+                    <td style="text-align: right;" class="total-amount"><strong>$6,520.00</strong></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="color: #003366; border-bottom: 2px solid #003366; padding-bottom: 5px; margin-top: 20px;">Ayudas y Becas</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Beca Benito Juárez</td>
+                    <td style="text-align: right;" class="negative-amount">-$3,200.00</td>
+                </tr>
+                <tr>
+                    <td>Beca Académica UACH</td>
+                    <td style="text-align: right;" class="negative-amount">-$3,320.00</td>
+                </tr>
+                <tr>
+                    <td><strong>Saldo total</strong></td>
+                    <td style="text-align: right; color: #003366; font-weight: bold;">$0.00</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="signature-area">
+            <div class="signature-line"></div>
+            <div><strong>Dr. Alan Prescott, Director de Registro Escolar</strong></div>
+            <div>Firma autorizada electrónicamente</div>
+        </div>
+        
+        <img src="https://uach.mx/assets/media/snippet/62/escudo-web-header-black.svg" class="stamp" alt="Sello UACH">
+        
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=50x50&data=https://www.uach.mx" class="qr-code" alt="QR Code">
+        
+        <div class="footer" style="margin-top: 60px; font-size: 12px;">
+            Documento válido para trámites fiscales y administrativos. No requiere sello húmedo.
+        </div>
+    </div>
+</body>
+</html>
