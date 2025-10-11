@@ -11,6 +11,7 @@ require_once __DIR__ . '/../src/config.php';
 
 //Declaracion de variables
 $mensaje = "";
+$page_title = "";
 
 // Roles permitidos
 if (!in_array($_SESSION['usuario']['rol'], ['admin', 'master', 'consulta'])) {
