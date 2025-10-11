@@ -123,6 +123,7 @@ if (!$periodo_activo) {
   <li><strong>Planillas Individuales</strong> (<code>seleccionar_planilla.php</code>): Genera el PDF de la planilla de inscripción completa de un estudiante seleccionado.</li>
   <li><strong>Roster del Período</strong> (<code>roster_actual.php</code>): Genera un PDF con las listas completas de todo el personal y todos los estudiantes activos en el período actual.</li>
   <li><strong>Listas Personalizadas</strong> (<code>gestionar_reportes.php</code>): Ofrece vistas previas y permite generar PDFs de listas específicas, como "Staff Docente", "Vehículos Autorizados", etc.</li>
+  <li><strong>Reimpresión de Autorizaciones</strong> (<code>regenerar_autorizaciones.php</code>): Permite buscar y reimprimir cualquier autorización de salida generada previamente, tanto para estudiantes como para personal.</li>
 </ul>
 <hr>
 <h2>Módulo de Mantenimiento (Solo rol <code>master</code>)</h2>

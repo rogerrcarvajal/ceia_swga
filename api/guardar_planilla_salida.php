@@ -88,14 +88,18 @@ try {
     $salida_id = $conn->lastInsertId();
     
     if ($salida_id) {
-        echo json_encode(['success' => true, 'salida_id' => $salida_id, 'message' => 'Autorización guardada correctamente.']);
+        echo json_encode([
+            'status' => 'exito',
+            'mensaje' => 'Autorización de salida para el estudiante guardada exitosamente. Ahora puede generar la planilla en PDF.',
+            'id' => $salida_id
+        ]);
     } else {
         throw new Exception('No se pudo guardar la autorización.');
     }
 
 } catch (Exception $e) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'mensaje' => $e->getMessage()]);
 }
 
 ?>

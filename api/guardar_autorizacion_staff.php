@@ -55,7 +55,7 @@ try {
     if ($nuevaAutorizacionId) {
         echo json_encode([
             'status' => 'exito',
-            'mensaje' => 'Autorización de salida para el personal guardada exitosamente.',
+            'mensaje' => 'Autorización de salida para el personal guardada exitosamente. Ahora puede generar la planilla en PDF',
             'id' => $nuevaAutorizacionId
         ]);
     } else {
