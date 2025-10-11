@@ -50,8 +50,15 @@ if (!$periodo_activo) {
         .lista-menu a { display: block; padding: 15px; color: white; text-decoration: none; font-size: 1.1em;}
         .lista-menu p { margin: 0; padding: 0 15px 15px 15px; font-size: 0.9em; color: #ccc;}
         .lista-menu .icono-reporte { margin-right: 12px; font-size: 1.2em;}
-        .card-body a { color: #fff; text-decoration: none; display: block; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.2); }
-        .card-body a:hover { background-color: rgba(255,255,255,0.1); }
+        
+        /* Estilos del submenu de menu_ayuda.php */
+        .submenu { list-style: none; padding-left: 40px; margin-top: -10px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out;}
+        .submenu.open { max-height: 500px; /* Ajustar si hay más items */}
+        .submenu li { background-color: rgba(0,0,0,0.2); margin-bottom: 8px;}
+        .submenu a { font-size: 1em; padding: 10px 15px; }
+        .submenu p { display: none; }
+        .has-submenu > a { cursor: pointer; }
+
     </style>    
 </head>
 
@@ -82,19 +89,17 @@ if (!$periodo_activo) {
                     <p>Permite registrar y consultar las autorizaciones de salida para el personal.</p>
                 </li>
 
-                <li>
-                    <a data-bs-toggle="collapse" href="#collapseMisc" role="button" aria-expanded="false" aria-controls="collapseMisc">
+                <li class="has-submenu">
+                    <a onclick="toggleSubmenu(this)">
                         <span class="icono-reporte">🔗</span> Misceláneos
                     </a>
                     <p>Enlaces a plataformas académicas externas.</p>
+                    <ul class="submenu">
+                        <li><a href="https://www.thinkwave.com/secure/login/" target="_blank">Thinkwave</a></li>
+                        <li><a href="https://www.khanacademy.org/login" target="_blank">Khan Academy</a></li>
+                        <li><a href="https://la.ixl.com/?partner=google&campaign=71585968&adGroup=127340411978&gad_source=1&gad_campaignid=71585968&gbraid=0AAAAADrr3Aoxof4aLGixlBgWG-gNefkcQ&gclid=CjwKCAjwi4PHBhA-EiwAnjTHuRzmWUrXTe4xr7ZS0h7VzeF3SMmBED1sbuGmAquyPDbRwoQ6wczduBoCOwMQAvD_BwE" target="_blank">IXL</a></li>
+                    </ul>
                 </li>
-                <div class="collapse" id="collapseMisc">
-                    <div class="card card-body" style="background-color: rgba(0,0,0,0.5); border: none;">
-                        <a href="https://www.thinkwave.com/secure/login/" target="_blank">Thinkwave</a>
-                        <a href="https://www.khanacademy.org/login" target="_blank">Khan Academy</a>
-                        <a href="https://la.ixl.com/?partner=google&campaign=71585968&adGroup=127340411978&gad_source=1&gad_campaignid=71585968&gbraid=0AAAAADrr3Aoxof4aLGixlBgWG-gNefkcQ&gclid=CjwKCAjwi4PHBhA-EiwAnjTHuRzmWUrXTe4xr7ZS0h7VzeF3SMmBED1sbuGmAquyPDbRwoQ6wczduBoCOwMQAvD_BwE" target="_blank">IXL</a>
-                    </div>
-                </div>
             </ul>
 
             <!-- Botón para volver al Home -->
@@ -102,7 +107,15 @@ if (!$periodo_activo) {
         </div>
     </div>
 
-    <!-- Incluir Bootstrap JS para el colapso -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSubmenu(element) {
+            // El submenú es el siguiente elemento ul después del p
+            const pElement = element.nextElementSibling;
+            const submenu = pElement.nextElementSibling;
+            if (submenu && submenu.classList.contains('submenu')) {
+                submenu.classList.toggle('open');
+            }
+        }
+    </script>
 </body>
 </html>
