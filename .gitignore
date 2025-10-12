@@ -2,3 +2,4 @@
 src/lib/php-qrcode/cache/
 src/lib/php-qrcode/*-errors.txt
 .mcp.json
+.env

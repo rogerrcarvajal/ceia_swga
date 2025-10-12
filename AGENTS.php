@@ -1,6 +1,14 @@
 <?php
-// Tu clave secreta de la API de OpenAI
-$apiKey = 'TU_API_KEY_AQUI'; // <-- REEMPLAZA ESTO CON TU CLAVE REAL
+// Para mayor seguridad y siguiendo las buenas prácticas, la clave de API
+// se carga desde una variable de entorno en lugar de estar hardcodeada.
+// Esto evita exponer información sensible en el código fuente.
+//
+// Para que esto funcione, debes crear un archivo .env en la raíz de tu proyecto
+// con el siguiente contenido:
+// OPENAI_API_KEY="sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+//
+// Por simplicidad, aquí usamos getenv() que funciona si la variable está configurada en el servidor.
+$apiKey = getenv('OPENAI_API_KEY');
 
 // La pregunta que quieres hacer
 $prompt = "Explica brevemente qué es un sistema de gestión académica.";
@@ -22,6 +30,11 @@ $data = [
     ],
     'temperature' => 0.7,
 ];
+
+// Verificación de que la clave de API fue cargada
+if (empty($apiKey)) {
+    die("<h1>Error de Configuración</h1><p>La variable de entorno OPENAI_API_KEY no está configurada o está vacía. Asegúrate de que esté definida en tu servidor o en un archivo .env.</p>");
+}
 
 // Inicializar cURL
 $ch = curl_init($url);
