@@ -57,7 +57,7 @@ $rol = isset($_SESSION['usuario']['rol']) ? $_SESSION['usuario']['rol'] : '';
         <div class="content" style="width: 100%;">
             <ul class="lista-menu">
                 <li>
-                    <a href="/ceia_swga/pages/doc_manual_usuario.php">
+                    <a href="/ceia_swga/pages/manual_de_usuario.php">
                         <span class="icono-menu">📖</span> Manual de Usuario
                     </a>
                     <p>Guía completa sobre el uso y las funcionalidades del sistema.</p>

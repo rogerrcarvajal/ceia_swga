@@ -154,5 +154,9 @@ $x = ($pageWidth - $imageWidth) / 2;
 $pdf->Image(__DIR__.'/../../public/img/pie_pag.png', $x, $pdf->GetY(), $imageWidth);
 
 // 5. Salida del PDF
-$pdf->Output('I', 'Solicitud_Permiso_' . $data['id'] . '.pdf');
+// Crear un nombre de archivo limpio
+$nombre_limpio = preg_replace('/[^A-Za-z0-9_-]/', '', str_replace(' ', '_', $data['nombre_completo']));
+$filename = 'Permiso_' . $nombre_limpio . '.pdf';
+
+$pdf->Output('D', $filename);
 ?>

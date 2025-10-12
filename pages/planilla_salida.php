@@ -54,6 +54,9 @@ $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
        .alerta { text-align: center; padding: 10px; border-radius: 5px; margin-bottom: 20px; }
        .alerta.error { background-color: #dc3545; color: white; }
        .alerta.success { background-color: #28a745; color: white; }
+       .alert { padding: 1rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: .25rem; }
+       .alert-success { color: #0f5132; background-color: #d1e7dd; border-color: #badbcc; }
+       .alert-danger { color: #842029; background-color: #f8d7da; border-color: #f5c2c7; }
        .campo-inline { display: flex; align-items: center; gap: 20px; }
        .campo-inline .campo { flex: 1; }
        .radio-group { display: flex; gap: 20px; align-items: center; }
@@ -76,6 +79,7 @@ $periodoActivoId = $periodoActivo ? $periodoActivo['id'] : null;
     </div>
 
     <main class="container">
+        <div id="alert-container"></div>
         <h2>Generar Autorización de Salida</h2>
 
         <?php if (!$periodoActivo): ?>
