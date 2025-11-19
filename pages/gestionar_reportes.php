@@ -17,7 +17,7 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
 $periodo_id = $periodo_activo['id'] ?? 0;
 
 $estudiantes = $vehiculos = [];
-$staff_administrativo = $staff_docente = $staff_mantenimiento = [];
+$staff_administrativo = $staff_docente = $staff_mantenimiento = $staff_vigilancia = [];
 
 if ($periodo_id) {
     // 1. Estudiantes del período activo con datos de padres
@@ -74,6 +74,9 @@ if ($periodo_id) {
     $stmt_staff->execute([':pid' => $periodo_id, ':categoria' => 'Staff Mantenimiento']);
     $staff_mantenimiento = $stmt_staff->fetchAll(PDO::FETCH_ASSOC);
 
+    $stmt_staff->execute([':pid' => $periodo_id, ':categoria' => 'Staff Vigilancia']);
+    $staff_vigilancia = $stmt_staff->fetchAll(PDO::FETCH_ASSOC);
+
     // 3. Vehículos autorizados
     $stmt_veh = $conn->query("
         SELECT 
@@ -129,6 +132,7 @@ if ($periodo_id) {
             <li data-target="preview-staff-admin">Staff Administrativo</li>
             <li data-target="preview-staff-docente">Staff Docente</li>
             <li data-target="preview-staff-mantenimiento">Staff Mantenimiento</li>
+            <li data-target="preview-staff-vigilancia">Staff Vigilancia</li>
             <li data-target="preview-vehiculos">Vehículos Autorizados</li>
         </ul>
         <a href="/ceia_swga/pages/menu_reportes.php" class="btn" style="margin-top:10px;">Volver</a>
@@ -219,6 +223,26 @@ if ($periodo_id) {
                 </tbody>
             </table>
             <form action="/ceia_swga/src/reports_generators/generar_lista_staff_mantenimiento_PDF.php" method="POST" target="_blank" style="margin-top: 20px;">
+                <button type="submit">📄 Generar PDF</button>
+            </form>
+        </div>
+
+        <!-- Vista Previa Staff Vigilancia -->
+        <div id="preview-staff-vigilancia" class="preview-section">
+            <h3>Reporte de Staff Vigilancia</h3>
+            <table class="preview-table">
+                <thead><tr><th>Nombre Completo</th><th>Posición</th><th>Teléfono</th></tr></thead>
+                <tbody>
+                    <?php foreach($staff_vigilancia as $s): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($s['nombre_completo']) ?></td>
+                        <td><?= htmlspecialchars($s['posicion']) ?></td>
+                        <td><?= htmlspecialchars($s['telefono_celular']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+            <form action="/ceia_swga/src/reports_generators/generar_lista_staff_vigilancia_PDF.php" method="POST" target="_blank" style="margin-top: 20px;">
                 <button type="submit">📄 Generar PDF</button>
             </form>
         </div>

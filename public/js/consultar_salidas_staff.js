@@ -14,6 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- FUNCIONES ---
 
+    function reimprimirAutorizacion(id) {
+        const url = `/ceia_swga/pages/reimprimir_permiso_staff.php?id=${id}`;
+        window.open(url, '_blank');
+    }
+
     async function cargarStaff() {
         const categoria = filtroCategoria.value;
         filtroStaff.innerHTML = '<option value="todos">Todos</option>'; // Reset
@@ -44,11 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const staffId = filtroStaff.value;
 
         if (!semana) {
-            tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>';
+            tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>';
             return;
         }
 
-        tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>';
+        tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando...</td></tr>';
 
         try {
             const url = `/ceia_swga/api/consultar_salidas_staff.php?semana=${semana}&categoria=${categoria}&staff_id=${staffId}`;
@@ -66,15 +71,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td>${reg.nombre_completo || ''}</td>
                             <td>${reg.categoria || ''}</td>
                             <td>${reg.motivo || ''}</td>
+                            <td>
+                                <button onclick="reimprimirAutorizacion(${reg.id})" class="btn" style="margin: 0; padding: 8px 12px; font-size: 0.9em;">Reimprimir</button>
+                            </td>
                         </tr>`;
                     tablaBody.innerHTML += fila;
                 });
             } else {
-                tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No se encontraron registros para los filtros seleccionados.</td></tr>';
+                tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No se encontraron registros para los filtros seleccionados.</td></tr>';
             }
         } catch (error) {
             console.error('Error al cargar resultados:', error);
-            tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center; color: red;">Error al cargar los datos.</td></tr>';
+            tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: red;">Error al cargar los datos.</td></tr>';
         }
     }
 

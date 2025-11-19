@@ -33,6 +33,7 @@ if (isset($_GET['semana']) && !empty($_GET['semana'])) {
 
             // Construcción de la consulta SQL
             $sql = "SELECT 
+                        a.id,
                         to_char(a.fecha_permiso, 'DD/MM/YYYY') as fecha_permiso,
                         to_char(a.hora_salida, 'HH12:MI AM') as hora_salida,
                         a.duracion_horas,
@@ -66,7 +67,13 @@ if (isset($_GET['semana']) && !empty($_GET['semana'])) {
 
             $response = [
                 'status' => 'exito',
-                'registros' => $registros
+                'registros' => $registros,
+                'debug' => [
+                    'fecha_inicio' => $fecha_inicio,
+                    'fecha_fin' => $fecha_fin,
+                    'sql' => $sql,
+                    'params' => $params
+                ]
             ];
 
         } catch (Exception $e) {
