@@ -1,3 +1,14 @@
+// La función se mueve al ámbito global para ser accesible desde el atributo onclick
+function reimprimirAutorizacionEstudiante(id) {
+    if (!id) {
+        console.error('ID de autorización no válido para reimprimir.');
+        return;
+    }
+    // Apunta al nuevo script de reimpresión de estudiantes
+    const url = `/ceia_swga/pages/reimprimir_autorizacion_estudiante.php?id=${id}`;
+    window.open(url, '_blank');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const filtroSemana = document.getElementById('filtro_semana');
     const filtroEstudiante = document.getElementById('filtro_estudiante');
@@ -17,11 +28,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const estudianteId = filtroEstudiante.value;
 
         if (!semana) {
-            tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>';
+            tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>';
             return;
         }
 
-        tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Cargando...</td></tr>';
+        tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando...</td></tr>';
 
         try {
             const response = await fetch(`/ceia_swga/api/consultar_salidas.php?semana=${semana}&estudiante_id=${estudianteId}&_=${new Date().getTime()}`);
@@ -42,15 +53,18 @@ document.addEventListener('DOMContentLoaded', function() {
                             <td>${reg.retirado_por_nombre || ''}</td>
                             <td>${reg.retirado_por_parentesco || ''}</td>
                             <td>${reg.motivo || ''}</td>
+                            <td>
+                                <button onclick="reimprimirAutorizacionEstudiante(${reg.id})" class="btn" style="margin: 0; padding: 8px 12px; font-size: 0.9em; background-color: #007bff;">Reimprimir</button>
+                            </td>
                         </tr>`;
                     tablaBody.innerHTML += fila;
                 });
             } else {
-                tablaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No se encontraron registros para los filtros seleccionados.</td></tr>';
+                tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No se encontraron registros para los filtros seleccionados.</td></tr>';
             }
         } catch (error) {
             console.error('Error al cargar los resultados:', error);
-            tablaBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: red;">Error al cargar los datos. ${error.message}</td></tr>`;
+            tablaBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: red;">Error al cargar los datos. ${error.message}</td></tr>`;
         }
     }
 

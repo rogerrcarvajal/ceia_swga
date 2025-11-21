@@ -69,11 +69,11 @@ try {
             $this->Ln(5);
             $this->Image($this->logo_path, 10, 13, 25);
             $this->SetFont('Arial', 'B', 15);
-            $this->Cell(0, 8, utf8_decode('Planilla de Autorización de Salida de Personal/Staff'), 0, 1, 'C');
+            $this->Cell(0, 8, mb_convert_encoding('Planilla de Autorización de Salida de Personal/Staff', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
             $this->SetFont('Arial', 'B', 10);
-            $this->Cell(0, 5, utf8_decode('Período Escolar: ' . $this->periodo_activo), 0, 1, 'C');
+            $this->Cell(0, 5, mb_convert_encoding('Período Escolar: ' . $this->periodo_activo, 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
             $this->SetFont('Arial', 'B', 12);
-            $this->Cell(0, 10, utf8_decode('SOLICITUD DE PERMISO'), 0, 1, 'C');
+            $this->Cell(0, 10, mb_convert_encoding('SOLICITUD DE PERMISO', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
             $this->Ln(12);
         }
 
@@ -81,7 +81,7 @@ try {
         {
             $this->SetY(-15);
             $this->SetFont('Arial', 'I', 8);
-            $this->Cell(0, 10, utf8_decode('Página ') . $this->PageNo(), 0, 0, 'C');
+            $this->Cell(0, 10, mb_convert_encoding('Página ', 'ISO-8859-1', 'UTF-8') . $this->PageNo(), 0, 0, 'C');
         }
     }
 
@@ -93,36 +93,36 @@ try {
 
     // --- Contenido de la Planilla (con verificaciones) ---
     $fecha_solicitud = !empty($data['fecha_permiso']) ? date("d/m/Y", strtotime($data['fecha_permiso'])) : 'No especificada';
-    $nombre_completo = !empty($data['nombre_completo']) ? utf8_decode($data['nombre_completo']) : 'No especificado';
+    $nombre_completo = !empty($data['nombre_completo']) ? mb_convert_encoding($data['nombre_completo'], 'ISO-8859-1', 'UTF-8') : 'No especificado';
     $cedula = !empty($data['cedula']) ? $data['cedula'] : 'N/A';
-    $posicion = !empty($data['posicion']) ? utf8_decode($data['posicion']) : 'No asignada';
+    $posicion = !empty($data['posicion']) ? mb_convert_encoding($data['posicion'], 'ISO-8859-1', 'UTF-8') : 'No asignada';
     $hora_salida = !empty($data['hora_salida']) ? date("g:i A", strtotime($data['hora_salida'])) : 'No especificada';
     $duracion = !empty($data['duracion_horas']) ? $data['duracion_horas'] : 'N/A';
-    $motivo = !empty($data['motivo']) ? utf8_decode($data['motivo']) : 'Sin motivo.';
+    $motivo = !empty($data['motivo']) ? mb_convert_encoding($data['motivo'], 'ISO-8859-1', 'UTF-8') : 'Sin motivo.';
 
     $pdf->SetFont('Arial', 'B', 11);
-    $pdf->Cell(40, 7, utf8_decode('Fecha de Solicitud:'));
+    $pdf->Cell(40, 7, mb_convert_encoding('Fecha de Solicitud:', 'ISO-8859-1', 'UTF-8'));
     $pdf->SetFont('Arial', '', 11);
     $pdf->Cell(0, 7, $fecha_solicitud, 0, 1);
 
     $pdf->SetFont('Arial', 'B', 11);
-    $pdf->Cell(40, 7, utf8_decode('Nombre y Apellido:'));
+    $pdf->Cell(40, 7, mb_convert_encoding('Nombre y Apellido:', 'ISO-8859-1', 'UTF-8'));
     $pdf->SetFont('Arial', '', 11);
     $pdf->Cell(0, 7, $nombre_completo, 0, 1);
 
     $pdf->SetFont('Arial', 'B', 11);
-    $pdf->Cell(40, 7, utf8_decode('Cédula:'));
+    $pdf->Cell(40, 7, mb_convert_encoding('Cédula:', 'ISO-8859-1', 'UTF-8'));
     $pdf->SetFont('Arial', '', 11);
     $pdf->Cell(55, 7, $cedula, 0, 0);
 
     $pdf->SetFont('Arial', 'B', 11);
-    $pdf->Cell(20, 7, utf8_decode('Posición:'));
+    $pdf->Cell(20, 7, mb_convert_encoding('Posición:', 'ISO-8859-1', 'UTF-8'));
     $pdf->SetFont('Arial', '', 11);
     $pdf->Cell(0, 7, $posicion, 0, 1);
     $pdf->Ln(10);
 
     $pdf->SetFont('Arial', 'B', 12);
-    $pdf->Cell(0, 10, utf8_decode('Detalles del Permiso'), 0, 1, 'C');
+    $pdf->Cell(0, 10, mb_convert_encoding('Detalles del Permiso', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
     $pdf->Line(10, $pdf->GetY(), 205, $pdf->GetY());
     $pdf->Ln(5);
 
@@ -137,7 +137,7 @@ try {
     $pdf->Cell(0, 7, $hora_salida, 0, 1);
 
     $pdf->SetFont('Arial', 'B', 11);
-    $pdf->Cell(40, 7, utf8_decode('Duración (Horas):'));
+    $pdf->Cell(40, 7, mb_convert_encoding('Duración (Horas):', 'ISO-8859-1', 'UTF-8'));
     $pdf->SetFont('Arial', '', 11);
     $pdf->Cell(0, 7, $duracion, 0, 1);
 
@@ -156,7 +156,7 @@ try {
     $pdf->SetXY(130, $y_firmas);
     $pdf->Cell(60, 5, '__________________________', 0, 1, 'C');
     $pdf->SetX(130);
-    $pdf->Cell(60, 5, utf8_decode('Administración'), 0, 1, 'C');
+    $pdf->Cell(60, 5, mb_convert_encoding('Administración', 'ISO-8859-1', 'UTF-8'), 0, 1, 'C');
     $pdf->Ln(15);
 
     $y_personal = $pdf->GetY();

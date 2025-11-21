@@ -52,28 +52,6 @@ async function cargarExpedienteCompleto(estudianteId) {
         const resEst = await fetch(`/ceia_swga/api/obtener_estudiante.php?id=${estudianteId}`);
         const dataEst = await resEst.json();
         if (dataEst.error) throw new Error(`API Estudiante: ${dataEst.error}`);
-        rellenarFormulario(formEstudiante, dataEst);
-
-        // 2. OBTENER DATOS DEL PADRE (SOLO SI EL ESTUDIANTE TIENE UN padre_id ASOCIADO)
-        if (dataEst.padre_id) {
-            const resPadre = await fetch(`/ceia_swga/api/obtener_padre.php?id=${dataEst.padre_id}`);
-            const dataPadre = await resPadre.json();
-            if (dataPadre && !dataPadre.error) {
-                rellenarFormulario(formPadre, dataPadre);
-            }
-        }
-        
-        // 3. OBTENER DATOS DE LA MADRE (SOLO SI EL ESTUDIANTE TIENE UN madre_id ASOCIADO)
-        if (dataEst.madre_id) {
-            const resMadre = await fetch(`/ceia_swga/api/obtener_madre.php?id=${dataEst.madre_id}`);
-            const dataMadre = await resMadre.json();
-            if (dataMadre && !dataMadre.error) {
-                rellenarFormulario(formMadre, dataMadre);
-            }
-        }
-
-        
-        // 4. OBTENER FICHA MÉDICA
         // CORRECCIÓN: El parámetro en la URL debe llamarse 'estudiante_id' para que coincida con la API.
         const resFicha = await fetch(`/ceia_swga/api/obtener_ficha_medica.php?estudiante_id=${estudianteId}`);
         const dataFicha = await resFicha.json();

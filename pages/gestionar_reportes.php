@@ -17,7 +17,11 @@ $periodo_activo = $conn->query("SELECT id, nombre_periodo FROM periodos_escolare
 $periodo_id = $periodo_activo['id'] ?? 0;
 
 $estudiantes = $vehiculos = [];
+<<<<<<< HEAD
 $staff_administrativo = $staff_docente = $staff_mantenimiento = $staff_vigilancia = [];
+=======
+$staff_administrativo = $staff_docente = $staff_mantenimiento = [];
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
 
 if ($periodo_id) {
     // 1. Estudiantes del período activo con datos de padres
@@ -74,9 +78,12 @@ if ($periodo_id) {
     $stmt_staff->execute([':pid' => $periodo_id, ':categoria' => 'Staff Mantenimiento']);
     $staff_mantenimiento = $stmt_staff->fetchAll(PDO::FETCH_ASSOC);
 
+<<<<<<< HEAD
     $stmt_staff->execute([':pid' => $periodo_id, ':categoria' => 'Staff Vigilancia']);
     $staff_vigilancia = $stmt_staff->fetchAll(PDO::FETCH_ASSOC);
 
+=======
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
     // 3. Vehículos autorizados
     $stmt_veh = $conn->query("
         SELECT 
@@ -132,7 +139,10 @@ if ($periodo_id) {
             <li data-target="preview-staff-admin">Staff Administrativo</li>
             <li data-target="preview-staff-docente">Staff Docente</li>
             <li data-target="preview-staff-mantenimiento">Staff Mantenimiento</li>
+<<<<<<< HEAD
             <li data-target="preview-staff-vigilancia">Staff Vigilancia</li>
+=======
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
             <li data-target="preview-vehiculos">Vehículos Autorizados</li>
         </ul>
         <a href="/ceia_swga/pages/menu_reportes.php" class="btn" style="margin-top:10px;">Volver</a>
@@ -227,6 +237,7 @@ if ($periodo_id) {
             </form>
         </div>
 
+<<<<<<< HEAD
         <!-- Vista Previa Staff Vigilancia -->
         <div id="preview-staff-vigilancia" class="preview-section">
             <h3>Reporte de Staff Vigilancia</h3>
@@ -247,6 +258,8 @@ if ($periodo_id) {
             </form>
         </div>
 
+=======
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
         <!-- Vista Previa Vehículos -->
         <div id="preview-vehiculos" class="preview-section">
             <h3>Reporte de Vehículos Autorizados</h3>

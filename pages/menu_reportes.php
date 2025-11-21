@@ -91,6 +91,16 @@ $estudiantes = $conn->query("SELECT id, nombre_completo FROM estudiantes ORDER B
                     <p>Genera reportes detallados en PDF para estudiantes, diferentes categorías de staff y vehículos autorizados.</p>
                 </li>
 
+<<<<<<< HEAD
+=======
+                <li>
+                    <a href="/ceia_swga/pages/regenerar_autorizaciones.php">
+                        <span class="icono-reporte">🔄</span> Autorizaciones de Estudiantes/Staff Generadas
+                    </a>
+                    <p>Permite reimprimir autorizaciones de salida generadas previamente para estudiantes o personal.</p>
+                </li>
+
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
             </ul>
 
             <!-- Botón para volver al Home -->

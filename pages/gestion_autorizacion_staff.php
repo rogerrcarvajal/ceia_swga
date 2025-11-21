@@ -82,13 +82,13 @@ $categorias = $conn->query("SELECT DISTINCT categoria FROM profesores ORDER BY c
                 </tr>
             </thead>
             <tbody id="tabla_resultados">
-                <tr><td colspan="7" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>
+                <tr><td colspan="6" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>
             </tbody>
         </table>
         <br>
         <a href="/ceia_swga/pages/planilla_salida_staff.php" class="btn">Nueva Autorización</a>
     </div>
 
-    <script src="/ceia_swga/public/js/consultar_salidas_staff.js?v=<?= time() ?>" defer></script>
+    <script src="/ceia_swga/public/js/consultar_salidas_staff.js" defer></script>
 </body>
 </html>

@@ -55,8 +55,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $nuevaAutorizacionId = $conn->lastInsertId();
 
+<<<<<<< HEAD
         header('Location: /ceia_swga/src/reports_generators/generar_pdf_salida.php?id=' . $nuevaAutorizacionId);
         exit;
+=======
+        if ($nuevaAutorizacionId) {
+            echo json_encode([
+                'status' => 'exito',
+                'mensaje' => 'Autorización de salida para el estudiante guardada exitosamente.',
+                'id' => $nuevaAutorizacionId
+            ]);
+        } else {
+            throw new Exception('No se pudo guardar el registro en la base de datos.');
+        }
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
 
     } catch (PDOException $e) {
         die("Error al guardar la autorización: " . $e->getMessage());

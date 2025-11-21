@@ -1,3 +1,13 @@
+// La función se mueve al ámbito global para ser accesible desde el atributo onclick
+function reimprimirAutorizacion(id) {
+    if (!id) {
+        console.error('ID de autorización no válido para reimprimir.');
+        return;
+    }
+    const url = `/ceia_swga/pages/reimprimir_permiso_staff.php?id=${id}`;
+    window.open(url, '_blank');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     // --- ELEMENTOS DEL DOM ---
     const filtroSemana = document.getElementById('filtro_semana');
@@ -14,22 +24,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- FUNCIONES ---
 
-    function reimprimirAutorizacion(id) {
-        const url = `/ceia_swga/pages/reimprimir_permiso_staff.php?id=${id}`;
-        window.open(url, '_blank');
-    }
-
     async function cargarStaff() {
         const categoria = filtroCategoria.value;
         filtroStaff.innerHTML = '<option value="todos">Todos</option>'; // Reset
 
         if (categoria === 'todas') {
+            // Si la categoría es "todas", no cargamos staff específico
             return;
         }
 
         try {
-            const response = await fetch(`/ceia_swga/api/obtener_staff_por_categoria.php?categoria=${categoria}`);
+            const response = await fetch(`/ceia_swga/api/obtener_staff_por_categoria.php?categoria=${encodeURIComponent(categoria)}`);
+            if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
             const data = await response.json();
+
             if (data.status === 'exito') {
                 data.staff.forEach(miembro => {
                     const option = document.createElement('option');
@@ -37,9 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     option.textContent = miembro.nombre_completo;
                     filtroStaff.appendChild(option);
                 });
+            } else {
+                console.error('Error del API al cargar staff:', data.mensaje);
             }
         } catch (error) {
-            console.error('Error al cargar personal:', error);
+            console.error('Error de red o de parsing al cargar personal:', error);
         }
     }
 
@@ -56,23 +66,29 @@ document.addEventListener('DOMContentLoaded', function() {
         tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Cargando...</td></tr>';
 
         try {
-            const url = `/ceia_swga/api/consultar_salidas_staff.php?semana=${semana}&categoria=${categoria}&staff_id=${staffId}`;
+            const url = new URL('/ceia_swga/api/consultar_salidas_staff.php', window.location.origin);
+            url.searchParams.append('semana', semana);
+            url.searchParams.append('categoria', categoria);
+            url.searchParams.append('staff_id', staffId);
+            
             const response = await fetch(url);
+            if (!response.ok) throw new Error(`Error HTTP: ${response.status}`);
             const data = await response.json();
 
             tablaBody.innerHTML = '';
             if (data.status === 'exito' && data.registros.length > 0) {
                 data.registros.forEach(reg => {
+                    // Se añade la columna de acciones con el botón de reimprimir
                     const fila = `
                         <tr>
-                            <td>${reg.fecha_permiso || ''}</td>
-                            <td>${reg.hora_salida || ''}</td>
-                            <td>${reg.duracion_horas || ''}</td>
-                            <td>${reg.nombre_completo || ''}</td>
-                            <td>${reg.categoria || ''}</td>
+                            <td>${reg.fecha_permiso || 'N/A'}</td>
+                            <td>${reg.hora_salida ? new Date('1970-01-01T' + reg.hora_salida).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) : 'N/A'}</td>
+                            <td>${reg.duracion_horas || 'N/A'}</td>
+                            <td>${reg.nombre_completo || 'N/A'}</td>
+                            <td>${reg.categoria || 'N/A'}</td>
                             <td>${reg.motivo || ''}</td>
                             <td>
-                                <button onclick="reimprimirAutorizacion(${reg.id})" class="btn" style="margin: 0; padding: 8px 12px; font-size: 0.9em;">Reimprimir</button>
+                                <button onclick="reimprimirAutorizacion(${reg.id})" class="btn" style="margin: 0; padding: 8px 12px; font-size: 0.9em; background-color: #6c757d;">Reimprimir</button>
                             </td>
                         </tr>`;
                     tablaBody.innerHTML += fila;
@@ -82,13 +98,14 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error al cargar resultados:', error);
-            tablaBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color: red;">Error al cargar los datos.</td></tr>';
+            tablaBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color: red;">Error al cargar los datos. ${error.message}</td></tr>`;
         }
     }
 
     function setInitialWeek() {
         const now = new Date();
         const year = now.getFullYear();
+        // Lógica para obtener el número de semana ISO
         const getISOWeek = (date) => {
             const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
             d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
@@ -102,5 +119,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- INICIALIZACIÓN ---
     setInitialWeek();
-    cargarResultados();
+    cargarStaff().then(cargarResultados); // Cargar staff y luego resultados al inicio
 });

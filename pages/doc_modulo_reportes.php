@@ -98,6 +98,31 @@ $page_title = "Módulo de Reportes - Documentación Técnica del Sistema";
 <li>Cada opción de reporte conduce a un script generador de PDF específico (ubicados en <code>src/reports_generators/</code>) que procesa los datos y envía el documento al navegador.</li>
 </ol>
 <hr>
+<<<<<<< HEAD
+=======
+<hr>
+<h3>Sub-Módulo: Reimpresión de Autorizaciones</h3>
+<p>Este sub-módulo se añadió para permitir la consulta y reimpresión de autorizaciones de salida ya generadas. A diferencia de la arquitectura clásica del resto del módulo, esta funcionalidad sigue un enfoque más moderno, desacoplando el frontend del backend a través de APIs.</p>
+<h4>Arquitectura del Sub-Módulo</h4>
+<p>El flujo es asíncrono y se basa en JavaScript para una experiencia de usuario más dinámica:</p>
+<ol>
+    <li><strong>Página de Selección (<code>pages/regenerar_autorizaciones.php</code>):</strong> Actúa como el punto de entrada. No contiene lógica de negocio, solo la estructura HTML.</li>
+    <li><strong>Lógica Frontend (<code>public/js/regenerar_autorizaciones.js</code>):</strong> Al cargar la página, este script realiza llamadas `fetch` a las APIs para obtener las listas de estudiantes y personal, poblando las listas desplegables de forma dinámica.</li>
+    <li><strong>APIs de Datos:</strong> Se crearon nuevos endpoints para servir los datos necesarios:
+        <ul>
+            <li><code>api/obtener_todos_estudiantes.php</code>: Devuelve todos los estudiantes.</li>
+            <li><code>api/obtener_todo_el_staff.php</code>: Devuelve todo el personal.</li>
+        </ul>
+    </li>
+    <li><strong>Páginas de Historial (<code>pages/autorizaciones_estudiantes_generadas.php</code> y <code>pages/autorizaciones_staff_generadas.php</code>):</strong> Al seleccionar una persona, el usuario es redirigido a una de estas páginas, que a su vez utilizan JavaScript (<code>autorizaciones_estudiantes.js</code> y <code>autorizaciones_staff.js</code>) para buscar y mostrar el historial de autorizaciones a través de otras APIs dedicadas.</li>
+</ol>
+<h4>Fortalezas de este enfoque</h4>
+<ul>
+    <li><strong>Interactividad:</strong> La carga de datos es rápida y no requiere recargar la página.</li>
+    <li><strong>Escalabilidad:</strong> Al estar basado en APIs, el sistema es más fácil de mantener y expandir. Por ejemplo, los mismos endpoints podrían ser consumidos por una futura aplicación móvil.</li>
+    <li><strong>Reutilización:</strong> Se reutilizan los scripts generadores de PDF existentes, demostrando la modularidad del sistema.</li>
+</ul>
+>>>>>>> f9621219998e6cdc4c0ccbb80751ada5e42aa9e0
 <h3>Conclusión General del Módulo</h3>
 <p>El "Módulo de Reportes" es robusto y cumple su propósito de manera efectiva y directa. Su arquitectura basada en PHP es adecuada para la tarea de generar vistas de datos estáticas.</p>
 <ul>

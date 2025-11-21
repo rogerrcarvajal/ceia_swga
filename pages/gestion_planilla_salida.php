@@ -100,28 +100,16 @@ if ($periodo_activo) {
                     <th>Retirado por</th>
                     <th>Parentesco</th>
                     <th>Motivo</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody id="tabla_resultados">
-                <tr><td colspan="6" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>
+                <tr><td colspan="7" style="text-align:center;">Seleccione una semana para ver los registros.</td></tr>
             </tbody>
         </table>
         <br>
-        <button id="btnGenerarPDF" class="btn btn-pdf">📄 Generar PDF</button>
-        <a href="/ceia_swga/pages/planilla_salida.php" class="btn">Volver</a>
+        <a href="/ceia_swga/pages/planilla_salida.php" class="btn">Nueva Autorización</a>
     </div>
     <script src="/ceia_swga/public/js/consultar_salidas.js" defer></script>
-    <script>
-        document.getElementById('btnGenerarPDF').addEventListener('click', function() {
-            const semana = document.getElementById('filtro_semana').value;
-            const estudianteId = document.getElementById('filtro_estudiante').value;
-            if (!semana) {
-                alert('Por favor, seleccione una semana primero.');
-                return;
-            }
-            // Se asume la existencia de un script generador de reportes
-            window.open(`/ceia_swga/src/reports_generators/generar_reporte_salidas.php?semana=${semana}&estudiante_id=${estudianteId}`, '_blank');
-        });
-    </script>
 </body>
 </html>
